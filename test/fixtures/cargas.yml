@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  archivo: MyString
+  nota: MyString
+  estado: MyString
+  investigador_id: 1
+
+two:
+  archivo: MyString
+  nota: MyString
+  estado: MyString
+  investigador_id: 1

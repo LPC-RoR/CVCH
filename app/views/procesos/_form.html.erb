@@ -1,0 +1,27 @@
+<%= form_with(model: proceso, local: true) do |form| %>
+  <% if proceso.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(proceso.errors.count, "error") %> prohibited this proceso from being saved:</h2>
+
+      <ul>
+      <% proceso.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :carga_id %>
+    <%= form.number_field :carga_id %>
+  </div>
+
+  <div class="field">
+    <%= form.label :publicacion_id %>
+    <%= form.number_field :publicacion_id %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

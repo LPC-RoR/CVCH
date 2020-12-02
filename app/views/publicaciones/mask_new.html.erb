@@ -1,0 +1,34 @@
+<%= form_for :m_params, url: "/#{controller_name}/mask_nuevo?origen=#{@origen}" do |form| %>
+
+	<%= form.select :doc_type, Publicacion::DOC_TYPES, include_blank: true %></br>
+
+	<%= form.label :title %></br>
+	<%= form.text_field(:title, class: 'form-control' ) %>
+
+	<%= form.label :author %></br>
+	<%= form.text_field(:author, class: 'form-control' ) %>
+
+	<div class='row'>
+		<div class = 'col-sm-6'>
+			<%= form.label :journal %></br>
+			<%= form.text_field(:journal, class: 'form-control' ) %>
+		</div>
+		<div class = 'col-sm-6'>
+			<%= form.label :doi %></br>
+			<%= form.text_field(:doi, class: 'form-control' ) %>
+		</div>
+	</div>
+
+	<%= form.label :book %></br>
+	<%= form.text_field(:book, class: 'form-control' ) %>
+
+	<%= form.label :academic_degree %></br>
+	<%= form.text_field(:academic_degree, class: 'form-control' ) %>
+
+	<%= form.label :abstract %></br>
+  	<%= form.text_area :abstract, size: '100x6' %></br>
+
+	<%= form.submit 'Crea Publicación'  %>
+<% end  %>
+</br>
+

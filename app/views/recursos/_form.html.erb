@@ -1,0 +1,17 @@
+<%= form_with(model: recurso, local: true) do |form| %>
+  <% if recurso.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(recurso.errors.count, "error") %> prohibited this recurso from being saved:</h2>
+
+      <ul>
+      <% recurso.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

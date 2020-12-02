@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  investigador: MyString
+  orcid: MyString
+  email: MyString
+  departamento_id: 1
+
+two:
+  investigador: MyString
+  orcid: MyString
+  email: MyString
+  departamento_id: 1

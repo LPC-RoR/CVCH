@@ -1,0 +1,32 @@
+<%= form_with(model: carpeta, local: true) do |form| %>
+  <% if carpeta.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(carpeta.errors.count, "error") %> prohibited this carpeta from being saved:</h2>
+
+      <ul>
+      <% carpeta.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :carpeta %>
+    <%= form.text_field :carpeta %>
+  </div>
+
+  <div class="field">
+    <%= form.label :investigador_id %>
+    <%= form.number_field :investigador_id %>
+  </div>
+
+  <div class="field">
+    <%= form.label :equipo_id %>
+    <%= form.number_field :equipo_id %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

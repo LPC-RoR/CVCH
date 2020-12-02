@@ -1,0 +1,10 @@
+<% estados.each do |e| %>
+	<div class='btn-group'>
+		<% unless e == estado %>
+			<%#= render partial: 'apariencia/btn_link', locals: {texto: e, link: link_estado+"estado=#{e}"} %>
+			<p>[ <%= link_to "#{e}" , link_estados+"#{e}" %> ]</p>	
+		<% else %>
+			<p><b><%= "[ #{estado} ]" %></b></p>	
+		<% end %>
+	</div>
+<% end %>

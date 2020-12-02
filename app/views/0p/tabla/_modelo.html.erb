@@ -1,0 +1,19 @@
+<tr>
+	<!-- Recorre los campos a desplegar en la table -->
+	<!-- f : [campo, tipo_delpliegue] -->
+	<!-- Esta versión incluye en 'normal' los antiguos campos 'display'--> 
+	<!-- Hay que usar el nombre del campos display en TABLA_FIELDS -->
+	<% m_tabla_fields(objeto).each do |f| %>
+		<% case f[1] %>
+		<% when 'show' %>
+			<!-- link a SHOW si es INDEX (not SELECCION) -->
+			<td><small><%= (a == 'seleccion' ? get_field(f[0], objeto) : link_to( "[ #{get_field(f[0], objeto)} ]", objeto)) %></small></td>
+		<% when 'normal' %>
+			<td><small> <%= get_field(f[0], objeto) %> </small></td>
+		<% when 'diahora' %>
+			<td><small> <%= l(objeto.send(f[0])) %> </small></td>
+		<% end %>
+	<% end %>
+
+	<td><%= render partial: '0p/tabla/btns', locals: {a: a, objeto: objeto} %></td>
+</tr>

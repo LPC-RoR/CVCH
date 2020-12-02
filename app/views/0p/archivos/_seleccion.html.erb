@@ -1,0 +1,12 @@
+<%= render partial: '0p/general/titulo', locals: {c: controller_name, a: action_name, titulo: 'Selección Archivos', size: '5'} %>
+
+<table class="table table-striped">
+	<tbody>
+		<% @archivos.each do |a| %>
+			<tr>
+				<td><%= a.split('/').last %></td>
+				<td><%= render partial: '0p/tabla/btn_seleccion', locals: {link_seleccion: "/cargas/new?archivo=#{a.split('/').last}" } %></td>
+			</tr>
+		<% end %>
+	</tbody>
+</table>

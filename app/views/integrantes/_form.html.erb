@@ -1,0 +1,27 @@
+<%= form_with(model: integrante, local: true) do |form| %>
+  <% if integrante.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(integrante.errors.count, "error") %> prohibited this integrante from being saved:</h2>
+
+      <ul>
+      <% integrante.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :investigador_id %>
+    <%= form.number_field :investigador_id %>
+  </div>
+
+  <div class="field">
+    <%= form.label :equipo_id %>
+    <%= form.number_field :equipo_id %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

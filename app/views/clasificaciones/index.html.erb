@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Clasificaciones</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Carpeta</th>
+      <th>Publicacion</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @clasificaciones.each do |clasificacion| %>
+      <tr>
+        <td><%= clasificacion.carpeta_id %></td>
+        <td><%= clasificacion.publicacion_id %></td>
+        <td><%= link_to 'Show', clasificacion %></td>
+        <td><%= link_to 'Edit', edit_clasificacion_path(clasificacion) %></td>
+        <td><%= link_to 'Destroy', clasificacion, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Clasificacion', new_clasificacion_path %>

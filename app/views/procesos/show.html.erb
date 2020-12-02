@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Carga:</strong>
+  <%= @proceso.carga_id %>
+</p>
+
+<p>
+  <strong>Publicacion:</strong>
+  <%= @proceso.publicacion_id %>
+</p>
+
+<%= link_to 'Edit', edit_proceso_path(@proceso) %> |
+<%= link_to 'Back', procesos_path %>

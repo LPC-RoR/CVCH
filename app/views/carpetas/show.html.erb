@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Carpeta:</strong>
+  <%= @carpeta.carpeta %>
+</p>
+
+<p>
+  <strong>Investigador:</strong>
+  <%= @carpeta.investigador_id %>
+</p>
+
+<p>
+  <strong>Equipo:</strong>
+  <%= @carpeta.equipo_id %>
+</p>
+
+<%= link_to 'Edit', edit_carpeta_path(@carpeta) %> |
+<%= link_to 'Back', carpetas_path %>

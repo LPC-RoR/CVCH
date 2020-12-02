@@ -1,0 +1,13 @@
+<!-- objeto: objeto que se evalua -->
+<!-- estados: arreglo de estado definido en Modelo -->
+<!-- link_estado: accion que cambia estado en el Modelo -->
+
+<!-- BOTON ATRAS -->
+<% unless estados.index(objeto.estado) == 0 %>
+	<%= render partial: '0p/tabla/btn', locals: {texto: "<", link: "#{link_estado}#{estados[estados.index(objeto.estado)-1]}", delete: false} %>
+<% end %>
+
+<!-- BOTON DELANTE -->
+<% unless estados.index(objeto.estado) == estados.length-1 %>
+	<%= render partial: '0p/tabla/btn', locals: {texto: ">", link: "#{link_estado}#{estados[estados.index(objeto.estado)+1]}", delete: false} %>
+<% end %>

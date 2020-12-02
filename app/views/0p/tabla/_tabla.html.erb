@@ -1,0 +1,48 @@
+<!-- TITULO -->
+<!-- ['index'. 'seleccion'].include?(action_name) son las acciones con título -->
+<%= render partial: '0p/general/titulo', locals: {c: c, a: a, titulo: '', size: '5'} if d_tabla(c, :titulo) %>
+
+<!-- TABS -->
+<!-- Este TABS se define en el Modelo, no usa los child porque eso se hace desde SHOW -->
+<%= render partial: '0p/tabs/tabs', locals: {tabs: m_tabs(c), link_tabs: get_link(c, 'tab'), active: @tab } if d_tabla(c, :tabs) %>
+
+<!-- ESTADOS -->
+<%= render partial: '0p/tabla/menu_estados', locals: {estado: @estado, estados: m_estados(c), link_estados: get_link(c, :estados) } if d_tabla(c, :estados) %>
+
+<!-- BOTON NUEVO (SI HAY MAS DE 15 ELEMENTOS DESPLEGADOS) -->
+<!-- No se activa si la acción es 'seleccion' -->
+<% if d_tabla(c, :nuevo) and a != 'seleccion' %> 
+	<% if Configuracion::EXCEPTIONS_NEW_CONTROLLERS.keys.include?(c) and Configuracion::EXCEPTIONS_NEW_CONTROLLERS[c] == 'inline_form' %>
+		<%= render partial: "#{c}/inline_nuevo", locals: {c: c, a: a} %>
+		<%#= render partial: '/textos/nuevo_texto' %>
+	<% elsif @coleccion.count > 15 %>
+		<%= render partial: '0p/tabla/btn_nuevo', locals: {c: c} %>
+	<% end %>
+<% end %>
+
+<!-- PAGINAS -->
+<%= paginate @coleccion if d_tabla(c, :paginas) %>
+
+<!-- CUERPO TABLA -->
+<table class="table table-striped table-sm">
+  <thead>
+   	<%= render partial: '0p/tabla/th', locals: {c: c} %>
+  </thead>
+
+  <tbody>
+  	<!-- Opción para evitar escribir el parcial _modelo.html.erb en cada controlador-->
+  	<% unless @coleccion.blank? %>
+	  	<% @coleccion.each do |objeto| %>
+		  	<%= render partial: "/0p/tabla/modelo", locals: {a: a, objeto: objeto} %>
+		<% end  %>
+  	<% end %>
+  </tbody>
+</table>
+
+<!-- BOTON NUEVO -->
+<% unless Configuracion::EXCEPTIONS_NEW_CONTROLLERS.keys.include?(c) and Configuracion::EXCEPTIONS_NEW_CONTROLLERS[c] == 'inline_form' %>
+	<!-- No se activa si la acción es 'seleccion' -->
+	<%= render partial: '0p/tabla/btn_nuevo', locals: {c: c} if d_tabla(c, :nuevo) and a != 'seleccion' %>
+<% end %>
+
+</br></br>

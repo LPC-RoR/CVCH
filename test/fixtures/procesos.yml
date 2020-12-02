@@ -1,0 +1,9 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  carga_id: 1
+  publicacion_id: 1
+
+two:
+  carga_id: 1
+  publicacion_id: 1

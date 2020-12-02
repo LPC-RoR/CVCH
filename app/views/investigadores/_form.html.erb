@@ -1,0 +1,37 @@
+<%= form_with(model: investigador, local: true) do |form| %>
+  <% if investigador.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(investigador.errors.count, "error") %> prohibited this investigador from being saved:</h2>
+
+      <ul>
+      <% investigador.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :investigador %>
+    <%= form.text_field :investigador %>
+  </div>
+
+  <div class="field">
+    <%= form.label :orcid %>
+    <%= form.text_field :orcid %>
+  </div>
+
+  <div class="field">
+    <%= form.label :email %>
+    <%= form.text_field :email %>
+  </div>
+
+  <div class="field">
+    <%= form.label :departamento_id %>
+    <%= form.number_field :departamento_id %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

@@ -1,0 +1,32 @@
+<%= form_with(model: equipo, local: true) do |form| %>
+  <% if equipo.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(equipo.errors.count, "error") %> prohibited this equipo from being saved:</h2>
+
+      <ul>
+      <% equipo.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :equipo %>
+    <%= form.text_field :equipo %>
+  </div>
+
+  <div class="field">
+    <%= form.label :sha1 %>
+    <%= form.text_field :sha1 %>
+  </div>
+
+  <div class="field">
+    <%= form.label :administrador_id %>
+    <%= form.number_field :administrador_id %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

@@ -1,0 +1,11 @@
+<!-- Despliega el botón a menos que esté en la página del botón -->
+<!-- las lineas comentadas borran el botón if_current -->
+<%# unless current_page?(link) %>
+<div class="btn btn-outline-info">
+	<% if delete == true %>
+		<%= link_to_unless_current nombre, link, method: :delete %>
+	<% else %>
+		<%= link_to_unless_current nombre, link %>
+	<% end %>
+</div>
+<%# end %>

@@ -1,0 +1,65 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  unique_id: MyString
+  origen: MyString
+  title: MyString
+  author: MyString
+  doi: MyString
+  year: MyString
+  volume: MyString
+  pages: MyString
+  month: MyString
+  publisher: MyString
+  abstract: MyString
+  link: MyString
+  author_email: MyString
+  issn: MyString
+  eissn: MyString
+  address: MyString
+  affiliation: MyString
+  article_number: MyString
+  keywords: MyString
+  keywords_plus: MyString
+  research_areas: MyString
+  web_of_science_categories: MyString
+  da: MyString
+  d_journal: MyString
+  d_author: MyString
+  d_doi: MyString
+  registro_id: 1
+  revista_id: 1
+  equipo_id: 1
+  investigador_id: 1
+
+two:
+  unique_id: MyString
+  origen: MyString
+  title: MyString
+  author: MyString
+  doi: MyString
+  year: MyString
+  volume: MyString
+  pages: MyString
+  month: MyString
+  publisher: MyString
+  abstract: MyString
+  link: MyString
+  author_email: MyString
+  issn: MyString
+  eissn: MyString
+  address: MyString
+  affiliation: MyString
+  article_number: MyString
+  keywords: MyString
+  keywords_plus: MyString
+  research_areas: MyString
+  web_of_science_categories: MyString
+  da: MyString
+  d_journal: MyString
+  d_author: MyString
+  d_doi: MyString
+  registro_id: 1
+  revista_id: 1
+  equipo_id: 1
+  investigador_id: 1

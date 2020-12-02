@@ -1,0 +1,33 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Evaluaciones</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Aspecto</th>
+      <th>Evaluacion</th>
+      <th>Publicacion</th>
+      <th>Investigador</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @evaluaciones.each do |evaluacion| %>
+      <tr>
+        <td><%= evaluacion.aspecto %></td>
+        <td><%= evaluacion.evaluacion %></td>
+        <td><%= evaluacion.publicacion_id %></td>
+        <td><%= evaluacion.investigador_id %></td>
+        <td><%= link_to 'Show', evaluacion %></td>
+        <td><%= link_to 'Edit', edit_evaluacion_path(evaluacion) %></td>
+        <td><%= link_to 'Destroy', evaluacion, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Evaluacion', new_evaluacion_path %>

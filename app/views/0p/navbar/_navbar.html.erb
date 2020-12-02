@@ -1,0 +1,25 @@
+<!-- IMAGEN -->
+<!--%= image_tag 'logo.jpg' %-->
+
+<!-- MENU -->
+<nav class="navbar navbar-expand-sm navbar-light">
+  <ul class="navbar-nav">
+
+    <!-- Controladores que no tienen menú -->
+    <% unless nomenu?(controller_name) %>
+      <li>
+        <!-- USUARIO AUTENTICADO -->
+          <% Configuracion::MENU.each do |item| %>
+            <%= render partial: '0p/navbar/btn', locals: {nombre: item[0].capitalize, link: item[1], delete: false} %>
+          <% end %>
+        <% if usuario_signed_in? %>
+          <!-- CUALQUIER USUARIO puede salir de la sesión -->
+          <%= render partial: '0p/navbar/btn', locals: {nombre: 'Salir', link: destroy_usuario_session_path, delete: true} %>
+        <!-- USUARIO NO AUTENTICADO -->
+        <% else %>
+          <%= render partial: '0p/navbar/btn', locals: {nombre: 'Ingreso', link: new_usuario_session_path, delete: false} %>
+        <% end %>
+      </li>
+    <% end %>
+  </ul>
+</nav>

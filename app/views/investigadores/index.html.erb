@@ -1,0 +1,33 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Investigadores</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Investigador</th>
+      <th>Orcid</th>
+      <th>Email</th>
+      <th>Departamento</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @investigadores.each do |investigador| %>
+      <tr>
+        <td><%= investigador.investigador %></td>
+        <td><%= investigador.orcid %></td>
+        <td><%= investigador.email %></td>
+        <td><%= investigador.departamento_id %></td>
+        <td><%= link_to 'Show', investigador %></td>
+        <td><%= link_to 'Edit', edit_investigador_path(investigador) %></td>
+        <td><%= link_to 'Destroy', investigador, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Investigador', new_investigador_path %>

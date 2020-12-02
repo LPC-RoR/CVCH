@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  aspecto: MyString
+  evaluacion: MyString
+  publicacion_id: 1
+  investigador_id: 1
+
+two:
+  aspecto: MyString
+  evaluacion: MyString
+  publicacion_id: 1
+  investigador_id: 1

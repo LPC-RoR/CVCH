@@ -1,0 +1,21 @@
+<% if Configuracion::SHOW_LINKS_MODELS.include?(o.class.name) %>
+	<% o.show_links.each do |l| %>
+		<%= render partial: '0p/tabla/btn', locals: {texto: l[0], link: l[1], delete: false } if l[2] %>
+	<% end %>
+<% end %>
+
+<% if Configuracion::SHOW_BT_LINKS_MODELS.include?(o.class.name) %>
+	<% o.class::SHOW_BT_OBJECTS.each do |bt| %>
+		<% o_bt = o.send(bt) %>
+		<%= render partial: '0p/tabla/btn', locals: {texto: show_title(o_bt), link: o_bt, delete: false } unless o_bt.blank? %>
+	<% end %>
+<% end %>
+
+<% if Configuracion::SHOW_HMT_LINKS_MODELS.include?(o.class.name) %>
+	<% o.class::SHOW_HMT_COLLECTIONS.each do |hmt| %>
+		<% coleccion = o.send(hmt) %>
+		<% coleccion.each do |l| %>
+			<%= render partial: '0p/tabla/btn', locals: {texto: show_title(l), link: l, delete: false } %>
+		<% end %>
+	<% end %>
+<% end %>
