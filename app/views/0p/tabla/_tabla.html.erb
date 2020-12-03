@@ -4,7 +4,7 @@
 
 <!-- TABS -->
 <!-- Este TABS se define en el Modelo, no usa los child porque eso se hace desde SHOW -->
-<%= render partial: '0p/tabs/tabs', locals: {tabs: m_tabs(c), link_tabs: get_link(c, 'tab'), active: @tab } if d_tabla(c, :tabs) %>
+<%= render partial: '0p/tabs/tabs', locals: {tabs: m_tabs(c), tag: 'tab', active: @tab} if d_tabla(c, :tabs) %>
 
 <!-- ESTADOS -->
 <%= render partial: '0p/tabla/menu_estados', locals: {estado: @estado, estados: m_estados(c), link_estados: get_link(c, :estados) } if d_tabla(c, :estados) %>

@@ -43,22 +43,11 @@ module ApplicationHelper
 			controller
 		end
 	end
-	# En un modelo donde "ftab" es el tab del frame, "tab" el del modelo y "estado" el que controla los estados de la tabla
-	# este método entrega el link para el manejo de cada tab entregando el controlador y la variable {'ftab', 'tab', 'estado'}
-	# HAY UN CASO DONDE SE OCUPEN LAS TRES VARIABLES ??
-	def get_link(c, var)
-		case var
-		when 'ftab'
-			"/#{controller_name}/#{action_name}?ftab="
-		when 'tab'
-			action_name == 'show' ? "/#{controller_name}/#{@objeto.id}?tab=" : "/#{controller_name}?ftab=#{@ftab}&tab="
-		when 'estado'
-			if action_name == 'show'
-				has_many_tabs(controller_name).empty? ? "/#{controller_name}/#{@objeto.id}?estado=" : "/#{controller_name}/#{@objeto.id}?tab=#{@tab}&estado="
-			else
-				frame_controller?(c) ? "/#{controller_name}/#{action_name}?ftab=#{@ftab}&tab=#{@tab}&estado=" : "/#{controller_name}/#{action_name}?ftab=#{@ftab}&estado="
-			end
-		end
+
+	def get_html_opts(options, label, value)
+		opts = options
+		opts[label] = value
+		opts
 	end
 
 	# Maneja comportamiento por defecto y excepciones de TABLA

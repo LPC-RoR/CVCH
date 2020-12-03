@@ -4,7 +4,6 @@ class PublicacionesController < ApplicationController
   # GET /publicaciones
   # GET /publicaciones.json
   def index
-    @frame_selector = Area.all.map {|a| a.area}
     @tab = params[:tab].blank? ? 'Revisar' : params[:tab]
     @carpeta = Carpeta.find_by(carpeta: @tab)
     if @carpeta.blank?

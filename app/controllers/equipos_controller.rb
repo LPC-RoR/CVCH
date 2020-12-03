@@ -4,7 +4,13 @@ class EquiposController < ApplicationController
   # GET /equipos
   # GET /equipos.json
   def index
-    @coleccion = Equipo.all
+    @tab = params[:tab].blank? ? 'Administrados' : params[:tab]
+
+    @self = Investigador.find(session[:perfil]['id'])
+
+    @coleccion = (@tab == 'Administrados') ? @self.equipos : @self.participaciones
+
+    @options = {'tab' => @tab}
   end
 
   # GET /equipos/1

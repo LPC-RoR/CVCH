@@ -1,5 +1,4 @@
 Rails.application.routes.draw do
-  resources :contribuciones
   resources :areas
   resources :autores
   resources :cargas do
@@ -14,6 +13,7 @@ Rails.application.routes.draw do
     resources :investigadores
   end
   resources :configuraciones
+  resources :contribuciones
   resources :equipos do
     match :nuevo, via: :post, on: :collection
   end
@@ -51,6 +51,9 @@ Rails.application.routes.draw do
   resources :revisiones
   resources :revistas do
     resources :publicaciones
+  end
+  resources :vistas do
+    match :escritorio, via: :get, on: :collection
   end
 
   devise_for :usuarios

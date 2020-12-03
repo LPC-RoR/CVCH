@@ -22,6 +22,7 @@ class Configuracion < ApplicationRecord
 		'publicaciones#index',
 		'revisiones#index',
 		'equipos#index',
+		'areas#index',
 		'carpetas#index',
 		'cargas#index',
 		'cargas#show',
@@ -33,7 +34,7 @@ class Configuracion < ApplicationRecord
 		'cargas#show'
 	]
 	# Buscar self.btns_control
-	BTNS_CONTROL_MODELS = ['Publicacion', 'Carpeta']
+	BTNS_CONTROL_MODELS = ['Publicacion', 'Carpeta', 'Area']
 	# ---------------------------------------- TABLE
 	D_TABLA = {
 		titulo:  {'self' => true,  'show' => false},
@@ -71,13 +72,14 @@ class Configuracion < ApplicationRecord
 	# ---------------------------------------- MENU ------------------------------------------------
 	# MENU PRINCIPAL
 	MENU = [
-		["Publicaciones", "/colecciones"],
-		["Equipos",  "/equipos"],
-		["Carpetas", "/carpetas"],
-		["Areas", "/areas"],
+		["Colecciones",             "/vistas"],
+		["Escritorio",   "/vistas/escritorio"],
+		["Equipos",                "/equipos"],
+		["Carpetas",              "/carpetas"],
+		["Areas",                    "/areas"],
 		["Contribuciones",  "/contribuciones"],
-		["Revisiones", "/revisiones"],
-		["Cargas", "/cargas"] 
+		["Revisiones",          "/revisiones"],
+		["Cargas",                  "/cargas"] 
 	]
 
 	# CONTROLADORES que NO despliegan el MENU PRINCIPAL
@@ -89,7 +91,7 @@ class Configuracion < ApplicationRecord
 	# Antiguo TABS_CONTROLLERS
 	FRAME_CONTROLLERS = ['revisiones', 'recursos']
 	# TODOS los MODELOS FRAME TIRNEN EL TITULO EN EL MODELO
-	FRAME_CONTROLLERS_WITH_TABS = []
+	FRAME_CONTROLLERS_WITH_TABS = ['vistas']
 
 	# --------------------------------------- MODELOS -----------------------------------------------
 	# MODELOS que despliegan campos SOLO para PROPIETARIOS del modelo

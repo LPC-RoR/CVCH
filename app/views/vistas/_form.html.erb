@@ -1,0 +1,17 @@
+<%= form_with(model: vista, local: true) do |form| %>
+  <% if vista.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(vista.errors.count, "error") %> prohibited this vista from being saved:</h2>
+
+      <ul>
+      <% vista.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

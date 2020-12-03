@@ -1,20 +1,20 @@
 <div class='row'>
+	<div class='col-md-12'>
 	<!-- TODOS los CONTROLADORES FRAME tienen el TITULO en el MODELO -->
-	<%= render partial: '0p/general/titulo', locals: {c: nil, a: nil, titulo: controller_name.classify.constantize::TITULO, size: '5'} %>
+	<%= render partial: '0p/general/titulo', locals: {c: nil, a: nil, titulo: controller_name.classify.constantize::TITULO[action_name], size: '5'} %>
+	</div>
 </div>
 <div class='row'>
 	<!-- SELECTOR -->
 	<div class='col-md-3'>
-		<% @frame_selector.each do |selector| %>
-		<%= link_to selector, controller: controller_name, action: action_name, html_options: {sel: selector} %>
-		<% end %>
+		<%= render partial: '0p/frame/selectors' %>
 	</div>
 	<!-- TABLA -->
 	<div class='col-md-9'>
 		<!-- Pregunta si esta acción de recursos despliega TABS -->
 		<!-- Si es así, obtiene los TABSv del modelo Recurso -->
 		<% if frame_with_tabs?(controller_name, action_name) %>
-			<%= render partial: '0p/tabs/tabs', locals: {tabs: recursos_tabs(action_name), link_tabs: get_link(controller_name, 'ftab'), active: @ftab } %>
+			<%= render partial: '0p/tabs/tabs', locals: {tabs: frame_tabs(controller_name, action_name), tag: 'ftab', active: @ftab } %>
 		<% end %>
 
 		<!-- Pregunta si esta acción despliega una TABLA, si es asi la despliega -->

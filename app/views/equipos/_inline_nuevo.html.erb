@@ -1,0 +1,13 @@
+<%= form_for :nuevo_equipo, url: "/equipos/nuevo?tab=#{@tab}" do |form| %>
+	<div class='row'>
+		<div class = 'col-sm-3'>
+		</div>
+		<div class = 'col-sm-7'>
+		<%= form.text_field(:equipo, class: 'form-control' ) %>
+		</div>
+		<div class = 'col-sm-2'>
+		<%= form.submit '+ Equipo'  %>
+		</div>
+	</div>
+<% end  %>
+</br>

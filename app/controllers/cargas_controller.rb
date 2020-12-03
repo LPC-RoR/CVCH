@@ -20,6 +20,7 @@ class CargasController < ApplicationController
     # tenemos que cubrir todos los casos
     # 1. has_many : }
     @coleccion = @objeto.send(@tab).page(params[:page]) #.where(estado: @estado)
+    @options = {'tab' => @tab}
   end
 
   def procesa_carga

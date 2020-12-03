@@ -14,7 +14,8 @@ class CarpetasController < ApplicationController
 
   # GET /carpetas/new
   def new
-    @objeto = Carpeta.new
+    @self = Investigador.find(session[:perfil]['id'])
+    @objeto = @self.carpetas.new
   end
 
   # GET /carpetas/1/edit
@@ -28,7 +29,8 @@ class CarpetasController < ApplicationController
 
     respond_to do |format|
       if @objeto.save
-        format.html { redirect_to @objeto, notice: 'Carpeta was successfully created.' }
+        set_redireccion
+        format.html { redirect_to @redireccion, notice: 'Carpeta was successfully created.' }
         format.json { render :show, status: :created, location: @objeto }
       else
         format.html { render :new }
@@ -42,7 +44,8 @@ class CarpetasController < ApplicationController
   def update
     respond_to do |format|
       if @objeto.update(carpeta_params)
-        format.html { redirect_to @objeto, notice: 'Carpeta was successfully updated.' }
+        set_redireccion
+        format.html { redirect_to @redireccion, notice: 'Carpeta was successfully updated.' }
         format.json { render :show, status: :ok, location: @objeto }
       else
         format.html { render :edit }
@@ -54,9 +57,10 @@ class CarpetasController < ApplicationController
   # DELETE /carpetas/1
   # DELETE /carpetas/1.json
   def destroy
+    set_redireccion
     @objeto.destroy
     respond_to do |format|
-      format.html { redirect_to carpetas_url, notice: 'Carpeta was successfully destroyed.' }
+      format.html { redirect_to @redireccion, notice: 'Carpeta was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
@@ -65,6 +69,10 @@ class CarpetasController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_carpeta
       @objeto = Carpeta.find(params[:id])
+    end
+
+    def set_redireccion
+      @redireccion = '/carpetas'
     end
 
     # Only allow a list of trusted parameters through.

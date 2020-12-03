@@ -4,7 +4,7 @@
 <!-- Pregunta si esta acción de recursos despliega TABS -->
 <!-- Si es así, obtiene los TABSv del modelo Recurso -->
 <% if frame_with_tabs?(controller_name, action_name) %>
-	<%= render partial: '0p/tabs/tabs', locals: {tabs: recursos_tabs(action_name), link_tabs: get_link(controller_name, 'ftab'), active: @ftab } %>
+	<%= render partial: '0p/tabs/tabs', locals: {tabs: frame_tabs(controller_name, action_name), tag: 'ftab', active: @ftab } %>
 <% end %>
 
 <!-- Pregunta si esta acción despliega una TABLA, si es asi la despliega -->

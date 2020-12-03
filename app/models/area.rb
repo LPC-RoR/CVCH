@@ -1,16 +1,6 @@
 class Area < ApplicationRecord
 	# MARCA CARPETAS QUE NO SE MODIFICAN NI ELIMINAN
-	NOT_MODIFY = [
-		'Aves',
-		'Micromamíferos',
-		'Mamíferos marinos',
-		'Carnívoros', 
-		'Ungulados',
-		'Murciélagos y edentados',
-		'Reptiles',
-		'Invasores',
-		'Conejos'
-	]
+	NOT_MODIFY = ['Aves','Micromamíferos','Mamíferos marinos','Carnívoros', 'Ungulados','Murciélagos y edentados','Reptiles','Invasores','Conejos']
 
 	#-------------------------------------------------------------  TABLA
 	TABLA_FIELDS = [
@@ -31,6 +21,6 @@ class Area < ApplicationRecord
 	has_many :papers, through: :clasificaciones, foreign_key: 'paper_id', class_name: 'Publicacion'
 
 	def btns_control
-		not NOT_MODIFY.include?(self.carpeta)
+		not NOT_MODIFY.include?(self.area)
 	end
 end
