@@ -29,8 +29,9 @@ class CargasController < ApplicationController
       # Abre archivo
       carga_archivo_excel(@objeto)
 
-#      @objeto.estado = 'procesada'
-#      @objeto.save
+      # Marcar Archivo como procesado
+      @objeto.estado = 'procesada'
+      @objeto.save
     end
 
     redirect_to @objeto
@@ -39,9 +40,7 @@ class CargasController < ApplicationController
   # GET /cargas/new
   def new
     @archivo = Configuracion::RUTA_ARCHIVOS['cargas']+params[:archivo]
-    @area = Area.find(params[:area_id])
     @objeto = Carga.new(archivo: @archivo, estado: 'ingreso', investigador_id: session[:perfil]['id'])
-    @area.cargas << @objeto
   end
 
   # GET /cargas/1/edit

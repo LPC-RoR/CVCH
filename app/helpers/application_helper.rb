@@ -45,7 +45,7 @@ module ApplicationHelper
 	end
 
 	def get_html_opts(options, label, value)
-		opts = options
+		opts = options.clone
 		opts[label] = value
 		opts
 	end
@@ -87,6 +87,14 @@ module ApplicationHelper
 
 		de = Configuracion::D_SHOW[label]
 		(excepcion ? (not de) : de)
+	end
+
+	def show_title(object)
+		if Configuracion::EXCEPTIONS_TITLE_MODELS.include?(object.class.name)
+			object.show_title
+		else
+			"! #{object.class.name} : #{object.send(object.class.name.downcase)}"
+		end
 	end
 
 	# Obtiene los campos a desplegar en la tabla desde el objeto
@@ -207,17 +215,6 @@ module ApplicationHelper
 			objeto.class::FORM_CONDITIONAL_FIELDS.include?(field) ? objeto.send("c_#{field}") : true
 		else
 			true
-		end
-	end
-
-	def show_title(o)
-		case o.class.name
-		when 'Carga'
-			o.archivo.split('/').last
-		when 'Publicacion'
-			o.title
-		else
-			o.send(o.class.name.downcase)
 		end
 	end
 

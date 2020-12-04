@@ -5,7 +5,7 @@
 <%= render partial: '0p/general/o_titulo', locals: {o: @objeto, a: action_name, size: '5'} if d_show(@objeto, :titulo) %>
 
 <!-- LINKS -->
-<%= render partial: '0p/show/links', locals: {o: @objeto} if d_show(@objeto, :links)  %>
+<%= render partial: '0p/show/links', locals: {o: @objeto} if d_show(@objeto, :links) %>
 
 <!-- CLASIFICA -->
 <%= render partial: "/#{@objeto.class.name.tableize}/clasifica", locals: {c: controller_name, o: @objeto} if d_show(@objeto, :clasifica) %>

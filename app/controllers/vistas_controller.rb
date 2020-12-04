@@ -24,7 +24,7 @@ class VistasController < ApplicationController
     @options = {'sel' => @sel ,'ftab' => @ftab}
 
     if @ftab == 'Completa'
-      @coleccion = @area.papers.page(params[:page])
+      @coleccion = @area.papers.where(estado: 'publicada').page(params[:page])
     elsif @ftab == 'Pendiente'
       @self = Investigador.find(session[:perfil]['id'])
       @propios_ids = []
@@ -32,7 +32,7 @@ class VistasController < ApplicationController
         @propios_ids = @propios_ids.union(car.publicaciones.ids)
       end
       @area_completa_ids = @area.papers.ids
-      @coleccion = Publicacion.where(id: @area_completa_ids - @propios_ids).page(params[:page])
+      @coleccion = Publicacion.where(id: @area_completa_ids - @propios_ids).where(estado: 'publicada').page(params[:page])
     end
   end
 

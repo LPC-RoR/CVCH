@@ -49,12 +49,10 @@ class Publicacion < ApplicationRecord
 		['estado',         'hidden']
 	]
 
-	FORM_CONDITIONAL_FIELDS = ['d_quote', 'd_author', 'd_doi', 'abstract', 'academic_degree', 'volume', 'book', 'pages', 'd_journal', 'title', 'year', 'author']
+	FORM_CONDITIONAL_FIELDS = ['d_quote', 'm_quote', 'doi', 'd_author', 'd_doi', 'abstract', 'academic_degree', 'volume', 'book', 'pages', 'd_journal', 'title', 'year', 'author']
 
 	# -------------------- SHOW -------------------------
 	SHOW_FIELDS = [
-		['estado',          'normal'], 
-		['doc_type',        'normal'], 
 		['d_quote',         'normal'], 
 		['m_quote',         'metodo'], 
 		['author',          'normal'], 
@@ -97,18 +95,22 @@ class Publicacion < ApplicationRecord
 	has_many :asignaciones, foreign_key: 'paper_id', class_name: 'Clasificacion'
 	has_many :areas, through: :asignaciones
 
+	def show_title
+		"| #{self.title}"
+	end
+
 	def show_links
 		[
 			['Editar', [:edit, self], true],
 			['Contribuir', "/publicaciones/estado?publicacion_id=#{self.id}&estado=contribucion", ['ingreso'].include?(self.estado)],
-			['Publicar', "/publicaciones/estado?publicacion_id=#{self.id}&estado=publicada", ['contribucion', 'carga'].include?(self.estado)],
+			['Publicar', "/publicaciones/estado?publicacion_id=#{self.id}&estado=publicada", (['contribucion', 'carga'].include?(self.estado) and not (self.doc_type.blank? or self.areas.empty?))],
 			['Corregir', "/publicaciones/estado?publicacion_id=#{self.id}&estado=correccion", self.estado == 'publicada']
 		]
 		
 	end
 
 	def btns_control
-		['ingreso', 'produccion'].include?(self.origen)
+		['ingreso'].include?(self.origen) and ['ingreso'].include?(self.estado)
 	end
 
 	def procesa_autor(author, index)
@@ -163,6 +165,12 @@ class Publicacion < ApplicationRecord
 
 	def c_d_quote
 		self.estado == 'carga'
+	end
+	def c_m_quote
+		['carga', 'ingreso'].include?(self.estado)
+	end
+	def c_doi
+		['carga', 'ingreso'].include?(self.estado)
 	end
 	def c_d_author
 		self.estado == 'ingreso'

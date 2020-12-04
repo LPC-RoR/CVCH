@@ -16,11 +16,38 @@ class EquiposController < ApplicationController
   # GET /equipos/1
   # GET /equipos/1.json
   def show
+    session[:equipo_id] = @objeto.id
+    @tab = params[:tab].blank? ? 'publicaciones' : params[:tab]
+#    @estado = params[:estado].blank? ? @tab.classify.constantize::ESTADOS[0] : params[:estado]
+    # tenemos que cubrir todos los casos
+    # 1. has_many : }
+    @coleccion = @objeto.send(@tab).page(params[:page]) #.where(estado: @estado)
+    @options = {'tab' => @tab}
   end
 
   # GET /equipos/new
   def new
     @objeto = Equipo.new
+  end
+
+  def nuevo
+    unless params[:nuevo_equipo][:equipo].blank?
+      @self = Investigador.find(session[:perfil]['id'])
+
+      case params[:tab]
+      when 'Administrados'
+        @texto_sha1 = session[:perfil]['email']+params[:nuevo_equipo][:equipo]
+        @sha1 = Digest::SHA1.hexdigest(@texto_sha1)
+        @self.equipos.create(equipo: params[:nuevo_equipo][:equipo], sha1: @sha1)
+      when 'Participaciones'
+        @sha1 = params[:nuevo_equipo][:equipo]
+        @equipo = Equipo.find_by(sha1: @sha1)
+        unless @equipo.blank?
+          @self.asociaciones << @equipo
+        end
+      end
+    end
+    redirect_to "/equipos?tab=#{params[:tab]}"
   end
 
   # GET /equipos/1/edit

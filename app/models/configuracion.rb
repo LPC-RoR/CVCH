@@ -65,6 +65,7 @@ class Configuracion < ApplicationRecord
 		tabla:        true,
 		adjuntos:    false
 	}
+	EXCEPTIONS_TITLE_MODELS = ['Publicacion', 'Carga']
 	# MODELOS que teiene EXCEPCIONES
 	# Buscar Modelo::SHOW_EXCEPTIONS
 	EXCEPTIONS_MODELS = ['Publicacion', 'Texto', 'Equipo']
@@ -91,7 +92,7 @@ class Configuracion < ApplicationRecord
 	# Antiguo TABS_CONTROLLERS
 	FRAME_CONTROLLERS = ['revisiones', 'recursos']
 	# TODOS los MODELOS FRAME TIRNEN EL TITULO EN EL MODELO
-	FRAME_CONTROLLERS_WITH_TABS = ['vistas']
+	FRAME_CONTROLLERS_WITH_TABS = ['vistas', 'revisiones']
 
 	# --------------------------------------- MODELOS -----------------------------------------------
 	# MODELOS que despliegan campos SOLO para PROPIETARIOS del modelo

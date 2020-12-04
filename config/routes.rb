@@ -33,6 +33,7 @@ Rails.application.routes.draw do
   resources :publicaciones do
     match :mask_new, via: :get, on: :collection
     match :mask_nuevo, via: :post, on: :collection
+    match :cambia_area, via: :get, on: :collection
     match :cambia_carpeta, via: :get, on: :collection
     match :cambia_evaluacion, via: :get, on: :collection
     match :cambia_tipo, via: :get, on: :collection

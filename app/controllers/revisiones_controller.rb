@@ -4,8 +4,15 @@ class RevisionesController < ApplicationController
   # GET /revisiones
   # GET /revisiones.json
   def index
+    if params[:html_options].blank?
+      @ftab = 'Cargas'
+    else
+      @ftab = params[:html_options][:ftab].blank? ? 'Cargas' : params[:html_options][:ftab]
+    end
     @table_controller = 'publicaciones'
-    @coleccion = Publicacion.where(estado: ['carga', 'contribucion']).page(params[:page])
+
+    @coleccion = Publicacion.where(estado: @ftab.singularize.downcase).page(params[:page])
+    @options = {'ftab' => @ftab}
   end
 
   # GET /revisiones/1

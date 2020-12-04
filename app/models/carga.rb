@@ -31,6 +31,11 @@ class Carga < ApplicationRecord
 	has_many :procesos
 	has_many :publicaciones, through: :procesos
 
+	def show_title
+		" Archivo Carga : #{self.archivo.split('/').last}"
+	end
+
+
 	def show_links
 		[
 			['Proceso', "/cargas/#{self.id}/procesa_carga", self.estado == 'ingreso']
