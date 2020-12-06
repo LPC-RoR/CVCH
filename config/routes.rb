@@ -1,16 +1,21 @@
 Rails.application.routes.draw do
   resources :areas
+  resources :ascendencias
   resources :autores
   resources :cargas do
     match :procesa_carga, via: :get, on: :member
     match :sel_archivo, via: :get, on: :collection
   end
   resources :carpetas do
+    match :nuevo, via: :post, on: :collection
     match :seleccion, via: :get, on: :collection
   end
   resources :clasificaciones
   resources :departamentos do
     resources :investigadores
+  end
+  resources :conceptos do
+    resources :instancias
   end
   resources :configuraciones
   resources :contribuciones
@@ -22,6 +27,7 @@ Rails.application.routes.draw do
     resources :revistas
   end
   resources :integrantes
+  resources :instancias
   resources :instituciones do
     resources :departamentos
     resources :registros
@@ -50,6 +56,7 @@ Rails.application.routes.draw do
     resources :publicaciones
   end
   resources :revisiones
+  resources :rutas
   resources :revistas do
     resources :publicaciones
   end

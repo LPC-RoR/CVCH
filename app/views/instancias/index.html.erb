@@ -1,0 +1,31 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Instancias</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Instancia</th>
+      <th>Sha1</th>
+      <th>Concepto</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @instancias.each do |instancia| %>
+      <tr>
+        <td><%= instancia.instancia %></td>
+        <td><%= instancia.sha1 %></td>
+        <td><%= instancia.concepto_id %></td>
+        <td><%= link_to 'Show', instancia %></td>
+        <td><%= link_to 'Edit', edit_instancia_path(instancia) %></td>
+        <td><%= link_to 'Destroy', instancia, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Instancia', new_instancia_path %>

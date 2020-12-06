@@ -13,8 +13,7 @@ class Area < ApplicationRecord
 
 	# ------------------------------------------------------------- DESPLIEGUE
 	HIDDEN_CHILDS = ['clasificaciones', 'cargas']
-	SHOW_HMT_COLLECTIONS = ['papers']
-
+	
 	has_many :cargas
 
 	has_many :clasificaciones

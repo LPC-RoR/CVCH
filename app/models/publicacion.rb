@@ -15,18 +15,24 @@ class Publicacion < ApplicationRecord
 	# ------------------- TABLA -----------------------
 	TABS = Carpeta.all.map {|c| c.carpeta}
 	# Configura DESPLIEGUE de la TABLA
-	TABLE_EXCEPTIONS = {
-		tabs:    {'self' => true},
-		paginas: {'self' => true, 'show' => ['*']},
-		nuevo:   {'self' => true, 'show' => ['contribuciones', 'equipos']}
+	T_EXCEPTIONS = {
+		tabs:    ['self'],
+		paginas: ['*'],
+		nuevo:   ['self', 'contribuciones']
 	}
 
 	# Campos qeu se despliegan en la tabla
 	TABLA_FIELDS = [
 		['title',         'show'], 
+		['doc_type',    'normal'], 
 		['year',        'normal']
 	]
 
+	T_NEW_EXCEPTIONS = {
+		#'controller' => 'tipo_new'
+		# '*' en todo controller_name
+		'*' => 'mask',
+	}
 	# -------------------- FORM  -----------------------
 
  	FORM_FIELDS = [
@@ -66,14 +72,14 @@ class Publicacion < ApplicationRecord
 		['doi',             'normal']
 	]
 
-	SHOW_EXCEPTIONS = [:clasifica, :detalle, :tabla]
+	S_E = [:clasifica, :detalle, :tabla]
 	# --------------------- DESPLIEGUE -------------------------
 	# tablas child que NO deben ser deplegadas
 	HIDDEN_CHILDS = ['autores', 'investigadores', 'procesos', 'cargas', 'clasificaciones', 'carpetas', 'evaluaciones', 'asignaciones', 'areas']
 
 	# LINKS !!
-	SHOW_BT_OBJECTS = ['revista']
-	SHOW_HMT_COLLECTIONS = ['cargas', 'investigadores', 'areas']
+	S_BT_OBJECTS = ['revista']
+	S_HMT_COLLECTIONS = ['cargas', 'investigadores']
 
 	belongs_to :registro, optional: true
 	belongs_to :revista, optional: true
@@ -95,6 +101,9 @@ class Publicacion < ApplicationRecord
 	has_many :asignaciones, foreign_key: 'paper_id', class_name: 'Clasificacion'
 	has_many :areas, through: :asignaciones
 
+	has_many :rutas
+	has_many :instancias, through: :rutas
+
 	def show_title
 		"| #{self.title}"
 	end
@@ -102,8 +111,10 @@ class Publicacion < ApplicationRecord
 	def show_links
 		[
 			['Editar', [:edit, self], true],
+			['Eliminar', "/publicaciones/estado?publicacion_id=#{self.id}&estado=eliminado", ['ingreso', 'duplicado', 'carga'].include?(self.estado)],
 			['Contribuir', "/publicaciones/estado?publicacion_id=#{self.id}&estado=contribucion", ['ingreso'].include?(self.estado)],
 			['Publicar', "/publicaciones/estado?publicacion_id=#{self.id}&estado=publicada", (['contribucion', 'carga'].include?(self.estado) and not (self.doc_type.blank? or self.areas.empty?))],
+			['Carga', "/publicaciones/estado?publicacion_id=#{self.id}&estado=carga", ['duplicado'].include?(self.estado)],
 			['Corregir', "/publicaciones/estado?publicacion_id=#{self.id}&estado=correccion", self.estado == 'publicada']
 		]
 		
@@ -164,13 +175,14 @@ class Publicacion < ApplicationRecord
 	end
 
 	def c_d_quote
-		self.estado == 'carga'
+		# Sólo duplicados de origen carga, las publicaciones de 'ingreso' no tienen cita
+		self.estado == 'carga' or (self.origen == 'carga' and self.estado == 'duplicado')
 	end
 	def c_m_quote
-		['carga', 'ingreso'].include?(self.estado)
+		['carga', 'ingreso', 'duplicado'].include?(self.estado)
 	end
 	def c_doi
-		['carga', 'ingreso'].include?(self.estado)
+		['carga', 'ingreso', 'duplicado'].include?(self.estado)
 	end
 	def c_d_author
 		self.estado == 'ingreso'
@@ -182,27 +194,27 @@ class Publicacion < ApplicationRecord
 		self.estado == 'ingreso'
 	end
 	def c_academic_degree
-		self.doc_type == 'memoria' and ['carga', 'ingreso'].include?(self.estado)
+		self.doc_type == 'memoria' and ['carga', 'ingreso', 'duplicado'].include?(self.estado)
 	end
 	def c_volume
-		self.doc_type == 'article' and ['carga', 'ingreso'].include?(self.estado)
+		self.doc_type == 'article' and ['carga', 'ingreso', 'duplicado'].include?(self.estado)
 	end
 	def c_book
-		self.doc_type == 'chapter' and ['carga', 'ingreso'].include?(self.estado)
+		self.doc_type == 'chapter' and ['carga', 'ingreso', 'duplicado'].include?(self.estado)
 	end
 	def c_pages
-		['carga', 'ingreso'].include?(self.estado)
+		['carga', 'ingreso', 'duplicado'].include?(self.estado)
 	end
 	def c_d_journal
-		['carga', 'ingreso'].include?(self.estado)
+		['carga', 'ingreso', 'duplicado'].include?(self.estado)
 	end
 	def c_title
-		['carga', 'ingreso'].include?(self.estado)
+		['carga', 'ingreso', 'duplicado'].include?(self.estado)
 	end
 	def c_year
-		['carga', 'ingreso'].include?(self.estado)
+		['carga', 'ingreso', 'duplicado'].include?(self.estado)
 	end
 	def c_author
-		['carga', 'ingreso'].include?(self.estado)
+		['carga', 'ingreso', 'duplicado'].include?(self.estado)
 	end
 end

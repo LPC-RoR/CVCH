@@ -78,9 +78,18 @@
 	<div class='col-md-8'>
 		<h6><%= "| #{@objeto.doc_type} | #{@objeto.estado} | #{@objeto.areas.first.area unless @objeto.areas.empty?} |" %></h6>
 		<h6><%= @objeto.m_quote %></h6>
+
 		<% unless @objeto.doi.blank? %>
 			<%= link_to "https://doi.org/#{@objeto.doi}", "https://doi.org/#{@objeto.doi}", target: :blank %>
 		<% end %>
+
+		<% if @objeto.estado == 'duplicado' and @duplicados.any? %>
+			<% @duplicados.each do |duplicado| %>
+				<h6><%= "| "%><%=link_to duplicado.doc_type, duplicado%><%=" | #{duplicado.estado} | #{duplicado.areas.first.area unless duplicado.areas.empty?} |" %></h6>
+				<h6><%= duplicado.m_quote %></h6>
+			<% end %>
+		<% end %>
+
 	</div>
 </div>
 </br></br>

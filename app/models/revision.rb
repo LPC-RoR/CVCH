@@ -2,7 +2,7 @@ class Revision < ApplicationRecord
 	TITULO = '// Revision de Citas'
 
 	TABS = {
-		'index' => ['Cargas', 'Contribuciones']	
+		'index' => ['Cargas', 'Contribuciones', 'Duplicados']
 	}
 
 	# NO USADA EN ESTA OCASION

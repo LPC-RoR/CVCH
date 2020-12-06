@@ -10,8 +10,13 @@ class AreasController < ApplicationController
   # GET /areas/1
   # GET /areas/1.json
   def show
-    @tab = params[:tab].blank? ? 'papers' : params[:tab]
+    if params[:html_options].blank?
+      @tab = 'papers'
+    else
+      @tab = params[:html_options][:tab].blank? ? 'papers' : params[:html_options][:tab]
+    end
     @coleccion = @objeto.papers.where(estado: 'publicada').page(params[:page])
+    @options = {'tab' => @tab}
   end
 
   # GET /areas/new

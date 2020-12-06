@@ -21,6 +21,36 @@ class PublicacionesController < ApplicationController
     # 1. has_many : }
 #    @coleccion = @objeto.send(@tab).page(params[:page]) #.where(estado: @estado)
 
+    @duplicados_doi = []
+    @duplicados_sha1 = []
+    # SET DUPLICIDAD
+    @t_sha1 = Digest::SHA1.hexdigest(@objeto.title.downcase)
+    unless @objeto.t_sha1 == @t_sha1
+      @objeto.t_sha1 = @t_sha1
+      @objeto.save
+    end
+
+    unless @objeto.estado == 'publicada'
+      @duplicados_doi = Publicacion.where(estado: ['carga', 'publicada', 'contribucion'], doi: @objeto.doi) if @objeto.doi.present?
+      @duplicados_sha1 = Publicacion.where(estado: ['carga', 'publicada', 'contribucion'], t_sha1: @objeto.t_sha1)
+      unless @duplicados_doi.empty? and @duplicados_sha1.empty?
+        unless @objeto.estado == 'duplicado'
+          @objeto.estado = 'duplicado'
+          @objeto.save
+        end
+      else
+        if @objeto.estado == 'duplicado'
+          @objeto.estado = @objeto.origen == 'carga' ? 'carga' : 'contribucion'
+          @objeto.save
+        end
+      end
+    end
+    if @objeto.estado == 'duplicado'
+      @duplicados_ids = @duplicados_doi.blank? ? [] : @duplicados_doi.ids
+      @duplicados_ids = @duplicados_ids.union(@duplicados_sha1.ids) unless @duplicados_sha1.blank?
+      @duplicados = Publicacion.where(id: @duplicados_ids)
+    end
+
     @menu_areas = Area.where(id: Area.all.ids - @objeto.areas.ids)
 
     @self = Investigador.find(session[:perfil]['id'])
@@ -208,8 +238,21 @@ end
 
   def estado
     @publicacion = Publicacion.find(params[:publicacion_id])
-    @publicacion.estado = params[:estado]
-    @publicacion.save
+    if params[:estado] == 'eliminado'
+      # Tiene dos has_many Through
+      # 1.- cargas, through: procesos
+      # 2.- areas, through: asignaciones
+      @area = @publicacion.areas.first
+      @carga = @publicacion.cargas.first if @publicacion.origen == 'carga'
+      @area.papers.delete(@publicacion) unless @area.blank?
+      unless @carga.blank?
+        @carga.publicaciones.delete(@publicacion) if @publicacion.origen == 'carga'
+      end
+      @publicacion.delete
+    else
+      @publicacion.estado = params[:estado]
+      @publicacion.save
+    end
 
     if params[:estado] == 'publicada'
       procesa_cita_carga(@publicacion)

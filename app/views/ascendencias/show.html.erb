@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Padre:</strong>
+  <%= @ascendencia.padre_id %>
+</p>
+
+<p>
+  <strong>Hijo:</strong>
+  <%= @ascendencia.hijo_id %>
+</p>
+
+<%= link_to 'Edit', edit_ascendencia_path(@ascendencia) %> |
+<%= link_to 'Back', ascendencias_path %>

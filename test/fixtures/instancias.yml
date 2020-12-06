@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  instancia: MyString
+  sha1: MyString
+  concepto_id: 1
+
+two:
+  instancia: MyString
+  sha1: MyString
+  concepto_id: 1

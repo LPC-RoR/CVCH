@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Instancia:</strong>
+  <%= @ruta.instancia_id %>
+</p>
+
+<p>
+  <strong>Publicacion:</strong>
+  <%= @ruta.publicacion_id %>
+</p>
+
+<%= link_to 'Edit', edit_ruta_path(@ruta) %> |
+<%= link_to 'Back', rutas_path %>

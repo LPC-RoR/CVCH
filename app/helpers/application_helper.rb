@@ -39,6 +39,8 @@ module ApplicationHelper
 		case controller
 		when 'papers'
 			'publicaciones'
+		when 'hijos'
+			'conceptos'
 		else
 			controller
 		end
@@ -51,46 +53,42 @@ module ApplicationHelper
 	end
 
 	# Maneja comportamiento por defecto y excepciones de TABLA
-	def d_tabla(c, label)
+	def in_t?(c, label)
 		excepcion = false
-		# Pregunta si el Modelo TIENE personalizacion
-		if Configuracion::EXCEPTIONS_CONTROLLERS.include?(c)
+		# Pregunta si el Controlador TIENE personalizacion
+		if Configuracion::T_E_CONTROLLERS.include?(c)
 			# Pregunta si LABEL tiene personalizacion
 			# ---------------------------------------------  SELF?  ------------------------------------------------
-			unless c.classify.constantize::TABLE_EXCEPTIONS[label].blank?         # NO HAY EXCEPCION PARA EL LABEL
-			if controller_name == c
-				unless c.classify.constantize::TABLE_EXCEPTIONS[label]['self'].blank? # NO HAY EXCEPCION PARA EL SELF
-					excepcion = true
-				end
-			else
-				unless c.classify.constantize::TABLE_EXCEPTIONS[label]['show'].blank? # NO HAY EXCEPCION PARA EL SHOW
-				if c.classify.constantize::TABLE_EXCEPTIONS[label]['show'].include?(controller_name) or c.classify.constantize::TABLE_EXCEPTIONS[label]['show'][0] == '*'
-					excepcion = true
-				end
-				end
-			end
+			unless c.classify.constantize::T_EXCEPTIONS[label].blank?         # NO HAY EXCEPCION PARA EL LABEL
+				# Verifica 'self', '*' y c
+				excepcion = ((controller_name == c and action_name == 'index' and c.classify.constantize::T_EXCEPTIONS[label].include?('self')) or (c.classify.constantize::T_EXCEPTIONS[label].include?('*')) or (c.classify.constantize::T_EXCEPTIONS[label].include?(controller_name)))
 			end
 		end 
-		de = (controller_name == c) ? de = Configuracion::D_TABLA[label]['self'] : de = Configuracion::D_TABLA[label]['show']
+		de = (controller_name == c and action_name == 'index') ? Configuracion::T_DEFAULT[label]['self'] : Configuracion::T_DEFAULT[label]['show']
 
 		(excepcion ? (not de) : de)
 	end
 
+	def inline_form?(c)
+		Configuracion::T_E_NEW_CONTROLLERS.include?(c) and (c.classify.constantize::T_NEW_EXCEPTIONS['*'] == 'inline' or c.classify.constantize::T_NEW_EXCEPTIONS[controller_name] == 'inline')
+#		Configuracion::T_E_NEW_CONTROLLERS.keys.include?(c) and Configuracion::T_E_NEW_CONTROLLERS[c] == 'inline_form'
+	end
+
 	# Maneja comportamiento por defecto y excepciones de SHOW
-	def d_show(objeto, label)
+	def in_show?(objeto, label)
 		excepcion = false
 		# Pregunta si el Modelo TIENE personalizacion
-		if Configuracion::EXCEPTIONS_MODELS.include?(objeto.class.name)
+		if Configuracion::S_E_MODELS.include?(objeto.class.name)
 			# Pregunta si LABEL tiene personalizacion
-			excepcion = objeto.class::SHOW_EXCEPTIONS.include?(label)
+			excepcion = objeto.class::S_E.include?(label)
 		end 
 
-		de = Configuracion::D_SHOW[label]
+		de = Configuracion::S_DEFAULT[label]
 		(excepcion ? (not de) : de)
 	end
 
 	def show_title(object)
-		if Configuracion::EXCEPTIONS_TITLE_MODELS.include?(object.class.name)
+		if Configuracion::S_E_TITLE_MODELS.include?(object.class.name)
 			object.show_title
 		else
 			"! #{object.class.name} : #{object.send(object.class.name.downcase)}"
@@ -125,26 +123,41 @@ module ApplicationHelper
 	end
 
 	def get_new_link(controller)
-		if Configuracion::EXCEPTIONS_NEW_CONTROLLERS.keys.include?(controller)
-			case Configuracion::EXCEPTIONS_NEW_CONTROLLERS[controller]
-			when 'mask'
-				"/#{controller}/mask_new?origen=#{controller_name}"
-			# TIPO_NEW = 'child_nuevo'
-			# {'pedidos'}
-			when 'child_nuevo'
-				"/#{controller}/nuevo?#{@objeto.class.name.downcase}_id=#{@objeto.id}"
-			# TIPO_NEW = 'child_sel' : seleccion ? parametro_padre
-			# {'empleados', 'productos', 'clientes(*)'}
-			when 'child_sel'
-				# TIPO_NEW = 'child_sel'
-				# TABLA_SEL = 'controller'
-				"/#{controller.classify.constantize::TABLA_SEL}/seleccion?#{@objeto.class.name.downcase}_id=#{@objeto.id}"
-			# TIPO_NEW = 'detalle_pedido' : seleccion ? parametro_padre & empresa
-			# {'empleados', 'productos', 'clientes(*)'}
-			when 'detalle_pedido'
-				"/#{controller.classify.constantize::SELECTOR}/seleccion?#{@objeto.class.name.downcase}_id=#{@objeto.id}&empresa_id=#{@objeto.registro.empresa.id}"
+		# CONTROLA EXCEPCIONES
+		if Configuracion::T_E_NEW_CONTROLLERS.include?(controller)
+			if controller.classify.constantize::T_NEW_EXCEPTIONS['*'].present?
+				tipo_new = controller.classify.constantize::T_NEW_EXCEPTIONS['*']
+			else
+				if (controller_name == controller and controller.classify.constantize::T_NEW_EXCEPTIONS['self'].present?)
+					tipo_new = controller.classify.constantize::T_NEW_EXCEPTIONS['self']
+				elsif controller.classify.constantize::T_NEW_EXCEPTIONS[controller_name].present?
+					tipo_new = controller.classify.constantize::T_NEW_EXCEPTIONS[controller_name]
+				else
+					tipo_new = 'normal'
+				end
 			end
 		else
+			tipo_new = 'normal'
+		end
+		# GENERA EL LINK
+		case tipo_new
+		when 'mask'
+			"/#{controller}/mask_new?origen=#{controller_name}"
+		# TIPO_NEW = 'child_nuevo'
+		# {'pedidos'}
+		when 'child_nuevo'
+			"/#{controller}/nuevo?#{@objeto.class.name.downcase}_id=#{@objeto.id}"
+		# TIPO_NEW = 'child_sel' : seleccion ? parametro_padre
+		# {'empleados', 'productos', 'clientes(*)'}
+		when 'child_sel'
+			# TIPO_NEW = 'child_sel'
+			# TABLA_SEL = 'controller'
+			"/#{controller.classify.constantize::TABLA_SEL}/seleccion?#{@objeto.class.name.downcase}_id=#{@objeto.id}"
+		# TIPO_NEW = 'detalle_pedido' : seleccion ? parametro_padre & empresa
+		# {'empleados', 'productos', 'clientes(*)'}
+		when 'detalle_pedido'
+			"/#{controller.classify.constantize::SELECTOR}/seleccion?#{@objeto.class.name.downcase}_id=#{@objeto.id}&empresa_id=#{@objeto.registro.empresa.id}"
+		when 'normal'
 			if Configuracion::RUTA_ARCHIVOS.keys.include?(controller)
 				"/#{controller}/sel_archivo"
 			else
@@ -233,6 +246,8 @@ module ApplicationHelper
 				#objeto.origen == 'carga' ? objeto.carpetas.ids.intersection(Investigador.find(session[:perfil]['id']).carpetas.ids).any? : (objeto.investigador.id == session[:perfil]['id'])
 			when 'Equipo'
 				objeto.administrador.id == session[:perfil]['id']
+			when 'Carpeta'
+				objeto.equipo.present? ? objeto.equipo.administrador.id == session[:perfil]['id'] : objeto.investigador.id == session[:perfil]['id']
 			else
 				false
 			end
@@ -240,7 +255,7 @@ module ApplicationHelper
 	end
 
 	def m_despliega_btns?(objeto)
-		Configuracion::BTNS_CONTROL_MODELS.include?(objeto.class.name) ? objeto.btns_control : true
+		Configuracion::T_E_LINE_BTNS_MODELS.include?(objeto.class.name) ? objeto.btns_control : true
 	end
 
 	def despliega_btns?(objeto)

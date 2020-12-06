@@ -5,25 +5,32 @@ class Equipo < ApplicationRecord
 	HIDDEN_CHILDS = ['integrantes']
 
 	# ------------------------------------------------- TABLA
-	TABLE_EXCEPTIONS = {
-		tabs:    {'self' => true}
+	T_EXCEPTIONS = {
+		tabs:    ['self']
 	}
 
 	TABLA_FIELDS = [
 		['equipo', 'show'], 
 	]
 
+	T_NEW_EXCEPTIONS = {
+		#'controller' => 'tipo_new'
+		# '*' en todo controller_name
+		'*' => 'inline',
+	}
 	# ------------------------------------------------- SHOW
 	SHOW_FIELDS = [
 		['investigador', 'normal'],
 		['sha1',         'normal']
 	]
 
-	SHOW_EXCEPTIONS = [:detalle]
+	S_E = [:detalle]
 	F_TABLA = 'administrador'
 
 	# -------------------------------------------------- DESPLIEGUE
 	MY_FIELDS = ['sha1']
+
+	HIDDEN_CHILDS = ['publicaciones', 'integrantes']
 
 	belongs_to :administrador, class_name: 'Investigador'
 

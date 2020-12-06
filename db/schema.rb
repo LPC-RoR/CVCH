@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_01_034752) do
+ActiveRecord::Schema.define(version: 2020_12_05_214345) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -20,6 +20,15 @@ ActiveRecord::Schema.define(version: 2020_12_01_034752) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["area"], name: "index_areas_on_area"
+  end
+
+  create_table "ascendencias", force: :cascade do |t|
+    t.integer "padre_id"
+    t.integer "hijo_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["hijo_id"], name: "index_ascendencias_on_hijo_id"
+    t.index ["padre_id"], name: "index_ascendencias_on_padre_id"
   end
 
   create_table "autores", force: :cascade do |t|
@@ -39,6 +48,7 @@ ActiveRecord::Schema.define(version: 2020_12_01_034752) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "area_id"
+    t.string "status"
     t.index ["area_id"], name: "index_cargas_on_area_id"
     t.index ["investigador_id"], name: "index_cargas_on_investigador_id"
   end
@@ -65,6 +75,13 @@ ActiveRecord::Schema.define(version: 2020_12_01_034752) do
     t.index ["carpeta_id"], name: "index_clasificaciones_on_carpeta_id"
     t.index ["paper_id"], name: "index_clasificaciones_on_paper_id"
     t.index ["publicacion_id"], name: "index_clasificaciones_on_publicacion_id"
+  end
+
+  create_table "conceptos", force: :cascade do |t|
+    t.string "concepto"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["concepto"], name: "index_conceptos_on_concepto"
   end
 
   create_table "departamentos", force: :cascade do |t|
@@ -103,6 +120,16 @@ ActiveRecord::Schema.define(version: 2020_12_01_034752) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["idioma"], name: "index_idiomas_on_idioma"
+  end
+
+  create_table "instancias", force: :cascade do |t|
+    t.string "instancia"
+    t.string "sha1"
+    t.integer "concepto_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["concepto_id"], name: "index_instancias_on_concepto_id"
+    t.index ["sha1"], name: "index_instancias_on_sha1"
   end
 
   create_table "instituciones", force: :cascade do |t|
@@ -178,6 +205,7 @@ ActiveRecord::Schema.define(version: 2020_12_01_034752) do
     t.string "estado"
     t.string "academic_degree"
     t.string "book"
+    t.string "t_sha1"
     t.index ["doc_type"], name: "index_publicaciones_on_doc_type"
     t.index ["equipo_id"], name: "index_publicaciones_on_equipo_id"
     t.index ["estado"], name: "index_publicaciones_on_estado"
@@ -185,6 +213,7 @@ ActiveRecord::Schema.define(version: 2020_12_01_034752) do
     t.index ["origen"], name: "index_publicaciones_on_origen"
     t.index ["registro_id"], name: "index_publicaciones_on_registro_id"
     t.index ["revista_id"], name: "index_publicaciones_on_revista_id"
+    t.index ["t_sha1"], name: "index_publicaciones_on_t_sha1"
     t.index ["title"], name: "index_publicaciones_on_title"
     t.index ["unique_id"], name: "index_publicaciones_on_unique_id"
   end
@@ -205,6 +234,15 @@ ActiveRecord::Schema.define(version: 2020_12_01_034752) do
     t.datetime "updated_at", null: false
     t.index ["idioma_id"], name: "index_revistas_on_idioma_id"
     t.index ["revista"], name: "index_revistas_on_revista"
+  end
+
+  create_table "rutas", force: :cascade do |t|
+    t.integer "instancia_id"
+    t.integer "publicacion_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["instancia_id"], name: "index_rutas_on_instancia_id"
+    t.index ["publicacion_id"], name: "index_rutas_on_publicacion_id"
   end
 
   create_table "usuarios", force: :cascade do |t|

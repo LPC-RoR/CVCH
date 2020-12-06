@@ -4,7 +4,11 @@ class EquiposController < ApplicationController
   # GET /equipos
   # GET /equipos.json
   def index
-    @tab = params[:tab].blank? ? 'Administrados' : params[:tab]
+    if params[:html_options].blank?
+      @tab = 'Administrados'
+    else
+      @tab = params[:html_options][:tab].blank? ? 'Administrados' : params[:html_options][:tab]
+    end
 
     @self = Investigador.find(session[:perfil]['id'])
 
@@ -17,7 +21,11 @@ class EquiposController < ApplicationController
   # GET /equipos/1.json
   def show
     session[:equipo_id] = @objeto.id
-    @tab = params[:tab].blank? ? 'publicaciones' : params[:tab]
+    if params[:html_options].blank?
+      @tab = 'carpetas'
+    else
+      @tab = params[:html_options][:tab].blank? ? 'carpetas' : params[:html_options][:tab]
+    end
 #    @estado = params[:estado].blank? ? @tab.classify.constantize::ESTADOS[0] : params[:estado]
     # tenemos que cubrir todos los casos
     # 1. has_many : }
@@ -38,7 +46,12 @@ class EquiposController < ApplicationController
       when 'Administrados'
         @texto_sha1 = session[:perfil]['email']+params[:nuevo_equipo][:equipo]
         @sha1 = Digest::SHA1.hexdigest(@texto_sha1)
-        @self.equipos.create(equipo: params[:nuevo_equipo][:equipo], sha1: @sha1)
+        @equipo = @self.equipos.create(equipo: params[:nuevo_equipo][:equipo], sha1: @sha1)
+
+        # Llenado de carpetas BASE
+        Carpeta::NOT_MODIFY.each do |c|
+          @equipo.carpetas.create(carpeta: c)
+        end
       when 'Participaciones'
         @sha1 = params[:nuevo_equipo][:equipo]
         @equipo = Equipo.find_by(sha1: @sha1)
@@ -46,6 +59,7 @@ class EquiposController < ApplicationController
           @self.asociaciones << @equipo
         end
       end
+
     end
     redirect_to "/equipos?tab=#{params[:tab]}"
   end

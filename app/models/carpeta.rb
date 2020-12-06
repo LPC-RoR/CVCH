@@ -3,9 +3,19 @@ class Carpeta < ApplicationRecord
 	NOT_MODIFY = ['Revisar', 'Excluidas', 'Postergadas', 'Revisadas']
 
 	#-------------------------------------------------------------  TABLA
+	T_EXCEPTIONS = {
+		nuevo:   ['equipos']
+	}
+
 	TABLA_FIELDS = [
 		['carpeta', 'show'], 
 	]
+
+	T_NEW_EXCEPTIONS = {
+		#'controller' => 'tipo_new'
+		# '*' en todo controller_name
+		'equipos' => 'inline',
+	}
 
  	FORM_FIELDS = [
 		['carpeta',              'entry'],
@@ -14,7 +24,6 @@ class Carpeta < ApplicationRecord
 
 	# ------------------------------------------------------------- DESPLIEGUE
 	HIDDEN_CHILDS = ['clasificaciones']
-	SHOW_HMT_COLLECTIONS = ['publicaciones']
 
 	belongs_to :investigador, optional: true
 	belongs_to :equipo, optional: true

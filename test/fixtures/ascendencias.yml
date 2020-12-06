@@ -1,0 +1,9 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  padre_id: 1
+  hijo_id: 1
+
+two:
+  padre_id: 1
+  hijo_id: 1

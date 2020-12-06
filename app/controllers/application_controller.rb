@@ -14,56 +14,107 @@ class ApplicationController < ActionController::Base
 		@area = carga.area
 
 		xlsx.each() do |hash|
-			@author = ''
-			@doi = ''
-			@volume = ''
-			@pages = ''
-			@journal = ''
-			@titulo = ''
-			@doc_type = ''
+
+			@year            = ''
+			@author          = ''
+			@doi             = ''
+			@volume          = ''
+			@pages           = ''
+			@journal         = ''
+			@titulo          = ''
+			@doc_type        = ''
+			@t_sha1          = ''
+			@academic_degree = ''
+
 			# hash[0] Primera columna, aqui no la usamos
 			# hash[1] year, lo usamos para verificar
 			# hash[2] quote, esta es la CITA
+
 			@year = hash[1]
 			# sanitizamos tags html
-			@cita = CGI.unescapeHTML(ActionView::Base.full_sanitizer.sanitize(hash[2]))
+			@cita = CGI.unescapeHTML(ActionView::Base.full_sanitizer.sanitize(hash[2])).strip
 
-			m=@cita.match(/(?<author>[ÁÉÍÓÚA-Z\-\s,Ñ&]*) \((?<year>[^\)]*)\)\n*\s*(?<resto>.*)/)
+			# PRIMER FILTRO SACA AUTOR Y YEAR
+			m=@cita.match(/(?<author>[ÁÉÍÓÚÀEÌÒÙÄËÏÖÜA-Z\-\s,Ñ&]*) \((?<year>[^\)]*)\)\n*\s*(?<resto>.*)$/)
 			@author = m[:author].strip
 			@year = m[:year].strip
 			@resto = m[:resto].strip
 
+			# SEGUNDO FILTRO SACAR DOI SI EXISTE
 			if !!@resto.match(/doi.org/)
-				@doi = @resto.split('http')[1].split('.org/')[1]
-				@resto_2 = @resto.split('http')[0]
+				@doi = @resto.split('http')[1].split('.org/')[1].strip
+				@resto_2 = @resto.split('http')[0].strip
 			elsif !!@resto.match(/\sdoi:/)
-				@doi = @resto.split(' doi:')[1]
-				@resto_2 = @resto.split(' doi:')[0]
+				@doi = @resto.split(' doi:')[1].strip
+				@resto_2 = @resto.split(' doi:')[0].strip
 			else
 				@resto_2 = @resto
 			end
 
-			if !!@resto_2.match(/(?<resto3>.*) (?<volume>\d*\(*\d*\)*):(?<pages>\s*\d*-*\d*).$/)
-				m2 = @resto_2.match(/(?<resto3>.*) (?<volume>\d*\(*\d*\)*):(?<pages>\s*\d*-*\d*).$/)
+			# TERCER FILTRO SACA VOLUMEN Y PAGINAS
+			if !!@resto_2.match(/(?<resto3>.*) (?<volume>\d*\s{0,1}\({0,1}\d*\/{0,1}[-–]{0,1}\d*\){0,1}):(?<pages>\s{0,1}\d*[-–]{0,1}\d*).$/)
+				m2 = @resto_2.match(/(?<resto3>.*) (?<volume>\d*\s{0,1}\({0,1}\d*\/{0,1}[-–]{0,1}\d*\){0,1}):(?<pages>\s{0,1}\d*[-–]{0,1}\d*).$/)
 				@resto_3 = m2[:resto3].strip
 				@volume = m2[:volume].strip
 				@pages = m2[:pages].strip
 				@doc_type = 'article'
 				unless @resto_3.split('.').length == 1
 					@journal = @resto_3.split('.').last.strip
-					@titulo = @resto_3.split(@journal)[0].strip.delete_suffix('.')
+					@titulo = @resto_3.delete_suffix(@resto_3.split('.').last).delete_suffix('.')
+#					@titulo = @resto_3.split(@journal)[0].strip.delete_suffix('.')
 				end
+			elsif !!@resto_2.match(/Tesis/)
+				@titulo = @resto_2.split('Tesis')[0].strip.delete_suffix('.')
+				@doc_type = 'tesis'
+
+				@resto_3 = @resto_2.split('Tesis')[1]
+				if !!@resto_3.match(/Pp\./)
+					@pages = @resto_3.split('Pp.')[1]
+					@journal = @resto_3.split('Pp.')[0].delete_suffix('.')
+				else
+					@journal = @resto_2.split('Tesis')[1].delete_suffix('.')
+				end
+			elsif !!@resto_2.match(/Memoria para optar al Título Profesional de/i)
+				@resto_3 = @resto_2.split('Memoria para optar al Título Profesional de')[1].delete_suffix('.')
+				@titulo = @resto_2.split('Memoria para optar al Título Profesional de')[0].strip.delete_suffix('.')
+				@pages = @resto_3.split('.').last
+				@doc_type = 'memoria'
+				@academic_degree = @resto_3.delete_suffix(@pages).split(',')[0]
+				@journal = @resto_3.delete_suffix(@pages).delete_prefix(@academic_degree).delete_prefix(', ')
 			else
-				m2 = ''
-				@resto_3 = ''
+				@doc_type = 'book'
+				@titulo = @resto_2.split('.')[0]
+				@pages = @resto_2.delete_prefix(@titulo).delete_prefix('. ').split(',').last.delete_suffix('.')
+				@journal = @resto_2.delete_prefix(@titulo).delete_prefix('. ').delete_suffix('.').delete_suffix(@pages)
 			end
+
+			# CONTROL DE UNICIDAD
+			unicidad_doi = ''
+			if @doi.present?
+				duplicado = Publicacion.where(doi: @doi)
+				unicidad_doi = duplicado.blank? ? 'no encontado' : 'duplicado'
+			else
+				unicidad_doi = 'sin doi'
+			end
+			unicidad_titulo = ''
+
+			if @titulo.present?
+				@t_sha1 = Digest::SHA1.hexdigest(@titulo.downcase)
+				duplicado = Publicacion.where(t_sha1: @t_sha1)
+				unicidad_titulo = duplicado.blank? ? 'no encontado' : 'duplicado'
+			else
+				unicidad_titulo = 'sin_titulo'
+			end
+
 			# usamos estado == 'carga' para diferenciar en el proceso de revisión lo que viene de una carga de lo que viene de un ingreso
 			# ambas opciones tienen distinto despliegue al momento de revisar.
-			@estado = 'carga'
+			@estado = (unicidad_titulo == 'duplicado' or unicidad_doi == 'duplicado') ? 'duplicado' : 'carga'
 			@origen = 'carga'
-			pub = Publicacion.create(origen: @origen, estado: @estado, doc_type: @doc_type, d_quote: @cita, author: @author, year: @year, doi: @doi, volume: @volume, pages: @pages, d_journal: @journal, title: @titulo)
-			carga.publicaciones << pub
-			@area.papers << pub
+#			unless unicidad_doi == 'duplicado'
+				pub = Publicacion.create(t_sha1: @t_sha1, origen: @origen, estado: @estado, doc_type: @doc_type, d_quote: @cita, author: @author, year: @year, doi: @doi, volume: @volume, pages: @pages, d_journal: @journal, title: @titulo, academic_degree: @academic_degree)
+				carga.publicaciones << pub
+				@area.papers << pub
+#			end
 		end
 	end
 

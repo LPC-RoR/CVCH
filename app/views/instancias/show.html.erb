@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Instancia:</strong>
+  <%= @instancia.instancia %>
+</p>
+
+<p>
+  <strong>Sha1:</strong>
+  <%= @instancia.sha1 %>
+</p>
+
+<p>
+  <strong>Concepto:</strong>
+  <%= @instancia.concepto_id %>
+</p>
+
+<%= link_to 'Edit', edit_instancia_path(@instancia) %> |
+<%= link_to 'Back', instancias_path %>

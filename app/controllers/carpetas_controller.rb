@@ -4,18 +4,35 @@ class CarpetasController < ApplicationController
   # GET /carpetas
   # GET /carpetas.json
   def index
-    @coleccion = Carpeta.all
+    @self = Investigador.find(session[:perfil]['id'])
+    @coleccion = @self.carpetas
   end
 
   # GET /carpetas/1
   # GET /carpetas/1.json
   def show
+    if params[:html_options].blank?
+      @tab = 'publicaciones'
+    else
+      @tab = params[:html_options][:tab].blank? ? 'publicaciones' : params[:html_options][:tab]
+    end
+    @coleccion = @objeto.send(@tab).page(params[:page])
+    @options = {'tab' => @tab}
   end
 
   # GET /carpetas/new
   def new
     @self = Investigador.find(session[:perfil]['id'])
     @objeto = @self.carpetas.new
+  end
+
+  def nuevo
+    @equipo = Equipo.find(params[:equipo_id])
+    if params[:nueva_carpeta][:carpeta].present?
+      @self = Investigador.find(session[:perfil]['id'])
+      @equipo.carpetas << Carpeta.create(carpeta: params[:nueva_carpeta][:carpeta])
+    end
+    redirect_to @equipo
   end
 
   # GET /carpetas/1/edit

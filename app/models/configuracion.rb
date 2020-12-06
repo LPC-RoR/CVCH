@@ -15,48 +15,67 @@ class Configuracion < ApplicationRecord
 	# Estos controladores ponen la carga en una carpeta.
 	# Buscar en el MODELO la constante Modelo::CARPETA_CARGA para seber cual
 	# NO USADO AUN
+	# !!!!!!!!!!!!!!!!!!!!!!! ESTA DEBIERA ELIMINARSE es IGUAL A CARGA_CONTROLLERS
 	CARGA_HACIA_CARPETA_CONTROLLERS = ['cargas']
 	
-	# ---------------------------------------- DEFAULT -----------------------------------------------
+	# ---------------------------------------- CONTROL DE DESPLIEGUE --------------------------------------
+	# Definir acciones de un controlador como COLECCIONES PROPIAS y OBJETOS PROPIOS
+	# evita el proceso registro a registro de algunas condiciones de despliegue
+	# En COLECCIONES_PROPIAS hay acciones SHOW porque un SHOW tiene TABLASv que pueden ser PROPIAS
 	COLECCIONES_PROPIAS = [
 		'publicaciones#index',
 		'revisiones#index',
 		'equipos#index',
 		'areas#index',
+		'conceptos#index',
 		'carpetas#index',
 		'cargas#index',
-		'cargas#show',
-		'carpetas#show'
-	]
-	OBJETOS_PROPIOS = [
-		'carpetas#show',
-		'temas#show',
 		'cargas#show'
 	]
-	# Buscar self.btns_control
-	BTNS_CONTROL_MODELS = ['Publicacion', 'Carpeta', 'Area']
+	OBJETOS_PROPIOS = [
+		'cargas#show'
+	]
+	# ---------------------------------------- DEFAULT --------------------------------------
 	# ---------------------------------------- TABLE
-	D_TABLA = {
+	# Se verifica con el helper in_t?(c, label)
+	T_DEFAULT = {
 		titulo:  {'self' => true,  'show' => false},
 		tabs:    {'self' => false, 'show' => false}, 
 		estados: {'self' => false, 'show' => false},
 		paginas: {'self' => false, 'show' => false},
 		nuevo:   {'self' => true,  'show' => false}
 	}
+
+	#----------------------------------------- TABLE EXCEPTIONS
 	# Estos son los CONTROLADORES que tienen EXCEPCIONES
-	# Buscar Modelo::TABLE_EXCEPTIONS
-	EXCEPTIONS_CONTROLLERS = ['publicaciones', 'textos', 'recursos', 'equipos']
+	# Buscar Modelo::T_EXCEPTIONS
+	# USADA SOLO POR in_t? para saber donde buscar Excepciones
+	T_E_CONTROLLERS = ['publicaciones', 'equipos', 'carpetas']
+	#  EJEMPLO
+#	T_EXCEPTIONS = {
+#		tabs:    ['self'],
+#		paginas: ['*'],
+#		nuevo:   ['self', 'contribuciones']
+#	}
+
+#	EXCEPTIONS_CONTROLLERS = ['publicaciones', 'textos', 'recursos', 'equipos']
 	# EXCEPCIONES en el COMPORTAMIENTO de NEW
-	EXCEPTIONS_NEW_CONTROLLERS = {
-		#'controller' => 'tipo_new'
-		'publicaciones' => 'mask',
-		'equipos' => 'inline_form'
-	}
+	T_E_NEW_CONTROLLERS = ['publicaciones', 'equipos', 'carpetas']
+#	T_NEW_EXCEPTIONS = {
+#		#'controller' => 'tipo_new'
+#		'*' => 'mask',
+#		'equipos' => 'inline'
+#	}
+
+	# ----------------------------------------- CONTROL DE DESPLIEGUE DE  BOTONES
+	# SE USA SOLO PARA CONTROLAR LOS BOTONES DE CADA REGISTRO DE UNA TABLA
+	# Buscar MODELO.btns_control. 
+	T_E_LINE_BTNS_MODELS = ['Publicacion', 'Carpeta', 'Area'] 
 
 	FORM_CONDITIONAL_FIELDS_MODELS = ['Publicacion']
 
 	# ----------------------------------------- SHOW
-	D_SHOW = {
+	S_DEFAULT = {
 		titulo:       true,
 		links:        true,
 		clasifica:   false,
@@ -65,10 +84,21 @@ class Configuracion < ApplicationRecord
 		tabla:        true,
 		adjuntos:    false
 	}
-	EXCEPTIONS_TITLE_MODELS = ['Publicacion', 'Carga']
+	S_E_TITLE_MODELS = ['Publicacion', 'Carga']
 	# MODELOS que teiene EXCEPCIONES
-	# Buscar Modelo::SHOW_EXCEPTIONS
-	EXCEPTIONS_MODELS = ['Publicacion', 'Texto', 'Equipo']
+	# Buscar Modelo::S_E
+	S_E_MODELS = ['Publicacion', 'Texto', 'Equipo']
+
+	# -- SHOW : LINKS + NAVEGACION POR CONTEXTO
+	# MODELOS QUE TIENEN LINKS
+	# 'Carga' tiene el BOTON "Proceso"
+	# Busacar en Modelo el Metodo show_links que devuelve una lista de botones
+	S_LINKS_MODELS = ['Carga', 'Publicacion']
+	# MODELOS que despliegan LINKS para asociaciones BT y HMT
+	# Buscar Modelo:: S_BT_OBJECTS
+	S_BT_LINKS_MODELS = ['Publicacion']
+	# Buscar Modelo::SHOW_HMT_COLLECTIONS
+	S_HMT_LINKS_MODELS = ['Publicacion']
 
 	# ---------------------------------------- MENU ------------------------------------------------
 	# MENU PRINCIPAL
@@ -78,6 +108,7 @@ class Configuracion < ApplicationRecord
 		["Equipos",                "/equipos"],
 		["Carpetas",              "/carpetas"],
 		["Areas",                    "/areas"],
+		["Conceptos",            "/conceptos"],
 		["Contribuciones",  "/contribuciones"],
 		["Revisiones",          "/revisiones"],
 		["Cargas",                  "/cargas"] 
@@ -100,17 +131,6 @@ class Configuracion < ApplicationRecord
 	MODELS_WITH_SELF_FIELDS = ['Equipo']
 	# Controladores que tienen HIDDEN CHILDS
 	# Buscar Modelo::HIDDEN_CHILDS
-	HIDDEN_CHILDS_CONTROLLERS = ['cargas', 'publicaciones', 'textos', 'carpetas', 'investigadores', 'temas', 'equipos', 'areas']
-
-	# --------------------------------------- NAVEGACION POR CONTEXTO
-	# MODELOS QUE TIENEN LINKS
-	# 'Carga' tiene el BOTON "Proceso"
-	# Busacar en Modelo el Metodo show_links que devuelve una lista de botones
-	SHOW_LINKS_MODELS = ['Carga', 'Publicacion']
-	# MODELOS que despliegan LINKS para asociaciones BT y HMT
-	# Buscar Modelo:: SHOW_BT_OBJECTS
-	SHOW_BT_LINKS_MODELS = ['Publicacion']
-	# Buscar Modelo::SHOW_HMT_COLLECTIONS
-	SHOW_HMT_LINKS_MODELS = ['Publicacion', 'Texto']
+	HIDDEN_CHILDS_CONTROLLERS = ['cargas', 'publicaciones', 'textos', 'carpetas', 'investigadores', 'temas', 'equipos', 'areas', 'equipos', 'conceptos']
 
 end

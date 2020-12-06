@@ -2,21 +2,20 @@
 
 <!-- TITULO NORMAL: se usa 'titulo_ruta' -->
 <!-- SIEMPRE SE DESPLIEGA EL TITULO -->
-<%= render partial: '0p/general/o_titulo', locals: {o: @objeto, a: action_name, size: '5'} if d_show(@objeto, :titulo) %>
-
+<%= render partial: '0p/general/o_titulo', locals: {o: @objeto, a: action_name, size: '5'} if in_show?(@objeto, :titulo) %>
 <!-- LINKS -->
-<%= render partial: '0p/show/links', locals: {o: @objeto} if d_show(@objeto, :links) %>
+<%= render partial: '0p/show/links', locals: {o: @objeto} if in_show?(@objeto, :links) %>
 
 <!-- CLASIFICA -->
-<%= render partial: "/#{@objeto.class.name.tableize}/clasifica", locals: {c: controller_name, o: @objeto} if d_show(@objeto, :clasifica) %>
+<%= render partial: "/#{@objeto.class.name.tableize}/clasifica", locals: {c: controller_name, o: @objeto} if in_show?(@objeto, :clasifica) %>
 
 <!-- SHOW DISPLAY -->
-<%= render partial: '0p/show/detalle', locals: {c: controller_name, o: @objeto} if d_show(@objeto, :detalle) %>
+<%= render partial: '0p/show/detalle', locals: {c: controller_name, o: @objeto} if in_show?(@objeto, :detalle) %>
 
 <!-- INLINE_FORM -->
-<%= render partial: "/#{@objeto.class.name.tableize}/show_inline_form", locals: {c: controller_name, o: @objeto} if d_show(@objeto, :inline_form) %>
+<%= render partial: "/#{@objeto.class.name.tableize}/show_inline_form", locals: {c: controller_name, o: @objeto} if in_show?(@objeto, :inline_form) %>
 
-<% if d_show(@objeto, :tabla) %>
+<% if in_show?(@objeto, :tabla) %>
 	<!-- TABS -->
 	<%= render partial: '0p/tabs/tabs', locals: {tabs: has_many_tabs(controller_name), tag: 'tab', active: @tab} %>
 
@@ -24,7 +23,7 @@
 <% end %>
 
 <!-- DOCS -->
-<%= render partial: 'apariencia/attachments' if d_show(@objeto, :adjuntos) %>
+<%= render partial: 'apariencia/attachments' if in_show?(@objeto, :adjuntos) %>
 
 <!-- SHOW DETALLE -->
 <!--%= render partial: @p_detalle if @s_detalle_on %-->

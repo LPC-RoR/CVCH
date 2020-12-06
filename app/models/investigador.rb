@@ -5,14 +5,6 @@ class Investigador < ApplicationRecord
 	]
 
 	# ---------------------------------------------------- SHOW
-	D_SHOW = {
-		links:        true,
-		detalle:     false,
-		clasifica:   false,
-		inline_form: false,
-		tabla:        true,
-		adjuntos:    false
-	}
 
 	# ----------------------------------------------------- DESPLIEGUE
 	HIDDEN_CHILDS = ['autores', 'carpetas', 'cargas', 'equipos', 'evaluaciones', 'integrantes', 'participaciones']
