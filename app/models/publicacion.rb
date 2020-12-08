@@ -72,14 +72,15 @@ class Publicacion < ApplicationRecord
 		['doi',             'normal']
 	]
 
-	S_E = [:clasifica, :detalle, :tabla]
+#	S_E = [:clasifica, :detalle, :tabla, :inline_form]
+	S_E = [:clasifica, :detalle, :inline_form]
 	# --------------------- DESPLIEGUE -------------------------
 	# tablas child que NO deben ser deplegadas
-	HIDDEN_CHILDS = ['autores', 'investigadores', 'procesos', 'cargas', 'clasificaciones', 'carpetas', 'evaluaciones', 'asignaciones', 'areas']
+	HIDDEN_CHILDS = ['autores', 'investigadores', 'procesos', 'cargas', 'clasificaciones', 'carpetas', 'evaluaciones', 'asignaciones', 'areas', 'rutas']
 
 	# LINKS !!
 	S_BT_OBJECTS = ['revista']
-	S_HMT_COLLECTIONS = ['cargas', 'investigadores']
+	S_HMT_COLLECTIONS = ['cargas', 'investigadores', 'instancias']
 
 	belongs_to :registro, optional: true
 	belongs_to :revista, optional: true
@@ -105,17 +106,20 @@ class Publicacion < ApplicationRecord
 	has_many :instancias, through: :rutas
 
 	def show_title
-		"| #{self.title}"
+		"#{self.title}"
 	end
 
 	def show_links
 		[
-			['Editar', [:edit, self], true],
-			['Eliminar', "/publicaciones/estado?publicacion_id=#{self.id}&estado=eliminado", ['ingreso', 'duplicado', 'carga'].include?(self.estado)],
+			['Editar',     [:edit, self], self.estado != 'papelera'],
+			['Papelera',   "/publicaciones/estado?publicacion_id=#{self.id}&estado=papelera",     ['ingreso', 'duplicado', 'carga'].include?(self.estado)],
+			['Eliminar',   "/publicaciones/estado?publicacion_id=#{self.id}&estado=eliminado",    ['papelera'].include?(self.estado)],
 			['Contribuir', "/publicaciones/estado?publicacion_id=#{self.id}&estado=contribucion", ['ingreso'].include?(self.estado)],
-			['Publicar', "/publicaciones/estado?publicacion_id=#{self.id}&estado=publicada", (['contribucion', 'carga'].include?(self.estado) and not (self.doc_type.blank? or self.areas.empty?))],
-			['Carga', "/publicaciones/estado?publicacion_id=#{self.id}&estado=carga", ['duplicado'].include?(self.estado)],
-			['Corregir', "/publicaciones/estado?publicacion_id=#{self.id}&estado=correccion", self.estado == 'publicada']
+			['Publicar',   "/publicaciones/estado?publicacion_id=#{self.id}&estado=publicada",    (['contribucion', 'carga', 'duplicado'].include?(self.estado) and not (self.doc_type.blank? or self.areas.empty?))],
+			['Carga',      "/publicaciones/estado?publicacion_id=#{self.id}&estado=carga",        (['publicado', 'papelera'].include?(self.estado) and self.origen == 'carga')],
+			['Ingreso',    "/publicaciones/estado?publicacion_id=#{self.id}&estado=carga",        (['publicado', 'papelera'].include?(self.estado) and self.origen == 'ingreso')],
+			['Múltiple',   "/publicaciones/estado?publicacion_id=#{self.id}&estado=multiple",     self.estado == 'duplicado'],
+			['Corregir',   "/publicaciones/estado?publicacion_id=#{self.id}&estado=correccion",   self.estado == 'publicada']
 		]
 		
 	end

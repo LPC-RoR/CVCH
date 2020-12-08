@@ -4,17 +4,40 @@ class InstanciasController < ApplicationController
   # GET /instancias
   # GET /instancias.json
   def index
-    @instancias = Instancia.all
+    @coleccion = Instancia.all
   end
 
   # GET /instancias/1
   # GET /instancias/1.json
   def show
+    if params[:html_options].blank?
+      @tab = 'publicaciones'
+    else
+      @tab = params[:html_options][:tab].blank? ? 'publicaciones' : params[:html_options][:tab]
+    end
+    @coleccion = @objeto.publicaciones.page(params[:page])
+    @options = {'tab' => @tab}
   end
 
   # GET /instancias/new
   def new
-    @instancia = Instancia.new
+    @objeto = Instancia.new
+  end
+
+  def nuevo
+    unless params[:instancia_nuevo][:instancia].blank?
+      @publicacion = Publicacion.find(params[:publicacion_id])
+      @sha1 = Digest::SHA1.hexdigest(params[:instancia_nuevo][:instancia].strip.downcase)
+      @existente = Instancia.find_by(sha1: @sha1)
+      if @existente.blank?
+        @existente = Instancia.create(instancia: params[:instancia_nuevo][:instancia].strip, sha1: @sha1)
+      end
+      unless @publicacion.instancias.ids.include?(@existente.id)
+        @publicacion.instancias << @existente
+      end
+    end
+
+    redirect_to @publicacion
   end
 
   # GET /instancias/1/edit
@@ -24,15 +47,15 @@ class InstanciasController < ApplicationController
   # POST /instancias
   # POST /instancias.json
   def create
-    @instancia = Instancia.new(instancia_params)
+    @objeto = Instancia.new(instancia_params)
 
     respond_to do |format|
-      if @instancia.save
-        format.html { redirect_to @instancia, notice: 'Instancia was successfully created.' }
-        format.json { render :show, status: :created, location: @instancia }
+      if @objeto.save
+        format.html { redirect_to @objeto, notice: 'Instancia was successfully created.' }
+        format.json { render :show, status: :created, location: @objeto }
       else
         format.html { render :new }
-        format.json { render json: @instancia.errors, status: :unprocessable_entity }
+        format.json { render json: @objeto.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -41,12 +64,12 @@ class InstanciasController < ApplicationController
   # PATCH/PUT /instancias/1.json
   def update
     respond_to do |format|
-      if @instancia.update(instancia_params)
-        format.html { redirect_to @instancia, notice: 'Instancia was successfully updated.' }
-        format.json { render :show, status: :ok, location: @instancia }
+      if @objeto.update(instancia_params)
+        format.html { redirect_to @objeto, notice: 'Instancia was successfully updated.' }
+        format.json { render :show, status: :ok, location: @objeto }
       else
         format.html { render :edit }
-        format.json { render json: @instancia.errors, status: :unprocessable_entity }
+        format.json { render json: @objeto.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -54,7 +77,7 @@ class InstanciasController < ApplicationController
   # DELETE /instancias/1
   # DELETE /instancias/1.json
   def destroy
-    @instancia.destroy
+    @objeto.destroy
     respond_to do |format|
       format.html { redirect_to instancias_url, notice: 'Instancia was successfully destroyed.' }
       format.json { head :no_content }
@@ -64,7 +87,7 @@ class InstanciasController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_instancia
-      @instancia = Instancia.find(params[:id])
+      @objeto = Instancia.find(params[:id])
     end
 
     # Only allow a list of trusted parameters through.

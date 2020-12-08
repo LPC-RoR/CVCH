@@ -89,6 +89,10 @@ class Configuracion < ApplicationRecord
 	# Buscar Modelo::S_E
 	S_E_MODELS = ['Publicacion', 'Texto', 'Equipo']
 
+	# Modelos que tienen STATUS para desplegar en el SHOW
+	# Buscar Model::self.status
+	S_STATUS_MODELS = ['Carga']
+
 	# -- SHOW : LINKS + NAVEGACION POR CONTEXTO
 	# MODELOS QUE TIENEN LINKS
 	# 'Carga' tiene el BOTON "Proceso"
@@ -97,21 +101,21 @@ class Configuracion < ApplicationRecord
 	# MODELOS que despliegan LINKS para asociaciones BT y HMT
 	# Buscar Modelo:: S_BT_OBJECTS
 	S_BT_LINKS_MODELS = ['Publicacion']
-	# Buscar Modelo::SHOW_HMT_COLLECTIONS
+	# Buscar Modelo::S_HMT_COLLECTIONS
 	S_HMT_LINKS_MODELS = ['Publicacion']
 
 	# ---------------------------------------- MENU ------------------------------------------------
 	# MENU PRINCIPAL
 	MENU = [
-		["Colecciones",             "/vistas"],
-		["Escritorio",   "/vistas/escritorio"],
-		["Equipos",                "/equipos"],
-		["Carpetas",              "/carpetas"],
-		["Areas",                    "/areas"],
-		["Conceptos",            "/conceptos"],
-		["Contribuciones",  "/contribuciones"],
-		["Revisiones",          "/revisiones"],
-		["Cargas",                  "/cargas"] 
+		["Colecciones",    "/vistas",            'vistas',         'index'],
+		["Escritorio",     "/vistas/escritorio", 'vistas',    'escritorio'],
+		["Equipos",        "/equipos",           'equipos',        'index'],
+		["Carpetas",       "/carpetas",          'carpetas',       'index'],
+		["Areas",          "/areas",             'areas',          'index'],
+		["Conceptos",      "/conceptos",         'conceptos',      'index'],
+		["Contribuciones", "/contribuciones",    'contribuciones', 'index'],
+		["Revisiones",     "/revisiones",        'revisiones',     'index'],
+		["Cargas",         "/cargas",            'cargas',         'index'] 
 	]
 
 	# CONTROLADORES que NO despliegan el MENU PRINCIPAL
@@ -131,6 +135,6 @@ class Configuracion < ApplicationRecord
 	MODELS_WITH_SELF_FIELDS = ['Equipo']
 	# Controladores que tienen HIDDEN CHILDS
 	# Buscar Modelo::HIDDEN_CHILDS
-	HIDDEN_CHILDS_CONTROLLERS = ['cargas', 'publicaciones', 'textos', 'carpetas', 'investigadores', 'temas', 'equipos', 'areas', 'equipos', 'conceptos']
+	HIDDEN_CHILDS_CONTROLLERS = ['cargas', 'publicaciones', 'textos', 'carpetas', 'investigadores', 'temas', 'equipos', 'areas', 'equipos', 'conceptos', 'instancias']
 
 end

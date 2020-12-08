@@ -13,6 +13,12 @@ class ApplicationController < ActionController::Base
 		# tomamos el AREA desde afuera para evitar errores.
 		@area = carga.area
 
+		@n_procesados = 0
+		@n_carga      = 0
+		@n_duplicados = 0
+
+		@carga_area = carga.area.area
+		@carga_investigador = carga.investigador.investigador
 		xlsx.each() do |hash|
 
 			@year            = ''
@@ -25,6 +31,7 @@ class ApplicationController < ActionController::Base
 			@doc_type        = ''
 			@t_sha1          = ''
 			@academic_degree = ''
+			@unicidad        = ''
 
 			# hash[0] Primera columna, aqui no la usamos
 			# hash[1] year, lo usamos para verificar
@@ -84,8 +91,8 @@ class ApplicationController < ActionController::Base
 			else
 				@doc_type = 'book'
 				@titulo = @resto_2.split('.')[0]
-				@pages = @resto_2.delete_prefix(@titulo).delete_prefix('. ').split(',').last.delete_suffix('.')
-				@journal = @resto_2.delete_prefix(@titulo).delete_prefix('. ').delete_suffix('.').delete_suffix(@pages)
+#				@pages = @resto_2.delete_prefix(@titulo).delete_prefix('. ').split(' ').last.delete_suffix('.') unless @resto_2.strip.blank?
+#				@journal = @resto_2.delete_prefix(@titulo).delete_prefix('. ').delete_suffix('.').delete_suffix(@pages) unless @resto_2.strip.blank?
 			end
 
 			# CONTROL DE UNICIDAD
@@ -106,16 +113,29 @@ class ApplicationController < ActionController::Base
 				unicidad_titulo = 'sin_titulo'
 			end
 
-			# usamos estado == 'carga' para diferenciar en el proceso de revisión lo que viene de una carga de lo que viene de un ingreso
-			# ambas opciones tienen distinto despliegue al momento de revisar.
+			@unicidad = unicidad_doi == 'duplicado' ? 'duplicado_doi' : (unicidad_titulo == 'duplicado' ? 'duplicado_title' : 'unico')
+
 			@estado = (unicidad_titulo == 'duplicado' or unicidad_doi == 'duplicado') ? 'duplicado' : 'carga'
+			# origen: {'carga', 'revision'}
 			@origen = 'carga'
-#			unless unicidad_doi == 'duplicado'
-				pub = Publicacion.create(t_sha1: @t_sha1, origen: @origen, estado: @estado, doc_type: @doc_type, d_quote: @cita, author: @author, year: @year, doi: @doi, volume: @volume, pages: @pages, d_journal: @journal, title: @titulo, academic_degree: @academic_degree)
-				carga.publicaciones << pub
-				@area.papers << pub
-#			end
+
+			@n_procesados += 1
+			if (unicidad_titulo == 'duplicado' or unicidad_doi == 'duplicado')
+				@n_duplicados += 1
+			else
+				@n_carga += 1
+			end
+
+			# Se crean TODAS LAS PUBLICACIONES, EL CONTROL DE DUPLICADOS SE HACE AFUERA
+			pub = Publicacion.create(t_sha1: @t_sha1, origen: @origen, estado: @estado, doc_type: @doc_type, d_quote: @cita, author: @author, year: @year, doi: @doi, volume: @volume, pages: @pages, d_journal: @journal, title: @titulo, academic_degree: @academic_degree, unicidad: @unicidad)
+			carga.publicaciones << pub
+			@area.papers << pub
 		end
+		carga.estado = 'procesada'
+		carga.n_procesados = @n_procesados
+		carga.n_carga      = @n_carga
+		carga.n_duplicados = @n_duplicados
+		carga.save
 	end
 
 	def procesa_cita_carga(cita)

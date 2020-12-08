@@ -5,9 +5,9 @@
 <h<%= size%>>
 	<% case a %>
 	<% when 'index' %>
-		<%= "// #{corrige(c)}" %>
+		<%= "| #{corrige(c)}" %>
 	<% when 'seleccion' %>
-		<%= "Selecciona #{corrige(c.singularize)}" %>
+		<%= "? Selecciona #{corrige(c.singularize)}" %>
 	<% when 'new' %>
 		<%= "+ #{corrige(c).singularize.capitalize}" %>
 	<% when 'edit' %>

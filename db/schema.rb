@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_05_214345) do
+ActiveRecord::Schema.define(version: 2020_12_06_194535) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -49,6 +49,9 @@ ActiveRecord::Schema.define(version: 2020_12_05_214345) do
     t.datetime "updated_at", null: false
     t.integer "area_id"
     t.string "status"
+    t.integer "n_procesados"
+    t.integer "n_carga"
+    t.integer "n_duplicados"
     t.index ["area_id"], name: "index_cargas_on_area_id"
     t.index ["investigador_id"], name: "index_cargas_on_investigador_id"
   end
@@ -206,6 +209,7 @@ ActiveRecord::Schema.define(version: 2020_12_05_214345) do
     t.string "academic_degree"
     t.string "book"
     t.string "t_sha1"
+    t.string "unicidad"
     t.index ["doc_type"], name: "index_publicaciones_on_doc_type"
     t.index ["equipo_id"], name: "index_publicaciones_on_equipo_id"
     t.index ["estado"], name: "index_publicaciones_on_estado"

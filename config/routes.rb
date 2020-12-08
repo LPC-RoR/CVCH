@@ -27,7 +27,9 @@ Rails.application.routes.draw do
     resources :revistas
   end
   resources :integrantes
-  resources :instancias
+  resources :instancias do
+    match :nuevo, via: :post, on: :collection
+  end
   resources :instituciones do
     resources :departamentos
     resources :registros

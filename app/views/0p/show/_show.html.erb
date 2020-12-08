@@ -3,6 +3,7 @@
 <!-- TITULO NORMAL: se usa 'titulo_ruta' -->
 <!-- SIEMPRE SE DESPLIEGA EL TITULO -->
 <%= render partial: '0p/general/o_titulo', locals: {o: @objeto, a: action_name, size: '5'} if in_show?(@objeto, :titulo) %>
+
 <!-- LINKS -->
 <%= render partial: '0p/show/links', locals: {o: @objeto} if in_show?(@objeto, :links) %>
 

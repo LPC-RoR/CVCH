@@ -10,7 +10,8 @@ class Carga < ApplicationRecord
 	# ------------------------------------- TABLA ------------------------------------------
 	TABLA_FIELDS = [
 		['d_archivo',   'show'], 
-		['nota',      'normal']
+		['nota',      'normal'],
+		['estado',    'normal']
 	]
 
  	FORM_FIELDS = [
@@ -32,7 +33,11 @@ class Carga < ApplicationRecord
 	has_many :publicaciones, through: :procesos
 
 	def show_title
-		" Archivo Carga : #{self.archivo.split('/').last}"
+		self.archivo.split('/').last
+	end
+
+	def status
+		"( #{self.n_procesados} : #{self.n_carga} + #{self.n_duplicados} )"
 	end
 
 

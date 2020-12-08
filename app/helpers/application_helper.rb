@@ -91,7 +91,7 @@ module ApplicationHelper
 		if Configuracion::S_E_TITLE_MODELS.include?(object.class.name)
 			object.show_title
 		else
-			"! #{object.class.name} : #{object.send(object.class.name.downcase)}"
+			"#{object.send(object.class.name.downcase)}"
 		end
 	end
 

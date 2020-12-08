@@ -1,7 +1,6 @@
 <!-- TITULO -->
 <!-- ['index'. 'seleccion'].include?(action_name) son las acciones con título -->
 <%= render partial: '0p/general/titulo', locals: {c: c, a: a, titulo: '', size: '5'} if in_t?(c, :titulo) %>
-
 <!-- TABS -->
 <!-- Este TABS se define en el Modelo, no usa los child porque eso se hace desde SHOW -->
 <%= render partial: '0p/tabs/tabs', locals: {tabs: m_tabs(c), tag: 'tab', active: @tab} if in_t?(c, :tabs) %>
@@ -24,7 +23,7 @@
 <%= paginate @coleccion if in_t?(c, :paginas) %>
 
 <!-- CUERPO TABLA -->
-<table class="table table-striped table-sm">
+<table class="table table-striped table-sm  thead-dark">
   <thead>
    	<%= render partial: '0p/tabla/th', locals: {c: c} %>
   </thead>

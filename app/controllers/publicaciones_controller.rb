@@ -21,35 +21,41 @@ class PublicacionesController < ApplicationController
     # 1. has_many : }
 #    @coleccion = @objeto.send(@tab).page(params[:page]) #.where(estado: @estado)
 
+    # ********************** DUPLICADOS *****************************
+
     @duplicados_doi = []
     @duplicados_sha1 = []
     # SET DUPLICIDAD
-    @t_sha1 = Digest::SHA1.hexdigest(@objeto.title.downcase)
-    unless @objeto.t_sha1 == @t_sha1
-      @objeto.t_sha1 = @t_sha1
-      @objeto.save
+    unless @objeto.title.blank?
+      @t_sha1 = Digest::SHA1.hexdigest(@objeto.title.downcase)
+      unless @objeto.t_sha1 == @t_sha1
+        @objeto.t_sha1 = @t_sha1
+        @objeto.save
+      end
     end
 
-    unless @objeto.estado == 'publicada'
-      @duplicados_doi = Publicacion.where(estado: ['carga', 'publicada', 'contribucion'], doi: @objeto.doi) if @objeto.doi.present?
-      @duplicados_sha1 = Publicacion.where(estado: ['carga', 'publicada', 'contribucion'], t_sha1: @objeto.t_sha1)
-      unless @duplicados_doi.empty? and @duplicados_sha1.empty?
-        unless @objeto.estado == 'duplicado'
+    unless ['publicada', 'papelera'].include?(@objeto.estado)
+      @duplicados_doi_ids = @objeto.doi.present? ? (Publicacion.where(doi: @objeto.doi).ids - [@objeto.id]) : []
+      @duplicados_t_sha1_ids = @objeto.title.present? ? (Publicacion.where(t_sha1: @objeto.t_sha1).ids - [@objeto.id]) : []
+
+      @duplicados_ids = @duplicados_doi_ids.union(@duplicados_t_sha1_ids)
+
+      unless @duplicados_ids.empty?
+        unless @objeto.estado == 'duplicado' or @objeto.estado == 'multiple.'
           @objeto.estado = 'duplicado'
           @objeto.save
         end
       else
-        if @objeto.estado == 'duplicado'
+        if @objeto.estado == 'duplicado' or @objeto.estado == 'multiple'
           @objeto.estado = @objeto.origen == 'carga' ? 'carga' : 'contribucion'
           @objeto.save
         end
       end
     end
-    if @objeto.estado == 'duplicado'
-      @duplicados_ids = @duplicados_doi.blank? ? [] : @duplicados_doi.ids
-      @duplicados_ids = @duplicados_ids.union(@duplicados_sha1.ids) unless @duplicados_sha1.blank?
+    if @objeto.estado == 'duplicado' or @objeto.estado == 'multiple'
       @duplicados = Publicacion.where(id: @duplicados_ids)
     end
+    # ********************** DUPLICADOS *****************************
 
     @menu_areas = Area.where(id: Area.all.ids - @objeto.areas.ids)
 
@@ -93,6 +99,10 @@ class PublicacionesController < ApplicationController
       @carpetas_actuales = Carpeta.where(id: @ids_actual_base.union(@ids_actual_tema))
       @carpetas_destino  = Carpeta.where(id: @ids_carpetas_tema - @ids_actual_tema)
     end
+
+    @tab = 'instancias'
+    @coleccion = @objeto.send(@tab)
+    @options = {'tab' => @tab}
       
 end
 
@@ -249,12 +259,16 @@ end
         @carga.publicaciones.delete(@publicacion) if @publicacion.origen == 'carga'
       end
       @publicacion.delete
+    elsif params[:estado] == 'multiple'
+      @publicacion.estado = 'publicada'
+      @unicidad = 'multiple'
+      @publicacion.save
     else
       @publicacion.estado = params[:estado]
       @publicacion.save
     end
 
-    if params[:estado] == 'publicada'
+    if @publicacion.estado == 'publicada'
       procesa_cita_carga(@publicacion)
     end
 
