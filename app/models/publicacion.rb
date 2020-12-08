@@ -61,6 +61,7 @@ class Publicacion < ApplicationRecord
 	SHOW_FIELDS = [
 		['d_quote',         'normal'], 
 		['m_quote',         'metodo'], 
+		['d_author',        'normal'], 
 		['author',          'normal'], 
 		['year',            'normal'], 
 		['title',           'normal'],
@@ -106,7 +107,7 @@ class Publicacion < ApplicationRecord
 	has_many :instancias, through: :rutas
 
 	def show_title
-		"#{self.title}"
+		self.title
 	end
 
 	def show_links
@@ -130,29 +131,29 @@ class Publicacion < ApplicationRecord
 
 	def procesa_autor(author, index)
 		partes = author.split(' ')
+		# PRIMER AUTOR
 		if index == 0
 			if partes.length == 2
-				partes_0 = partes[0] == partes[0].upcase ? partes[0] : partes[0][0].upcase
-				"#{partes[1].upcase} #{partes_0}"
+				partes[0].strip.length > partes[1].strip.length ? "#{partes[0].strip.upcase} #{partes[1].strip.upcase}" : "#{partes[1].strip.upcase} #{partes[0].strip.upcase}"
 			elsif partes.length == 3
-				"#{partes[2].upcase} #{partes[0][0].upcase}#{partes[1].delete_suffix('.')}"
+				"#{partes[2].strip.upcase} #{partes[0][0].upcase}#{partes[1].split('.').join('')}"
 			elsif partes.length > 3
 				primero = partes[0]
 				del_medio = partes[2..-2]
 				ultima = partes.last
-				"#{del_medio.map {|p| p[0]}.join('')}#{ultima.upcase} #{partes[0][0].upcase}#{partes[1].delete_suffix('.')}"
+				"#{del_medio.map {|p| p[0]}.join('')}#{ultima.upcase} #{partes[0][0].upcase}#{partes[1].split('.').join('')}"
 			end
+		# AUTORES ECUNDARIOS
 		else
 			if partes.length == 2
-				partes_0 = partes[0] == partes[0].upcase ? partes[0] : partes[0][0].upcase
-				"#{partes_0.upcase} #{partes[1].upcase}"
+				partes[0].strip.length > partes[1].strip.length ? "#{partes[1].strip.upcase} #{partes[0].strip.upcase}" : "#{partes[0].strip.upcase} #{partes[1].strip.upcase}"
 			elsif partes.length == 3
-				"#{partes[0][0].upcase}#{partes[1].delete_suffix('.')} #{partes[2].upcase}"
+				"#{partes[0][0].upcase}#{partes[1].split('.').join('')} #{partes[2].upcase}"
 			elsif partes.length > 3
-				primero = partes[0]
+				primero = partes[0].strip
 				del_medio = partes[2..-2]
-				ultima = partes.last
-				"#{partes[0][0].upcase}#{partes[1].delete_suffix('.')} #{del_medio.map {|p| p[0]}.join('')}#{ultima.upcase}"
+				ultima = partes.last.strip
+				"#{partes[0][0].upcase}#{partes[1].delete_suffix('.')} #{del_medio.map {|p| p[0]}.join('')}#{ultima.strip.upcase}"
 			end
 		end
 	end
@@ -165,7 +166,7 @@ class Publicacion < ApplicationRecord
 	end
 
 	def m_quote
-		autores = self.origen == 'ingreso' ? procesa_autores(self.author) : self.author
+		autores = self.d_author.present? ? procesa_autores(self.author) : self.author
 		case self.doc_type
 		when 'article'
 			"#{autores} (#{self.year}) #{self.title}. #{self.d_journal} #{self.volume}: #{self.pages} #{self.doi}".strip+'.'
@@ -189,7 +190,7 @@ class Publicacion < ApplicationRecord
 		['carga', 'ingreso', 'duplicado'].include?(self.estado)
 	end
 	def c_d_author
-		self.estado == 'ingreso'
+		['carga', 'ingreso', 'duplicado', 'contribucion'].include?(self.estado)
 	end
 	def c_d_doi
 		self.estado == 'ingreso'

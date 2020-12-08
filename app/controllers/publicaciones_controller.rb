@@ -1,5 +1,6 @@
 class PublicacionesController < ApplicationController
   before_action :set_publicacion, only: [:show, :edit, :update, :destroy]
+  after_action :procesa_author, only: [:update]
 
   # GET /publicaciones
   # GET /publicaciones.json
@@ -104,7 +105,7 @@ class PublicacionesController < ApplicationController
     @coleccion = @objeto.send(@tab)
     @options = {'tab' => @tab}
       
-end
+  end
 
   # GET /publicaciones/new
   def new
@@ -287,6 +288,13 @@ end
 
   private
     # Use callbacks to share common setup or constraints between actions.
+    def procesa_author
+      if @objeto.d_author.present?
+        @objeto.author = limpia_autor_ingreso(@objeto.d_author)
+        @objeto.save
+      end
+    end
+
     def set_publicacion
       @objeto = Publicacion.find(params[:id])
     end

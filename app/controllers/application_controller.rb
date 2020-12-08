@@ -174,13 +174,30 @@ class ApplicationController < ActionController::Base
 	def limpia_autor_ingreso(autor)
 		autor_limpio = ''
 		autor.strip.split('').each do |c|
-			if !!c.match(/[a-zA-ZáéíóúàèìòùäëïöüÁÉÍÓÚÀÈÌÒÙÄËÏÖÜ\.\-,&\s]/)
+			if !!c.match(/[a-zA-ZáéíóúàèìòùäëïöüÁÉÍÓÚÀÈÌÒÙÄËÏÖÜ\.;\-,&\s]/)
 				autor_limpio += c
 			end
 		end
-		autor_con_coma = autor_limpio.split(' and ').join(',').split('&').join(',')
+		autor_limpio = autor_limpio.strip
+
+		# Saber si los autores separan con ',' o con ';'
+		v_coma = autor_limpio.split(',').length
+		v_punto_y_coma = autor_limpio.split(';').length
+		if v_coma == 1 and v_punto_y_coma == 1
+			separador = 'sin'
+		else
+			separador = v_punto_y_coma == 1 ? ',' : ';'
+		end
+
+		if [',', ';'].include?(separador)
+			autor_con_coma = separador == ';' ? autor_limpio.split(';').join(',') : autor_limpio.split(' and ').join(',').split('&').join(',')
+		else
+			autor_con_coma = autor_limpio
+		end
+
 		elementos = autor_con_coma.split(',').map {|n| n.strip}
 		autores = []
+		# SACA LOS ELEMENTOS QUE SON CARACTERES O VACIOS
 		elementos.each do |a|
 			unless a.strip.split(' ').length < 2
 				partes = a.strip.split(' ')
@@ -192,6 +209,7 @@ class ApplicationController < ActionController::Base
 				end
 			end
 		end
+
 		last = autores.last
 		autores.pop
 		case autores.length
