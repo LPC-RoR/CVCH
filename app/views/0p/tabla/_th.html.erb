@@ -2,5 +2,5 @@
 	<% c.classify.constantize::TABLA_FIELDS.each do |field| %>
 	  <td><i><%= field[0].delete_prefix('d_').capitalize.split('_').join(' ') %></i></td>
 	<% end %>
-    <th colspan="1"></th>
+    <td colspan="1"></td>
 </tr>

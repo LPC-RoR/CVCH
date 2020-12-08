@@ -1,7 +1,7 @@
 class Vista < ApplicationRecord
 	TITULO = {
-		'index'      => '| Colecciones',
-		'escritorio' => '| Escritorio'
+		'index'      => 'Colecciones',
+		'escritorio' => 'Escritorio'
 	}
 
 	SELECTOR_NAME = {

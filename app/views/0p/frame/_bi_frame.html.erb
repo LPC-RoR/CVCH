@@ -7,7 +7,7 @@
 <div class='row'>
 	<!-- SELECTOR -->
 	<div class='col-md-3'>
-		<%= render partial: '0p/frame/selectors' %>
+		<%= render partial: '0p/list/links', locals: {titulo: controller_name.classify.constantize::SELECTOR_NAME[action_name], list: @frame_selector, sel: @sel, options: @options} %>
 	</div>
 	<!-- TABLA -->
 	<div class='col-md-9'>

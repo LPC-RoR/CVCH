@@ -1,5 +1,5 @@
 class Contribucion < ApplicationRecord
-	TITULO = '| Contribuciones de Citas'
+	TITULO = 'Contribuciones'
 
 	ACTIONS_TYPE = {
 		'index'     => 'tabla'

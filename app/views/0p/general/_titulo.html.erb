@@ -3,9 +3,10 @@
 <!-- titulo: Es el texto del título -->
 <!-- a e {'index', 'seleccion', 'new', 'edit' -->
 <h<%= size%>>
+<div class="p-3 mb-2 bg-info text-white">
 	<% case a %>
 	<% when 'index' %>
-		<%= "| #{corrige(c)}" %>
+		<%= "#{corrige(c)}" %>
 	<% when 'seleccion' %>
 		<%= "? Selecciona #{corrige(c.singularize)}" %>
 	<% when 'new' %>
@@ -15,4 +16,5 @@
 	<% else %>
 		<%= titulo %>
 	<% end %>
+</div>
 </h<%= size%>>
