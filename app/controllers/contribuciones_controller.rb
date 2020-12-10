@@ -4,9 +4,9 @@ class ContribucionesController < ApplicationController
   # GET /contribuciones
   # GET /contribuciones.json
   def index
-    @my_self = Investigador.find(session[:perfil]['id'])
+    @activo = Perfil.find(session[:perfil_activo]['id'])
     @table_controller = 'publicaciones'
-    @coleccion = @my_self.contribuciones.where(estado: ['ingreso', 'contribucion']).page(params[:page])
+    @coleccion = @activo.contribuciones.where(estado: ['ingreso', 'contribucion']).page(params[:page])
   end
 
   # GET /contribuciones/1

@@ -18,7 +18,7 @@ class Carga < ApplicationRecord
 		['area_id',         'select'],
 		['nota',             'entry'],
 		['estado',          'hidden'],
-		['investigador_id', 'hidden'],
+		['perfil_id',       'hidden'],
 		['archivo',         'hidden']
 	]
 
@@ -26,7 +26,7 @@ class Carga < ApplicationRecord
 	# CHILDS QUE NO SE DEBEN DESPLEGAR
 	HIDDEN_CHILDS = ['procesos']
 
-	belongs_to :investigador
+	belongs_to :perfil
 	belongs_to :area
 
 	has_many :procesos
@@ -43,7 +43,7 @@ class Carga < ApplicationRecord
 
 	def show_links
 		[
-			['Proceso', "/cargas/#{self.id}/procesa_carga", self.estado == 'ingreso']
+			['Proceso', "/cargas/procesa_carga?carga_id=#{self.id}", self.estado == 'ingreso']
 		]
 		
 	end

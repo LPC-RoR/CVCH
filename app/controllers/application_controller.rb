@@ -4,9 +4,6 @@ class ApplicationController < ActionController::Base
 	end
 
 	def carga_archivo_excel(carga)
-		require 'roo'
-		require 'json'
-		require 'yaml'
 
 		xlsx = Roo::Spreadsheet.open(carga.archivo)
 
@@ -17,8 +14,6 @@ class ApplicationController < ActionController::Base
 		@n_carga      = 0
 		@n_duplicados = 0
 
-		@carga_area = carga.area.area
-		@carga_investigador = carga.investigador.investigador
 		xlsx.each() do |hash|
 
 			@year            = ''
@@ -230,14 +225,14 @@ class ApplicationController < ActionController::Base
 	# 2. Verifica por Nombre de la publicación
 	def unicidad_publicacion_carga(hash_articulo)
 		# VERIFICA CARGA
-		c = Publicacion.find_by(unique_id: hash_articulo['Unique-ID']) 
-		unless c.blank?
+		pub = Publicacion.find_by(unique_id: hash_articulo['Unique-ID']) 
+		unless pub.blank?
 			# LO ENCONTRÖ HAY QUE VER SI ESTÁ EN ALGUNA DE MIS CARPETAS
-			my_self = Investigador.find(session[:paerfil]['id'])
-			if p.carpetas.ids.intersection(my_self.carpetas.ids).empty?
+			@activo = Perfil.find([:perfil_activo]['id'])
+			if pub.carpetas.ids.intersection(@activo.carpetas.ids).empty?
 				'sin carpeta'
 			else
-				c.year.blank? ? 'remplazar_carga' : 'saltar'
+				pub.year.blank? ? 'remplazar_carga' : 'saltar'
 			end
 		else
 			# NO ENCONTRADO EN CARGA buscamos por DOI

@@ -1,9 +1,11 @@
 Rails.application.routes.draw do
+  resources :administradores
   resources :areas
   resources :ascendencias
   resources :autores
   resources :cargas do
-    match :procesa_carga, via: :get, on: :member
+#    match :procesa_carga, via: :get, on: :member
+    match :procesa_carga, via: :get, on: :collection
     match :sel_archivo, via: :get, on: :collection
   end
   resources :carpetas do
@@ -21,6 +23,7 @@ Rails.application.routes.draw do
   resources :contribuciones
   resources :equipos do
     match :nuevo, via: :post, on: :collection
+    match :elimina_equipo, via: :get, on: :member
   end
   resources :evaluaciones
   resources :idiomas do 
@@ -29,6 +32,7 @@ Rails.application.routes.draw do
   resources :integrantes
   resources :instancias do
     match :nuevo, via: :post, on: :collection
+    match :elimina_instancia, via: :get, on: :member
   end
   resources :instituciones do
     resources :departamentos
@@ -36,6 +40,9 @@ Rails.application.routes.draw do
   end
   resources :investigadores do
     match :perfil, via: :get, on: :member
+  end
+  resources :perfiles do
+      match :inicia_sesion, via: :get, on: :collection
   end
   resources :procesos
   resources :publicaciones do
@@ -49,7 +56,6 @@ Rails.application.routes.draw do
   end
   resources :recursos do
     collection do
-      match :inicia_sesion, via: :get
       match :tablas, via: :get
       match :manual, via: :get
     end
@@ -69,6 +75,6 @@ Rails.application.routes.draw do
   devise_for :usuarios
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 
-  root 'recursos#inicia_sesion'
+  root 'perfiles#inicia_sesion'
 
 end

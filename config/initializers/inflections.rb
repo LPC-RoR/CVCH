@@ -20,6 +20,9 @@ ActiveSupport::Inflector.inflections(:en) do |inflect|
     inflect.plural /(ion)$/i, '\1es'
     inflect.singular /(ion)es/i, '\1'
 
+	# palabras terminadas en 'cion' y 'sion'
+    inflect.plural /(l)$/i, '\1es'
+    inflect.singular /(l)es/i, '\1'
 end
 
 # These inflection rules are supported but not enabled by default:

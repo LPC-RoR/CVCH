@@ -1,5 +1,5 @@
 class EquiposController < ApplicationController
-  before_action :set_equipo, only: [:show, :edit, :update, :destroy]
+  before_action :set_equipo, only: [:show, :edit, :update, :destroy, :elimina_equipo]
 
   # GET /equipos
   # GET /equipos.json
@@ -10,9 +10,9 @@ class EquiposController < ApplicationController
       @tab = params[:html_options][:tab].blank? ? 'Administrados' : params[:html_options][:tab]
     end
 
-    @self = Investigador.find(session[:perfil]['id'])
+    @activo = Perfil.find(session[:perfil_activo]['id'])
 
-    @coleccion = (@tab == 'Administrados') ? @self.equipos : @self.participaciones
+    @coleccion = (@tab == 'Administrados') ? @activo.equipos : @activo.participaciones
 
     @options = {'tab' => @tab}
   end
@@ -40,13 +40,13 @@ class EquiposController < ApplicationController
 
   def nuevo
     unless params[:nuevo_equipo][:equipo].blank?
-      @self = Investigador.find(session[:perfil]['id'])
-
+      @activo = Perfil.find(session[:perfil_activo]['id'])
       case params[:tab]
       when 'Administrados'
-        @texto_sha1 = session[:perfil]['email']+params[:nuevo_equipo][:equipo]
+        @texto_sha1 = session[:perfil_activo]['email']+params[:nuevo_equipo][:equipo]
         @sha1 = Digest::SHA1.hexdigest(@texto_sha1)
-        @equipo = @self.equipos.create(equipo: params[:nuevo_equipo][:equipo], sha1: @sha1)
+        @equipo = @activo.equipos.create(equipo: params[:nuevo_equipo][:equipo], sha1: @sha1)
+        @perfil = Perfil.create(equipo_id: @equipo.id)
 
         # Llenado de carpetas BASE
         Carpeta::NOT_MODIFY.each do |c|
@@ -56,7 +56,7 @@ class EquiposController < ApplicationController
         @sha1 = params[:nuevo_equipo][:equipo]
         @equipo = Equipo.find_by(sha1: @sha1)
         unless @equipo.blank?
-          @self.asociaciones << @equipo
+          @activo.asociaciones << @equipo
         end
       end
 
@@ -75,7 +75,8 @@ class EquiposController < ApplicationController
 
     respond_to do |format|
       if @objeto.save
-        format.html { redirect_to @objeto, notice: 'Equipo was successfully created.' }
+        set_redireccion
+        format.html { redirect_to @redireccion, notice: 'Equipo was successfully created.' }
         format.json { render :show, status: :created, location: @objeto }
       else
         format.html { render :new }
@@ -89,7 +90,8 @@ class EquiposController < ApplicationController
   def update
     respond_to do |format|
       if @objeto.update(equipo_params)
-        format.html { redirect_to @objeto, notice: 'Equipo was successfully updated.' }
+        set_redireccion
+        format.html { redirect_to @redireccion, notice: 'Equipo was successfully updated.' }
         format.json { render :show, status: :ok, location: @objeto }
       else
         format.html { render :edit }
@@ -101,17 +103,28 @@ class EquiposController < ApplicationController
   # DELETE /equipos/1
   # DELETE /equipos/1.json
   def destroy
+    set_redireccion
     @objeto.destroy
     respond_to do |format|
-      format.html { redirect_to equipos_url, notice: 'Equipo was successfully destroyed.' }
+      format.html { redirect_to @redireccion, notice: 'Equipo was successfully destroyed.' }
       format.json { head :no_content }
     end
+  end
+
+  def elimina_equipo
+    @activo = Perfil.find(session[:perfil_activo]['id'])
+    @objeto.delete
+    redirect_to @objeto
   end
 
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_equipo
       @objeto = Equipo.find(params[:id])
+    end
+
+    def set_redireccion
+      @redireccion = '/equipos'
     end
 
     # Only allow a list of trusted parameters through.

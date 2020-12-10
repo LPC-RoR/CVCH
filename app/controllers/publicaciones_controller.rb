@@ -60,22 +60,22 @@ class PublicacionesController < ApplicationController
 
     @menu_areas = Area.where(id: Area.all.ids - @objeto.areas.ids)
 
-    @self = Investigador.find(session[:perfil]['id'])
+    @activo = Perfil.find(session[:perfil_activo]['id'])
     # Aqui me gano los porotos. El manejo de carpetas
     # Voy a hacer dos columnas
     # IZQ las carpetas en las cuales la Publicacion está
     # DER las carpetas en las que se puede agregar
     # CARPETAS EN LAS QUE ESTÁ (Propias + Equipo)
-    # 1.- los ids de las carpetas de @self se dividen en @carpetas_base @carpetas_tema
-    @ids_carpetas_base = @self.carpetas.map {|c| c.id if Carpeta::NOT_MODIFY.include?(c.carpeta)}.compact
-    @ids_carpetas_tema = @self.carpetas.map {|c| c.id unless Carpeta::NOT_MODIFY.include?(c.carpeta)}.compact
+    # 1.- los ids de las carpetas de @activo se dividen en @carpetas_base @carpetas_tema
+    @ids_carpetas_base = @activo.carpetas.map {|c| c.id if Carpeta::NOT_MODIFY.include?(c.carpeta)}.compact
+    @ids_carpetas_tema = @activo.carpetas.map {|c| c.id unless Carpeta::NOT_MODIFY.include?(c.carpeta)}.compact
 
-    @id_carpeta_revisadas = @self.carpetas.find_by(carpeta: 'Revisadas').id
+    @id_carpeta_revisadas = @activo.carpetas.find_by(carpeta: 'Revisadas').id
     # QUE GACEMOS CON LAS CARPETAS DE LOS EQUIPOS A LOS QUE PERTENECEMOS ??
     # HAREMOS EL PERFIL DEL USUARIO E IMPLEMENTAREMOS BOTONES PARA CAMBIAR DE PERFIL
 
     # Tomamos de las carpetas de la publicacion SOLO las que pertenecen a SELF
-    @ids_carpetas_publicacion = @objeto.carpetas.ids.intersection(@self.carpetas.ids) 
+    @ids_carpetas_publicacion = @objeto.carpetas.ids.intersection(@activo.carpetas.ids) 
 
     @ids_actual_base = @ids_carpetas_base.intersection(@ids_carpetas_publicacion)
     @ids_actual_tema = @ids_carpetas_tema.intersection(@ids_carpetas_publicacion)
@@ -102,7 +102,7 @@ class PublicacionesController < ApplicationController
     end
 
     @tab = 'instancias'
-    @coleccion = @objeto.send(@tab)
+    @tl_coleccion = @objeto.instancias
     @options = {'tab' => @tab}
       
   end
@@ -117,7 +117,7 @@ class PublicacionesController < ApplicationController
   end
 
   def mask_nuevo
-    @investigador = Investigador.find(session[:perfil]['id'])
+    @activo = Perfil.find(session[:perfil_activo]['id'])
     # en esta aplicación NO hay dos orígenes posibles SOLO uno
 #    @origen = params[:origen] == 'equipos' ? 'Produccion' : 'Manual'
 
@@ -155,7 +155,7 @@ class PublicacionesController < ApplicationController
     @abstract = params[:m_params][:abstract].strip
     @objeto = Publicacion.create(origen: 'ingreso', estado: 'ingreso', title: @title, author: @author, d_journal: @journal, volume: @volume, year: @year, pages: @pages, doi: @doi, abstract: @abstract)
 
-    @investigador.contribuciones << @objeto
+    @activo.contribuciones << @objeto
 
     redirect_to @objeto
   end
@@ -195,7 +195,6 @@ class PublicacionesController < ApplicationController
   end
 
   def cambia_area
-    @self = Investigador.find(session[:perfil]['id'])
     @objeto = Publicacion.find(params[:publicacion_id])
     @area = Area.find(params[:area_id])
     @objeto.areas.each do |a|
@@ -208,16 +207,16 @@ class PublicacionesController < ApplicationController
   end
 
   def cambia_carpeta
-    @self = Investigador.find(session[:perfil]['id'])
+    @activo = Perfil.find(session[:perfil_activo]['id'])
     @objeto = Publicacion.find(params[:html_options][:publicacion_id])
     @carpeta = Carpeta.find(params[:html_options][:carpeta_id])
 
-    @ids_carpetas_base = @self.carpetas.map {|c| c.id if Carpeta::NOT_MODIFY.include?(c.carpeta)}.compact
-    @ids_carpetas_tema = @self.carpetas.map {|c| c.id unless Carpeta::NOT_MODIFY.include?(c.carpeta)}.compact
+    @ids_carpetas_base = @activo.carpetas.map {|c| c.id if Carpeta::NOT_MODIFY.include?(c.carpeta)}.compact
+    @ids_carpetas_tema = @activo.carpetas.map {|c| c.id unless Carpeta::NOT_MODIFY.include?(c.carpeta)}.compact
 
-    @id_carpeta_revisadas = @self.carpetas.find_by(carpeta: 'Revisadas').id
+    @id_carpeta_revisadas = @activo.carpetas.find_by(carpeta: 'Revisadas').id
 
-    @ids_carpetas_publicacion = @objeto.carpetas.ids.intersection(@self.carpetas.ids) 
+    @ids_carpetas_publicacion = @objeto.carpetas.ids.intersection(@activo.carpetas.ids) 
 
     @ids_actual_base = @ids_carpetas_base.intersection(@ids_carpetas_publicacion)
     @ids_actual_tema = @ids_carpetas_tema.intersection(@ids_carpetas_publicacion)

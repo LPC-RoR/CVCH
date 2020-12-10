@@ -1,15 +1,16 @@
 class CargasController < ApplicationController
-  before_action :set_carga, only: [:show, :edit, :update, :destroy, :procesa_carga]
+  before_action :set_carga, only: [:show, :edit, :update, :destroy]
 
   # GET /cargas
   # GET /cargas.json
   def index
-    @coleccion = Carga.all
+    @activo = Perfil.find(session[:perfil_activo]['id'])
+    @coleccion = @activo.cargas
   end
 
   def sel_archivo
-    @self = Investigador.find(session[:perfil]['id'])
-    @archivos = Dir.glob("#{Configuracion::RUTA_ARCHIVOS['cargas']}**/*") - @self.cargas.map {|c| c.archivo}
+    @activo = Perfil.find(session[:perfil_activo]['id'])
+    @archivos = Dir.glob("#{Configuracion::RUTA_ARCHIVOS['cargas']}**/*") - @activo.cargas.map {|c| c.archivo}
   end
 
   # GET /cargas/1
@@ -24,7 +25,7 @@ class CargasController < ApplicationController
   end
 
   def procesa_carga
-
+    @objeto = Carga.find(params[:carga_id])
     if @objeto.estado == 'ingreso'
       # Abre archivo
       carga_archivo_excel(@objeto)
@@ -40,7 +41,7 @@ class CargasController < ApplicationController
   # GET /cargas/new
   def new
     @archivo = Configuracion::RUTA_ARCHIVOS['cargas']+params[:archivo]
-    @objeto = Carga.new(archivo: @archivo, estado: 'ingreso', investigador_id: session[:perfil]['id'])
+    @objeto = Carga.new(archivo: @archivo, estado: 'ingreso', perfil_id: session[:perfil_activo]['id'])
   end
 
   # GET /cargas/1/edit
@@ -102,6 +103,6 @@ class CargasController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def carga_params
-      params.require(:carga).permit(:archivo, :nota, :estado, :investigador_id, :area_id)
+      params.require(:carga).permit(:archivo, :nota, :estado, :perfil_id, :area_id)
     end
 end

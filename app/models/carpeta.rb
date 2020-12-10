@@ -18,14 +18,14 @@ class Carpeta < ApplicationRecord
 	}
 
  	FORM_FIELDS = [
-		['carpeta',              'entry'],
-		['investigador_id',     'hidden']
+		['carpeta',        'entry'],
+		['perfil_id',     'hidden']
 	]
 
 	# ------------------------------------------------------------- DESPLIEGUE
 	HIDDEN_CHILDS = ['clasificaciones']
 
-	belongs_to :investigador, optional: true
+	belongs_to :perfil, optional: true
 	belongs_to :equipo, optional: true
 
 	has_many :clasificaciones

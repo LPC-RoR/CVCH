@@ -1,5 +1,5 @@
 class InstanciasController < ApplicationController
-  before_action :set_instancia, only: [:show, :edit, :update, :destroy]
+  before_action :set_instancia, only: [:show, :edit, :update, :destroy, :elimina_instancia]
 
   # GET /instancias
   # GET /instancias.json
@@ -82,6 +82,15 @@ class InstanciasController < ApplicationController
       format.html { redirect_to instancias_url, notice: 'Instancia was successfully destroyed.' }
       format.json { head :no_content }
     end
+  end
+
+  def elimina_instancia
+    @publicacion = Publicacion.find(params[:objeto_id])
+    @publicacion.instancias.delete(@objeto)
+    if @objeto.publicaciones.empty?
+      @objeto.delete
+    end
+    redirect_to @publicacion
   end
 
   private

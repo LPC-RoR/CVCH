@@ -186,19 +186,19 @@ module ApplicationHelper
 	# Obtiene el campo para despleagar en una TABLA
 	# Resuelve BT_FIELDS y d_<campo> si es necesario 
 	def get_field(name, objeto)
-		if objeto.class::column_names.include?(name) or (name.split('_')[0] == 'd')
+		if objeto.class::column_names.include?(name) or (name.split('_')[0] == 'd') or (name.split('_')[0] == 'm')
 			objeto.send(name)
 		elsif objeto.class::BT_FIELDS.include?(name)
 			o_bt = objeto.send(objeto.class::BT_MODEL)
-			o.bt.send(name)
+			o_bt.send(name)
 		else
 			'FieldNotFound'
 		end
 	end
 
 	def get_evaluacion_publicacion(publicacion, item)
-		my_self = Investigador.find(session[:perfil]['id'])
-		e = my_self.evaluaciones.find_by(aspecto: item, publicacion_id: publicacion.id)
+		@activo = Perfil.find(session[:perfil_activo]['id'])
+		e = activo.evaluaciones.find_by(aspecto: item, publicacion_id: publicacion.id)
 		e.blank? ? '[no evaluado]' : e.evaluacion
 	end
 
@@ -211,7 +211,7 @@ module ApplicationHelper
 	def my_objeto?(objeto)
 		case objeto.class.name
 		when 'Equipo'
-			objeto.administrador.id == session[:perfil]['id']
+			objeto.perfil.id == session[:perfil_activo]['id']
 		end
 	end
 	# Esto es importante para diferenciar OBJETOS PROPIOS
@@ -243,11 +243,10 @@ module ApplicationHelper
 				# Propio por ahora
 				# Hay que ser usuario administrador
 				true
-				#objeto.origen == 'carga' ? objeto.carpetas.ids.intersection(Investigador.find(session[:perfil]['id']).carpetas.ids).any? : (objeto.investigador.id == session[:perfil]['id'])
 			when 'Equipo'
-				objeto.administrador.id == session[:perfil]['id']
+				objeto.administrador.id == session[:perfil_activo]['id']
 			when 'Carpeta'
-				objeto.equipo.present? ? objeto.equipo.administrador.id == session[:perfil]['id'] : objeto.investigador.id == session[:perfil]['id']
+				objeto.equipo.present? ? objeto.equipo.perfil.id == session[:perfil_activo]['id'] : objeto.investigador.id == session[:perfil_activo]['id']
 			else
 				false
 			end
@@ -260,6 +259,10 @@ module ApplicationHelper
 
 	def despliega_btns?(objeto)
 		coleccion_propia? ? m_despliega_btns?(objeto) : (objeto_propio?(objeto) and m_despliega_btns?(objeto))		
+	end
+
+	def x_btns?(objeto)
+		Configuracion::T_E_ADDITIONAL_BTNS_MODEL.include?(objeto.class.name)
 	end
 
 end

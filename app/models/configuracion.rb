@@ -32,6 +32,7 @@ class Configuracion < ApplicationRecord
 		'cargas#index',
 		'cargas#show'
 	]
+
 	OBJETOS_PROPIOS = [
 		'cargas#show'
 	]
@@ -61,6 +62,7 @@ class Configuracion < ApplicationRecord
 #	EXCEPTIONS_CONTROLLERS = ['publicaciones', 'textos', 'recursos', 'equipos']
 	# EXCEPCIONES en el COMPORTAMIENTO de NEW
 	T_E_NEW_CONTROLLERS = ['publicaciones', 'equipos', 'carpetas']
+	# Model::
 #	T_NEW_EXCEPTIONS = {
 #		#'controller' => 'tipo_new'
 #		'*' => 'mask',
@@ -71,6 +73,8 @@ class Configuracion < ApplicationRecord
 	# SE USA SOLO PARA CONTROLAR LOS BOTONES DE CADA REGISTRO DE UNA TABLA
 	# Buscar MODELO.btns_control. 
 	T_E_LINE_BTNS_MODELS = ['Publicacion', 'Carpeta', 'Area'] 
+	T_E_ADDITIONAL_BTNS_MODEL = ['Instancia', 'Equipo']
+	# Byscar en MODELO::X_BTNS
 
 	FORM_CONDITIONAL_FIELDS_MODELS = ['Publicacion']
 
@@ -107,6 +111,7 @@ class Configuracion < ApplicationRecord
 	# ---------------------------------------- MENU ------------------------------------------------
 	# MENU PRINCIPAL
 	MENU = [
+		["Perfiles",       "/perfiles",          'perfiles',       'index'],
 		["Colecciones",    "/vistas",            'vistas',         'index'],
 		["Escritorio",     "/vistas/escritorio", 'vistas',    'escritorio'],
 		["Equipos",        "/equipos",           'equipos',        'index'],

@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  usuario_id: 1
+  administrador_id: 1
+  investigador_id: 1
+  equipo_id: 1
+
+two:
+  usuario_id: 1
+  administrador_id: 1
+  investigador_id: 1
+  equipo_id: 1

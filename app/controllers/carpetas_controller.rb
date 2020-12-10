@@ -4,9 +4,9 @@ class CarpetasController < ApplicationController
   # GET /carpetas
   # GET /carpetas.json
   def index
-    @self = Investigador.find(session[:perfil]['id'])
-    @coleccion = @self.carpetas
-  end
+    @activo = Perfil.find(session[:perfil_activo]['id'])
+    @coleccion =  session[:perfil_activo] == session[:perfil_base] ? @coleccion = @activo.carpetas : @coleccion = @activo.equipo.carpetas
+    end
 
   # GET /carpetas/1
   # GET /carpetas/1.json
@@ -22,14 +22,13 @@ class CarpetasController < ApplicationController
 
   # GET /carpetas/new
   def new
-    @self = Investigador.find(session[:perfil]['id'])
-    @objeto = @self.carpetas.new
+    @activo = Perfil.find(session[:perfil_activo]['id'])
+    @objeto = @activo.carpetas.new
   end
 
   def nuevo
     @equipo = Equipo.find(params[:equipo_id])
     if params[:nueva_carpeta][:carpeta].present?
-      @self = Investigador.find(session[:perfil]['id'])
       @equipo.carpetas << Carpeta.create(carpeta: params[:nueva_carpeta][:carpeta])
     end
     redirect_to @equipo
@@ -94,6 +93,6 @@ class CarpetasController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def carpeta_params
-      params.require(:carpeta).permit(:carpeta, :investigador_id, :equipo_id)
+      params.require(:carpeta).permit(:carpeta, :perfil_id, :equipo_id)
     end
 end

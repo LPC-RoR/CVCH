@@ -1,4 +1,5 @@
 <%  if @objeto.estado == 'publicada' %>
+	<!-- CALIFICACION -->
 	<% if false %>
 	<% Publicacion::EVALUACION.keys.each do |item| %>
 		<div class = 'row'>
@@ -21,6 +22,7 @@
 	<% end %>
 	<% end %>
 <% else %>	
+	<!-- LINKS AREAS Y DOC_TYPES -->
 	<% unless @objeto.estado == 'papelera' %>
 	<% @menu_areas.each do |area| %>
 		<%= render partial: '0p/tabla/btn', locals: {texto: "#{area.area}", link: "/publicaciones/cambia_area?publicacion_id=#{o.id}&area_id=#{area.id}", delete: false }  %>
@@ -32,6 +34,7 @@
 	<% end %>
 <% end %>
 
+<!-- CARPETAS Y DESPLIEGUE DE CITA -->
 <div class='row'>
 	<div class='col-md-2'>
 		<% if @objeto.estado == 'publicada' %>
@@ -60,4 +63,7 @@
 
 	</div>
 </div>
+
+</br></br>
+<%= render partial: '0p/t_list/t_list', locals: {c: 'instancias',a: 'index', titulo: 'Ruta Conceptual'} %>
 </br></br>

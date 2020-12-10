@@ -10,10 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_06_194535) do
+ActiveRecord::Schema.define(version: 2020_12_09_224652) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "administradores", force: :cascade do |t|
+    t.string "administrador"
+    t.string "email"
+    t.integer "usuario_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["email"], name: "index_administradores_on_email"
+    t.index ["usuario_id"], name: "index_administradores_on_usuario_id"
+  end
 
   create_table "areas", force: :cascade do |t|
     t.string "area"
@@ -44,7 +54,6 @@ ActiveRecord::Schema.define(version: 2020_12_06_194535) do
     t.string "archivo"
     t.string "nota"
     t.string "estado"
-    t.integer "investigador_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "area_id"
@@ -52,19 +61,20 @@ ActiveRecord::Schema.define(version: 2020_12_06_194535) do
     t.integer "n_procesados"
     t.integer "n_carga"
     t.integer "n_duplicados"
+    t.integer "perfil_id"
     t.index ["area_id"], name: "index_cargas_on_area_id"
-    t.index ["investigador_id"], name: "index_cargas_on_investigador_id"
+    t.index ["perfil_id"], name: "index_cargas_on_perfil_id"
   end
 
   create_table "carpetas", force: :cascade do |t|
     t.string "carpeta"
-    t.integer "investigador_id"
     t.integer "equipo_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "perfil_id"
     t.index ["carpeta"], name: "index_carpetas_on_carpeta"
     t.index ["equipo_id"], name: "index_carpetas_on_equipo_id"
-    t.index ["investigador_id"], name: "index_carpetas_on_investigador_id"
+    t.index ["perfil_id"], name: "index_carpetas_on_perfil_id"
   end
 
   create_table "clasificaciones", force: :cascade do |t|
@@ -98,9 +108,9 @@ ActiveRecord::Schema.define(version: 2020_12_06_194535) do
   create_table "equipos", force: :cascade do |t|
     t.string "equipo"
     t.string "sha1"
-    t.integer "administrador_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "administrador_id"
     t.index ["administrador_id"], name: "index_equipos_on_administrador_id"
     t.index ["equipo"], name: "index_equipos_on_equipo"
     t.index ["sha1"], name: "index_equipos_on_sha1"
@@ -110,11 +120,11 @@ ActiveRecord::Schema.define(version: 2020_12_06_194535) do
     t.string "aspecto"
     t.string "evaluacion"
     t.integer "publicacion_id"
-    t.integer "investigador_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "perfil_id"
     t.index ["aspecto"], name: "index_evaluaciones_on_aspecto"
-    t.index ["investigador_id"], name: "index_evaluaciones_on_investigador_id"
+    t.index ["perfil_id"], name: "index_evaluaciones_on_perfil_id"
     t.index ["publicacion_id"], name: "index_evaluaciones_on_publicacion_id"
   end
 
@@ -142,12 +152,12 @@ ActiveRecord::Schema.define(version: 2020_12_06_194535) do
   end
 
   create_table "integrantes", force: :cascade do |t|
-    t.integer "investigador_id"
     t.integer "equipo_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "perfil_id"
     t.index ["equipo_id"], name: "index_integrantes_on_equipo_id"
-    t.index ["investigador_id"], name: "index_integrantes_on_investigador_id"
+    t.index ["perfil_id"], name: "index_integrantes_on_perfil_id"
   end
 
   create_table "investigadores", force: :cascade do |t|
@@ -159,6 +169,21 @@ ActiveRecord::Schema.define(version: 2020_12_06_194535) do
     t.datetime "updated_at", null: false
     t.index ["departamento_id"], name: "index_investigadores_on_departamento_id"
     t.index ["investigador"], name: "index_investigadores_on_investigador"
+  end
+
+  create_table "perfiles", force: :cascade do |t|
+    t.integer "usuario_id"
+    t.integer "administrador_id"
+    t.integer "investigador_id"
+    t.integer "equipo_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "email"
+    t.index ["administrador_id"], name: "index_perfiles_on_administrador_id"
+    t.index ["email"], name: "index_perfiles_on_email"
+    t.index ["equipo_id"], name: "index_perfiles_on_equipo_id"
+    t.index ["investigador_id"], name: "index_perfiles_on_investigador_id"
+    t.index ["usuario_id"], name: "index_perfiles_on_usuario_id"
   end
 
   create_table "procesos", force: :cascade do |t|
@@ -200,7 +225,6 @@ ActiveRecord::Schema.define(version: 2020_12_06_194535) do
     t.integer "registro_id"
     t.integer "revista_id"
     t.integer "equipo_id"
-    t.integer "investigador_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "d_quote"
@@ -210,11 +234,12 @@ ActiveRecord::Schema.define(version: 2020_12_06_194535) do
     t.string "book"
     t.string "t_sha1"
     t.string "unicidad"
+    t.integer "perfil_id"
     t.index ["doc_type"], name: "index_publicaciones_on_doc_type"
     t.index ["equipo_id"], name: "index_publicaciones_on_equipo_id"
     t.index ["estado"], name: "index_publicaciones_on_estado"
-    t.index ["investigador_id"], name: "index_publicaciones_on_investigador_id"
     t.index ["origen"], name: "index_publicaciones_on_origen"
+    t.index ["perfil_id"], name: "index_publicaciones_on_perfil_id"
     t.index ["registro_id"], name: "index_publicaciones_on_registro_id"
     t.index ["revista_id"], name: "index_publicaciones_on_revista_id"
     t.index ["t_sha1"], name: "index_publicaciones_on_t_sha1"

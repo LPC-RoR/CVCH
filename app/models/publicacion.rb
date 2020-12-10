@@ -74,7 +74,7 @@ class Publicacion < ApplicationRecord
 	]
 
 #	S_E = [:clasifica, :detalle, :tabla, :inline_form]
-	S_E = [:clasifica, :detalle, :inline_form]
+	S_E = [:clasifica, :detalle, :tabla]
 	# --------------------- DESPLIEGUE -------------------------
 	# tablas child que NO deben ser deplegadas
 	HIDDEN_CHILDS = ['autores', 'investigadores', 'procesos', 'cargas', 'clasificaciones', 'carpetas', 'evaluaciones', 'asignaciones', 'areas', 'rutas']
@@ -86,7 +86,7 @@ class Publicacion < ApplicationRecord
 	belongs_to :registro, optional: true
 	belongs_to :revista, optional: true
 	belongs_to :equipo, optional: true
-	belongs_to :investigador, optional: true
+	belongs_to :perfil, optional: true
 	belongs_to :area, optional: true
 
 	has_many :evaluaciones

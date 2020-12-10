@@ -26,9 +26,9 @@ class VistasController < ApplicationController
     if @ftab == 'Completa'
       @coleccion = @area.papers.where(estado: 'publicada').page(params[:page])
     elsif @ftab == 'Pendiente'
-      @self = Investigador.find(session[:perfil]['id'])
+      @activo = Perfil.find(session[:perfil_activo]['id'])
       @propios_ids = []
-      @self.carpetas.each do |car|
+      @activo.carpetas.each do |car|
         @propios_ids = @propios_ids.union(car.publicaciones.ids)
       end
       @area_completa_ids = @area.papers.ids
@@ -39,18 +39,18 @@ class VistasController < ApplicationController
   def escritorio
     # BI FRAME
     # Lista de 'selectors'
-    @self = Investigador.find(session[:perfil]['id'])
-    @frame_selector = @self.carpetas.all.map {|c| c.carpeta}
+    @activo = Perfil.find(session[:perfil_activo]['id'])
+    @frame_selector = @activo.carpetas.all.map {|c| c.carpeta}
     # CONTROLADOR de la tabla a depslegar
     @table_controller = 'publicaciones'
 
     # ftab
     if params[:html_options].blank?
 #      @ftab = 'Completa'
-      @carpeta = @self.carpetas.first
+      @carpeta = @activo.carpetas.first
     else
 #      @ftab = params[:html_options]['ftab'].blank? ? 'Completa' : params[:html_options]['ftab']
-      @carpeta = params[:html_options]['sel'].blank? ? @self.carpetas.first : @self.carpetas.find_by(carpeta: params[:html_options]['sel'])
+      @carpeta = params[:html_options]['sel'].blank? ? @activo.carpetas.first : @activo.carpetas.find_by(carpeta: params[:html_options]['sel'])
     end
     # selector activo
     @sel = @carpeta.carpeta
