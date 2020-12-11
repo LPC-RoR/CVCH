@@ -1,14 +1,18 @@
 <!-- TITULO -->
 <!-- size: determina el tamaño del font -->
 <!-- titulo: Es el texto del título -->
-<h<%= size.to_i+1%>>
-	<%= "| #{o.class.name} |" %>
-</h<%= size.to_i+1%>>
-<h<%= size%>>
-	<%= "| #{show_title(o)}" %>
-</h<%= size%>>
-<% if Configuracion::S_STATUS_MODELS.include?(o.class.name) %>
-	<p><small><%= "#{o.status}" %></small></p>
-<% else %>
-	</br>
-<% end %>
+<div class="p-3 mb-2 bg-info text-white">
+	<h<%= size.to_i+1%>>
+		<%= "#{o.class.name}" %>
+	</h<%= size.to_i+1%>>
+	
+	<h<%= size%>>
+		<%= "#{show_title(o)}" %>
+	</h<%= size%>>
+
+	<% if Configuracion::S_STATUS_MODELS.include?(o.class.name) %>
+		<p><small><%= "#{o.status}" %></small></p>
+	<% else %>
+		</br>
+	<% end %>
+</div>

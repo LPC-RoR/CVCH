@@ -190,7 +190,7 @@ class ApplicationController < ActionController::Base
 			autor_con_coma = autor_limpio
 		end
 
-		elementos = autor_con_coma.split(',').map {|n| n.strip}
+		elementos = autor_con_coma.split(',').map {|cc| cc.split('.').join('').strip}
 		autores = []
 		# SACA LOS ELEMENTOS QUE SON CARACTERES O VACIOS
 		elementos.each do |a|
