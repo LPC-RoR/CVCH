@@ -290,18 +290,12 @@ class PublicacionesController < ApplicationController
     end
 
     def procesa_journal
-      puts "************************ procesa_journal"
       # Puede estar el volumen antes o despues del año
       if @objeto.d_journal.present?
         match_year = @objeto.d_journal.strip.match(/(?<anterior>[^\(]*) \((?<year>\d{4})\) (?<siguiente>.*)/)
         anterior = match_year[:anterior].strip
         siguiente = match_year[:siguiente].strip
-        puts "anterior"
-        puts anterior
-        puts "siguiente"
-        puts siguiente
         if !!anterior.match(/\d+/)
-          puts "---------------------- entro por el lado de los tomates"
           # la revista tienen el volumen
           match_journal_volume = anterior.strip.match(/(?<journal>\D*) (?<volume>\d*)/)
           @objeto.journal = match_journal_volume[:journal].strip
@@ -310,10 +304,6 @@ class PublicacionesController < ApplicationController
         else
           @objeto.journal = anterior
 
-          puts "-------------------------------- : "
-          puts siguiente.split(':').length
-          puts "-------------------------------- , "
-          puts siguiente.split(',').length
           if siguiente.split(':').length == 2
             @objeto.volume = siguiente.split(':')[0].strip
             @objeto.pages = siguiente.split(':')[1].strip
