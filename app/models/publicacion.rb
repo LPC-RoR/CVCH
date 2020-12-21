@@ -36,15 +36,17 @@ class Publicacion < ApplicationRecord
 	# -------------------- FORM  -----------------------
 
  	FORM_FIELDS = [
+		['d_quote',          'show'], 
 		['doc_type',       'normal'], 
-		['d_quote',         'entry'], 
 		['m_quote',        'metodo'], 
 		['d_author',        'entry'],
 		['author',          'entry'], 
 		['year',            'entry'], 
 		['title',           'entry'],
+		['editor',          'entry'],
 		['book',            'entry'],
 		['academic_degree', 'entry'],
+		['ciudad_pais',     'entry'],
 		['d_journal',       'entry'],
 		['volume',          'entry'],
 		['pages',           'entry'],
@@ -55,7 +57,7 @@ class Publicacion < ApplicationRecord
 		['estado',         'hidden']
 	]
 
-	FORM_CONDITIONAL_FIELDS = ['d_quote', 'm_quote', 'doi', 'd_author', 'd_doi', 'abstract', 'academic_degree', 'volume', 'book', 'pages', 'd_journal', 'title', 'year', 'author']
+	FORM_CONDITIONAL_FIELDS = ['d_quote', 'm_quote', 'doi', 'd_author', 'd_doi', 'abstract', 'academic_degree', 'volume', 'book', 'pages', 'd_journal', 'title', 'year', 'author', 'editor']
 
 	# -------------------- SHOW -------------------------
 	SHOW_FIELDS = [
@@ -65,11 +67,15 @@ class Publicacion < ApplicationRecord
 		['author',          'normal'], 
 		['year',            'normal'], 
 		['title',           'normal'],
+		['editor',          'normal'],
 		['book',            'normal'],
 		['academic_degree', 'normal'],
+		['ciudad_pais',     'normal'],
 		['d_journal',       'normal'],
+		['journal',         'normal'],
 		['volume',          'normal'],
 		['pages',           'normal'],
+		['d_doi',           'normal'],
 		['doi',             'normal']
 	]
 
@@ -80,8 +86,8 @@ class Publicacion < ApplicationRecord
 	HIDDEN_CHILDS = ['autores', 'investigadores', 'procesos', 'cargas', 'clasificaciones', 'carpetas', 'evaluaciones', 'asignaciones', 'areas', 'rutas']
 
 	# LINKS !!
-	S_BT_OBJECTS = ['revista']
-	S_HMT_COLLECTIONS = ['cargas', 'investigadores', 'instancias']
+	S_BT_LINKS_OBJECTS = ['Revista']
+	S_HMT_LINKS_COLLECTIONS = ['cargas', 'investigadores', 'instancias']
 
 	belongs_to :registro, optional: true
 	belongs_to :revista, optional: true
@@ -112,15 +118,15 @@ class Publicacion < ApplicationRecord
 
 	def show_links
 		[
-			['Editar',     [:edit, self], self.estado != 'papelera'],
-			['Papelera',   "/publicaciones/estado?publicacion_id=#{self.id}&estado=papelera",     ['ingreso', 'duplicado', 'carga'].include?(self.estado)],
+			['Editar',     [:edit, self], (not ['publicada', 'papelera'].include?(self.estado))],
+			['Papelera',   "/publicaciones/estado?publicacion_id=#{self.id}&estado=papelera",     ['ingreso', 'duplicado', 'carga', 'formato', 'contribucion'].include?(self.estado)],
 			['Eliminar',   "/publicaciones/estado?publicacion_id=#{self.id}&estado=eliminado",    ['papelera'].include?(self.estado)],
 			['Contribuir', "/publicaciones/estado?publicacion_id=#{self.id}&estado=contribucion", ['ingreso'].include?(self.estado)],
-			['Publicar',   "/publicaciones/estado?publicacion_id=#{self.id}&estado=publicada",    (['contribucion', 'carga', 'duplicado'].include?(self.estado) and not (self.doc_type.blank? or self.areas.empty?))],
+			['Publicar',   "/publicaciones/estado?publicacion_id=#{self.id}&estado=publicada",    (['contribucion', 'carga', 'duplicado', 'formato'].include?(self.estado) and not (self.doc_type.blank? or self.areas.empty?))],
 			['Carga',      "/publicaciones/estado?publicacion_id=#{self.id}&estado=carga",        (['publicado', 'papelera'].include?(self.estado) and self.origen == 'carga')],
-			['Ingreso',    "/publicaciones/estado?publicacion_id=#{self.id}&estado=carga",        (['publicado', 'papelera'].include?(self.estado) and self.origen == 'ingreso')],
+			['Ingreso',    "/publicaciones/estado?publicacion_id=#{self.id}&estado=ingreso",        (['publicado', 'papelera'].include?(self.estado) and self.origen == 'ingreso')],
 			['Múltiple',   "/publicaciones/estado?publicacion_id=#{self.id}&estado=multiple",     self.estado == 'duplicado'],
-			['Corregir',   "/publicaciones/estado?publicacion_id=#{self.id}&estado=correccion",   self.estado == 'publicada']
+			['Corrección', "/publicaciones/estado?publicacion_id=#{self.id}&estado=correccion",   self.estado == 'publicada']
 		]
 		
 	end
@@ -129,68 +135,71 @@ class Publicacion < ApplicationRecord
 		['ingreso'].include?(self.origen) and ['ingreso'].include?(self.estado)
 	end
 
-	def procesa_autor(author, index)
-		partes = author.split(' ')
-		# PRIMER AUTOR
-		if index == 0
-			if partes.length == 2
-				partes[0].strip.length > partes[1].strip.length ? "#{partes[0].strip.upcase} #{partes[1].strip.upcase}" : "#{partes[1].strip.upcase} #{partes[0].strip.upcase}"
-			elsif partes.length == 3
-				"#{partes[2].strip.upcase} #{partes[0][0].upcase}#{partes[1].split('.').join('')}"
-			elsif partes.length > 3
-				primero = partes[0]
-				del_medio = partes[2..-2]
-				ultima = partes.last
-				"#{del_medio.map {|p| p[0]}.join('')}#{ultima.upcase} #{partes[0][0].upcase}#{partes[1].split('.').join('')}"
-			end
-		# AUTORES ECUNDARIOS
-		else
-			if partes.length == 2
-				partes[0].strip.length > partes[1].strip.length ? "#{partes[1].strip.upcase} #{partes[0].strip.upcase}" : "#{partes[0].strip.upcase} #{partes[1].strip.upcase}"
-			elsif partes.length == 3
-				"#{partes[0][0].upcase}#{partes[1].split('.').join('')} #{partes[2].upcase}"
-			elsif partes.length > 3
-				primero = partes[0].strip
-				del_medio = partes[2..-2]
-				ultima = partes.last.strip
-				"#{partes[0][0].upcase}#{partes[1].delete_suffix('.')} #{del_medio.map {|p| p[0]}.join('')}#{ultima.strip.upcase}"
+	def procesa_autor(author, ind)
+		# SE DEBE PROCESAR
+		if self.c_d_author.present?
+			elementos = author.split(' ')
+
+			case elementos.length
+			when 1
+				# Es el apellido
+				author.strip.upcase
+			when 2
+				if elementos[0] == elementos[0].upcase
+					if elementos[0].length < elementos[1].length
+						(ind == 0 ? "#{elementos[1].upcase} #{elementos[0].upcase}" : "#{elementos[0].upcase} #{elementos[1].upcase}" )
+					else
+						(ind == 0 ? "#{elementos[0].upcase} #{elementos[1].upcase}" : "#{elementos[1].upcase} #{elementos[0].upcase}" )
+					end
+				else
+					(ind == 0 ? "#{elementos[1].upcase} #{elementos[0][0].upcase}" : "#{elementos[0][0].upcase} #{elementos[1].upcase}" )
+				end
+			when 3
+				(ind == 0 ? "#{elementos[2].upcase} #{elementos[0][0].upcase}#{elementos[1].upcase}" : "#{elementos[0][0].upcase}#{elementos[1].upcase} #{elementos[2].upcase}")
+			else
+				(ind == 0 ? "#{elementos.last.upcase} #{elementos[0..-2].map {|i| i[0]}.join('')}" : "#{elementos[0..-2].map {|i| i[0]}.join('')} #{elementos.last.upcase}")
 			end
 		end
 	end
 	def procesa_autores(author)
-		ultimo = author.split(' &').last.strip
+		ultimo = procesa_autor(author.split(' &').last, 666)
+
 		primeros = author.split(' & ')[0].split(', ')
-		primeros_ok = primeros.each_with_index.map {|aut, i| procesa_autor(aut, i)}
-		ultimo_ok = procesa_autor(ultimo, 666)
-		primeros_ok.join(', ')+' & '+ultimo_ok
+		primeros_ok = []
+		primeros.each_with_index do |aut, i|
+			primeros_ok << procesa_autor(aut, i)
+		end
+		primeros_ok.join(', ')+' & '+ultimo
 	end
 
 	def m_quote
 		autores = self.d_author.present? ? procesa_autores(self.author) : self.author
 		case self.doc_type
 		when 'article'
-			"#{autores} (#{self.year}) #{self.title}. #{self.d_journal} #{self.volume}: #{self.pages} #{self.doi}".strip+'.'
+			"#{autores} (#{self.year}) #{self.title}#{"." unless ['?', '-'].include?(self.title[-1])} #{self.journal} #{self.volume}: #{self.pages} #{"doi: " if self.doi.present?}#{self.doi}".strip+'.'
 		when 'book'
-			"#{autores} (#{self.year}) #{self.title}. #{self.d_journal} #{self.pages} #{self.doi}".strip+'.'
+			"#{autores} (#{self.year}) #{self.title}#{"." unless ['?', '-'].include?(self.title[-1])} #{self.journal} #{self.pages}#{"pp" if self.pages.present?} #{"doi: " if self.doi.present?}#{self.doi}".strip+'.'
 		when 'tesis'
-			"#{autores} (#{self.year}) #{self.title}. Tesis #{self.d_journal} #{self.pages} #{self.doi}".strip+'.'
+			"#{autores} (#{self.year}) #{self.title}#{"." unless ['?', '-'].include?(self.title[-1])} Tesis #{self.journal} #{self.pages}#{"pp" if self.pages.present?} #{"doi: " if self.doi.present?}#{self.doi}".strip+'.'
 		when 'memoria'
-			"#{autores} (#{self.year}) #{self.title}. Memoria para optar al Título Profesional de #{self.academic_degree}, #{self.d_journal} #{self.pages} #{self.doi}".strip+'.'
+			"#{autores} (#{self.year}) #{self.title}#{"." unless ['?', '-'].include?(self.title[-1])} Memoria para optar al Título Profesional de #{self.academic_degree}, #{self.journal} #{self.pages}#{"pp" if self.pages.present?} #{"doi: " if self.doi.present?}#{self.doi}".strip+'.'
+		when 'chapter'
+			"#{autores} (#{self.year}) #{self.title}#{"." unless ['?', '-'].include?(self.title[-1])} en: #{self.book}. #{self.journal}. #{"Pp. " if self.pages.present?}#{self.pages} #{"doi: " if self.doi.present?}#{self.doi}".strip+'.'
 		end
 	end
 
 	def c_d_quote
 		# Sólo duplicados de origen carga, las publicaciones de 'ingreso' no tienen cita
-		self.estado == 'carga' or (self.origen == 'carga' and self.estado == 'duplicado')
+		self.origen == 'carga' and self.estado != 'publicada'
 	end
 	def c_m_quote
-		['carga', 'ingreso', 'duplicado'].include?(self.estado)
+		['carga', 'ingreso', 'duplicado', 'formato'].include?(self.estado)
 	end
 	def c_doi
-		['carga', 'ingreso', 'duplicado'].include?(self.estado)
+		['carga', 'ingreso', 'duplicado', 'formato'].include?(self.estado)
 	end
 	def c_d_author
-		['carga', 'ingreso', 'duplicado', 'contribucion'].include?(self.estado)
+		['carga', 'ingreso', 'duplicado', 'formato', 'contribucion'].include?(self.estado)
 	end
 	def c_d_doi
 		self.estado == 'ingreso'
@@ -199,27 +208,30 @@ class Publicacion < ApplicationRecord
 		self.estado == 'ingreso'
 	end
 	def c_academic_degree
-		self.doc_type == 'memoria' and ['carga', 'ingreso', 'duplicado'].include?(self.estado)
+		['carga', 'ingreso', 'duplicado', 'formato'].include?(self.estado)
 	end
 	def c_volume
-		self.doc_type == 'article' and ['carga', 'ingreso', 'duplicado'].include?(self.estado)
+		['carga', 'ingreso', 'duplicado', 'formato'].include?(self.estado)
 	end
 	def c_book
-		self.doc_type == 'chapter' and ['carga', 'ingreso', 'duplicado'].include?(self.estado)
+		['carga', 'ingreso', 'duplicado', 'formato'].include?(self.estado)
+	end
+	def c_editor
+		['carga', 'ingreso', 'duplicado', 'formato'].include?(self.estado)
 	end
 	def c_pages
-		['carga', 'ingreso', 'duplicado'].include?(self.estado)
+		['carga', 'ingreso', 'duplicado', 'formato'].include?(self.estado)
 	end
 	def c_d_journal
-		['carga', 'ingreso', 'duplicado'].include?(self.estado)
+		['carga', 'ingreso', 'duplicado', 'formato'].include?(self.estado)
 	end
 	def c_title
-		['carga', 'ingreso', 'duplicado'].include?(self.estado)
+		['carga', 'ingreso', 'duplicado', 'formato'].include?(self.estado)
 	end
 	def c_year
-		['carga', 'ingreso', 'duplicado'].include?(self.estado)
+		['carga', 'ingreso', 'duplicado', 'formato'].include?(self.estado)
 	end
 	def c_author
-		['carga', 'ingreso', 'duplicado'].include?(self.estado)
+		['carga', 'ingreso', 'duplicado', 'formato'].include?(self.estado)
 	end
 end

@@ -61,7 +61,7 @@ class Configuracion < ApplicationRecord
 
 #	EXCEPTIONS_CONTROLLERS = ['publicaciones', 'textos', 'recursos', 'equipos']
 	# EXCEPCIONES en el COMPORTAMIENTO de NEW
-	T_E_NEW_CONTROLLERS = ['publicaciones', 'equipos', 'carpetas']
+	T_E_NEW_CONTROLLERS = ['equipos', 'carpetas']
 	# Model::
 #	T_NEW_EXCEPTIONS = {
 #		#'controller' => 'tipo_new'
@@ -76,6 +76,7 @@ class Configuracion < ApplicationRecord
 	T_E_ADDITIONAL_BTNS_MODEL = ['Instancia', 'Equipo']
 	# Byscar en MODELO::X_BTNS
 
+	FORM_E_DETAIL = ['Publicacion']
 	FORM_CONDITIONAL_FIELDS_MODELS = ['Publicacion']
 
 	# ----------------------------------------- SHOW
@@ -103,9 +104,9 @@ class Configuracion < ApplicationRecord
 	# Busacar en Modelo el Metodo show_links que devuelve una lista de botones
 	S_LINKS_MODELS = ['Carga', 'Publicacion']
 	# MODELOS que despliegan LINKS para asociaciones BT y HMT
-	# Buscar Modelo:: S_BT_OBJECTS
+	# Buscar Modelo:: S_BT_LINKS_OBJECTS
 	S_BT_LINKS_MODELS = ['Publicacion']
-	# Buscar Modelo::S_HMT_COLLECTIONS
+	# Buscar Modelo::S_HMT_LINKS_COLLECTIONS
 	S_HMT_LINKS_MODELS = ['Publicacion']
 
 	# ---------------------------------------- MENU ------------------------------------------------

@@ -2,6 +2,10 @@
 	<% if filtro_conditional_field?(@objeto, field[0]) %>
 
 		<% case field[1] %>
+		<% when 'show' %>
+			<% if action_name == 'edit' %>
+				<h5><%= @objeto.send(field[0]) %></h5>
+			<% end %>
 		<% when 'entry' %>
 		  <div class="field">
 			<%= form.label field[0].delete_prefix('d_') %></br>

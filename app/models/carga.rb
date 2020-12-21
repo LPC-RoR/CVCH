@@ -37,7 +37,7 @@ class Carga < ApplicationRecord
 	end
 
 	def status
-		"( #{self.n_procesados} : #{self.n_carga} + #{self.n_duplicados} )"
+		"( #{self.n_procesados} : (P) #{self.n_publicadas} + (C) #{self.n_carga} + (F) #{self.n_formatos} + (D) #{self.n_duplicados} + (A) #{self.n_areas} )"
 	end
 
 

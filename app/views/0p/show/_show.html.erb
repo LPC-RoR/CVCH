@@ -16,6 +16,7 @@
 <!-- INLINE_FORM -->
 <%= render partial: "/#{@objeto.class.name.tableize}/show_inline_form", locals: {c: controller_name, o: @objeto} if in_show?(@objeto, :inline_form) %>
 
+<!-- LOS TABS AQUI DESPLEGADOS SON LOS QUE SE OBTIENEN DE LAS REALACIONES HAS_MANY -->
 <% if in_show?(@objeto, :tabla) %>
 	<!-- TABS -->
 	<%= render partial: '0p/tabs/tabs', locals: {tabs: has_many_tabs(controller_name), tag: 'tab', active: @tab} %>

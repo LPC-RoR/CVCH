@@ -1,6 +1,11 @@
 class PublicacionesController < ApplicationController
   before_action :set_publicacion, only: [:show, :edit, :update, :destroy]
-  after_action :procesa_author, only: [:update]
+  after_action :procesa_author, only: [:update, :create]
+  after_action :procesa_sha1, only: [:update, :create]
+  after_action :procesa_journal, only: [:update, :create]
+  after_action :procesa_estado, only: [:update, :create]
+  after_action :procesa_doi, only: [:update, :create]
+  after_action :asocia_contribucion, only: [:create]
 
   # GET /publicaciones
   # GET /publicaciones.json
@@ -24,38 +29,15 @@ class PublicacionesController < ApplicationController
 
     # ********************** DUPLICADOS *****************************
 
-    @duplicados_doi = []
-    @duplicados_sha1 = []
-    # SET DUPLICIDAD
-    unless @objeto.title.blank?
-      @t_sha1 = Digest::SHA1.hexdigest(@objeto.title.downcase)
-      unless @objeto.t_sha1 == @t_sha1
-        @objeto.t_sha1 = @t_sha1
-        @objeto.save
-      end
-    end
+    @duplicados_doi_ids = @objeto.doi.present? ? (Publicacion.where(doi: @objeto.doi).ids - [@objeto.id]) : []
+    @duplicados_t_sha1_ids = @objeto.title.present? ? (Publicacion.where(t_sha1: @objeto.t_sha1).ids - [@objeto.id]) : []
 
-    unless ['publicada', 'papelera'].include?(@objeto.estado)
-      @duplicados_doi_ids = @objeto.doi.present? ? (Publicacion.where(doi: @objeto.doi).ids - [@objeto.id]) : []
-      @duplicados_t_sha1_ids = @objeto.title.present? ? (Publicacion.where(t_sha1: @objeto.t_sha1).ids - [@objeto.id]) : []
+    @duplicados_ids = @duplicados_doi_ids.union(@duplicados_t_sha1_ids)
 
-      @duplicados_ids = @duplicados_doi_ids.union(@duplicados_t_sha1_ids)
-
-      unless @duplicados_ids.empty?
-        unless @objeto.estado == 'duplicado' or @objeto.estado == 'multiple.'
-          @objeto.estado = 'duplicado'
-          @objeto.save
-        end
-      else
-        if @objeto.estado == 'duplicado' or @objeto.estado == 'multiple'
-          @objeto.estado = @objeto.origen == 'carga' ? 'carga' : 'contribucion'
-          @objeto.save
-        end
-      end
-    end
-    if @objeto.estado == 'duplicado' or @objeto.estado == 'multiple'
+    unless @duplicados_ids.empty?
       @duplicados = Publicacion.where(id: @duplicados_ids)
     end
+
     # ********************** DUPLICADOS *****************************
 
     @menu_areas = Area.where(id: Area.all.ids - @objeto.areas.ids)
@@ -101,6 +83,11 @@ class PublicacionesController < ApplicationController
       @carpetas_destino  = Carpeta.where(id: @ids_carpetas_tema - @ids_actual_tema)
     end
 
+
+    @areas_actuales = @objeto.areas
+    @ids_areas_destino = Area.all.ids - @areas_actuales.ids
+    @areas_destino = Area.where(id: @ids_areas_destino)
+
     @tab = 'instancias'
     @tl_coleccion = @objeto.instancias
     @options = {'tab' => @tab}
@@ -109,7 +96,7 @@ class PublicacionesController < ApplicationController
 
   # GET /publicaciones/new
   def new
-    @objeto = Publicacion.new
+    @objeto = Publicacion.new(estado: 'ingreso')
   end
 
   def mask_new
@@ -195,12 +182,16 @@ class PublicacionesController < ApplicationController
   end
 
   def cambia_area
-    @objeto = Publicacion.find(params[:publicacion_id])
-    @area = Area.find(params[:area_id])
-    @objeto.areas.each do |a|
-      @objeto.areas.delete(a)
+    @activo = Perfil.find(session[:perfil_activo]['id'])
+    @objeto = Publicacion.find(params[:html_options][:publicacion_id])
+    @area   = Area.find(params[:html_options][:area_id])
+
+    case params[:html_options][:origen]
+    when 'actuales'
+      @objeto.areas.delete(@area)
+    when 'destinos'
+      @objeto.areas << @area
     end
-    @objeto.areas << @area
 
     redirect_to @objeto
 
@@ -259,9 +250,13 @@ class PublicacionesController < ApplicationController
         @carga.publicaciones.delete(@publicacion) if @publicacion.origen == 'carga'
       end
       @publicacion.delete
+    elsif params[:estado] == 'correccion'
+      @publicacion.estado = (@publicacion.origen == 'carga' ? 'carga' : 'contribucion')
+      @publicacion.unicidad = 'unico'
+      @publicacion.save
     elsif params[:estado] == 'multiple'
       @publicacion.estado = 'publicada'
-      @unicidad = 'multiple'
+      @publicacion.unicidad = 'multiple'
       @publicacion.save
     else
       @publicacion.estado = params[:estado]
@@ -294,12 +289,98 @@ class PublicacionesController < ApplicationController
       end
     end
 
+    def procesa_journal
+      puts "************************ procesa_journal"
+      # Puede estar el volumen antes o despues del año
+      if @objeto.d_journal.present?
+        match_year = @objeto.d_journal.strip.match(/(?<anterior>[^\(]*) \((?<year>\d{4})\) (?<siguiente>.*)/)
+        anterior = match_year[:anterior].strip
+        siguiente = match_year[:siguiente].strip
+        puts "anterior"
+        puts anterior
+        puts "siguiente"
+        puts siguiente
+        if !!anterior.match(/\d+/)
+          puts "---------------------- entro por el lado de los tomates"
+          # la revista tienen el volumen
+          match_journal_volume = anterior.strip.match(/(?<journal>\D*) (?<volume>\d*)/)
+          @objeto.journal = match_journal_volume[:journal].strip
+          @objeto.volume = match_journal_volume[:volume].strip
+          @objeto.pages = siguiente
+        else
+          @objeto.journal = anterior
+
+          puts "-------------------------------- : "
+          puts siguiente.split(':').length
+          puts "-------------------------------- , "
+          puts siguiente.split(',').length
+          if siguiente.split(':').length == 2
+            @objeto.volume = siguiente.split(':')[0].strip
+            @objeto.pages = siguiente.split(':')[1].strip
+          elsif siguiente.split(',').length == 2
+            @objeto.volume = siguiente.split(',')[0].strip
+            @objeto.pages = siguiente.split(',')[1].strip
+          else
+            @objeto.volume = ''
+            @objeto.pages = siguiente
+          end
+        end
+        @objeto.year = match_year[:year]
+
+        @objeto.save
+      end
+    end
+
+    def procesa_doi
+      if @objeto.d_doi.present?
+        primer_filtro_doi = @objeto.d_doi.strip.delete_prefix('DOI').delete_prefix('doi:').strip
+        @objeto.doi = !!primer_filtro_doi.match(/doi.org/) ? primer_filtro_doi.strip.split('doi.org/')[1] : primer_filtro_doi
+        @objeto.save
+      end
+    end
+
+    def procesa_sha1
+      unless @objeto.title.blank?
+        @t_sha1 = Digest::SHA1.hexdigest(@objeto.title.downcase)
+        unless @objeto.t_sha1 == @t_sha1
+          @objeto.t_sha1 = @t_sha1
+          @objeto.save
+        end
+      end
+    end
+
+    def procesa_estado
+      @duplicados_doi_ids = @objeto.doi.present? ? (Publicacion.where(doi: @objeto.doi).ids - [@objeto.id]) : []
+      @duplicados_t_sha1_ids = @objeto.title.present? ? (Publicacion.where(t_sha1: @objeto.t_sha1).ids - [@objeto.id]) : []
+
+      @duplicados_ids = @duplicados_doi_ids.union(@duplicados_t_sha1_ids)
+
+      if @duplicados_ids.empty?
+        if @objeto.estado == 'duplicado'
+          @objeto.estado = @objeto.origen == 'carga' ? 'carga' : 'contribucion'
+          @objeto.save
+        end
+      else
+        if @objeto.unicidad == 'multiple'
+          @objeto.estado = @objeto.origen == 'carga' ? 'carga' : 'contribucion'
+        else
+          @objeto.estado = 'duplicado'
+        end
+        @objeto.save
+      end
+    end
+
+    def asocia_contribucion
+      @activo = Perfil.find(session[:perfil_activo]['id'])
+      @activo.contribuciones << @objeto
+    end
+
     def set_publicacion
       @objeto = Publicacion.find(params[:id])
     end
 
     # Only allow a list of trusted parameters through.
     def publicacion_params
-      params.require(:publicacion).permit(:unique_id, :origen, :title, :author, :doi, :year, :volume, :pages, :month, :publisher, :abstract, :link, :author_email, :issn, :eissn, :address, :affiliation, :article_number, :keywords, :keywords_plus, :research_areas, :web_of_science_categories, :da, :d_journal, :d_author, :d_doi, :registro_id, :revista_id, :equipo_id, :investigador_id, :academic_degree, :estado, :book, :doc_type)
+      params.require(:publicacion).permit(:unique_id, :origen, :title, :author, :doi, :year, :volume, :pages, :month, :publisher, :abstract, :link, :author_email, :issn, :eissn, :address, :affiliation, :article_number, :keywords, :keywords_plus, :research_areas, :web_of_science_categories, :da, :d_journal, :d_author, :d_doi, :registro_id, :revista_id, :equipo_id, :investigador_id, :academic_degree, :estado, :book, :doc_type, :editor, :ciudad_pais)
     end
 end

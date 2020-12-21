@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_09_224652) do
+ActiveRecord::Schema.define(version: 2020_12_19_195254) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -62,6 +62,9 @@ ActiveRecord::Schema.define(version: 2020_12_09_224652) do
     t.integer "n_carga"
     t.integer "n_duplicados"
     t.integer "perfil_id"
+    t.integer "n_formatos"
+    t.integer "n_publicadas"
+    t.integer "n_areas"
     t.index ["area_id"], name: "index_cargas_on_area_id"
     t.index ["perfil_id"], name: "index_cargas_on_perfil_id"
   end
@@ -235,6 +238,9 @@ ActiveRecord::Schema.define(version: 2020_12_09_224652) do
     t.string "t_sha1"
     t.string "unicidad"
     t.integer "perfil_id"
+    t.string "editor"
+    t.string "ciudad_pais"
+    t.string "journal"
     t.index ["doc_type"], name: "index_publicaciones_on_doc_type"
     t.index ["equipo_id"], name: "index_publicaciones_on_equipo_id"
     t.index ["estado"], name: "index_publicaciones_on_estado"

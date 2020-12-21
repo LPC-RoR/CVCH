@@ -6,7 +6,7 @@ class VistasController < ApplicationController
   def index
     # BI FRAME
     # Lista de 'selectors'
-    @frame_selector = Area.all.map {|a| a.area}
+    @frame_selector = Area.all.map {|a| [a.area, a.papers.count]}
     # CONTROLADOR de la tabla a depslegar
     @table_controller = 'publicaciones'
 
@@ -40,7 +40,7 @@ class VistasController < ApplicationController
     # BI FRAME
     # Lista de 'selectors'
     @activo = Perfil.find(session[:perfil_activo]['id'])
-    @frame_selector = @activo.carpetas.all.map {|c| c.carpeta}
+    @frame_selector = @activo.carpetas.all.map {|c| [c.carpeta, c.publicaciones.count]}
     # CONTROLADOR de la tabla a depslegar
     @table_controller = 'publicaciones'
 

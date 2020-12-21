@@ -161,11 +161,19 @@ module ApplicationHelper
 			if Configuracion::RUTA_ARCHIVOS.keys.include?(controller)
 				"/#{controller}/sel_archivo"
 			else
-				controller_name == controller ? "/#{controller}/new" : "/#{@objeto.class.name.tableize}/#{@objeto.id}/#{controller}/new"
+				f_controller(controller_name) == controller ? "/#{controller}/new" : "/#{@objeto.class.name.tableize}/#{@objeto.id}/#{controller}/new"
 			end
 		end
 	end
 
+	def f_controller(controller)
+		case controller
+		when 'contribuciones'
+			'publicaciones'
+		else
+			controller
+		end
+	end
 
 	def corrige(w)
 		case w
@@ -263,6 +271,13 @@ module ApplicationHelper
 
 	def x_btns?(objeto)
 		Configuracion::T_E_ADDITIONAL_BTNS_MODEL.include?(objeto.class.name)
+	end
+
+
+	def text_with_badge(text, badge_value=nil)
+	    badge = content_tag :span, badge_value, class: 'badge badge-primary badge-pill'
+	    text = raw "#{text} #{badge}" if badge_value
+	    return text
 	end
 
 end

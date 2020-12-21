@@ -14,6 +14,10 @@ class ApplicationController < ActionController::Base
 		@n_carga      = 0
 		@n_duplicados = 0
 
+		@n_formatos   = 0
+		@n_areas      = 0
+		@n_publicadas = 0
+
 		xlsx.each() do |hash|
 
 			@year            = ''
@@ -37,10 +41,15 @@ class ApplicationController < ActionController::Base
 			@cita = CGI.unescapeHTML(ActionView::Base.full_sanitizer.sanitize(hash[2])).strip
 
 			# PRIMER FILTRO SACA AUTOR Y YEAR
-			m=@cita.match(/(?<author>[ÁÉÍÓÚÀEÌÒÙÄËÏÖÜA-Z\-\s,Ñ&]*) \((?<year>[^\)]*)\)\n*\s*(?<resto>.*)$/)
-			@author = m[:author].strip
-			@year = m[:year].strip
-			@resto = m[:resto].strip
+
+			m=@cita.match(/(?<author>[ÁÉÍÓÚÀEÌÒÙÄËÏÖÜA-Z\-–\s,Ñ&\.]*)\s{0,1}\((?<year>[^\)]*)\)\n*\s*(?<resto>.*)$/)
+			if m.blank?
+				@doc_type = 'book'
+			else
+				@author = m[:author].strip
+				@year = m[:year].strip
+				@resto = m[:resto].strip
+			end
 
 			# SEGUNDO FILTRO SACAR DOI SI EXISTE
 			if !!@resto.match(/doi.org/)
@@ -56,45 +65,75 @@ class ApplicationController < ActionController::Base
 			# TERCER FILTRO SACA VOLUMEN Y PAGINAS
 			if !!@resto_2.match(/(?<resto3>.*) (?<volume>\d*\s{0,1}\({0,1}\d*\/{0,1}[-–]{0,1}\d*\){0,1}):(?<pages>\s{0,1}\d*[-–]{0,1}\d*).$/)
 				m2 = @resto_2.match(/(?<resto3>.*) (?<volume>\d*\s{0,1}\({0,1}\d*\/{0,1}[-–]{0,1}\d*\){0,1}):(?<pages>\s{0,1}\d*[-–]{0,1}\d*).$/)
-				@resto_3 = m2[:resto3].strip
+				@resto_3 = m2[:resto3].strip.delete_suffix('.')
 				@volume = m2[:volume].strip
 				@pages = m2[:pages].strip
 				@doc_type = 'article'
-				unless @resto_3.split('.').length == 1
-					@journal = @resto_3.split('.').last.strip
-					@titulo = @resto_3.delete_suffix(@resto_3.split('.').last).delete_suffix('.')
-#					@titulo = @resto_3.split(@journal)[0].strip.delete_suffix('.')
+
+				conectores = []
+				conectores << '.' if @resto_3.split('.').length > 1
+				conectores << '?' if @resto_3.split('?').length > 1
+				conectores << '-' if @resto_3.split('-').length > 1
+				conectores << ')' if @resto_3.split(')').length > 1
+				conectores << ':' if @resto_3.split(':').length > 1
+
+				conector = ''
+				largo = 100
+				if conectores.length == 0
+					conector = ''
+				elsif conectores.length == 1
+					conector = conectores[0]
+				else
+					conectores.each do |conect|
+						if conect.length < largo
+							conector = conect
+							largo = conect.length
+
+						end
+					end
+				end
+
+				unless conector.blank?
+					@journal = @resto_3.split(conector).last.strip
+					@titulo = @resto_3.delete_suffix(@resto_3.split(conector).last).delete_suffix('.').strip
 				end
 			elsif !!@resto_2.match(/Tesis/)
-				@titulo = @resto_2.split('Tesis')[0].strip.delete_suffix('.')
+				@titulo = @resto_2.split('Tesis')[0].strip.delete_suffix('.').strip
 				@doc_type = 'tesis'
 
 				@resto_3 = @resto_2.split('Tesis')[1]
 				if !!@resto_3.match(/Pp\./)
-					@pages = @resto_3.split('Pp.')[1]
-					@journal = @resto_3.split('Pp.')[0].delete_suffix('.')
+					@pages = @resto_3.split('Pp.')[1].strip
+					@journal = @resto_3.split('Pp.')[0].delete_suffix('.').delete_suffix(':').strip
 				else
-					@journal = @resto_2.split('Tesis')[1].delete_suffix('.')
+					@journal = @resto_2.split('Tesis')[1].delete_suffix('.').strip
 				end
 			elsif !!@resto_2.match(/Memoria para optar al Título Profesional de/i)
-				@resto_3 = @resto_2.split('Memoria para optar al Título Profesional de')[1].delete_suffix('.')
+				@resto_3 = @resto_2.split('Memoria para optar al Título Profesional de')[1].strip.delete_suffix('.')
 				@titulo = @resto_2.split('Memoria para optar al Título Profesional de')[0].strip.delete_suffix('.')
-				@pages = @resto_3.split('.').last
+
+				@total_pages = @resto_3.split('.').last
+				@pages = @total_pages.split('pp').join('').split('Pp').join('').strip
+
 				@doc_type = 'memoria'
-				@academic_degree = @resto_3.delete_suffix(@pages).split(',')[0]
-				@journal = @resto_3.delete_suffix(@pages).delete_prefix(@academic_degree).delete_prefix(', ')
+				@academic_degree = @resto_3.delete_suffix(@pages).split(',')[0].strip
+				@journal = @resto_3.delete_suffix(@total_pages).delete_prefix(@academic_degree).delete_prefix(', ').strip
 			else
 				@doc_type = 'book'
-				@titulo = @resto_2.split('.')[0]
-#				@pages = @resto_2.delete_prefix(@titulo).delete_prefix('. ').split(' ').last.delete_suffix('.') unless @resto_2.strip.blank?
-#				@journal = @resto_2.delete_prefix(@titulo).delete_prefix('. ').delete_suffix('.').delete_suffix(@pages) unless @resto_2.strip.blank?
+				unless @resto_2.blank?
+					@titulo = @resto_2.split('.')[0].strip 
+				end
 			end
 
 			# CONTROL DE UNICIDAD
 			unicidad_doi = ''
 			if @doi.present?
 				duplicado = Publicacion.where(doi: @doi)
-				unicidad_doi = duplicado.blank? ? 'no encontado' : 'duplicado'
+				if duplicado.blank?
+					unicidad_doi = 'no encontrado'
+				else
+					unicidad_doi = duplicado.map {|dup| dup.d_quote}.include?(@cita) ? 'carga area' : 'duplicado'
+				end
 			else
 				unicidad_doi = 'sin doi'
 			end
@@ -103,33 +142,73 @@ class ApplicationController < ActionController::Base
 			if @titulo.present?
 				@t_sha1 = Digest::SHA1.hexdigest(@titulo.downcase)
 				duplicado = Publicacion.where(t_sha1: @t_sha1)
-				unicidad_titulo = duplicado.blank? ? 'no encontado' : 'duplicado'
+				if duplicado.blank?
+					unicidad_titulo = 'no encontrado'
+				else
+					unicidad_titulo = duplicado.map {|dup| dup.d_quote}.include?(@cita) ? 'carga area' : 'duplicado'
+				end
 			else
 				unicidad_titulo = 'sin_titulo'
 			end
 
-			@unicidad = unicidad_doi == 'duplicado' ? 'duplicado_doi' : (unicidad_titulo == 'duplicado' ? 'duplicado_title' : 'unico')
+			if unicidad_titulo == 'carga area' or unicidad_doi == 'carga area'
+				duplicados = Publicacion.where(doi: @doi) if unicidad_doi == 'carga area'
+				duplicados = Publicacion.where(t_sha1: @t_sha1) if unicidad_titulo == 'carga area'
+				@unicidad = 'carga area'
 
-			@estado = (unicidad_titulo == 'duplicado' or unicidad_doi == 'duplicado') ? 'duplicado' : 'carga'
-			# origen: {'carga', 'revision'}
-			@origen = 'carga'
+				duplicado = duplicados.find_by(d_quote: @cita)
 
-			@n_procesados += 1
-			if (unicidad_titulo == 'duplicado' or unicidad_doi == 'duplicado')
-				@n_duplicados += 1
+				@area.papers << duplicado unless duplicado.areas.map {|aas| aas.area}.include?(@area.area)
+
+				@n_areas += 1
 			else
-				@n_carga += 1
+				@unicidad = unicidad_doi == 'duplicado' ? 'duplicado_doi' : (unicidad_titulo == 'duplicado' ? 'duplicado_title' : 'unico')
+
+	# 			MARCAMOS COMO DUPLICADO LOS BOOKS, temporalmente
+	#			@estado = (unicidad_titulo == 'duplicado' or unicidad_doi == 'duplicado') ? 'duplicado' : 'carga'
+				if (unicidad_titulo == 'duplicado' or unicidad_doi == 'duplicado')
+					@estado = 'duplicado'
+					@n_duplicados += 1
+				elsif @doc_type == 'book'
+					@estado = 'formato'
+					@n_formatos += 1
+				else
+					@estado = 'carga'
+					@n_carga += 1
+				end
+
+				# origen: {'carga', 'ingreso'}
+				@origen = 'carga'
+
+				# Se crean TODAS LAS PUBLICACIONES, EL CONTROL DE DUPLICADOS SE HACE AFUERA
+				pub = Publicacion.create(t_sha1: @t_sha1, origen: @origen, estado: @estado, doc_type: @doc_type, d_quote: @cita, author: @author, year: @year, doi: @doi, volume: @volume, pages: @pages, journal: @journal, title: @titulo, academic_degree: @academic_degree, unicidad: @unicidad)
+
+				if pub.d_quote.strip == pub.m_quote.strip and pub.estado == 'carga'
+					pub.estado = 'publicada'
+					pub.save
+
+					@n_publicadas += 1
+					@n_carga -= 1
+				end
+
+			    if pub.estado == 'publicada'
+			      procesa_cita_carga(pub)
+			    end
+
+				carga.publicaciones << pub
+				@area.papers << pub
 			end
 
-			# Se crean TODAS LAS PUBLICACIONES, EL CONTROL DE DUPLICADOS SE HACE AFUERA
-			pub = Publicacion.create(t_sha1: @t_sha1, origen: @origen, estado: @estado, doc_type: @doc_type, d_quote: @cita, author: @author, year: @year, doi: @doi, volume: @volume, pages: @pages, d_journal: @journal, title: @titulo, academic_degree: @academic_degree, unicidad: @unicidad)
-			carga.publicaciones << pub
-			@area.papers << pub
+			@n_procesados += 1
+
 		end
 		carga.estado = 'procesada'
 		carga.n_procesados = @n_procesados
 		carga.n_carga      = @n_carga
 		carga.n_duplicados = @n_duplicados
+		carga.n_publicadas = @n_publicadas
+		carga.n_formatos   = @n_formatos
+		carga.n_areas      = @n_areas
 		carga.save
 	end
 
@@ -143,7 +222,12 @@ class ApplicationController < ActionController::Base
 		last_author = cita.author.split('&').last
 		prev_authors = cita.author.split('&')[0].split(',')
 		prev_authors.each_with_index  do |val, index|
-			author_with_format = (index == 0 ? (val.split(' ')[1]+' '+val.split(' ')[0]) : val.strip)
+			# Encontramos un caso donde sólo se usa el apellido
+			if val.split(' ').length == 1
+				author_with_format = val.strip
+			else
+				author_with_format = (index == 0 ? (val.split(' ')[1]+' '+val.split(' ')[0]) : val.strip)
+			end
 			authors << author_with_format
 		end
 		authors << last_author
@@ -167,6 +251,7 @@ class ApplicationController < ActionController::Base
 	end
 
 	def limpia_autor_ingreso(autor)
+		# Limpia el autor sacando los catacteres que no están
 		autor_limpio = ''
 		autor.strip.split('').each do |c|
 			if !!c.match(/[a-zA-ZáéíóúàèìòùäëïöüÁÉÍÓÚÀÈÌÒÙÄËÏÖÜ\.;\-,&\s]/)
@@ -175,22 +260,10 @@ class ApplicationController < ActionController::Base
 		end
 		autor_limpio = autor_limpio.strip
 
-		# Saber si los autores separan con ',' o con ';'
-		v_coma = autor_limpio.split(',').length
-		v_punto_y_coma = autor_limpio.split(';').length
-		if v_coma == 1 and v_punto_y_coma == 1
-			separador = 'sin'
-		else
-			separador = v_punto_y_coma == 1 ? ',' : ';'
-		end
-
-		if [',', ';'].include?(separador)
-			autor_con_coma = separador == ';' ? autor_limpio.split(';').join(',') : autor_limpio.split(' and ').join(',').split('&').join(',')
-		else
-			autor_con_coma = autor_limpio
-		end
+		autor_con_coma = autor_limpio.split(';').join(',').split(' and ').join(',').split('&').join(',')
 
 		elementos = autor_con_coma.split(',').map {|cc| cc.split('.').join('').strip}
+
 		autores = []
 		# SACA LOS ELEMENTOS QUE SON CARACTERES O VACIOS
 		elementos.each do |a|

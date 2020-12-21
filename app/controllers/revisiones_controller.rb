@@ -12,6 +12,8 @@ class RevisionesController < ApplicationController
     @table_controller = 'publicaciones'
 
     @coleccion = Publicacion.where(estado: @ftab.singularize.downcase).page(params[:page])
+    @count = @coleccion.count
+    
     @options = {'ftab' => @ftab}
   end
 
