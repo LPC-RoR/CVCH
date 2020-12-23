@@ -28,7 +28,8 @@ class AdministradoresController < ApplicationController
 
     respond_to do |format|
       if @objeto.save
-        format.html { redirect_to @objeto, notice: 'Administrador was successfully created.' }
+        set_redireccion
+        format.html { redirect_to @redireccion, notice: 'Administrador was successfully created.' }
         format.json { render :show, status: :created, location: @objeto }
       else
         format.html { render :new }
@@ -42,7 +43,8 @@ class AdministradoresController < ApplicationController
   def update
     respond_to do |format|
       if @objeto.update(administrador_params)
-        format.html { redirect_to @objeto, notice: 'Administrador was successfully updated.' }
+        set_redireccion
+        format.html { redirect_to @redireccion, notice: 'Administrador was successfully updated.' }
         format.json { render :show, status: :ok, location: @objeto }
       else
         format.html { render :edit }
@@ -54,9 +56,10 @@ class AdministradoresController < ApplicationController
   # DELETE /administradores/1
   # DELETE /administradores/1.json
   def destroy
+    set_redireccion
     @objeto.destroy
     respond_to do |format|
-      format.html { redirect_to administradores_url, notice: 'Administrador was successfully destroyed.' }
+      format.html { redirect_to @redireccion, notice: 'Administrador was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
@@ -65,6 +68,10 @@ class AdministradoresController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_administrador
       @objeto = Administrador.find(params[:id])
+    end
+
+    def set_redireccion
+      @redireccion = "/administradores"
     end
 
     # Only allow a list of trusted parameters through.

@@ -113,13 +113,15 @@ class Configuracion < ApplicationRecord
 	# MENU PRINCIPAL
 	MENU = [
 		["Perfiles",       "/perfiles",          'perfiles',       'index'],
+		["Gráficos",       "/vistas/graficos",   'vistas',      'graficos'],
 		["Colecciones",    "/vistas",            'vistas',         'index'],
 		["Escritorio",     "/vistas/escritorio", 'vistas',    'escritorio'],
+		["Contribuciones", "/contribuciones",    'contribuciones', 'index'],
 		["Equipos",        "/equipos",           'equipos',        'index'],
 		["Carpetas",       "/carpetas",          'carpetas',       'index'],
+		["Administradores","/administradores",   'administradores','index'],
 		["Areas",          "/areas",             'areas',          'index'],
 		["Conceptos",      "/conceptos",         'conceptos',      'index'],
-		["Contribuciones", "/contribuciones",    'contribuciones', 'index'],
 		["Revisiones",     "/revisiones",        'revisiones',     'index'],
 		["Cargas",         "/cargas",            'cargas',         'index'] 
 	]

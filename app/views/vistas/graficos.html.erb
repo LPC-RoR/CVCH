@@ -1,0 +1,30 @@
+<%#= column_chart Task.group_by_hour_of_day(:created_at, format: "%l %P").count %>
+
+<% Area.all.each do |area| %>
+	<div class='row'>
+		<div class='col-md-12'>
+			<h5><%= area.area %></h5>
+		</div>
+	</div>
+	<div class='row'>
+		<div class='col-md-6'>
+			<h5><%= 'Publicaciones del área por año' %></h5>
+			<%= column_chart area.papers.where(estado: 'publicada').order(:year).group(:year).count %>
+		</div>
+		<div class='col-md-6'>
+			<h5><%= 'Publicaciones del área por estado' %></h5>
+			<%= pie_chart area.papers.group(:estado).count %>
+		</div>
+	</div>
+
+<% end %>
+<div class='row'>
+	<div class='col-md-6'>
+		<h5><%= 'Publicaciones Totales por estado' %></h5>
+		<%= pie_chart Publicacion.all.group(:estado).count %>
+	</div>
+	<div class='col-md-6'>
+		<h5><%= 'Publicaciones Totales por tipo de documento' %></h5>
+		<%= pie_chart Publicacion.all.group(:doc_type).count %>
+	</div>
+</div>

@@ -37,7 +37,7 @@ class PerfilesController < ApplicationController
     # 2.- Preguntamos SI ESTA EN LA LISTA DE ADMINISTRADORES
     @administrador = Administrador.find_by(email: @perfil.email)
     # ACTUALIZO ADMINISTRADOR DEL PERFIL SI ES NECESARIO
-    if @administrador.present? and @perfil.perfil.blank?
+    if @administrador.present? and @perfil.administrador.blank?
       @perfil.administrador = @administrador
       @perfil.save
     end
