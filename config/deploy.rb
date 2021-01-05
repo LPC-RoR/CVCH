@@ -30,7 +30,7 @@ set :deploy_via, :copy
 
 
 ### HCH lo agregue tratando de arreglar el PROBLEMA
-set :rvm_map_bins, %w{gem rake ruby rails bundle}
+## set :rvm_map_bins, %w{gem rake ruby rails bundle}
 
 # Default value for :format is :airbrussh.
 # set :format, :airbrussh
