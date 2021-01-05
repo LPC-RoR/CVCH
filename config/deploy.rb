@@ -5,7 +5,7 @@ lock "~> 3.14.1"
 set :stage, 'production'
 
 set :application, "cvch"
-set :repo_url, "git@github.com:LPC-RoR/CVCH.git"
+set :repo_url, "git://github.com:LPC-RoR/CVCH.git"
 
 # Default branch is :master
 ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
