@@ -14,9 +14,9 @@ ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
 # Indica el directorio donde se dejará la aplicación
 set :deploy_to, "/var/www/html/cvch"
 
-# Variables de entorno necesarias para el despliegue con RVM
+# Variables de entorno necesarias para el despliegue con RVM    
 set :rvm_type, :user
-set :rvm_ruby_version, '2.5.3'
+set :rvm_ruby_version, '2.7.1p83'
 set :rvm_binary, '~/.rvm/bin/rvm'
 set :rvm_bin_path, "$HOME/bin"
 set :default_env, { rvm_bin_path: '~/.rvm/bin' }
@@ -24,6 +24,9 @@ set :user, "ubuntu"
 set :use_sudo, false
 set :deploy_via, :copy
 #############################################################
+
+### HCH lo agregue tratando de arreglar el PROBLEMA
+set :rvm_map_bins, %w{gem rake ruby rails bundle}
 
 # Default value for :format is :airbrussh.
 # set :format, :airbrussh

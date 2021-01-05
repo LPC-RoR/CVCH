@@ -58,7 +58,7 @@ role :db, %w{ec2-user@ec2-3-133-83-5.us-east-2.compute.amazonaws.com}
 set :ssh_options, {
  forward_agent: true,
  keys: ["~/pems/cvch.pem"],
- user: 'ec2-user'
+ user: 'hugo'
 }
 
 # The server-based syntax can be used to override options:
