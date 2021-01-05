@@ -10,7 +10,7 @@ class CargasController < ApplicationController
 
   def sel_archivo
     @activo = Perfil.find(session[:perfil_activo]['id'])
-    @archivos = Dir.glob("#{Configuracion::RUTA_ARCHIVOS['cargas']}**/*") - @activo.cargas.map {|c| c.archivo}
+    @archivos = Dir.glob("#{Rails.root}#{Configuracion::RUTA_ARCHIVOS_ADMIN}#{controller_name}/**/*") - @activo.cargas.map {|c| c.archivo}
   end
 
   # GET /cargas/1
@@ -39,9 +39,9 @@ class CargasController < ApplicationController
   end # def
 
   # GET /cargas/new
-  def new
-    @archivo = Configuracion::RUTA_ARCHIVOS['cargas']+params[:archivo]
-    @objeto = Carga.new(archivo: @archivo, estado: 'ingreso', perfil_id: session[:perfil_activo]['id'])
+  def new         
+    @archivo = "#{Rails.root}#{Configuracion::RUTA_ARCHIVOS_ADMIN}#{controller_name}/#{params[:archivo]}"
+    @objeto  = Carga.new(archivo: @archivo, estado: 'ingreso', perfil_id: session[:perfil_activo]['id'])
   end
 
   # GET /cargas/1/edit

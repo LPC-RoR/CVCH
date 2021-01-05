@@ -115,7 +115,7 @@ class ApplicationController < ActionController::Base
 				@total_pages = @resto_3.split('.').last
 				@pages = @total_pages.split('pp').join('').split('Pp').join('').strip
 
-				@doc_type = 'memoria'
+				@doc_type = 'memoir'
 				@academic_degree = @resto_3.delete_suffix(@pages).split(',')[0].strip
 				@journal = @resto_3.delete_suffix(@total_pages).delete_prefix(@academic_degree).delete_prefix(', ').strip
 			else
@@ -242,9 +242,9 @@ class ApplicationController < ActionController::Base
 
 		# Procesa Revista
 		# Se usa 'd_journal' porque en Publicacion sólo se usa revista_id
-		rev = Revista.find_by(revista: cita.d_journal)
+		rev = Revista.find_by(revista: cita.journal)
 		if rev.blank?
-			rev = Revista.create(revista: cita.d_journal)
+			rev = Revista.create(revista: cita.journal)
 		end
 		rev.publicaciones << cita
 	

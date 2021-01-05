@@ -4,17 +4,30 @@ class RevisionesController < ApplicationController
   # GET /revisiones
   # GET /revisiones.json
   def index
+    # BI FRAME
+    # ftab y sel
     if params[:html_options].blank?
       @ftab = 'Cargas'
+      @area = Area.first
     else
-      @ftab = params[:html_options][:ftab].blank? ? 'Cargas' : params[:html_options][:ftab]
+      @ftab = params[:html_options]['ftab'].blank? ? 'Cargas' : params[:html_options]['ftab']
+      @area = params[:html_options]['sel'].blank? ? Area.first : Area.find_by(area: params[:html_options]['sel'])
     end
+
+    # Lista de 'selectors'
+    @frame_selector = Area.all.map {|a| [a.area, a.papers.where(estado: @ftab.singularize.downcase).count]}
+    # CONTROLADOR de la tabla a depslegar
     @table_controller = 'publicaciones'
 
-    @coleccion = Publicacion.where(estado: @ftab.singularize.downcase).page(params[:page])
-    @count = @coleccion.count
-    
-    @options = {'ftab' => @ftab}
+    # selector activo
+    @sel = @area.area
+    # opciones para los links
+    @options = {'sel' => @sel ,'ftab' => @ftab}
+
+    @coleccion = (@ftab == 'Contribuciones' ? Publicacion.where(estado: 'contribucion').page(params[:page]) : @area.papers.where(estado: @ftab.singularize.downcase).page(params[:page]))
+
+#    @coleccion = @area.papers.where(estado: @ftab.singularize.downcase).page(params[:page])
+
   end
 
   # GET /revisiones/1

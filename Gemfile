@@ -64,6 +64,14 @@ group :development do
   gem 'spring-watcher-listen', '~> 2.0.0'
 end
 
+group :development, :test do
+  gem 'capistrano', '~> 3.0'
+  gem 'capistrano-rvm'
+  gem 'capistrano-bundler', '1.1.1'
+  gem 'capistrano-rails', '1.1.3'
+#  gem ‘capistrano-sidekiq’, github: ‘seuros/capistrano-sidekiq’ # No es necesaria
+end
+
 group :test do
   # Adds support for Capybara system testing and selenium driver
   gem 'capybara', '>= 2.15'

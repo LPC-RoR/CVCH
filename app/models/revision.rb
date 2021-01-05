@@ -1,14 +1,16 @@
 class Revision < ApplicationRecord
-	TITULO = 'Revision de Citas'
+	TITULO = {
+		'index'      => 'Revisión de Citas'
+	}
 
 	TABS = {
 		'index' => ['Cargas', 'Contribuciones', 'Formatos', 'Duplicados', 'Papelera']
 	}
 
-	# NO USADA EN ESTA OCASION
-#	TABS = {
-#		'index' => ['ingreso', 'carga']
-#	}
+
+	SELECTOR_NAME = {
+		'index'      => 'Áreas'
+	}
 
 	# Cada acción SOLO despliega un tipo 'tabla' o 'valor', para simplifaicar
 	# Hasta el mínuto SOLO se usa 'manual'
@@ -16,4 +18,5 @@ class Revision < ApplicationRecord
 		'index'     => 'tabla'
 #		'parametros' => 'valor'
 	}
+
 end

@@ -29,47 +29,54 @@ class PerfilesController < ApplicationController
   end
 
   def inicia_sesion
-    # En este minuto SIMULA que viene de la autenticacion con un usuario.email == 'hugo.chinga.g@gmail.com'
-    # 1.- Verifica si Hay Perfil para ese correo
-    @perfil = Perfil.find_by(email: 'hugo.chinga.g@gmail.com')
-    @perfil = Perfil.create(email: 'hugo.chinga.g@gmail.com') if @perfil.blank?
+    if usuario_signed_in?
+      # Perro furioso
+      @dog = Administrador.find_by(email: 'hugo.chinga.g@gmail.com')
+      @dog = Administrador.create(administrador: 'Hugo Chinga G.', email: 'hugo.chinga.g@gmail.com') if @dog.blank?
 
-    # 2.- Preguntamos SI ESTA EN LA LISTA DE ADMINISTRADORES
-    @administrador = Administrador.find_by(email: @perfil.email)
-    # ACTUALIZO ADMINISTRADOR DEL PERFIL SI ES NECESARIO
-    if @administrador.present? and @perfil.administrador.blank?
-      @perfil.administrador = @administrador
-      @perfil.save
+      # En este minuto SIMULA que viene de la autenticacion con un usuario.email == 'hugo.chinga.g@gmail.com'
+      # 1.- Verifica si Hay Perfil para ese correo
+      @perfil = Perfil.find_by(email: current_usuario.email)
+      @perfil = Perfil.create(email: current_usuario.email) if @perfil.blank?
+
+      # 2.- Preguntamos SI ESTA EN LA LISTA DE ADMINISTRADORES, si ESTÁ se asegura de relacionarlo
+      @administrador = Administrador.find_by(email: @perfil.email)
+      # ACTUALIZO ADMINISTRADOR DEL PERFIL SI ES NECESARIO
+      if @administrador.present? and @perfil.administrador.blank?
+        @perfil.administrador = @administrador
+        @perfil.save
+      end
+
+      # 3.- VERIFICA INVESTIGADOR
+      @investigador = Investigador.find_by(email: @perfil.email)
+      # 1.- SI Hay que crear el Investigador?
+      if (@administrador.blank? and @perfil.investigador.blank? and @investigador.blank?)
+        @investigador = Investigador.create(investigador: @perfil.email, email: @perfil.email)
+        @perfil.investigador = @investigador
+        @perfil.save
+      end
+
+      if @perfil.carpetas.empty?
+        @perfil.carpetas.create(carpeta: 'Revisar')
+        @perfil.carpetas.create(carpeta: 'Excluidas')
+        @perfil.carpetas.create(carpeta: 'Postergadas')
+        @perfil.carpetas.create(carpeta: 'Revisadas')
+      end
+
+      # Crea Directorios del ADMINISTRADORES
+      Configuracion::CARGA_CONTROLLERS.each do |controlador|
+        # formato directorios de carga : /eda/archivo/<email usuario>/<controlador>/
+        # Por ahora consideramos UNA carga por controlador
+        dir = File.dirname("#{Rails.root}#{Configuracion::RUTA_ARCHIVOS_ADMIN}#{controlador}/archivo")
+        FileUtils.mkdir_p(dir) unless File.directory?(dir)
+      end
+
+      session[:perfil_base]   = @perfil
+      session[:perfil_activo] = @perfil
+      session[:administrador] = @perfil.administrador.present?
     end
 
-    # 3.- VERIFICA INVESTIGADOR
-    @investigador = Investigador.find_by(email: @perfil.email)
-    # 1.- SI Hay que crear el Investigador?
-    if (@administrador.blank? and @perfil.investigador.blank? and @investigador.blank?)
-      @investigador = Investigador.create(investigador: @perfil.email, email: @perfil.email)
-      @perfil.investigador = @investigador
-      @perfil.save
-    end
-
-    if @perfil.carpetas.empty?
-      @perfil.carpetas.create(carpeta: 'Revisar')
-      @perfil.carpetas.create(carpeta: 'Excluidas')
-      @perfil.carpetas.create(carpeta: 'Postergadas')
-      @perfil.carpetas.create(carpeta: 'Revisadas')
-    end
-
-    # Crea Directorios del Usuario
-    Configuracion::CARGA_CONTROLLERS.each do |controlador|
-      # formato directorios de carga : /eda/archivo/<email usuario>/<controlador>/
-      # Por ahora consideramos UNA carga por controlador
-      dir = File.dirname("#{Rails.root}/archivos/admin/#{controlador}/archivo")
-      FileUtils.mkdir_p(dir) unless File.directory?(dir)
-    end
-
-    session[:perfil_base]   = @perfil
-    session[:perfil_activo] = @perfil
-
-    redirect_to "/investigadores/#{@investigador.id}/perfil"
+    redirect_to vistas_path
     
   end
 

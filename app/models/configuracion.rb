@@ -1,16 +1,14 @@
 class Configuracion < ApplicationRecord
-	# ---------------------------------------- CARGA ------------------------------------------------
-	# Esta Constante debiera estar en el Modelo CARGA !!
-	# Este es una constante que uso mientras no hay manejo de USUARIOS
-	# -----------------------------------------TEMPORAL ------------------------------------------
-	RUTA_ARCHIVOS= {
-		'cargas' => "/home/hugo/cvch/archivos/admin/cargas/"
-	}
+	# ---------------------------------------- RUTA PARA ARCHIVOS ADMIN --------------------------
+	# Archivos compartidos por TODOS los ADMINISTRADORES
+	# Se complementa con el controlador
+	RUTA_ARCHIVOS_ADMIN   = "/archivos/admin/"
+	RUTA_ARCHIVOS_USUARIO = "/archivos/usuarios/"
 
 	# Controladores que tienen rutinas de Carga
-	# Esta constante se usa para crear los directorios por USUARIO
-	# Pendiente queda un helper o método en application_controller
-	# NO USADO AUN
+	# Esta constante se usa para crear los directorios de carga en 'perfiles_controller'
+	# Directorios compartidos por TODOS los administradores.
+	# Aun NO creamos direcctorios para usuarios externos.
 	CARGA_CONTROLLERS = ['cargas']
 	# Estos controladores ponen la carga en una carpeta.
 	# Buscar en el MODELO la constante Modelo::CARPETA_CARGA para seber cual

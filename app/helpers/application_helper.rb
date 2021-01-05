@@ -158,7 +158,7 @@ module ApplicationHelper
 		when 'detalle_pedido'
 			"/#{controller.classify.constantize::SELECTOR}/seleccion?#{@objeto.class.name.downcase}_id=#{@objeto.id}&empresa_id=#{@objeto.registro.empresa.id}"
 		when 'normal'
-			if Configuracion::RUTA_ARCHIVOS.keys.include?(controller)
+			if Configuracion::CARGA_CONTROLLERS.include?(controller)
 				"/#{controller}/sel_archivo"
 			else
 				f_controller(controller_name) == controller ? "/#{controller}/new" : "/#{@objeto.class.name.tableize}/#{@objeto.id}/#{controller}/new"
@@ -278,6 +278,16 @@ module ApplicationHelper
 	    badge = content_tag :span, badge_value, class: 'badge badge-primary badge-pill'
 	    text = raw "#{text} #{badge}" if badge_value
 	    return text
+	end
+
+	def display_item_menu?(item)
+		if ['Perfiles', 'Gráficos', 'Escritorio', 'Contribuciones', 'Equipos', 'Carpetas'].include?(item)
+			usuario_signed_in?
+		elsif ['Administradores', 'Areas', 'Conceptos', 'Revisiones', 'Cargas'].include?(item)
+			(usuario_signed_in? and session[:administrador] == true)
+		elsif ['Colecciones'].include?(item)
+			true
+		end
 	end
 
 end

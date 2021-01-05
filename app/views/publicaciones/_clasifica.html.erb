@@ -65,7 +65,7 @@
 
 		<% unless @duplicados_ids.empty? %>
 			<% @duplicados.each do |duplicado| %>
-				<h6><%= "| "%><%=link_to duplicado.doc_type, duplicado%><%=" | #{duplicado.estado} | #{@objeto.areas.map {|aa| aa.area}.join(' | ') unless duplicado.areas.empty?} |" %></h6>
+				<h6><%= "| "%><%=link_to duplicado.doc_type, duplicado%><%=" | #{duplicado.estado} | #{duplicado.areas.map {|aa| aa.area}.join(' | ') unless duplicado.areas.empty?} |" %></h6>
 				<h6><%= duplicado.m_quote %></h6>
 			<% end %>
 		<% end %>
