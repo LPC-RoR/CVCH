@@ -26,7 +26,7 @@ set :deploy_via, :copy
 #############################################################
 
 ### HCH
-SSHKit.config.command_map[:rake] = "#{fetch(:default_env)[:rvm_bin_path]}/rvm ruby-#{fetch(:rvm_ruby_version)} do bundle exec rake"
+## SSHKit.config.command_map[:rake] = "#{fetch(:default_env)[:rvm_bin_path]}/rvm ruby-#{fetch(:rvm_ruby_version)} do bundle exec rake"
 
 
 ### HCH lo agregue tratando de arreglar el PROBLEMA
