@@ -64,12 +64,25 @@ group :development do
   gem 'spring-watcher-listen', '~> 2.0.0'
 end
 
-group :development, :test do
-  gem 'capistrano', '~> 3.0'
+#group :development, :test do
+#  gem 'capistrano', '~> 3.0'
+#  gem 'capistrano-rvm'
+#  gem 'capistrano-bundler', '1.1.1'
+#  gem 'capistrano-rails', '1.1.3'
+##  gem ‘capistrano-sidekiq’, github: ‘seuros/capistrano-sidekiq’ # No es necesaria
+#end
+
+## TUTORIAL
+gem 'figaro'
+#gem 'puma' #Should already be in your Gemfile
+
+group :development do
+  gem 'capistrano'
+  gem 'capistrano3-puma'
+  #Should already be in your Gemfile
+  gem 'capistrano-rails'
+  gem 'capistrano-bundler'
   gem 'capistrano-rvm'
-  gem 'capistrano-bundler', '1.1.1'
-  gem 'capistrano-rails', '1.1.3'
-#  gem ‘capistrano-sidekiq’, github: ‘seuros/capistrano-sidekiq’ # No es necesaria
 end
 
 group :test do
