@@ -17,7 +17,8 @@ set :branch, :master
 # Default deploy_to directory is /var/www/my_app_name
 # Indica el directorio donde se dejará la aplicación
 # Primer Tutorial
-set :deploy_to, "/var/www/html/cvch"
+#set :deploy_to, "/var/www/html/cvch"
+set :deploy_to, "/home/ec2-user/cvch"
 
 # Segundo Tutorial
 # set :deploy_to, '/home/deploy/commodre'
@@ -123,21 +124,22 @@ namespace :deploy do
   # – Reiniciar el servidor 
   # Toma en cuenta que aqui puedes correr practicamente cuaquier comando que se te ocurra 
   desc 'Restart application' 
-  task :restart do 
-  on roles(:app), in: :sequence, wait: 5 do 
-  within release_path do 
-  execute :bundle, 'install' 
-  execute :chmod, '777 '+release_path.join('tmp/cache/').to_s 
-  execute :chmod, '777 '+release_path.join('log/').to_s 
-  execute :rake, 'db:create RAILS_ENV=production' 
-  execute :rake, 'db:migrate RAILS_ENV=production' 
-  execute :rake, 'assets:precompile RAILS_ENV=production' 
-  execute 'sudo service apache2 restart' 
-  end 
-  end 
-  end 
+#  task :restart do 
+#  on roles(:app), in: :sequence, wait: 5 do 
+#  within release_path do 
+#  execute :bundle, 'install' 
+#  execute :chmod, '777 '+release_path.join('tmp/cache/').to_s 
+#  execute :chmod, '777 '+release_path.join('log/').to_s 
+#  execute :rake, 'db:create RAILS_ENV=production' 
+#  execute :rake, 'db:migrate RAILS_ENV=production' 
+#  execute :rake, 'assets:precompile RAILS_ENV=production' 
+#  execute 'sudo service apache2 restart' 
+#  end 
+#  end 
+#  end 
   
   ## Callbacks de las tareas definidas anteriormente 
   before :starting, :check_revision 
   after :finishing, :restart
 end
+
