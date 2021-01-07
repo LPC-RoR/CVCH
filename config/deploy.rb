@@ -17,8 +17,8 @@ set :branch, :master
 # Default deploy_to directory is /var/www/my_app_name
 # Indica el directorio donde se dejará la aplicación
 # Primer Tutorial
-#set :deploy_to, "/var/www/html/cvch"
-set :deploy_to, "/home/hugo/cvch"
+set :deploy_to, "/var/www/html/cvch"
+#set :deploy_to, "/home/hugo/cvch"
 
 # Segundo Tutorial
 # set :deploy_to, '/home/deploy/commodre'
