@@ -17,8 +17,8 @@ set :branch, :master
 # Default deploy_to directory is /var/www/my_app_name
 # Indica el directorio donde se dejará la aplicación
 # Primer Tutorial
-set :deploy_to, "/var/www/html/cvch"
-#set :deploy_to, "/home/hugo/cvch"
+#set :deploy_to, "/var/www/html/cvch"
+set :deploy_to, "/home/deploy/cvch"
 
 # Segundo Tutorial
 # set :deploy_to, '/home/deploy/commodre'
@@ -30,7 +30,7 @@ set :rvm_ruby_version, '2.7.1'
 set :rvm_binary, '~/.rvm/bin/rvm'
 set :rvm_bin_path, "$HOME/bin"
 set :default_env, { rvm_bin_path: '~/.rvm/bin' }
-set :user, "ec2-user"
+set :user, "deploy"
 set :use_sudo, true
 set :deploy_via, :copy
 #############################################################
