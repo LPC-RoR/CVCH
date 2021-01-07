@@ -43,8 +43,8 @@ set :deploy_via, :copy
 
 # Default value for :format is :airbrussh.
 # set :format, :airbrussh
-set :format, :pretty
-set :rails_env, fetch(:stage)
+#set :format, :pretty
+#set :rails_env, fetch(:stage)
 
 # You can configure the Airbrussh format using :format_options.
 # These are the defaults.
@@ -85,8 +85,8 @@ set :keep_releases, 5
 # set :ssh_options, verify_host_key: :secure
 
 # Variables de entorno para passenger
-set :passenger_environment_variables, { :path => '/usr/lib/ruby/vendor_ruby/phusion_passenger/bin:$PATH' }
-set :passenger_restart_command, '/usr/lib/ruby/vendor_ruby/phusion_passenger/bin/passenger-config restart-app'
+#set :passenger_environment_variables, { :path => '/usr/lib/ruby/vendor_ruby/phusion_passenger/bin:$PATH' }
+#set :passenger_restart_command, '/usr/lib/ruby/vendor_ruby/phusion_passenger/bin/passenger-config restart-app'
 
 set :puma_rackup, -> { File.join(current_path, 'config.ru') }
 set :puma_state, "#{shared_path}/tmp/pids/puma.state"
