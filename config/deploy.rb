@@ -18,7 +18,7 @@ set :branch, :master
 # Indica el directorio donde se dejará la aplicación
 # Primer Tutorial
 #set :deploy_to, "/var/www/html/cvch"
-set :deploy_to, "/home/deploy/cvch"
+set :deploy_to, "/home/ec2-user/cvch"
 
 # Segundo Tutorial
 # set :deploy_to, '/home/deploy/commodre'
