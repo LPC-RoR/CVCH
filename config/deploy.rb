@@ -103,18 +103,18 @@ set :puma_worker_timeout, nil
 set :puma_init_active_record, true
 set :puma_preload_app, false
 
-namespace :deploy do 
+#namespace :deploy do 
   ## Tarea que pregunta por la rama desde la cúal se hará el despliegue 
-  desc "Make sure local git is in sync with remote." 
-  task :check_revision do 
-  on roles(:app) do 
-  unless `git rev-parse HEAD` == `git rev-parse origin/master` 
-  puts "WARNING: HEAD is not the same as origin/master" 
-  puts "Run `git push` to sync changes." 
-  exit 
-  end 
-  end 
-  end 
+#  desc "Make sure local git is in sync with remote." 
+#  task :check_revision do 
+#  on roles(:app) do 
+#  unless `git rev-parse HEAD` == `git rev-parse origin/master` 
+#  puts "WARNING: HEAD is not the same as origin/master" 
+#  puts "Run `git push` to sync changes." 
+#  exit 
+#  end 
+#  end 
+#  end 
   # Tarea que se ejecuta luego de el despliegue, para: 
   # – Instalar gemas 
   # – Dar permisos de directorios 
@@ -122,22 +122,22 @@ namespace :deploy do
   # – Compilar los assets en producción 
   # – Reiniciar el servidor 
   # Toma en cuenta que aqui puedes correr practicamente cuaquier comando que se te ocurra 
-  desc 'Restart application' 
-  task :restart do 
-  on roles(:app), in: :sequence, wait: 5 do 
-  within release_path do 
-  execute :bundle, 'install' 
-  execute :chmod, '777 '+release_path.join('tmp/cache/').to_s 
-  execute :chmod, '777 '+release_path.join('log/').to_s 
-  execute :rake, 'db:create RAILS_ENV=production' 
-  execute :rake, 'db:migrate RAILS_ENV=production' 
-  execute :rake, 'assets:precompile RAILS_ENV=production' 
-  execute 'sudo service apache2 restart' 
-  end 
-  end 
-  end 
+#  desc 'Restart application' 
+#  task :restart do 
+#  on roles(:app), in: :sequence, wait: 5 do 
+#  within release_path do 
+#  execute :bundle, 'install' 
+#  execute :chmod, '777 '+release_path.join('tmp/cache/').to_s 
+#  execute :chmod, '777 '+release_path.join('log/').to_s 
+#  execute :rake, 'db:create RAILS_ENV=production' 
+#  execute :rake, 'db:migrate RAILS_ENV=production' 
+#  execute :rake, 'assets:precompile RAILS_ENV=production' 
+#  execute 'sudo service apache2 restart' 
+#  end 
+#  end 
+#  end 
   
   ## Callbacks de las tareas definidas anteriormente 
-  before :starting, :check_revision 
-  after :finishing, :restart
-end
+#  before :starting, :check_revision 
+#  after :finishing, :restart
+#end
