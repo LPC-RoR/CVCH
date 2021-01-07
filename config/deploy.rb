@@ -30,7 +30,7 @@ set :rvm_ruby_version, '2.7.1'
 set :rvm_binary, '~/.rvm/bin/rvm'
 set :rvm_bin_path, "$HOME/bin"
 set :default_env, { rvm_bin_path: '~/.rvm/bin' }
-set :user, "deploy"
+set :user, "ec2-user"
 set :use_sudo, true
 set :deploy_via, :copy
 #############################################################
