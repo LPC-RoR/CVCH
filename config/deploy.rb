@@ -44,7 +44,7 @@ set :deploy_via, :copy
 
 # Default value for :format is :airbrussh.
 # set :format, :airbrussh
-#set :format, :pretty
+set :format, :pretty
 #set :rails_env, fetch(:stage)
 
 # You can configure the Airbrussh format using :format_options.
