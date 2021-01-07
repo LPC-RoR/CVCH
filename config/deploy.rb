@@ -26,7 +26,7 @@ set :deploy_to, "/home/hugo/cvch"
 
 # Variables de entorno necesarias para el despliegue con RVM    
 set :rvm_type, :user
-set :rvm_ruby_version, '2.7.1p83'
+set :rvm_ruby_version, '2.7.1'
 set :rvm_binary, '~/.rvm/bin/rvm'
 set :rvm_bin_path, "$HOME/bin"
 set :default_env, { rvm_bin_path: '~/.rvm/bin' }
@@ -44,7 +44,7 @@ set :deploy_via, :copy
 
 # Default value for :format is :airbrussh.
 # set :format, :airbrussh
-#set :format, :pretty
+set :format, :pretty
 set :rails_env, fetch(:stage)
 
 # You can configure the Airbrussh format using :format_options.
