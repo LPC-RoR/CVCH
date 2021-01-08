@@ -2,7 +2,7 @@
 lock "~> 3.14.1"
 
 # Es el stage de la aplicación, obviamente producción
-set :stage, 'production'
+# set :stage, 'production'
 
 set :application, "cvch"
 set :repo_url, "git@github.com:LPC-RoR/CVCH.git"
@@ -23,40 +23,25 @@ set :deploy_to, "/home/ec2-user/cvch"
 # Segundo Tutorial
 # set :deploy_to, '/home/deploy/commodre'
 
-
-# Variables de entorno necesarias para el despliegue con RVM    
-set :rvm_type, :user
-set :rvm_ruby_version, '2.7.1'
-set :rvm_binary, '~/.rvm/bin/rvm'
-set :rvm_bin_path, "$HOME/bin"
-set :default_env, { rvm_bin_path: '~/.rvm/bin' }
-set :user, "ec2-user"
-set :use_sudo, true
-set :deploy_via, :copy
-#############################################################
-
-### HCH
-## SSHKit.config.command_map[:rake] = "#{fetch(:default_env)[:rvm_bin_path]}/rvm ruby-#{fetch(:rvm_ruby_version)} do bundle exec rake"
-
-
 ### HCH lo agregue tratando de arreglar el PROBLEMA
 ## set :rvm_map_bins, %w{gem rake ruby rails bundle}
 
 # Default value for :format is :airbrussh.
 # set :format, :airbrussh
-set :format, :pretty
-set :rails_env, fetch(:stage)
+#set :format, :pretty
+#set :rails_env, fetch(:stage)
 
 # You can configure the Airbrussh format using :format_options.
 # These are the defaults.
 # set :format_options, command_output: true, log_file: "log/capistrano.log", color: :auto, truncate: :auto
 
 # Default value for :pty is false
-#set :pty, false
-
 # Segundo Tutorial
 set :pty, true
 set :linked_files, %w{config/database.yml config/secrets.yml}
+
+# Segundo Tutorial
+set :linked_dirs, %w{bin log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system public/uploads}
 
 # Default value for :linked_files is []
 # append :linked_files, "config/database.yml"
@@ -65,9 +50,6 @@ set :linked_files, %w{config/database.yml config/secrets.yml}
 # append :linked_dirs, "log", "tmp/pids", "tmp/cache", "tmp/sockets", "public/system"
 # Indica directorios de la aplicación que se deberán conservar con cada deploy nuevo
 #set :linked_dirs, fetch(:linked_dirs, []).push('log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'vendor/bundle', 'public/system', 'public/uploads')
-
-# Segundo Tutorial
-set :linked_dirs, %w{bin log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system public/uploads}
 
 # Default value for default_env is {}
 # set :default_env, { path: "/opt/ruby/bin:$PATH" }
@@ -89,6 +71,18 @@ set :keep_releases, 5
 #set :passenger_environment_variables, { :path => '/usr/lib/ruby/vendor_ruby/phusion_passenger/bin:$PATH' }
 #set :passenger_restart_command, '/usr/lib/ruby/vendor_ruby/phusion_passenger/bin/passenger-config restart-app'
 
+# Variables de entorno necesarias para el despliegue con RVM    
+set :rvm_type, :user
+set :rvm_ruby_version, '2.7.1'
+
+#set :rvm_binary, '~/.rvm/bin/rvm'
+#set :rvm_bin_path, "$HOME/bin"
+#set :default_env, { rvm_bin_path: '~/.rvm/bin' }
+#set :user, "ec2-user"
+#set :use_sudo, true
+#set :deploy_via, :copy
+#############################################################
+
 set :puma_rackup, -> { File.join(current_path, 'config.ru') }
 set :puma_state, "#{shared_path}/tmp/pids/puma.state"
 set :puma_pid, "#{shared_path}/tmp/pids/puma.pid"
@@ -104,7 +98,7 @@ set :puma_worker_timeout, nil
 set :puma_init_active_record, true
 set :puma_preload_app, false
 
-namespace :deploy do 
+#namespace :deploy do 
   ## Tarea que pregunta por la rama desde la cúal se hará el despliegue 
 #  desc "Make sure local git is in sync with remote." 
 #  task :check_revision do 
@@ -141,5 +135,5 @@ namespace :deploy do
   ## Callbacks de las tareas definidas anteriormente 
 #  before :starting, :check_revision 
 #  after :finishing, :restart
-end
+#end
 
