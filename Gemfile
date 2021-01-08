@@ -21,8 +21,11 @@ gem "chartkick"
 gem 'rails', '~> 5.2.4', '>= 5.2.4.4'
 # Use sqlite3 as the database for Active Record
 gem 'sqlite3'
+
 # Use Puma as the app server
-gem 'puma', '~> 3.11'
+# Lo saque por recomendación de la instalación de Passenger
+#gem 'puma', '~> 3.11'
+
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
 # Use Uglifier as compressor for JavaScript assets
@@ -73,17 +76,18 @@ end
 #end
 
 ## TUTORIAL
-gem 'figaro'
+# Saque todo lo de abajo por instalación de Passenger
+#gem 'figaro'
 #gem 'puma' #Should already be in your Gemfile
 
-group :development do
-  gem 'capistrano'
-  gem 'capistrano3-puma'
+#group :development do
+#  gem 'capistrano'
+#  gem 'capistrano3-puma'
   #Should already be in your Gemfile
-  gem 'capistrano-rails'
-  gem 'capistrano-bundler'
-  gem 'capistrano-rvm'
-end
+#  gem 'capistrano-rails'
+#  gem 'capistrano-bundler'
+#  gem 'capistrano-rvm'
+#end
 
 group :test do
   # Adds support for Capybara system testing and selenium driver
