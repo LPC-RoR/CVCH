@@ -28,8 +28,8 @@ set :deploy_to, "/home/ec2-user/cvch"
 
 # Default value for :format is :airbrussh.
 # set :format, :airbrussh
-#set :format, :pretty
-#set :rails_env, fetch(:stage)
+set :format, :pretty
+set :rails_env, fetch(:stage)
 
 # You can configure the Airbrussh format using :format_options.
 # These are the defaults.
