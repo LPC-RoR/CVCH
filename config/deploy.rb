@@ -72,10 +72,11 @@ set :keep_releases, 5
 #set :passenger_restart_command, '/usr/lib/ruby/vendor_ruby/phusion_passenger/bin/passenger-config restart-app'
 
 # Variables de entorno necesarias para el despliegue con RVM    
-set :rvm_type, :user
+#set :rvm_type, :user
 set :rvm_ruby_version, '2.7.1'
 #set :rvm_path, '/usr/local/rvm'
-
+set :rvm_type, :system
+set :use_sudo, false
 #set :rvm_binary, '~/.rvm/bin/rvm'
 #set :rvm_bin_path, "$HOME/bin"
 #set :default_env, { rvm_bin_path: '~/.rvm/bin' }
