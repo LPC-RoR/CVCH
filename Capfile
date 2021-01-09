@@ -26,7 +26,6 @@ install_plugin Capistrano::SCM::Git
 #   https://github.com/capistrano/rails
 #   https://github.com/capistrano/passenger
 #
-require "capistrano/rvm"
 # require "capistrano/rbenv"
 # require "capistrano/chruby"
 require "capistrano/bundler"
@@ -35,6 +34,7 @@ require "capistrano/rails/migrations"
 # require "capistrano/passenger"
 
 require 'capistrano/puma'
+require "capistrano/rvm"
 
 # Load custom tasks from `lib/capistrano/tasks` if you have any defined
 Dir.glob("lib/capistrano/tasks/*.rake").each { |r| import r }
