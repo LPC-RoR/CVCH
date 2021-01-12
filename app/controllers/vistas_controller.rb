@@ -1,5 +1,6 @@
 class VistasController < ApplicationController
   before_action :set_vista, only: [:show, :edit, :update, :destroy]
+  before_action :check_areas, only: [:index]
 
   # GET /vistas
   # GET /vistas.json
@@ -118,6 +119,14 @@ class VistasController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_vista
       @objeto = Vista.find(params[:id])
+    end
+
+    def check_areas
+      if Area.all.empty?
+        Area::NOT_MODIFY.each do |area|
+          Area.create(area: area)
+        end
+      end
     end
 
     # Only allow a list of trusted parameters through.
