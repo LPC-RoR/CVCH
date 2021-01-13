@@ -18,5 +18,5 @@ test:
 
 production:
   <<: *default
-  encoding: SQL_ASCII
+  encoding: UTF8
   database: cvch_production
