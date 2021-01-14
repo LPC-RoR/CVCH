@@ -1,4 +1,5 @@
 class RutasController < ApplicationController
+  before_action :authenticate_usuario!
   before_action :set_ruta, only: [:show, :edit, :update, :destroy]
 
   # GET /rutas

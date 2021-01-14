@@ -1,4 +1,5 @@
 class EquiposController < ApplicationController
+  before_action :authenticate_usuario!
   before_action :set_equipo, only: [:show, :edit, :update, :destroy, :elimina_equipo]
 
   # GET /equipos

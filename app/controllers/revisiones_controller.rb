@@ -1,4 +1,5 @@
 class RevisionesController < ApplicationController
+  before_action :authenticate_usuario!
   before_action :set_revision, only: [:show, :edit, :update, :destroy]
 
   # GET /revisiones

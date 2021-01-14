@@ -1,4 +1,5 @@
 class InvestigadoresController < ApplicationController
+  before_action :authenticate_usuario!
   before_action :set_investigador, only: [:show, :edit, :update, :destroy, :perfil]
 
   # GET /investigadores

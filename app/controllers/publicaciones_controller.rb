@@ -1,4 +1,5 @@
 class PublicacionesController < ApplicationController
+  before_action :authenticate_usuario!
   before_action :set_publicacion, only: [:show, :edit, :update, :destroy]
   after_action :procesa_author, only: [:update, :create]
   after_action :procesa_sha1, only: [:update, :create]

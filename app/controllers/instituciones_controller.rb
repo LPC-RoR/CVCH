@@ -1,4 +1,5 @@
 class InstitucionesController < ApplicationController
+  before_action :authenticate_usuario!
   before_action :set_institucion, only: [:show, :edit, :update, :destroy]
 
   # GET /instituciones

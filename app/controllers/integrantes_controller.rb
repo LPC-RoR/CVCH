@@ -1,4 +1,5 @@
 class IntegrantesController < ApplicationController
+  before_action :authenticate_usuario!
   before_action :set_integrante, only: [:show, :edit, :update, :destroy]
 
   # GET /integrantes

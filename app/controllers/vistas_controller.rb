@@ -1,4 +1,5 @@
 class VistasController < ApplicationController
+  before_action :authenticate_usuario!, only: [:escritorio]
   before_action :set_vista, only: [:show, :edit, :update, :destroy]
   before_action :check_areas, only: [:index]
 

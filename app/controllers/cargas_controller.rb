@@ -1,4 +1,5 @@
 class CargasController < ApplicationController
+  before_action :authenticate_usuario!
   before_action :set_carga, only: [:show, :edit, :update, :destroy]
 
   # GET /cargas

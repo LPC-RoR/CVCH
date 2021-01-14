@@ -1,4 +1,5 @@
 class ContribucionesController < ApplicationController
+  before_action :authenticate_usuario!
   before_action :set_contribucion, only: [:show, :edit, :update, :destroy]
 
   # GET /contribuciones

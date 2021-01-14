@@ -1,4 +1,5 @@
 class RecursosController < ApplicationController
+  before_action :authenticate_usuario!
 #  before_action :set_recurso, only: [:show, :edit, :update, :destroy]
 
   # GET /recursos/tablas
