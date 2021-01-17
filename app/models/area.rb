@@ -2,6 +2,9 @@ class Area < ApplicationRecord
 	# MARCA CARPETAS QUE NO SE MODIFICAN NI ELIMINAN
 	NOT_MODIFY = ['Aves','Micromamíferos','Mamíferos marinos','Carnívoros', 'Ungulados','Murciélagos y edentados','Reptiles','Invasores','Conejos']
 
+	#-------------------------------------------------------------  HIDDEN CHILDS
+	HIDDEN_CHILDS = ['clasificaciones', 'cargas']
+
 	#-------------------------------------------------------------  TABLA
 	TABLA_FIELDS = [
 		['area', 'show'], 
@@ -11,8 +14,6 @@ class Area < ApplicationRecord
 		['area',           'entry']
 	]
 
-	# ------------------------------------------------------------- DESPLIEGUE
-	HIDDEN_CHILDS = ['clasificaciones', 'cargas']
 	
 	has_many :cargas
 

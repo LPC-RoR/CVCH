@@ -2,6 +2,9 @@ class Carpeta < ApplicationRecord
 	# MARCA CARPETAS QUE NO SE MODIFICAN NI ELIMINAN
 	NOT_MODIFY = ['Revisar', 'Excluidas', 'Postergadas', 'Revisadas']
 
+	# ----------------------------------------- HIDDEN CHILDS
+	HIDDEN_CHILDS = ['clasificaciones']
+
 	#-------------------------------------------------------------  TABLA
 	T_EXCEPTIONS = {
 		nuevo:   ['equipos']
@@ -21,9 +24,6 @@ class Carpeta < ApplicationRecord
 		['carpeta',        'entry'],
 		['perfil_id',     'hidden']
 	]
-
-	# ------------------------------------------------------------- DESPLIEGUE
-	HIDDEN_CHILDS = ['clasificaciones']
 
 	belongs_to :perfil, optional: true
 	belongs_to :equipo, optional: true

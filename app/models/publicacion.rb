@@ -12,8 +12,11 @@ class Publicacion < ApplicationRecord
 		'Conclusiones' =>    ['aceptadas', 'controversiales']
 	}
 
-	# ------------------- TABLA -----------------------
 	TABS = Carpeta.all.map {|c| c.carpeta}
+
+	# ----------------------------------------- HIDDEN CHILDS
+	HIDDEN_CHILDS = ['autores', 'investigadores', 'procesos', 'cargas', 'clasificaciones', 'carpetas', 'evaluaciones', 'asignaciones', 'areas', 'rutas']
+
 	# Configura DESPLIEGUE de la TABLA
 	T_EXCEPTIONS = {
 		tabs:    ['self'],
@@ -83,7 +86,6 @@ class Publicacion < ApplicationRecord
 	S_E = [:clasifica, :detalle, :tabla]
 	# --------------------- DESPLIEGUE -------------------------
 	# tablas child que NO deben ser deplegadas
-	HIDDEN_CHILDS = ['autores', 'investigadores', 'procesos', 'cargas', 'clasificaciones', 'carpetas', 'evaluaciones', 'asignaciones', 'areas', 'rutas']
 
 	# LINKS !!
 	S_BT_LINKS_OBJECTS = ['Revista']

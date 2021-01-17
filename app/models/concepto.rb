@@ -2,6 +2,9 @@ class Concepto < ApplicationRecord
 	# MARCA CARPETAS QUE NO SE MODIFICAN NI ELIMINAN
 	TABS = ['instancias', 'hijos']
 
+	# ----------------------------------------- HIDDEN CHILDS
+	HIDDEN_CHILDS = ['rel_hijos']
+
 	#-------------------------------------------------------------  TABLA
 	TABLA_FIELDS = [
 		['concepto', 'show'], 
@@ -10,9 +13,6 @@ class Concepto < ApplicationRecord
  	FORM_FIELDS = [
 		['concepto',           'entry']
 	]
-
-	# ------------------------------------------------------------- DESPLIEGUE
-	HIDDEN_CHILDS = ['rel_hijos']
 
 	has_many :instancias
 

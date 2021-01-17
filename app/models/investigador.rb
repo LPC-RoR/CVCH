@@ -1,13 +1,13 @@
 class Investigador < ApplicationRecord
+	# ----------------------------------------- HIDDEN CHILDS
+	HIDDEN_CHILDS = ['autores', 'carpetas']
+
 	# --------------------------------------------------- TABLA
 	TABLA_FIELDS = [
 		['investigador',         'show']
 	]
 
 	# ---------------------------------------------------- SHOW
-
-	# ----------------------------------------------------- DESPLIEGUE
-	HIDDEN_CHILDS = ['autores', 'carpetas']
 
 	belongs_to :departamento, optional: true
 

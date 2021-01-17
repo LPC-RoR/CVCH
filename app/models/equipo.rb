@@ -2,7 +2,8 @@ class Equipo < ApplicationRecord
 	# TABS DEL TABLE
 	TABS = ['Administrados', 'Participaciones']
 
-	HIDDEN_CHILDS = ['integrantes']
+	# ----------------------------------------- HIDDEN CHILDS
+	HIDDEN_CHILDS = ['publicaciones', 'integrantes']
 
 	# ------------------------------------------------- TABLA
 	T_EXCEPTIONS = {
@@ -41,8 +42,6 @@ class Equipo < ApplicationRecord
 	]
 	# -------------------------------------------------- DESPLIEGUE
 	MY_FIELDS = ['sha1']
-
-	HIDDEN_CHILDS = ['publicaciones', 'integrantes']
 
 	belongs_to :administrador, class_name: 'Perfil'
 

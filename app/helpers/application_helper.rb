@@ -15,7 +15,7 @@ module ApplicationHelper
 	# Pregunta si la "accion" del controlador despliega TABS
 	# "_frame.html.erb" y "_bi_frame.html.erb"
 	def frame_with_tabs?(controlador, accion)
-		Configuracion::FRAME_WITH_TABS_CONTROLLERS.include?(controlador)
+		Configuracion::FRAME_WITH_TABS_CONTROLLERS.include?(controlador) and not controlador.classify.constantize::FRAME_TABS[accion].blank?
 	end
 
 	# Obtiene TABS de un controller + action

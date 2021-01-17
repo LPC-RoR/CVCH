@@ -260,7 +260,7 @@ class ApplicationController < ActionController::Base
 		# Limpia el autor sacando los catacteres que no están
 		autor_limpio = ''
 		autor.strip.split('').each do |c|
-			if !!c.match(/[a-zA-ZáéíóúàèìòùäëïöüÁÉÍÓÚÀÈÌÒÙÄËÏÖÜ\.;\-,&\s]/)
+			if !!c.match(/[a-zA-ZáéíóúàèìòùäëïöüñÁÉÍÓÚÀÈÌÒÙÄËÏÖÜÑ\.;\-,&\s]/)
 				autor_limpio += c
 			end
 		end

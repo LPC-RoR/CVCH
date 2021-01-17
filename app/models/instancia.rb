@@ -1,5 +1,8 @@
 class Instancia < ApplicationRecord
 
+	# ----------------------------------------- HIDDEN CHILDS
+	HIDDEN_CHILDS = ['rutas']
+
 	SHOW_FIELDS = [
 		['instancia', 'show'], 
 	]
@@ -15,7 +18,6 @@ class Instancia < ApplicationRecord
 		['Eliminar', '/instancias/', '/elimina_instancia', true]
 	]
 
-	HIDDEN_CHILDS = ['rutas']
 
 	belongs_to :concepto, optional: true
 
