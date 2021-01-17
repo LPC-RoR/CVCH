@@ -1,19 +1,20 @@
 class Vista < ApplicationRecord
-	TITULO = {
+	# LOS MODELOS DE CONTROLADORES CON FRAME TIENEN EL TITULO EN EL MODELO
+	FRAME_TITULO = {
 		'index'      => 'Colecciones',
 		'escritorio' => 'Escritorio'
 	}
 
-	SELECTOR_NAME = {
+	FRAME_TABS = {
+		'index' => ['Completa', 'Pendiente']
+	}
+
+	FRAME_SELECTOR = {
 		'index'      => 'Áreas',
 		'escritorio' => 'Carpetas'
 	}
 
-	TABS = {
-		'index' => ['Completa', 'Pendiente']
-	}
-
-	ACTIONS_TYPE = {
+	FRAME_ACTIONS_TYPE = {
 		'index'      => 'tabla',
 		'escritorio' => 'tabla'
 #		'parametros' => 'valor'

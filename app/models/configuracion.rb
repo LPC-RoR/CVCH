@@ -1,25 +1,79 @@
 class Configuracion < ApplicationRecord
-	# ---------------------------------------- RUTA PARA ARCHIVOS ADMIN --------------------------
-	# Archivos compartidos por TODOS los ADMINISTRADORES
-	# Se complementa con el controlador
+	## *****************************************************************************************************
+	## RUTAS PARA ARCHIVOS DE CARGA
+	# Tenemos 2 opciones de Carga
+	# 1.- CARGA DE USUARIO ADMINISTRATIVO
+	# Estos archivos PUEDEN  estar DISPONIBLES para TODO el mundo (depende del control de acceso)
+	# Ruta completa = "/archivos/admin/controller/archivos.ext"
 	RUTA_ARCHIVOS_ADMIN   = "/archivos/admin/"
-	RUTA_ARCHIVOS_USUARIO = "/archivos/usuarios/"
 
-	# Controladores que tienen rutinas de Carga
-	# Esta constante se usa para crear los directorios de carga en 'perfiles_controller'
-	# Directorios compartidos por TODOS los administradores.
-	# Aun NO creamos direcctorios para usuarios externos.
+	# 2.- CARGA DE USUARIO (EXTRENO)
+	# Ruta completa = "/archivos/<email usuario>/controller/archivo.ext"
+	RUTA_ARCHIVOS_USUARIO = "/archivos/"
+
+	## CONTROLADORES QUE TIENEN RUTINAS DE CARGA
+	# dado el controlador y usuario/tipo de usuario sabremos donde poner el archivo y donde irlo a buscar
 	CARGA_CONTROLLERS = ['cargas']
-	# Estos controladores ponen la carga en una carpeta.
-	# Buscar en el MODELO la constante Modelo::CARPETA_CARGA para seber cual
-	# NO USADO AUN
-	# !!!!!!!!!!!!!!!!!!!!!!! ESTA DEBIERA ELIMINARSE es IGUAL A CARGA_CONTROLLERS
-	CARGA_HACIA_CARPETA_CONTROLLERS = ['cargas']
-	
-	# ---------------------------------------- CONTROL DE DESPLIEGUE --------------------------------------
-	# Definir acciones de un controlador como COLECCIONES PROPIAS y OBJETOS PROPIOS
-	# evita el proceso registro a registro de algunas condiciones de despliegue
-	# En COLECCIONES_PROPIAS hay acciones SHOW porque un SHOW tiene TABLASv que pueden ser PROPIAS
+
+	## *****************************************************************************************************
+	## ----------------------------------------   COMPORTAMIENTO POR DEFECTO
+	## ----------------------------------------   TABLE
+	# Se verifica con el helper in_t?(c, label)
+	T_DEFAULT = {
+		titulo:  {'self' => true,  'show' => false},
+		tabs:    {'self' => false, 'show' => false}, 
+		estados: {'self' => false, 'show' => false},
+		paginas: {'self' => false, 'show' => false},
+		nuevo:   {'self' => true,  'show' => false}
+	}
+
+	# -----------------------------------------   SHOW
+	# Se verifica con el helper in_show?(c, label)
+	S_DEFAULT = {
+		titulo:       true,
+		links:        true,
+		clasifica:   false,
+		detalle:     false,
+		inline_form: false,
+		tabla:        true,
+		adjuntos:    false
+	}
+
+	## *****************************************************************************************************
+	## ******************************* CONFIGURACION APLICACION ********************************************
+	## *****************************************************************************************************
+	## *****************************************************************************************************
+	# -----------------------------------------   MENÚ PRINCIPAL
+	MENU = [
+		["Perfiles",       "/perfiles",          'perfiles',       'index'],
+		["Gráficos",       "/vistas/graficos",   'vistas',      'graficos'],
+		["Colecciones",    "/vistas",            'vistas',         'index'],
+		["Escritorio",     "/vistas/escritorio", 'vistas',    'escritorio'],
+		["Contribuciones", "/contribuciones",    'contribuciones', 'index'],
+		["Equipos",        "/equipos",           'equipos',        'index'],
+		["Carpetas",       "/carpetas",          'carpetas',       'index'],
+		["Administradores","/administradores",   'administradores','index'],
+		["Areas",          "/areas",             'areas',          'index'],
+		["Conceptos",      "/conceptos",         'conceptos',      'index'],
+		["Revisiones",     "/revisiones",        'revisiones',     'index'],
+		["Cargas",         "/cargas",            'cargas',         'index'] 
+	]
+
+	# CONTROLADORES que NO despliegan el MENU PRINCIPAL
+	M_E_CONTROLLERS = ['confirmations', 'mailer', 'passwords', 'registrations', 'sessions', 'unlocks']
+
+	# ITEMS de MENU que requieren USUARIO AUTENTICADO
+	M_I_SIGN_IN = ['Perfiles', 'Gráficos', 'Escritorio', 'Contribuciones', 'Equipos', 'Carpetas']
+	# ITEMS de MENU que requieren USUARIO AUTENTICADO ADMINISTRATIVO
+	M_I_ADMIN = ['Administradores', 'Areas', 'Conceptos', 'Revisiones', 'Cargas']
+	# ITEMS de MENU para TODO USUARIO (ANONIMO INCLUIDO)
+	M_I_ANONIMOS = ['Colecciones']
+
+	## *****************************************************************************************************
+	# -----------------------------------------   COLECCIONES PROPIAS
+	# COLECCION_PROPIA = una colección que puede ser gestionada SIN preguntar registro a registro si se puede
+	# NO sól es aplicable a una acción 'index'
+	# Cuando se aplica a un SHOW, las colecciones que se despliegan en él son PROPIAS
 	COLECCIONES_PROPIAS = [
 		'publicaciones#index',
 		'revisiones#index',
@@ -31,19 +85,50 @@ class Configuracion < ApplicationRecord
 		'cargas#show'
 	]
 
+	# OBJETO_PROPIO = Objeto que se puede gestionar
 	OBJETOS_PROPIOS = [
 		'cargas#show'
 	]
+
+	# -----------------------------------------   CONFIGURACIÓN DE CONTROLADORES
+	# -----------------------------------------   FRAME
+	# TODOS los MODELOS FRAME TIRNEN EL TITULO EN EL MODELO
+	# LOS MODELOS DE CONTROLADORES CON FRAME TIENEN EL TITULO EN EL MODELO
+	# Modelo::FRAME_TITULO
+	# TITULO = {
+	#	'index'      => 'Colecciones',
+	#	'escritorio' => 'Escritorio'
+	#}
+
+	# CONTROLADORES FRAME con TABS
+	FRAME_WITH_TABS_CONTROLLERS = ['vistas', 'revisiones']
+	# En el Modelo buscar Modelo::FRAME_TABS
+	# FRAME_TABS = {
+	#	'index' => ['Completa', 'Pendiente']
+	# }
+
+	# LOS MODELOS DE BI_FRAME TIENEN FRAME_SELECTOR
+	# FRAME_SELECTOR = {
+	#	'index'      => 'Áreas'
+	# }
+
+	# LOS MODELOS DE FRAME TIENEN ACTION_TYPE
+	# FRAME_ACTIONS_TYPE = {
+	#	'index'      => 'tabla',
+	#	'escritorio' => 'tabla'
+	#	'parametros' => 'valor'
+	# }
+
+	# -----------------------------------------   MODELOS
+	# MODELOS que despliegan campos SOLO para PROPIETARIOS del modelo
+	# Buscar Modelo::MY_FIELDS
+	MODELS_WITH_SELF_FIELDS = ['Equipo']
+	# Controladores que tienen HIDDEN CHILDS
+	# Buscar Modelo::HIDDEN_CHILDS
+	HIDDEN_CHILDS_CONTROLLERS = ['cargas', 'publicaciones', 'textos', 'carpetas', 'investigadores', 'temas', 'equipos', 'areas', 'equipos', 'conceptos', 'instancias']
+
+
 	# ---------------------------------------- DEFAULT --------------------------------------
-	# ---------------------------------------- TABLE
-	# Se verifica con el helper in_t?(c, label)
-	T_DEFAULT = {
-		titulo:  {'self' => true,  'show' => false},
-		tabs:    {'self' => false, 'show' => false}, 
-		estados: {'self' => false, 'show' => false},
-		paginas: {'self' => false, 'show' => false},
-		nuevo:   {'self' => true,  'show' => false}
-	}
 
 	#----------------------------------------- TABLE EXCEPTIONS
 	# Estos son los CONTROLADORES que tienen EXCEPCIONES
@@ -77,16 +162,6 @@ class Configuracion < ApplicationRecord
 	FORM_E_DETAIL = ['Publicacion']
 	FORM_CONDITIONAL_FIELDS_MODELS = ['Publicacion']
 
-	# ----------------------------------------- SHOW
-	S_DEFAULT = {
-		titulo:       true,
-		links:        true,
-		clasifica:   false,
-		detalle:     false,
-		inline_form: false,
-		tabla:        true,
-		adjuntos:    false
-	}
 	S_E_TITLE_MODELS = ['Publicacion', 'Carga']
 	# MODELOS que teiene EXCEPCIONES
 	# Buscar Modelo::S_E
@@ -107,40 +182,5 @@ class Configuracion < ApplicationRecord
 	# Buscar Modelo::S_HMT_LINKS_COLLECTIONS
 	S_HMT_LINKS_MODELS = ['Publicacion']
 
-	# ---------------------------------------- MENU ------------------------------------------------
-	# MENU PRINCIPAL
-	MENU = [
-		["Perfiles",       "/perfiles",          'perfiles',       'index'],
-		["Gráficos",       "/vistas/graficos",   'vistas',      'graficos'],
-		["Colecciones",    "/vistas",            'vistas',         'index'],
-		["Escritorio",     "/vistas/escritorio", 'vistas',    'escritorio'],
-		["Contribuciones", "/contribuciones",    'contribuciones', 'index'],
-		["Equipos",        "/equipos",           'equipos',        'index'],
-		["Carpetas",       "/carpetas",          'carpetas',       'index'],
-		["Administradores","/administradores",   'administradores','index'],
-		["Areas",          "/areas",             'areas',          'index'],
-		["Conceptos",      "/conceptos",         'conceptos',      'index'],
-		["Revisiones",     "/revisiones",        'revisiones',     'index'],
-		["Cargas",         "/cargas",            'cargas',         'index'] 
-	]
-
-	# CONTROLADORES que NO despliegan el MENU PRINCIPAL
-	# Evalualremos la existencia del MENU PRINCIPAL, es posible NO usarlo?
-	NOMENU_CONTROLLERS = ['confirmations', 'mailer', 'passwords', 'registrations', 'sessions', 'unlocks']
-
-	# ---------------------------------------- FRAME ------------------------------------------------
-	# Controladores con TABS de FRAME
-	# Antiguo TABS_CONTROLLERS
-	FRAME_CONTROLLERS = ['revisiones', 'recursos']
-	# TODOS los MODELOS FRAME TIRNEN EL TITULO EN EL MODELO
-	FRAME_CONTROLLERS_WITH_TABS = ['vistas', 'revisiones']
-
-	# --------------------------------------- MODELOS -----------------------------------------------
-	# MODELOS que despliegan campos SOLO para PROPIETARIOS del modelo
-	# Buscar Modelo::MY_FIELDS
-	MODELS_WITH_SELF_FIELDS = ['Equipo']
-	# Controladores que tienen HIDDEN CHILDS
-	# Buscar Modelo::HIDDEN_CHILDS
-	HIDDEN_CHILDS_CONTROLLERS = ['cargas', 'publicaciones', 'textos', 'carpetas', 'investigadores', 'temas', 'equipos', 'areas', 'equipos', 'conceptos', 'instancias']
 
 end

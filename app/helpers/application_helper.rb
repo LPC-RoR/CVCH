@@ -1,35 +1,46 @@
 module ApplicationHelper
+	## USO GENERAL
+
+	# CAPITAN
+
 	# Obtiene los controladores que no despliegan menu
 	def nomenu?(controller)
-		Configuracion::NOMENU_CONTROLLERS.include?(controller)
+		Configuracion::M_E_CONTROLLERS.include?(controller)
 	end
 
-	def frame_title(controller)
-		controller.classify.constantize::TITULO
+	def frame_titulo(c, a)
+		c.classify.constantize::FRAME_TITULO[a]
 	end
-	def frame_tabs(controller, action)
-		controller.classify.constantize::TABS[action]
-	end
-	# Pregunta si la "accion" del "recursos_controller" despliega TABS
-	# "_frame.html.erb"
+
+	# Pregunta si la "accion" del controlador despliega TABS
+	# "_frame.html.erb" y "_bi_frame.html.erb"
 	def frame_with_tabs?(controlador, accion)
-		Configuracion::FRAME_CONTROLLERS_WITH_TABS.include?(controlador) and not controlador.classify.constantize::TABS[accion].blank?
-	end
-	# Pregunta si la "accion" del "recursos_controller" despluega TABLA
-	# "_frame.html.erb"
-	def frame_with_table?(controlador, accion)
-		controlador.classify.constantize::ACTIONS_TYPE[accion] == 'tabla'
+		Configuracion::FRAME_WITH_TABS_CONTROLLERS.include?(controlador)
 	end
 
-	def frame_controller?(controller)
-		Configuracion::FRAME_CONTROLLERS.include?(controller)
+	# Obtiene TABS de un controller + action
+	def frame_tabs(controller, action)
+		controller.classify.constantize::FRAME_TABS[action]
+	end
+
+	def bi_frame_selector(controlador, accion)
+		controlador.classify.constantize::FRAME_SELECTOR[accion]
+	end
+
+	# Pregunta si la "accion" del "recursos_controller" despluega TABLA
+	# "_frame.html.erb" y "_bi_frame.html.erb"
+	def frame_with_table?(controlador, accion)
+		controlador.classify.constantize::FRAME_ACTIONS_TYPE[accion] == 'tabla'
 	end
 
 	# Obtiene los TABS de un modelo usando el controlador
+	# "-tabla.html.erb"
 	def m_tabs(controller)
 		controller.classify.constantize::TABS
 	end
+
 	# Obtiene los estados de un modelo usando el controlador
+	# "-tabla.html.erb"
 	def m_estados(controller)
 		controller.classify.constantize::ESTADOS
 	end
@@ -46,6 +57,7 @@ module ApplicationHelper
 		end
 	end
 
+	# Manejode options para selectors múltiples
 	def get_html_opts(options, label, value)
 		opts = options.clone
 		opts[label] = value
@@ -70,8 +82,7 @@ module ApplicationHelper
 	end
 
 	def inline_form?(c)
-		Configuracion::T_E_NEW_CONTROLLERS.include?(c) and (c.classify.constantize::T_NEW_EXCEPTIONS['*'] == 'inline' or c.classify.constantize::T_NEW_EXCEPTIONS[controller_name] == 'inline')
-#		Configuracion::T_E_NEW_CONTROLLERS.keys.include?(c) and Configuracion::T_E_NEW_CONTROLLERS[c] == 'inline_form'
+		Configuracion::T_E_NEW_CONTROLLERS.include?(c) ? (c.classify.constantize::T_NEW_EXCEPTIONS['*'] == 'inline' or c.classify.constantize::T_NEW_EXCEPTIONS[controller_name] == 'inline') : false
 	end
 
 	# Maneja comportamiento por defecto y excepciones de SHOW
@@ -87,6 +98,8 @@ module ApplicationHelper
 		(excepcion ? (not de) : de)
 	end
 
+	# SHOW_TITLE con manejo de excepciones
+	# Se usa dentro de la aplicación también
 	def show_title(object)
 		if Configuracion::S_E_TITLE_MODELS.include?(object.class.name)
 			object.show_title
@@ -99,29 +112,34 @@ module ApplicationHelper
 	def m_tabla_fields(objeto)
 		objeto.class::TABLA_FIELDS
 	end
-	def d_rut(rut)
-		rut_base = rut.tr('.-', '').length == 8 ? '0'+rut.tr('.-', '') : rut.tr('.-', '')
-		rut_base.reverse.insert(1, '-').insert(5, '.').insert(9, '.').reverse
-	end
-	def d_tel(numero)
-		numero.reverse.insert(4, ' ').insert(9, ' ').reverse
-	end
+
+	# despliegue de RUT
+	# Lo dejo porque no tengo claro como lo reemplace
+#	def d_rut(rut)
+#		rut_base = rut.tr('.-', '').length == 8 ? '0'+rut.tr('.-', '') : rut.tr('.-', '')
+#		rut_base.reverse.insert(1, '-').insert(5, '.').insert(9, '.').reverse
+#	end
 
 
 	# Toma las relaciones has_many y les descuenta las HIDDEN_CHILDS
+	# "_show.html.erb"
 	def has_many_tabs(controller)
 		controller.classify.constantize.reflect_on_all_associations(:has_many).map {|a| a.name.to_s} - hidden_childs(controller)
 	end
 
+	# método de apoyo usado en el método has_many_tabs (arriba)
 	def hidden_childs(controller)
 		Configuracion::HIDDEN_CHILDS_CONTROLLERS.include?(controller) ? controller.classify.constantize::HIDDEN_CHILDS : []
 	end
 
+	# pregunta si tiene childs
+	# "_btns_e.html.erb"
 	def has_child?(objeto)
 		# Considera TODO, hasta los has_many through
 		objeto.class.reflect_on_all_associations(:has_many).map { |a| objeto.send(a.name).any? }.include?(true)
 	end
 
+	# Objtiene LINK DEL BOTON NEW
 	def get_new_link(controller)
 		# CONTROLA EXCEPCIONES
 		if Configuracion::T_E_NEW_CONTROLLERS.include?(controller)
@@ -166,6 +184,7 @@ module ApplicationHelper
 		end
 	end
 
+	# Método de apoyo usado en get_new_link (arriba)
 	def f_controller(controller)
 		case controller
 		when 'contribuciones'
@@ -175,6 +194,8 @@ module ApplicationHelper
 		end
 	end
 
+	# Corrige palabras
+	# "_title.html.erb"
 	def corrige(w)
 		case w
 		when 'Controlador'
@@ -184,9 +205,7 @@ module ApplicationHelper
 		end
 	end
 
-	def link_estado(objeto)
-		"/#{objeto.class.downcase.pluralize}/estado?estado="
-	end
+	# manejo de f_tabla para manejar tablas asociadas
 	def f_tabla(objeto)
 		objeto.send(objeto.class::F_TABLA.singularize)
 	end
@@ -216,12 +235,14 @@ module ApplicationHelper
 		Publicacion::EVALUACION[item] - excluido
 	end
 
+	# método de apoyo para filtro_self_filed? (abajo)
 	def my_objeto?(objeto)
 		case objeto.class.name
 		when 'Equipo'
 			objeto.perfil.id == session[:perfil_activo]['id']
 		end
 	end
+
 	# Esto es importante para diferenciar OBJETOS PROPIOS
 	def filtro_self_field?(objeto, field)
 		if Configuracion::MODELS_WITH_SELF_FIELDS.include?(objeto.class.name)
@@ -231,6 +252,7 @@ module ApplicationHelper
 		end
 	end
 
+	# Manejo de campos condicionales
 	def filtro_conditional_field?(objeto, field)
 		if Configuracion::FORM_CONDITIONAL_FIELDS_MODELS.include?(objeto.class.name)
 			objeto.class::FORM_CONDITIONAL_FIELDS.include?(field) ? objeto.send("c_#{field}") : true
@@ -239,9 +261,11 @@ module ApplicationHelper
 		end
 	end
 
+	# Metodo de apoyo para despliega_btns? (abajo)
 	def coleccion_propia?
 		Configuracion::COLECCIONES_PROPIAS.include?("#{controller_name}##{action_name}")
 	end
+	# Metodo de apoyo para despliega_btns? (abajo)
 	def objeto_propio?(objeto)
 		if Configuracion::OBJETOS_PROPIOS.include?("#{controller_name}##{action_name}")
 			true
@@ -261,14 +285,17 @@ module ApplicationHelper
 		end
 	end
 
+	# Metodo de apoyo para despliega_btns? (abajo)
 	def m_despliega_btns?(objeto)
 		Configuracion::T_E_LINE_BTNS_MODELS.include?(objeto.class.name) ? objeto.btns_control : true
 	end
 
+	# pregunta cuando se despliegan btns
 	def despliega_btns?(objeto)
 		coleccion_propia? ? m_despliega_btns?(objeto) : (objeto_propio?(objeto) and m_despliega_btns?(objeto))		
 	end
 
+	# pregunta cuando se despliegan x_btns
 	def x_btns?(objeto)
 		Configuracion::T_E_ADDITIONAL_BTNS_MODEL.include?(objeto.class.name)
 	end
@@ -281,13 +308,13 @@ module ApplicationHelper
 	end
 
 	def display_item_menu?(item)
-		if ['Perfiles', 'Gráficos', 'Escritorio', 'Contribuciones', 'Equipos', 'Carpetas'].include?(item)
+		# ITEMS de MENU sólo para USUARIOS REGISTRADOS
+		if Configuracion::M_I_SIGN_IN.include?(item)
 			usuario_signed_in?
-		elsif ['Administradores', 'Areas', 'Conceptos', 'Revisiones', 'Cargas'].include?(item)
+		elsif Configuracion::M_I_ADMIN.include?(item)
 			(usuario_signed_in? and session[:administrador] == true)
-		elsif ['Colecciones'].include?(item)
+		elsif Configuracion::M_I_ANONIMOS.include?(item)
 			true
 		end
 	end
-
 end

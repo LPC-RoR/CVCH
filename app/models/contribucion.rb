@@ -1,7 +1,10 @@
 class Contribucion < ApplicationRecord
-	TITULO = 'Contribuciones'
+	# LOS MODELOS DE CONTROLADORES CON FRAME TIENEN EL TITULO EN EL MODELO
+	FRAME_TITULO = {
+		'index'      => 'Contribuciones'
+	}
 
-	ACTIONS_TYPE = {
+	FRAME_ACTIONS_TYPE = {
 		'index'     => 'tabla'
 #		'parametros' => 'valor'
 	}
