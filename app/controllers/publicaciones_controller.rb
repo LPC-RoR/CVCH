@@ -22,12 +22,6 @@ class PublicacionesController < ApplicationController
   # GET /publicaciones/1
   # GET /publicaciones/1.json
   def show
-#    @tab = params[:tab].blank? ? 'textos' : params[:tab]
-#    @estado = params[:estado].blank? ? @tab.classify.constantize::ESTADOS[0] : params[:estado]
-    # tenemos que cubrir todos los casos
-    # 1. has_many : }
-#    @coleccion = @objeto.send(@tab).page(params[:page]) #.where(estado: @estado)
-
     # ********************** DUPLICADOS *****************************
 
     @duplicados_doi_ids = @objeto.doi.present? ? (Publicacion.where(doi: @objeto.doi).ids - [@objeto.id]) : []

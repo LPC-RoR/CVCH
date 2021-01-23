@@ -13,8 +13,6 @@ class Investigador < ApplicationRecord
 
 	has_one :perfil
 
-	has_many :carpetas
-
 	has_many :autores
 	has_many :publicaciones, through: :autores
 

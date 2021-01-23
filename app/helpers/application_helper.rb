@@ -176,11 +176,7 @@ module ApplicationHelper
 		when 'detalle_pedido'
 			"/#{controller.classify.constantize::SELECTOR}/seleccion?#{@objeto.class.name.downcase}_id=#{@objeto.id}&empresa_id=#{@objeto.registro.empresa.id}"
 		when 'normal'
-			if Configuracion::CARGA_CONTROLLERS.include?(controller)
-				"/#{controller}/sel_archivo"
-			else
-				f_controller(controller_name) == controller ? "/#{controller}/new" : "/#{@objeto.class.name.tableize}/#{@objeto.id}/#{controller}/new"
-			end
+			f_controller(controller_name) == controller ? "/#{controller}/new" : "/#{@objeto.class.name.tableize}/#{@objeto.id}/#{controller}/new"
 		end
 	end
 
@@ -225,7 +221,7 @@ module ApplicationHelper
 
 	def get_evaluacion_publicacion(publicacion, item)
 		@activo = Perfil.find(session[:perfil_activo]['id'])
-		e = activo.evaluaciones.find_by(aspecto: item, publicacion_id: publicacion.id)
+		e = @activo.evaluaciones.find_by(aspecto: item, publicacion_id: publicacion.id)
 		e.blank? ? '[no evaluado]' : e.evaluacion
 	end
 
@@ -312,7 +308,7 @@ module ApplicationHelper
 		if Configuracion::M_I_SIGN_IN.include?(item)
 			usuario_signed_in?
 		elsif Configuracion::M_I_ADMIN.include?(item)
-			(usuario_signed_in? and session[:administrador] == true)
+			(usuario_signed_in? and session[:es_administrador] == true)
 		elsif Configuracion::M_I_ANONIMOS.include?(item)
 			true
 		end

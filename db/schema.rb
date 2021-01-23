@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_27_140218) do
+ActiveRecord::Schema.define(version: 2021_01_21_021716) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -65,6 +65,7 @@ ActiveRecord::Schema.define(version: 2020_12_27_140218) do
     t.integer "n_formatos"
     t.integer "n_publicadas"
     t.integer "n_areas"
+    t.string "archivo_carga"
     t.index ["area_id"], name: "index_cargas_on_area_id"
     t.index ["perfil_id"], name: "index_cargas_on_perfil_id"
   end

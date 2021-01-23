@@ -12,17 +12,26 @@ class Carga < ApplicationRecord
 
 	# ------------------------------------- TABLA ------------------------------------------
 	TABLA_FIELDS = [
-		['d_archivo',   'show'], 
-		['nota',      'normal'],
-		['estado',    'normal']
+		['archivo_carga', 'url'], 
+		['nota',       'normal'],
+		['estado',     'normal']
 	]
 
  	FORM_FIELDS = [
-		['area_id',         'select'],
-		['nota',             'entry'],
-		['estado',          'hidden'],
-		['perfil_id',       'hidden'],
-		['archivo',         'hidden']
+		['area_id',           'select'],
+		['nota',               'entry'],
+		['archivo_carga', 'file_field'],
+		['estado',            'hidden'],
+		['perfil_id',         'hidden'],
+		['archivo',           'hidden']
+	]
+
+	## BOTNES EXTRA REGISTRO
+	# [0] : Nombre del boton
+	# [1] : link base, a esta base se le agrega el instancia_id
+	# [2] : Si es true se agrega "objeto_id=#{@objeto.id}"
+	X_BTNS = [
+		['Proceso', '/cargas/', '/procesa_carga', false]
 	]
 
 	belongs_to :perfil
@@ -30,6 +39,8 @@ class Carga < ApplicationRecord
 
 	has_many :procesos
 	has_many :publicaciones, through: :procesos
+
+	mount_uploader :archivo_carga, ArchivoCargaUploader
 
 	def show_title
 		self.archivo.split('/').last

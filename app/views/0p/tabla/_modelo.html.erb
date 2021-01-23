@@ -12,6 +12,8 @@
 			<td><small> <%= get_field(f[0], objeto) %> </small></td>
 		<% when 'diahora' %>
 			<td><small> <%= l(objeto.send(f[0])) %> </small></td>
+		<% when 'url'  %>
+			<td><small> <%= objeto.send(f[0]).send('url').present? ? objeto.send(f[0]).send('url').split('/').last : '[ sin archivo carga ]' %> </small></td>
 		<% end %>
 	<% end %>
 

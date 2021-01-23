@@ -72,9 +72,10 @@ class PerfilesController < ApplicationController
         FileUtils.mkdir_p(dir) unless File.directory?(dir)
       end
 
-      session[:perfil_base]   = @perfil
-      session[:perfil_activo] = @perfil
-      session[:administrador] = @perfil.administrador.present?
+      session[:perfil_base]      = @perfil
+      session[:perfil_activo]    = @perfil
+      session[:administrador]    = @perfil.administrador
+      session[:es_administrador] = @perfil.administrador.present?
     end
 
     redirect_to vistas_path

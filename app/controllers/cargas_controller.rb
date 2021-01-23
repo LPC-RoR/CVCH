@@ -1,6 +1,6 @@
 class CargasController < ApplicationController
   before_action :authenticate_usuario!
-  before_action :set_carga, only: [:show, :edit, :update, :destroy]
+  before_action :set_carga, only: [:show, :edit, :update, :destroy, :procesa_carga]
 
   # GET /cargas
   # GET /cargas.json
@@ -36,7 +36,7 @@ class CargasController < ApplicationController
       @objeto.save
     end
 
-    redirect_to @objeto
+    redirect_to cargas_path
   end # def
 
   # GET /cargas/new
@@ -104,6 +104,6 @@ class CargasController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def carga_params
-      params.require(:carga).permit(:archivo, :nota, :estado, :perfil_id, :area_id)
+      params.require(:carga).permit(:archivo, :nota, :estado, :perfil_id, :area_id, :archivo_carga, :archivo_carga_cache)
     end
 end
