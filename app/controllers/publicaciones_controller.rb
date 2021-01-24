@@ -6,7 +6,6 @@ class PublicacionesController < ApplicationController
   after_action :procesa_journal, only: [:update, :create]
   after_action :procesa_estado, only: [:update, :create]
   after_action :procesa_doi, only: [:update, :create]
-  after_action :asocia_contribucion, only: [:create]
 
   # GET /publicaciones
   # GET /publicaciones.json
@@ -91,55 +90,8 @@ class PublicacionesController < ApplicationController
 
   # GET /publicaciones/new
   def new
-    @objeto = Publicacion.new(estado: 'ingreso')
-  end
-
-  def mask_new
-    @origen = params[:origen]
-  end
-
-  def mask_nuevo
     @activo = Perfil.find(session[:perfil_activo]['id'])
-    # en esta aplicación NO hay dos orígenes posibles SOLO uno
-#    @origen = params[:origen] == 'equipos' ? 'Produccion' : 'Manual'
-
-    # TITULO
-    @title = params[:m_params][:title].strip
-    # AUTORES
-    # 1.- Sacar los caracteres que referencian institucion donde trabaja el investigador
-    # 2.- Se almacena en 'author' sólo el autor corregido sin las citas
-    # Me quedó más linda que la mierda
-    @author = limpia_autor_ingreso(params[:m_params][:author].strip)
-
-    # 3.- Sacamos el Nombre de la Revista
-    match_1 = params[:m_params][:journal].strip.match(/(?<revista>[^\d\(\):–]*) (?<resto>[\d\(\):–\s,]*)/)
-    @journal = match_1[:revista]
-    resto_1 = match_1[:resto].strip
-
-    # 4.- Sacamos el volumen y el año
-    match_2 = resto_1.split(':').join(' ').match(/(?<r1>[\d\(\):–,]*) (?<r2>[\d\(\):–,]*) (?<r3>[\d\(\):–\s,]*)/)
-    if !!match_2[:r1].strip.match(/\(\d*\)/)
-      match_3 = match_2[:r1].strip.match(/\((?<year>\d*)\)/)
-      @volume = match_2[:r2].strip.delete_suffix(',')
-    else
-      match_3 = match_2[:r2].strip.match(/\((?<year>\d*)\)/)
-      @volume = match_2[:r1].strip.delete_suffix(',')
-    end
-    @year = match_3[:year]
-    @pages = match_2[:r3].strip
-
-    # DOI
-    # 1.- revisar d_doi y sacar la url o el doi: segun corrsponda.
-    primer_filtro_doi = params[:m_params][:doi].strip.delete_prefix('DOI').delete_prefix('doi:').strip
-    @doi = !!primer_filtro_doi.match(/doi.org/) ? primer_filtro_doi.strip.split('doi.org/')[1] : primer_filtro_doi
-
-    # ABSTRACT
-    @abstract = params[:m_params][:abstract].strip
-    @objeto = Publicacion.create(origen: 'ingreso', estado: 'ingreso', title: @title, author: @author, d_journal: @journal, volume: @volume, year: @year, pages: @pages, doi: @doi, abstract: @abstract)
-
-    @activo.contribuciones << @objeto
-
-    redirect_to @objeto
+    @objeto = @activo.contribuciones.new(origen: 'ingreso', estado: 'ingreso')
   end
 
   # GET /publicaciones/1/edit
@@ -355,17 +307,12 @@ class PublicacionesController < ApplicationController
       end
     end
 
-    def asocia_contribucion
-      @activo = Perfil.find(session[:perfil_activo]['id'])
-      @activo.contribuciones << @objeto
-    end
-
     def set_publicacion
       @objeto = Publicacion.find(params[:id])
     end
 
-    # Only allow a list of trusted parameters through.
+    # Only allow a list of trusted parameters through. 
     def publicacion_params
-      params.require(:publicacion).permit(:unique_id, :origen, :title, :author, :doi, :year, :volume, :pages, :month, :publisher, :abstract, :link, :author_email, :issn, :eissn, :address, :affiliation, :article_number, :keywords, :keywords_plus, :research_areas, :web_of_science_categories, :da, :d_journal, :d_author, :d_doi, :registro_id, :revista_id, :equipo_id, :investigador_id, :academic_degree, :estado, :book, :doc_type, :editor, :ciudad_pais, :journal)
+      params.require(:publicacion).permit(:unique_id, :origen, :title, :author, :doi, :year, :volume, :pages, :month, :publisher, :abstract, :link, :author_email, :issn, :eissn, :address, :affiliation, :article_number, :keywords, :keywords_plus, :research_areas, :web_of_science_categories, :da, :d_journal, :d_author, :d_doi, :registro_id, :revista_id, :equipo_id, :investigador_id, :academic_degree, :estado, :book, :doc_type, :editor, :ciudad_pais, :journal, :perfil_id)
     end
 end

@@ -67,6 +67,7 @@ class Configuracion < ApplicationRecord
 	COLECCIONES_PROPIAS = [
 		'publicaciones#index',
 		'revisiones#index',
+		'contribuciones#index',
 		'equipos#index',
 		'areas#index',
 		'conceptos#index',

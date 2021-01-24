@@ -64,14 +64,6 @@ class PerfilesController < ApplicationController
         @perfil.carpetas.create(carpeta: 'Revisadas')
       end
 
-      # Crea Directorios del ADMINISTRADORES
-      Configuracion::CARGA_CONTROLLERS.each do |controlador|
-        # formato directorios de carga : /eda/archivo/<email usuario>/<controlador>/
-        # Por ahora consideramos UNA carga por controlador
-        dir = File.dirname("#{Rails.root}#{Configuracion::RUTA_ARCHIVOS_ADMIN}#{controlador}/archivo")
-        FileUtils.mkdir_p(dir) unless File.directory?(dir)
-      end
-
       session[:perfil_base]      = @perfil
       session[:perfil_activo]    = @perfil
       session[:administrador]    = @perfil.administrador

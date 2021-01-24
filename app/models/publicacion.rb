@@ -37,28 +37,29 @@ class Publicacion < ApplicationRecord
 		'*' => 'mask',
 	}
 	# -------------------- FORM  -----------------------
+	# NO SE USA PORQUE TIENE F_DETALLE
 
- 	FORM_FIELDS = [
-		['d_quote',          'show'], 
-		['doc_type',       'normal'], 
-		['m_quote',        'metodo'], 
-		['d_author',        'entry'],
-		['author',          'entry'], 
-		['year',            'entry'], 
-		['title',           'entry'],
-		['editor',          'entry'],
-		['book',            'entry'],
-		['academic_degree', 'entry'],
-		['ciudad_pais',     'entry'],
-		['d_journal',       'entry'],
-		['volume',          'entry'],
-		['pages',           'entry'],
-		['d_doi',           'entry'],
-		['doi',             'entry'],
-		['abstract',    'text_area'],
-
-		['estado',         'hidden']
-	]
+# 	FORM_FIELDS = [
+#		['d_quote',          'show'], 
+#		['doc_type',       'normal'], 
+#		['m_quote',        'metodo'], 
+#		['d_author',        'entry'],
+#		['author',          'entry'], 
+#		['year',            'entry'], 
+#		['title',           'entry'],
+#		['editor',          'entry'],
+#		['book',            'entry'],
+#		['academic_degree', 'entry'],
+#		['ciudad_pais',     'entry'],
+#		['d_journal',       'entry'],
+#		['volume',          'entry'],
+#		['pages',           'entry'],
+#		['d_doi',           'entry'],
+#		['doi',             'entry'],
+#		['abstract',    'text_area'],
+#		['origen',         'hidden'],
+#		['estado',         'hidden']
+#	]
 
 	FORM_CONDITIONAL_FIELDS = ['d_quote', 'm_quote', 'doi', 'd_author', 'd_doi', 'abstract', 'academic_degree', 'volume', 'book', 'pages', 'd_journal', 'title', 'year', 'author', 'editor']
 
