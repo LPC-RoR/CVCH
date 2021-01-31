@@ -12,8 +12,8 @@
 			<%= column_chart area.papers.where(estado: 'publicada').order(:year).group(:year).count %>
 		</div>
 		<div class='col-md-6'>
-			<h5><%= 'Publicaciones del área por estado' %></h5>
-			<%= pie_chart area.papers.group(:estado).count %>
+			<h5><%= 'Publicaciones del área por tipo de documento' %></h5>
+			<%= pie_chart area.papers.group(:doc_type).count %>
 		</div>
 	</div>
 

@@ -1,5 +1,6 @@
 class CargasController < ApplicationController
   before_action :authenticate_usuario!
+  before_action :inicia_session
   before_action :set_carga, only: [:show, :edit, :update, :destroy, :procesa_carga]
 
   # GET /cargas
@@ -26,7 +27,6 @@ class CargasController < ApplicationController
   end
 
   def procesa_carga
-    @objeto = Carga.find(params[:carga_id])
     if @objeto.estado == 'ingreso'
       # Abre archivo
       carga_archivo_excel(@objeto)
@@ -41,8 +41,8 @@ class CargasController < ApplicationController
 
   # GET /cargas/new
   def new         
-    @archivo = "#{Rails.root}#{Configuracion::RUTA_ARCHIVOS_ADMIN}#{controller_name}/#{params[:archivo]}"
-    @objeto  = Carga.new(archivo: @archivo, estado: 'ingreso', perfil_id: session[:perfil_activo]['id'])
+    @objeto  = Carga.new(estado: 'ingreso', perfil_id: session[:perfil_activo]['id'])
+
   end
 
   # GET /cargas/1/edit

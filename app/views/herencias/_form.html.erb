@@ -1,0 +1,27 @@
+<%= form_with(model: herencia, local: true) do |form| %>
+  <% if herencia.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(herencia.errors.count, "error") %> prohibited this herencia from being saved:</h2>
+
+      <ul>
+      <% herencia.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :equipo_id %>
+    <%= form.number_field :equipo_id %>
+  </div>
+
+  <div class="field">
+    <%= form.label :carpeta_id %>
+    <%= form.number_field :carpeta_id %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

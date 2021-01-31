@@ -3,7 +3,7 @@
 	    <i class="glyphicon glyphicon-euro"></i> <%= texto %>
 	<% end %>
 <% else %>
-	<%= link_to link, class: "btn btn-outline-info btn-sm" do %>
+	<%= link_to link, data: { turbolinks: false }, class: "btn btn-outline-info btn-sm" do %>
 	    <i class="glyphicon glyphicon-euro"></i> <%= texto %>
 	<% end %>
 <% end %>

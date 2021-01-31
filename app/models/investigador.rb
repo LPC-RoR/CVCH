@@ -1,7 +1,4 @@
 class Investigador < ApplicationRecord
-	# ----------------------------------------- HIDDEN CHILDS
-	HIDDEN_CHILDS = ['autores', 'carpetas']
-
 	# --------------------------------------------------- TABLA
 	TABLA_FIELDS = [
 		['investigador',         'show']

@@ -1,5 +1,6 @@
 class ConceptosController < ApplicationController
   before_action :authenticate_usuario!
+  before_action :inicia_session
   before_action :set_concepto, only: [:show, :edit, :update, :destroy]
 
   # GET /conceptos

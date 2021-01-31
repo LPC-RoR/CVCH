@@ -1,5 +1,6 @@
 class CarpetasController < ApplicationController
   before_action :authenticate_usuario!
+  before_action :inicia_session
   before_action :set_carpeta, only: [:show, :edit, :update, :destroy]
 
   # GET /carpetas

@@ -1,5 +1,6 @@
 class ProcesosController < ApplicationController
   before_action :authenticate_usuario!
+  before_action :inicia_session
   before_action :set_proceso, only: [:show, :edit, :update, :destroy]
 
   # GET /procesos

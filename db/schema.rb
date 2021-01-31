@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_21_021716) do
+ActiveRecord::Schema.define(version: 2021_01_31_205555) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -72,12 +72,10 @@ ActiveRecord::Schema.define(version: 2021_01_21_021716) do
 
   create_table "carpetas", force: :cascade do |t|
     t.string "carpeta"
-    t.integer "equipo_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "perfil_id"
     t.index ["carpeta"], name: "index_carpetas_on_carpeta"
-    t.index ["equipo_id"], name: "index_carpetas_on_equipo_id"
     t.index ["perfil_id"], name: "index_carpetas_on_perfil_id"
   end
 
@@ -132,6 +130,15 @@ ActiveRecord::Schema.define(version: 2021_01_21_021716) do
     t.index ["publicacion_id"], name: "index_evaluaciones_on_publicacion_id"
   end
 
+  create_table "herencias", force: :cascade do |t|
+    t.integer "equipo_id"
+    t.integer "carpeta_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["carpeta_id"], name: "index_herencias_on_carpeta_id"
+    t.index ["equipo_id"], name: "index_herencias_on_equipo_id"
+  end
+
   create_table "idiomas", force: :cascade do |t|
     t.string "idioma"
     t.datetime "created_at", null: false
@@ -179,13 +186,11 @@ ActiveRecord::Schema.define(version: 2021_01_21_021716) do
     t.integer "usuario_id"
     t.integer "administrador_id"
     t.integer "investigador_id"
-    t.integer "equipo_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "email"
     t.index ["administrador_id"], name: "index_perfiles_on_administrador_id"
     t.index ["email"], name: "index_perfiles_on_email"
-    t.index ["equipo_id"], name: "index_perfiles_on_equipo_id"
     t.index ["investigador_id"], name: "index_perfiles_on_investigador_id"
     t.index ["usuario_id"], name: "index_perfiles_on_usuario_id"
   end
@@ -228,7 +233,6 @@ ActiveRecord::Schema.define(version: 2021_01_21_021716) do
     t.string "d_doi"
     t.integer "registro_id"
     t.integer "revista_id"
-    t.integer "equipo_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "d_quote"
@@ -243,7 +247,6 @@ ActiveRecord::Schema.define(version: 2021_01_21_021716) do
     t.string "ciudad_pais"
     t.string "journal"
     t.index ["doc_type"], name: "index_publicaciones_on_doc_type"
-    t.index ["equipo_id"], name: "index_publicaciones_on_equipo_id"
     t.index ["estado"], name: "index_publicaciones_on_estado"
     t.index ["origen"], name: "index_publicaciones_on_origen"
     t.index ["perfil_id"], name: "index_publicaciones_on_perfil_id"

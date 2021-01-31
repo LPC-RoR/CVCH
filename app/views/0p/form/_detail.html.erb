@@ -34,12 +34,14 @@
 		    <% end %>
 		  </p>
 
-		  <p>
-		    <label>
-		      <%= form.check_box :remove_archivo_carga %>
-		      Remueve Archivo
-		    </label>
-		  </p>
+		  	<% if @objeto.send(field[0]).present? %>
+				<p>
+				<label>
+				  <%= form.check_box :remove_archivo_carga %>
+				  Remueve Archivo
+				</label>
+				</p>
+			<% end %>
 		<% when 'hidden' %>
 		  <%= form.hidden_field field[0] %>
 		<% end %>

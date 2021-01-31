@@ -15,7 +15,7 @@
 		</div>
 		<% end %>
 
-		<% if Configuracion::FORM_E_DETAIL.include?(@objeto.class.name) %>
+		<% if form_f_detail?(@objeto) %>
 			<%= render partial: "#{@objeto.class.name.tableize}/f_detail", locals: {c: c, form: form} %>
 		<% else %>
 			<%= render partial: '0p/form/detail', locals: {c: c, form: form} %>

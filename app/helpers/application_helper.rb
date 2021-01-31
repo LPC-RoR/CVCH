@@ -1,162 +1,149 @@
 module ApplicationHelper
 	## USO GENERAL
 
-	# CAPITAN
+	## CAPITAN
+
+	## ------------------------------------------------------- MENU
 
 	# Obtiene los controladores que no despliegan menu
 	def nomenu?(controller)
-		Configuracion::M_E_CONTROLLERS.include?(controller)
+		Rails.configuration.x.menu.exceptions_controllers.include?(controller)
 	end
 
-	def frame_titulo(c, a)
-		c.classify.constantize::FRAME_TITULO[a]
+	def menu
+		Rails.configuration.menu
 	end
 
-	# Pregunta si la "accion" del controlador despliega TABS
+	def item_active(link)
+		detalle_link = link.split('/')
+		nombre_accion = (detalle_link.length == 2 ? 'index' : detalle_link[2])
+		detalle_link[1] == controller_name and nombre_accion == action_name
+	end
+
+	def display_item_menu?(tipo_item)
+		# ITEMS de MENU sólo para USUARIOS REGISTRADOS
+		case tipo_item
+		when 'admin'
+			(usuario_signed_in? and session[:es_administrador] == true)
+		when 'usuario'
+			usuario_signed_in?
+		when 'anonimo'
+			true
+		when 'excluir'
+			false
+		end
+	end
+
+	## ------------------------------------------------------- FRAME
+
+	def frame_titulo(controlador, accion)
+		Rails.configuration.frames[controlador][accion][:titulo]
+	end
+
 	# "_frame.html.erb" y "_bi_frame.html.erb"
 	def frame_with_tabs?(controlador, accion)
-		Configuracion::FRAME_WITH_TABS_CONTROLLERS.include?(controlador) and not controlador.classify.constantize::FRAME_TABS[accion].blank?
+		Rails.configuration.frames[controlador][accion][:tabs].present?
 	end
 
 	# Obtiene TABS de un controller + action
-	def frame_tabs(controller, action)
-		controller.classify.constantize::FRAME_TABS[action]
+	def frame_tabs(controlador, accion)
+		Rails.configuration.frames[controlador][accion][:tabs]
+	end
+
+	# "_frame.html.erb" y "_bi_frame.html.erb"
+	def frame_with_table?(controlador, accion)
+		Rails.configuration.frames[controlador][accion][:action_type] == 'tabla'
 	end
 
 	def bi_frame_selector(controlador, accion)
-		controlador.classify.constantize::FRAME_SELECTOR[accion]
+#		controlador.classify.constantize::FRAME_SELECTOR[accion]
+		Rails.configuration.frames[controlador][accion][:selector]
 	end
 
-	# Pregunta si la "accion" del "recursos_controller" despluega TABLA
-	# "_frame.html.erb" y "_bi_frame.html.erb"
-	def frame_with_table?(controlador, accion)
-		controlador.classify.constantize::FRAME_ACTIONS_TYPE[accion] == 'tabla'
-	end
-
-	# Obtiene los TABS de un modelo usando el controlador
-	# "-tabla.html.erb"
-	def m_tabs(controller)
-		controller.classify.constantize::TABS
-	end
-
-	# Obtiene los estados de un modelo usando el controlador
-	# "-tabla.html.erb"
-	def m_estados(controller)
-		controller.classify.constantize::ESTADOS
-	end
+	## ------------------------------------------------------- TABLA
 
 	# valida el uso de alias en las tablas
-	def alias_tabla(controller)
-		case controller
+	def alias_tabla(controlador)
+		case controlador
 		when 'papers'
 			'publicaciones'
 		when 'hijos'
 			'conceptos'
+		when 'ingresos'
+			'publicaciones'
+		else
+			controlador
+		end
+	end
+
+	# Maneja comportamiento por defecto y excepciones de TABLA
+	def in_t?(controlador, label)
+		excepcion = false
+		# Pregunta si el Controlador TIENE personalizacion
+		if Rails.configuration.x.tables.exceptions[controlador].present?
+			if Rails.configuration.x.tables.exceptions[controlador][:elementos][label].present?
+				elementos_label = Rails.configuration.x.tables.exceptions[controlador][:elementos][label]
+				# self  = true : está en el mismo controlador, con accion 'index' y se marcó 'self' como excepción
+				excepcion_self       = (controller_name == controlador and action_name == 'index' and elementos_label.include?('self'))
+				# *     = true
+				excepcion_todo       = (elementos_label.include?('*'))
+				# label = true
+				excepcion_controller = (elementos_label.include?(controller_name))
+
+				excepcion = (excepcion_self or excepcion_todo or excepcion_controller)
+
+			end 
+		end 
+		de = (controller_name == controlador and action_name == 'index') ? Rails.configuration.t_default[label]['self'] : Rails.configuration.t_default[label]['show']
+
+		(excepcion ? (not de) : de)
+	end
+
+	def inline_form?(controlador)
+		if Rails.configuration.x.tables.exceptions[controlador].present?
+			if Rails.configuration.x.tables.exceptions[controlador][:new_type].present?
+				inline_todos       = Rails.configuration.x.tables.exceptions[controlador][:new_type]['*'] == 'inline'
+				inline_controller  = Rails.configuration.x.tables.exceptions[controlador][:new_type][controlador] == 'inline'
+				inline_todos or inline_controller
+			else
+				false
+			end
+		else
+			false
+		end
+	end
+
+	# Método de apoyo usado en get_new_link (abajo)
+	def f_controller(controller)
+		case controller
+		when 'contribuciones'
+			'publicaciones'
 		else
 			controller
 		end
 	end
 
-	# Manejode options para selectors múltiples
-	def get_html_opts(options, label, value)
-		opts = options.clone
-		opts[label] = value
-		opts
-	end
-
-	# Maneja comportamiento por defecto y excepciones de TABLA
-	def in_t?(c, label)
-		excepcion = false
-		# Pregunta si el Controlador TIENE personalizacion
-		if Configuracion::T_E_CONTROLLERS.include?(c)
-			# Pregunta si LABEL tiene personalizacion
-			# ---------------------------------------------  SELF?  ------------------------------------------------
-			unless c.classify.constantize::T_EXCEPTIONS[label].blank?         # NO HAY EXCEPCION PARA EL LABEL
-				# Verifica 'self', '*' y c
-				excepcion = ((controller_name == c and action_name == 'index' and c.classify.constantize::T_EXCEPTIONS[label].include?('self')) or (c.classify.constantize::T_EXCEPTIONS[label].include?('*')) or (c.classify.constantize::T_EXCEPTIONS[label].include?(controller_name)))
-			end
-		end 
-		de = (controller_name == c and action_name == 'index') ? Configuracion::T_DEFAULT[label]['self'] : Configuracion::T_DEFAULT[label]['show']
-
-		(excepcion ? (not de) : de)
-	end
-
-	def inline_form?(c)
-		Configuracion::T_E_NEW_CONTROLLERS.include?(c) ? (c.classify.constantize::T_NEW_EXCEPTIONS['*'] == 'inline' or c.classify.constantize::T_NEW_EXCEPTIONS[controller_name] == 'inline') : false
-	end
-
-	# Maneja comportamiento por defecto y excepciones de SHOW
-	def in_show?(objeto, label)
-		excepcion = false
-		# Pregunta si el Modelo TIENE personalizacion
-		if Configuracion::S_E_MODELS.include?(objeto.class.name)
-			# Pregunta si LABEL tiene personalizacion
-			excepcion = objeto.class::S_E.include?(label)
-		end 
-
-		de = Configuracion::S_DEFAULT[label]
-		(excepcion ? (not de) : de)
-	end
-
-	# SHOW_TITLE con manejo de excepciones
-	# Se usa dentro de la aplicación también
-	def show_title(object)
-		if Configuracion::S_E_TITLE_MODELS.include?(object.class.name)
-			object.show_title
-		else
-			"#{object.send(object.class.name.downcase)}"
-		end
-	end
-
-	# Obtiene los campos a desplegar en la tabla desde el objeto
-	def m_tabla_fields(objeto)
-		objeto.class::TABLA_FIELDS
-	end
-
-	# despliegue de RUT
-	# Lo dejo porque no tengo claro como lo reemplace
-#	def d_rut(rut)
-#		rut_base = rut.tr('.-', '').length == 8 ? '0'+rut.tr('.-', '') : rut.tr('.-', '')
-#		rut_base.reverse.insert(1, '-').insert(5, '.').insert(9, '.').reverse
-#	end
-
-
-	# Toma las relaciones has_many y les descuenta las HIDDEN_CHILDS
-	# "_show.html.erb"
-	def has_many_tabs(controller)
-		controller.classify.constantize.reflect_on_all_associations(:has_many).map {|a| a.name.to_s} - hidden_childs(controller)
-	end
-
-	# método de apoyo usado en el método has_many_tabs (arriba)
-	def hidden_childs(controller)
-		Configuracion::HIDDEN_CHILDS_CONTROLLERS.include?(controller) ? controller.classify.constantize::HIDDEN_CHILDS : []
-	end
-
-	# pregunta si tiene childs
-	# "_btns_e.html.erb"
-	def has_child?(objeto)
-		# Considera TODO, hasta los has_many through
-		objeto.class.reflect_on_all_associations(:has_many).map { |a| objeto.send(a.name).any? }.include?(true)
-	end
-
-	# Objtiene LINK DEL BOTON NEW
+	# Objtiene LINK DEL BOTON NEWf
 	def get_new_link(controller)
 		# CONTROLA EXCEPCIONES
-		if Configuracion::T_E_NEW_CONTROLLERS.include?(controller)
-			if controller.classify.constantize::T_NEW_EXCEPTIONS['*'].present?
-				tipo_new = controller.classify.constantize::T_NEW_EXCEPTIONS['*']
-			else
-				if (controller_name == controller and controller.classify.constantize::T_NEW_EXCEPTIONS['self'].present?)
-					tipo_new = controller.classify.constantize::T_NEW_EXCEPTIONS['self']
-				elsif controller.classify.constantize::T_NEW_EXCEPTIONS[controller_name].present?
-					tipo_new = controller.classify.constantize::T_NEW_EXCEPTIONS[controller_name]
+		if Rails.configuration.x.tables.exceptions[controller].present?
+			if Rails.configuration.x.tables.exceptions[controller][:new_type].present?
+				if Rails.configuration.x.tables.exceptions[controller][:new_type]['*'].present?
+					tipo_new = Rails.configuration.x.tables.exceptions[controller][:new_type]['*']
+				elsif Rails.configuration.x.tables.exceptions[controller][:new_type]['self'].present? and controller_name == controller
+					tipo_new = Rails.configuration.x.tables.exceptions[controller][:new_type]['self']
+				elsif Rails.configuration.x.tables.exceptions[controller][:new_type][controller_name].present?
+					tipo_new = Rails.configuration.x.tables.exceptions[controller][:new_type][controller_name]
 				else
 					tipo_new = 'normal'
 				end
+			else
+				tipo_new = 'normal'
 			end
 		else
 			tipo_new = 'normal'
 		end
+
 		# GENERA EL LINK
 		case tipo_new
 		when 'mask'
@@ -180,14 +167,215 @@ module ApplicationHelper
 		end
 	end
 
-	# Método de apoyo usado en get_new_link (arriba)
-	def f_controller(controller)
-		case controller
-		when 'contribuciones'
-			'publicaciones'
+	# Obtiene el campo para despleagar en una TABLA
+	# Resuelve BT_FIELDS y d_<campo> si es necesario 
+	def get_field(name, objeto)
+		if objeto.class::column_names.include?(name) or (name.split('_')[0] == 'd') or (name.split('_')[0] == 'm')
+			objeto.send(name)
+		elsif Rails.configuration.x.tables.bt_fields[objeto.class.name].present?
+			if Rails.configuration.x.tables.bt_fields[objeto.class.name][name][0] == 'bt_field'
+				obj_base = objeto.send(Rails.configuration.x.tables.bt_fields[objeto.class.name][name][1])
+				(obj_base.blank? ? ' objeto NO encotrado ' : obj_base.send(name))
+			else
+				objeto.send(name)
+			end
 		else
-			controller
+			'FieldNotFound'
 		end
+	end
+
+	# Obtiene los campos a desplegar en la tabla desde el objeto
+	def m_tabla_fields(objeto)
+		objeto.class::TABLA_FIELDS
+	end
+
+	# Obtiene los TABS de un modelo usando el controlador
+	# "-tabla.html.erb"
+	def c_tabs(controller)
+		Rails.configuration.x.tables.exceptions[controller][:tabs]
+	end
+
+	# Obtiene los estados de un modelo usando el controlador
+	# "-tabla.html.erb"
+	def c_estados(controller)
+		Rails.configuration.x.tables.exceptions[controller][:estados]
+	end
+
+	## ------------------------------------------------------- TABLA | BTNS
+
+	def crud_conditions(objeto)
+		case objeto.class.name
+		when 'Carga'
+			objeto.estado == 'ingreso'
+		when 'Publicacion'
+			['ingreso', 'contribucion'].include?(objeto.origen)
+		when 'Carpeta'
+			not Carpeta::NOT_MODIFY.include?(objeto.carpeta)
+		when 'Area'
+			not Area::NOT_MODIFY.include?(objeto.area)
+		when 'Instancia'
+			false
+		end
+	end
+
+	def x_conditions(objeto, btn)
+		case objeto.class.name
+		when 'Carga'
+			objeto.estado == 'ingreso'
+		when 'Instancia'
+			controller_name == 'publicaciones'
+		when 'Clasificacion'
+			objeto.clasificacion != btn
+		end
+	end
+
+	def btns?(objeto, tipo)
+		if Rails.configuration.x.btns.exceptions[objeto.class.name].present?
+			if Rails.configuration.x.btns.exceptions[objeto.class.name][:conditions].present?
+				case tipo
+				when 'crud'
+					Rails.configuration.x.btns.exceptions[objeto.class.name][:conditions].include?('crud') ? crud_conditions(objeto) : true
+				when 'x'
+					Rails.configuration.x.btns.exceptions[objeto.class.name][:conditions].include?('x')
+				end
+			else
+				tipo == 'crud' ? true : false
+			end
+		else
+			# por defecto 'crud' es true y 'x' es false
+			tipo == 'crud' ? true : false
+		end
+	end
+
+	def x_btns(objeto)
+		Rails.configuration.x.btns.exceptions[objeto.class.name][:x_btns]
+	end
+
+	# pregunta si tiene childs
+	# "_btns_e.html.erb"
+	def has_child?(objeto)
+		# Considera TODO, hasta los has_many through
+		objeto.class.reflect_on_all_associations(:has_many).map { |a| objeto.send(a.name).any? }.include?(true)
+	end
+
+	## ------------------------------------------------------- FORM & SHOW
+
+	# apoyo de filtro_condicional_field? (abajo)
+	def get_field_condition(objeto, field)
+		case objeto.class.name
+		when 'Publicacion'
+			objeto.origen == 'ingreso'
+		end
+	end
+
+	# Manejo de campos condicionales FORM y SHOW
+	def filtro_conditional_field?(objeto, field)
+		if Rails.configuration.x.form.exceptions[objeto.class.name].present?
+			Rails.configuration.x.form.exceptions[objeto.class.name][:conditional_fields].include?(field) ? get_field_condition(objeto, field) : false
+		else
+			true
+		end
+	end
+
+	## ------------------------------------------------------- FORM
+
+	def form_f_detail?(objeto)
+		if Rails.configuration.x.form.exceptions[objeto.class.name].present?
+			Rails.configuration.x.form.exceptions[objeto.class.name][:f_detail].present? ? Rails.configuration.x.form.exceptions[objeto.class.name][:f_detail] : false
+		else
+			false
+		end
+	end
+
+	## ------------------------------------------------------- SHOW
+
+	# Maneja comportamiento por defecto y excepciones de SHOW
+	def in_show?(objeto, label)
+		excepcion = false
+		# Pregunta si el Modelo TIENE personalizacion
+		if Rails.configuration.x.show.exceptions[objeto.class.name].present?
+			# Pregunta si LABEL tiene personalizacion
+			excepcion = Rails.configuration.x.show.exceptions[objeto.class.name][:elementos].present? ? Rails.configuration.x.show.exceptions[objeto.class.name][:elementos].include?(label) : false
+		end 
+
+		de = Rails.configuration.s_default[label]
+		(excepcion ? (not de) : de)
+	end
+
+	# SHOW_TITLE con manejo de excepciones
+	# Se usa dentro de la aplicación también
+	def show_title(objeto)
+		if Rails.configuration.x.show.exceptions[objeto.class.name].present?
+			if Rails.configuration.x.show.exceptions[objeto.class.name][:elementos].present?
+				if Rails.configuration.x.show.exceptions[objeto.class.name][:elementos].include?('show_title')
+					case objeto.class.name
+					when 'Publicacion'
+						objeto.title
+					end
+				else
+					objeto.send(objeto.class.name.downcase)
+				end
+			else
+				objeto.send(objeto.class.name.downcase)
+			end
+		else
+			objeto.send(objeto.class.name.downcase)
+		end
+	end
+
+	def show_links(objeto)
+		case objeto.class.name
+		when 'Publicacion'
+			[
+				['Editar',     [:edit, objeto], (usuario_signed_in? and not ['publicada', 'papelera'].include?(objeto.estado))],
+				['Papelera',   "/publicaciones/estado?publicacion_id=#{objeto.id}&estado=papelera",     ['ingreso', 'duplicado', 'carga', 'formato', 'contribucion'].include?(objeto.estado)],
+				['Eliminar',   "/publicaciones/estado?publicacion_id=#{objeto.id}&estado=eliminado",    ['papelera'].include?(objeto.estado)],
+				['Contribuir', "/publicaciones/estado?publicacion_id=#{objeto.id}&estado=contribucion", ['ingreso'].include?(objeto.estado)],
+				['Publicar',   "/publicaciones/estado?publicacion_id=#{objeto.id}&estado=publicada",    (['contribucion', 'carga', 'duplicado', 'formato'].include?(objeto.estado) and not (objeto.doc_type.blank? or objeto.areas.empty?))],
+				['Carga',      "/publicaciones/estado?publicacion_id=#{objeto.id}&estado=carga",        (['publicado', 'papelera'].include?(objeto.estado) and objeto.origen == 'carga')],
+				['Ingreso',    "/publicaciones/estado?publicacion_id=#{objeto.id}&estado=ingreso",        (['publicado', 'papelera'].include?(objeto.estado) and objeto.origen == 'ingreso')],
+				['Múltiple',   "/publicaciones/estado?publicacion_id=#{objeto.id}&estado=multiple",     objeto.estado == 'duplicado'],
+				['Corrección', "/publicaciones/estado?publicacion_id=#{objeto.id}&estado=correccion",   (objeto.estado == 'publicada' and usuario_signed_in?)]
+			]
+		end
+	end
+
+	# método de apoyo usado en el método has_many_tabs (arriba)
+	def hidden_childs(controller)
+		Rails.configuration.x.show.hidden[controller].present? ? Rails.configuration.x.show.hidden[controller] : []
+	end
+
+	# Toma las relaciones has_many y les descuenta las HIDDEN_CHILDS
+	# "_show.html.erb"
+	def has_many_tabs(controller)
+		controller.classify.constantize.reflect_on_all_associations(:has_many).map {|a| a.name.to_s} - hidden_childs(controller)
+	end
+
+	# manejo de f_tabla para manejar tablas asociadas
+	# /show/_detalle.html.erb
+	def f_tabla_field(objeto, label)
+		if Rails.configuration.x.tables.bt_fields[objeto.class.name].present?
+			if Rails.configuration.x.tables.bt_fields[objeto.class.name][label].present?
+				if Rails.configuration.x.tables.bt_fields[objeto.class.name][label][0] == 'bt_field'
+					objeto.send(Rails.configuration.x.tables.bt_fields[objeto.class.name][label][1]).send(label)
+				else
+					'Objeto NO encontrado'
+				end
+			else
+				'Objeto NO encontrado'
+			end
+		else
+			'Objeto NO encontrado'
+		end
+	end
+
+	## ------------------------------------------------------- GENERAL
+
+	# Manejode options para selectors múltiples
+	def get_html_opts(options, label, value)
+		opts = options.clone
+		opts[label] = value
+		opts
 	end
 
 	# Corrige palabras
@@ -201,23 +389,15 @@ module ApplicationHelper
 		end
 	end
 
-	# manejo de f_tabla para manejar tablas asociadas
-	def f_tabla(objeto)
-		objeto.send(objeto.class::F_TABLA.singularize)
+	## ------------------------------------------------------- LIST
+
+	def text_with_badge(text, badge_value=nil)
+	    badge = content_tag :span, badge_value, class: 'badge badge-primary badge-pill'
+	    text = raw "#{text} #{badge}" if badge_value
+	    return text
 	end
 
-	# Obtiene el campo para despleagar en una TABLA
-	# Resuelve BT_FIELDS y d_<campo> si es necesario 
-	def get_field(name, objeto)
-		if objeto.class::column_names.include?(name) or (name.split('_')[0] == 'd') or (name.split('_')[0] == 'm')
-			objeto.send(name)
-		elsif objeto.class::BT_FIELDS.include?(name)
-			o_bt = objeto.send(objeto.class::BT_MODEL)
-			o_bt.send(name)
-		else
-			'FieldNotFound'
-		end
-	end
+	## ------------------------------------------------------- PUBLICACION
 
 	def get_evaluacion_publicacion(publicacion, item)
 		@activo = Perfil.find(session[:perfil_activo]['id'])
@@ -231,86 +411,4 @@ module ApplicationHelper
 		Publicacion::EVALUACION[item] - excluido
 	end
 
-	# método de apoyo para filtro_self_filed? (abajo)
-	def my_objeto?(objeto)
-		case objeto.class.name
-		when 'Equipo'
-			objeto.perfil.id == session[:perfil_activo]['id']
-		end
-	end
-
-	# Esto es importante para diferenciar OBJETOS PROPIOS
-	def filtro_self_field?(objeto, field)
-		if Configuracion::MODELS_WITH_SELF_FIELDS.include?(objeto.class.name)
-			objeto.class::MY_FIELDS.include?(field) ? (my_objeto?(objeto) ? true : false) : true
-		else
-			true
-		end
-	end
-
-	# Manejo de campos condicionales
-	def filtro_conditional_field?(objeto, field)
-		if Configuracion::FORM_CONDITIONAL_FIELDS_MODELS.include?(objeto.class.name)
-			objeto.class::FORM_CONDITIONAL_FIELDS.include?(field) ? objeto.send("c_#{field}") : true
-		else
-			true
-		end
-	end
-
-	# Metodo de apoyo para despliega_btns? (abajo)
-	def coleccion_propia?
-		Configuracion::COLECCIONES_PROPIAS.include?("#{controller_name}##{action_name}")
-	end
-	# Metodo de apoyo para despliega_btns? (abajo)
-	def objeto_propio?(objeto)
-		if Configuracion::OBJETOS_PROPIOS.include?("#{controller_name}##{action_name}")
-			true
-		else
-			case objeto.class.name
-			when 'Publicacion'
-				# Propio por ahora
-				# Hay que ser usuario administrador
-				true
-			when 'Equipo'
-				objeto.administrador.id == session[:perfil_activo]['id']
-			when 'Carpeta'
-				objeto.equipo.present? ? objeto.equipo.perfil.id == session[:perfil_activo]['id'] : objeto.investigador.id == session[:perfil_activo]['id']
-			else
-				false
-			end
-		end
-	end
-
-	# Metodo de apoyo para despliega_btns? (abajo)
-	def m_despliega_btns?(objeto)
-		Configuracion::T_E_LINE_BTNS_MODELS.include?(objeto.class.name) ? objeto.btns_control : true
-	end
-
-	# pregunta cuando se despliegan btns
-	def despliega_btns?(objeto)
-		coleccion_propia? ? m_despliega_btns?(objeto) : (objeto_propio?(objeto) and m_despliega_btns?(objeto))		
-	end
-
-	# pregunta cuando se despliegan x_btns
-	def x_btns?(objeto)
-		Configuracion::T_E_ADDITIONAL_BTNS_MODEL.include?(objeto.class.name)
-	end
-
-
-	def text_with_badge(text, badge_value=nil)
-	    badge = content_tag :span, badge_value, class: 'badge badge-primary badge-pill'
-	    text = raw "#{text} #{badge}" if badge_value
-	    return text
-	end
-
-	def display_item_menu?(item)
-		# ITEMS de MENU sólo para USUARIOS REGISTRADOS
-		if Configuracion::M_I_SIGN_IN.include?(item)
-			usuario_signed_in?
-		elsif Configuracion::M_I_ADMIN.include?(item)
-			(usuario_signed_in? and session[:es_administrador] == true)
-		elsif Configuracion::M_I_ANONIMOS.include?(item)
-			true
-		end
-	end
 end

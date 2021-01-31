@@ -1,30 +1,8 @@
 class Equipo < ApplicationRecord
 	# TABS DEL TABLE
-	TABS = ['Administrados', 'Participaciones']
-
-	# ----------------------------------------- HIDDEN CHILDS
-	HIDDEN_CHILDS = ['publicaciones', 'integrantes']
-
 	# ------------------------------------------------- TABLA
-	T_EXCEPTIONS = {
-		tabs:    ['self']
-	}
-
 	TABLA_FIELDS = [
 		['equipo', 'show'], 
-	]
-
-	T_NEW_EXCEPTIONS = {
-		#'controller' => 'tipo_new'
-		# '*' en todo controller_name
-		'*' => 'inline',
-	}
-
-	# [0] : Nombre del boton
-	# [1] : link base, a esta base se le agrega el instancia_id
-	# [2] : Si es true se agrega "objeto_id=#{@objeto.id}"
-	X_BTNS = [
-		['Eliminar', '/equipos/', '/elimina_equipo', true]
 	]
 
 	# ------------------------------------------------- SHOW
@@ -34,7 +12,7 @@ class Equipo < ApplicationRecord
 	]
 
 	S_E = [:detalle]
-	F_TABLA = 'perfil'
+	F_TABLA = 'administrador'
 
  	FORM_FIELDS = [
 		['equipo',             'entry'],
@@ -45,11 +23,9 @@ class Equipo < ApplicationRecord
 
 	belongs_to :administrador, class_name: 'Perfil'
 
-	has_one :perfil
-
-	has_many :publicaciones
-	has_many :carpetas
-
 	has_many :integrantes
 	has_many :perfiles, through: :integrantes
+
+	has_many :herencias
+	has_many :carpetas, through: :herencias
 end

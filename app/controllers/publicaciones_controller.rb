@@ -1,5 +1,6 @@
 class PublicacionesController < ApplicationController
-  before_action :authenticate_usuario!
+  before_action :authenticate_usuario!, except: :show
+  before_action :inicia_session
   before_action :set_publicacion, only: [:show, :edit, :update, :destroy]
   after_action :procesa_author, only: [:update, :create]
   after_action :procesa_sha1, only: [:update, :create]
@@ -21,6 +22,61 @@ class PublicacionesController < ApplicationController
   # GET /publicaciones/1
   # GET /publicaciones/1.json
   def show
+
+    if usuario_signed_in?
+
+      @activo = Perfil.find(session[:perfil_activo]['id'])
+
+      # ********************** CARPETAS *****************************
+      if @objeto.estado == 'publicada'
+        # IZQ las carpetas en las cuales la Publicacion está
+        # DER las carpetas en las que se puede agregar
+        # CARPETAS EN LAS QUE ESTÁ (Propias + Equipo)
+        # 1.- los ids de las carpetas de @activo se dividen en @carpetas_base @carpetas_tema
+        @ids_carpetas_base = @activo.carpetas.map {|c| c.id if Carpeta::NOT_MODIFY.include?(c.carpeta)}.compact
+        @ids_carpetas_tema = @activo.carpetas.map {|c| c.id unless Carpeta::NOT_MODIFY.include?(c.carpeta)}.compact
+
+        @id_carpeta_revisadas = @activo.carpetas.find_by(carpeta: 'Revisadas').id
+        # QUE HACEMOS CON LAS CARPETAS DE LOS EQUIPOS A LOS QUE PERTENECEMOS ??
+        # SE PODRÁ NAVEGAR POR LAS CARPETAS COMPARTIDAS POR PARTICIPANTES DE UN EQUIPO
+        # HABRA QUE DIFERENCIAR PUBLICACIONES PROPIAS DE COMPARTIDAS Y HABILITAR GESTION
+
+        # Tomamos de las carpetas de la publicacion SOLO las que pertenecen a @activo
+        @ids_carpetas_publicacion = @objeto.carpetas.ids.intersection(@activo.carpetas.ids) 
+
+        @ids_actual_base = @ids_carpetas_base.intersection(@ids_carpetas_publicacion)
+        @ids_actual_tema = @ids_carpetas_tema.intersection(@ids_carpetas_publicacion)
+
+        # El primer caso es cuando NO esta en NINGUNA CARPETA
+        if @ids_carpetas_publicacion.empty?
+          @carpetas_actuales  = nil
+          @carpetas_destino = Carpeta.where(id: @ids_carpetas_base)
+        elsif @ids_actual_tema.empty?
+          # En este caso tenemos dos casos distintos 
+          # 1.- El tema es "Revisada" ? Se pueden agregar carpetas Personalizadas
+          # 2.- Otro tema : Solo se puede cambiar de Carpeta base
+          if @ids_actual_base.include?(@id_carpeta_revisadas)
+            @carpetas_actuales = Carpeta.where(id: @ids_actual_base)
+            @carpetas_destino  = Carpeta.where(id: @ids_carpetas_base.union(@ids_carpetas_tema) - @ids_actual_base)
+          else
+            @carpetas_actuales = Carpeta.where(id: @ids_actual_base)
+            @carpetas_destino  = Carpeta.where(id: @ids_carpetas_base - @ids_actual_base)
+          end
+        else
+          # En este caso SOLO se pueden AGREGAR o QUITAR Carpetas TEMA
+          @carpetas_actuales = Carpeta.where(id: @ids_actual_base.union(@ids_actual_tema))
+          @carpetas_destino  = Carpeta.where(id: @ids_carpetas_tema - @ids_actual_tema)
+        end
+
+      else
+
+        @areas_actuales = @objeto.areas
+        @ids_areas_destino = Area.all.ids - @areas_actuales.ids
+        @areas_destino = Area.where(id: @ids_areas_destino)
+
+      end
+    end
+
     # ********************** DUPLICADOS *****************************
 
     @duplicados_doi_ids = @objeto.doi.present? ? (Publicacion.where(doi: @objeto.doi).ids - [@objeto.id]) : []
@@ -32,59 +88,9 @@ class PublicacionesController < ApplicationController
       @duplicados = Publicacion.where(id: @duplicados_ids)
     end
 
-    # ********************** DUPLICADOS *****************************
+    # ********************** INSTANCIAS *****************************
 
-    @menu_areas = Area.where(id: Area.all.ids - @objeto.areas.ids)
-
-    @activo = Perfil.find(session[:perfil_activo]['id'])
-    # Aqui me gano los porotos. El manejo de carpetas
-    # Voy a hacer dos columnas
-    # IZQ las carpetas en las cuales la Publicacion está
-    # DER las carpetas en las que se puede agregar
-    # CARPETAS EN LAS QUE ESTÁ (Propias + Equipo)
-    # 1.- los ids de las carpetas de @activo se dividen en @carpetas_base @carpetas_tema
-    @ids_carpetas_base = @activo.carpetas.map {|c| c.id if Carpeta::NOT_MODIFY.include?(c.carpeta)}.compact
-    @ids_carpetas_tema = @activo.carpetas.map {|c| c.id unless Carpeta::NOT_MODIFY.include?(c.carpeta)}.compact
-
-    @id_carpeta_revisadas = @activo.carpetas.find_by(carpeta: 'Revisadas').id
-    # QUE GACEMOS CON LAS CARPETAS DE LOS EQUIPOS A LOS QUE PERTENECEMOS ??
-    # HAREMOS EL PERFIL DEL USUARIO E IMPLEMENTAREMOS BOTONES PARA CAMBIAR DE PERFIL
-
-    # Tomamos de las carpetas de la publicacion SOLO las que pertenecen a SELF
-    @ids_carpetas_publicacion = @objeto.carpetas.ids.intersection(@activo.carpetas.ids) 
-
-    @ids_actual_base = @ids_carpetas_base.intersection(@ids_carpetas_publicacion)
-    @ids_actual_tema = @ids_carpetas_tema.intersection(@ids_carpetas_publicacion)
-
-    # El primer caso es cuando NO esta en NINGUNA CARPETA
-    if @ids_carpetas_publicacion.empty?
-      @carpetas_actuales  = nil
-      @carpetas_destino = Carpeta.where(id: @ids_carpetas_base)
-    elsif @ids_actual_tema.empty?
-      # En este caso tenemos dos casos distintos 
-      # 1.- El tema es "Revisada" ? Se pueden agregar carpetas Personalizadas
-      # 2.- Otro tema : Solo se puede cambiar de Carpeta base
-      if @ids_actual_base.include?(@id_carpeta_revisadas)
-        @carpetas_actuales = Carpeta.where(id: @ids_actual_base)
-        @carpetas_destino  = Carpeta.where(id: @ids_carpetas_base.union(@ids_carpetas_tema) - @ids_actual_base)
-      else
-        @carpetas_actuales = Carpeta.where(id: @ids_actual_base)
-        @carpetas_destino  = Carpeta.where(id: @ids_carpetas_base - @ids_actual_base)
-      end
-    else
-      # En este caso SOLO se pueden AGREGAR o QUITAR Carpetas TEMA
-      @carpetas_actuales = Carpeta.where(id: @ids_actual_base.union(@ids_actual_tema))
-      @carpetas_destino  = Carpeta.where(id: @ids_carpetas_tema - @ids_actual_tema)
-    end
-
-
-    @areas_actuales = @objeto.areas
-    @ids_areas_destino = Area.all.ids - @areas_actuales.ids
-    @areas_destino = Area.where(id: @ids_areas_destino)
-
-    @tab = 'instancias'
     @tl_coleccion = @objeto.instancias
-    @options = {'tab' => @tab}
       
   end
 
@@ -182,6 +188,21 @@ class PublicacionesController < ApplicationController
     @publicacion.save
 
     redirect_to @publicacion
+  end
+
+  def cambia_evaluacion
+    @activo = Perfil.find(session[:perfil_activo]['id'])
+#    @objeto = Publicacion.find(params[:publicacion_id])
+
+    @evaluacion = @objeto.evaluaciones.find_by(aspecto: params[:item], perfil_id: @activo.id)
+    if @evaluacion.blank?
+      @objeto.evaluaciones.create(aspecto: params[:item], evaluacion: params[:evaluacion], perfil_id: @activo.id)
+    else
+      @evaluacion.evaluacion = params[:evaluacion]
+      @evaluacion.save
+    end
+    redirect_to @objeto
+    
   end
 
   def estado

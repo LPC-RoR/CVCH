@@ -1,5 +1,4 @@
 <!-- IMAGEN -->
-<%#= image_tag 'logo.jpg', class: "mx-auto d-block" %>
 <%= image_tag 'logo.jpg' %>
 
 <!-- MENU -->
@@ -11,12 +10,12 @@
   <!--/button-->
   <div class="collapse navbar-collapse" id="navbarNav">
 
-    <!-- Controladores que no tienen menú -->
     <ul class="navbar-nav">
+      <!-- Se despiegan SOLO los ítems de MENU que no han sido identificados como "nomenu" -->
       <% unless nomenu?(controller_name) %>
 
-        <% Configuracion::MENU.each do |item| %>
-          <%= render partial: '0p/navbar/btn', locals: {nombre: item[0].capitalize, link: item[1], active: (item[2] == controller_name and item[3] == action_name), delete: false} if display_item_menu?(item[0]) %>
+        <% menu.each do |item| %>
+          <%= render partial: '0p/navbar/btn', locals: {nombre: item[0].capitalize, link: item[1], active: item_active(item[1]), delete: false} if display_item_menu?(item[2]) %>
         <% end %>
         
 

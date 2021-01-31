@@ -1,0 +1,25 @@
+<div class='row'>
+	<!-- CARGAS -->
+	<div class='col-md-6'>
+		<!-- USAMOS EL PARCIAL DE TABLA NORMAL PARA NO TENER QUE ESTAR ACTUALIZANDO -->
+		<%= render partial: '0p/tabla/tabla', locals: {c: c, a: a} %>
+	</div>
+
+	<!-- ARCHIVOS -->
+	<div class='col-md-6'>
+
+		<%= render partial: '0p/general/titulo', locals: {c: nil, a: nil, titulo: 'Selección Archivos', size: '5'} %>
+
+		<table class="table table-striped">
+			<tbody>
+				<% @archivos.each do |a| %>
+					<tr>
+						<td><%= a.split('/').last %></td>
+						<td><%= render partial: '0p/tabla/btn_seleccion', locals: {link_seleccion: "/cargas/new?archivo=#{a.split('/').last}" } %></td>
+					</tr>
+				<% end %>
+			</tbody>
+		</table>
+
+	</div>
+</div>

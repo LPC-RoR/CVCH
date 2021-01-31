@@ -1,5 +1,6 @@
 class EquiposController < ApplicationController
   before_action :authenticate_usuario!
+  before_action :inicia_session
   before_action :set_equipo, only: [:show, :edit, :update, :destroy, :elimina_equipo]
 
   # GET /equipos
@@ -22,6 +23,8 @@ class EquiposController < ApplicationController
   # GET /equipos/1.json
   def show
     session[:equipo_id] = @objeto.id
+    @activo = Perfil.find(session[:perfil_activo]['id'])
+
     if params[:html_options].blank?
       @tab = 'carpetas'
     else
@@ -48,11 +51,6 @@ class EquiposController < ApplicationController
         @sha1 = Digest::SHA1.hexdigest(@texto_sha1)
         @equipo = @activo.equipos.create(equipo: params[:nuevo_equipo][:equipo], sha1: @sha1)
         @perfil = Perfil.create(equipo_id: @equipo.id)
-
-        # Llenado de carpetas BASE
-        Carpeta::NOT_MODIFY.each do |c|
-          @equipo.carpetas.create(carpeta: c)
-        end
       when 'Participaciones'
         @sha1 = params[:nuevo_equipo][:equipo]
         @equipo = Equipo.find_by(sha1: @sha1)
@@ -64,6 +62,18 @@ class EquiposController < ApplicationController
     end
     redirect_to "/equipos?tab=#{params[:tab]}"
   end
+
+  def nueva_carpeta_equipo
+    @equipo  = Equipo.find(params[:equipo_id])
+    @carpeta = Carpeta.find(params[:carpeta_base][:carpeta_id])
+    if params[:commit] == '+ Carpeta'
+      @equipo.carpetas << @carpeta unless @equipo.carpetas.ids.include?(@carpeta.id)
+    elsif params[:commit] == '- Carpeta'
+      @equipo.carpetas.delete(@carpeta) if @equipo.carpetas.ids.include?(@carpeta.id)
+    end
+
+    redirect_to @equipo
+    end
 
   # GET /equipos/1/edit
   def edit

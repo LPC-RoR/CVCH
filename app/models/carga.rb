@@ -13,6 +13,7 @@ class Carga < ApplicationRecord
 	# ------------------------------------- TABLA ------------------------------------------
 	TABLA_FIELDS = [
 		['archivo_carga', 'url'], 
+		['status',     'normal'],
 		['nota',       'normal'],
 		['estado',     'normal']
 	]
@@ -24,14 +25,6 @@ class Carga < ApplicationRecord
 		['estado',            'hidden'],
 		['perfil_id',         'hidden'],
 		['archivo',           'hidden']
-	]
-
-	## BOTNES EXTRA REGISTRO
-	# [0] : Nombre del boton
-	# [1] : link base, a esta base se le agrega el instancia_id
-	# [2] : Si es true se agrega "objeto_id=#{@objeto.id}"
-	X_BTNS = [
-		['Proceso', '/cargas/', '/procesa_carga', false]
 	]
 
 	belongs_to :perfil
@@ -47,7 +40,7 @@ class Carga < ApplicationRecord
 	end
 
 	def status
-		"( #{self.n_procesados} : (P) #{self.n_publicadas} + (C) #{self.n_carga} + (F) #{self.n_formatos} + (D) #{self.n_duplicados} + (A) #{self.n_areas} )"
+		self.n_procesados.blank? ? '[ sin procesar ]' : "[ #{self.n_procesados} : (P) #{self.n_publicadas} + (C) #{self.n_carga} + (F) #{self.n_formatos} + (D) #{self.n_duplicados} + (A) #{self.n_areas} ]"
 	end
 
 

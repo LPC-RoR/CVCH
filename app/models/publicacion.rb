@@ -14,15 +14,6 @@ class Publicacion < ApplicationRecord
 
 	TABS = Carpeta.all.map {|c| c.carpeta}
 
-	# ----------------------------------------- HIDDEN CHILDS
-	HIDDEN_CHILDS = ['autores', 'investigadores', 'procesos', 'cargas', 'clasificaciones', 'carpetas', 'evaluaciones', 'asignaciones', 'areas', 'rutas']
-
-	# Configura DESPLIEGUE de la TABLA
-	T_EXCEPTIONS = {
-		tabs:    ['self'],
-		paginas: ['*'],
-		nuevo:   ['self', 'contribuciones']
-	}
 
 	# Campos qeu se despliegan en la tabla
 	TABLA_FIELDS = [
@@ -30,38 +21,6 @@ class Publicacion < ApplicationRecord
 		['doc_type',    'normal'], 
 		['year',        'normal']
 	]
-
-	T_NEW_EXCEPTIONS = {
-		#'controller' => 'tipo_new'
-		# '*' en todo controller_name
-		'*' => 'mask',
-	}
-	# -------------------- FORM  -----------------------
-	# NO SE USA PORQUE TIENE F_DETALLE
-
-# 	FORM_FIELDS = [
-#		['d_quote',          'show'], 
-#		['doc_type',       'normal'], 
-#		['m_quote',        'metodo'], 
-#		['d_author',        'entry'],
-#		['author',          'entry'], 
-#		['year',            'entry'], 
-#		['title',           'entry'],
-#		['editor',          'entry'],
-#		['book',            'entry'],
-#		['academic_degree', 'entry'],
-#		['ciudad_pais',     'entry'],
-#		['d_journal',       'entry'],
-#		['volume',          'entry'],
-#		['pages',           'entry'],
-#		['d_doi',           'entry'],
-#		['doi',             'entry'],
-#		['abstract',    'text_area'],
-#		['origen',         'hidden'],
-#		['estado',         'hidden']
-#	]
-
-	FORM_CONDITIONAL_FIELDS = ['d_quote', 'm_quote', 'doi', 'd_author', 'd_doi', 'abstract', 'academic_degree', 'volume', 'book', 'pages', 'd_journal', 'title', 'year', 'author', 'editor']
 
 	# -------------------- SHOW -------------------------
 	SHOW_FIELDS = [
@@ -83,18 +42,8 @@ class Publicacion < ApplicationRecord
 		['doi',             'normal']
 	]
 
-#	S_E = [:clasifica, :detalle, :tabla, :inline_form]
-	S_E = [:clasifica, :detalle, :tabla]
-	# --------------------- DESPLIEGUE -------------------------
-	# tablas child que NO deben ser deplegadas
-
-	# LINKS !!
-	S_BT_LINKS_OBJECTS = ['Revista']
-	S_HMT_LINKS_COLLECTIONS = ['cargas', 'investigadores', 'instancias']
-
 	belongs_to :registro, optional: true
 	belongs_to :revista, optional: true
-	belongs_to :equipo, optional: true
 	belongs_to :perfil, optional: true
 	belongs_to :area, optional: true
 
@@ -140,34 +89,34 @@ class Publicacion < ApplicationRecord
 
 	def procesa_autor(author, ind)
 		# SE DEBE PROCESAR
-		if self.c_d_author.present?
-			elementos = author.split(' ')
+		elementos = author.split(' ')
 
-			case elementos.length
-			when 1
-				# Es el apellido
-				author.strip.upcase
-			when 2
-				if elementos[0] == elementos[0].upcase
-					if elementos[0].length < elementos[1].length
-						(ind == 0 ? "#{elementos[1].upcase} #{elementos[0].upcase}" : "#{elementos[0].upcase} #{elementos[1].upcase}" )
-					else
-						(ind == 0 ? "#{elementos[0].upcase} #{elementos[1].upcase}" : "#{elementos[1].upcase} #{elementos[0].upcase}" )
-					end
+		case elementos.length
+		when 1
+			# Es el apellido
+			author.strip.upcase
+		when 2
+			if elementos[0] == elementos[0].upcase
+				if elementos[0].length < elementos[1].length
+					(ind == 0 ? "#{elementos[1].upcase} #{elementos[0].upcase}" : "#{elementos[0].upcase} #{elementos[1].upcase}" )
 				else
-					(ind == 0 ? "#{elementos[1].upcase} #{elementos[0][0].upcase}" : "#{elementos[0][0].upcase} #{elementos[1].upcase}" )
+					(ind == 0 ? "#{elementos[0].upcase} #{elementos[1].upcase}" : "#{elementos[1].upcase} #{elementos[0].upcase}" )
 				end
-			when 3
-				(ind == 0 ? "#{elementos[2].upcase} #{elementos[0][0].upcase}#{elementos[1].upcase}" : "#{elementos[0][0].upcase}#{elementos[1].upcase} #{elementos[2].upcase}")
 			else
-				(ind == 0 ? "#{elementos.last.upcase} #{elementos[0..-2].map {|i| i[0]}.join('')}" : "#{elementos[0..-2].map {|i| i[0]}.join('')} #{elementos.last.upcase}")
+				(ind == 0 ? "#{elementos[1].upcase} #{elementos[0][0].upcase}" : "#{elementos[0][0].upcase} #{elementos[1].upcase}" )
 			end
+		when 3
+			(ind == 0 ? "#{elementos[2].upcase} #{elementos[0][0].upcase}#{elementos[1].upcase}" : "#{elementos[0][0].upcase}#{elementos[1].upcase} #{elementos[2].upcase}")
+		else
+			(ind == 0 ? "#{elementos.last.upcase} #{elementos[0..-2].map {|i| i[0]}.join('')}" : "#{elementos[0..-2].map {|i| i[0]}.join('')} #{elementos.last.upcase}")
 		end
 	end
 	def procesa_autores(author)
-		ultimo = procesa_autor(author.split(' &').last, 666)
+		ultimo_autor = author.split(' &').last.strip
+		ultimo = ultimo_autor.blank? ? '' : procesa_autor(ultimo_autor, 666)
 
-		primeros = author.split(' & ')[0].split(', ')
+		primeros_autores = author.split(' & ')[0]
+		primeros = primeros_autores.blank? ? [] : primeros_autores.split(', ')
 		primeros_ok = []
 		primeros.each_with_index do |aut, i|
 			primeros_ok << procesa_autor(aut, i)
@@ -227,6 +176,9 @@ class Publicacion < ApplicationRecord
 	def c_pages
 		['carga', 'ingreso', 'duplicado', 'formato'].include?(self.estado)
 	end
+	def c_journal
+		['carga', 'ingreso', 'duplicado', 'formato'].include?(self.estado)
+	end
 	def c_d_journal
 		['carga', 'ingreso', 'duplicado', 'formato'].include?(self.estado)
 	end
@@ -237,6 +189,9 @@ class Publicacion < ApplicationRecord
 		['carga', 'ingreso', 'duplicado', 'formato'].include?(self.estado)
 	end
 	def c_author
+		['carga', 'ingreso', 'duplicado', 'formato'].include?(self.estado)
+	end
+	def c_ciudad_pais
 		['carga', 'ingreso', 'duplicado', 'formato'].include?(self.estado)
 	end
 end

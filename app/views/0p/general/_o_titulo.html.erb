@@ -10,7 +10,7 @@
 		<%= "#{show_title(o)}" %>
 	</h<%= size%>>
 
-	<% if Configuracion::S_STATUS_MODELS.include?(o.class.name) %>
+	<% if o.class::column_names.include?('status') %>
 		<p><small><%= "#{o.status}" %></small></p>
 	<% else %>
 		</br>

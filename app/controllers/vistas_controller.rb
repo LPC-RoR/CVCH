@@ -1,5 +1,6 @@
 class VistasController < ApplicationController
   before_action :authenticate_usuario!, only: [:escritorio]
+  before_action :inicia_session
   before_action :set_vista, only: [:show, :edit, :update, :destroy]
   before_action :check_areas, only: [:index]
 
@@ -17,7 +18,7 @@ class VistasController < ApplicationController
       @ftab = 'Completa'
       @area = Area.first
     else
-      @ftab = params[:html_options]['ftab'].blank? ? 'Completa' : params[:html_options]['ftab']
+      @ftab = (params[:html_options]['ftab'].blank? or session[:perfil_activo].blank?) ? 'Completa' : params[:html_options]['ftab']
       @area = params[:html_options]['sel'].blank? ? Area.first : Area.find_by(area: params[:html_options]['sel'])
     end
     # selector activo
