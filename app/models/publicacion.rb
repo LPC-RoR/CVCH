@@ -126,6 +126,7 @@ class Publicacion < ApplicationRecord
 				primeros_ok.join(', ')+' & '+ultimo
 			else
 				author
+			end
 		else
 			'[ autor vacío ]'
 		end
