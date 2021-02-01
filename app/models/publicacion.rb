@@ -112,16 +112,23 @@ class Publicacion < ApplicationRecord
 		end
 	end
 	def procesa_autores(author)
-		ultimo_autor = author.split(' &').last.strip
-		ultimo = ultimo_autor.blank? ? '' : procesa_autor(ultimo_autor, 666)
+		unless author.blank?
+			if !!author.match(/&+/)
+				ultimo_autor = author.split(' &').last.strip
+				ultimo = ultimo_autor.blank? ? '' : procesa_autor(ultimo_autor, 666)
 
-		primeros_autores = author.split(' & ')[0]
-		primeros = primeros_autores.blank? ? [] : primeros_autores.split(', ')
-		primeros_ok = []
-		primeros.each_with_index do |aut, i|
-			primeros_ok << procesa_autor(aut, i)
+				primeros_autores = author.split(' & ')[0]
+				primeros = primeros_autores.blank? ? [] : primeros_autores.split(', ')
+				primeros_ok = []
+				primeros.each_with_index do |aut, i|
+					primeros_ok << procesa_autor(aut, i)
+				end
+				primeros_ok.join(', ')+' & '+ultimo
+			else
+				author
+		else
+			'[ autor vacío ]'
 		end
-		primeros_ok.join(', ')+' & '+ultimo
 	end
 
 	def m_quote
