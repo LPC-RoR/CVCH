@@ -6,17 +6,18 @@ class EquiposController < ApplicationController
   # GET /equipos
   # GET /equipos.json
   def index
+    @activo = Perfil.find(session[:perfil_activo]['id'])
+
     if params[:html_options].blank?
       @tab = 'Administrados'
     else
       @tab = params[:html_options][:tab].blank? ? 'Administrados' : params[:html_options][:tab]
     end
-
-    @activo = Perfil.find(session[:perfil_activo]['id'])
-
-    @coleccion = (@tab == 'Administrados') ? @activo.equipos : @activo.participaciones
-
     @options = {'tab' => @tab}
+
+    @coleccion = {}
+    @coleccion['equipos'] = (@tab == 'Administrados') ? @activo.equipos : @activo.participaciones
+
   end
 
   # GET /equipos/1
@@ -30,11 +31,15 @@ class EquiposController < ApplicationController
     else
       @tab = params[:html_options][:tab].blank? ? 'carpetas' : params[:html_options][:tab]
     end
+    @options = {'tab' => @tab}
 #    @estado = params[:estado].blank? ? @tab.classify.constantize::ESTADOS[0] : params[:estado]
     # tenemos que cubrir todos los casos
     # 1. has_many : }
-    @coleccion = @objeto.send(@tab).page(params[:page]) #.where(estado: @estado)
-    @options = {'tab' => @tab}
+    @coleccion = {}
+    @coleccion[@tab] = @objeto.send(@tab).page(params[:page]) #.where(estado: @estado)
+
+    ids_carpetas_tema = @activo.carpetas.map {|c| c.id unless Carpeta::NOT_MODIFY.include?(c.carpeta)}.compact
+    @carpetas_seleccion = Carpeta.find(ids_carpetas_tema - @objeto.carpetas.ids)
   end
 
   # GET /equipos/new
@@ -66,14 +71,11 @@ class EquiposController < ApplicationController
   def nueva_carpeta_equipo
     @equipo  = Equipo.find(params[:equipo_id])
     @carpeta = Carpeta.find(params[:carpeta_base][:carpeta_id])
-    if params[:commit] == '+ Carpeta'
-      @equipo.carpetas << @carpeta unless @equipo.carpetas.ids.include?(@carpeta.id)
-    elsif params[:commit] == '- Carpeta'
-      @equipo.carpetas.delete(@carpeta) if @equipo.carpetas.ids.include?(@carpeta.id)
-    end
+
+    @equipo.carpetas << @carpeta unless @equipo.carpetas.ids.include?(@carpeta.id)
 
     redirect_to @equipo
-    end
+  end
 
   # GET /equipos/1/edit
   def edit

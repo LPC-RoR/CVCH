@@ -6,7 +6,8 @@ class ConceptosController < ApplicationController
   # GET /conceptos
   # GET /conceptos.json
   def index
-    @coleccion = Concepto.all
+    @coleccion = {}
+    @coleccion['conceptos'] = Concepto.all
   end
 
   # GET /conceptos/1
@@ -17,8 +18,10 @@ class ConceptosController < ApplicationController
     else
       @tab = params[:html_options][:tab].blank? ? 'instancias' : params[:html_options][:tab]
     end
-    @coleccion = @objeto.send(@tab)
     @options = {'tab' => @tab}
+
+    @coleccion = {}
+    @coleccion['instancias'] = @objeto.send(@tab)
   end
 
   # GET /conceptos/new

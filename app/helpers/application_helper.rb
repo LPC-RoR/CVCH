@@ -69,7 +69,11 @@ module ApplicationHelper
 			'publicaciones'
 		when 'hijos'
 			'conceptos'
-		when 'ingresos'
+		when 'contribuciones'
+			'publicaciones'
+		when 'vistas'
+			'publicaciones'
+		when 'revisiones'
 			'publicaciones'
 		else
 			controlador
@@ -210,9 +214,9 @@ module ApplicationHelper
 		when 'Publicacion'
 			['ingreso', 'contribucion'].include?(objeto.origen)
 		when 'Carpeta'
-			not Carpeta::NOT_MODIFY.include?(objeto.carpeta)
+			not Carpeta::NOT_MODIFY.include?(objeto.carpeta) and controller_name == 'carpetas'
 		when 'Area'
-			not Area::NOT_MODIFY.include?(objeto.area)
+			not Area::NOT_MODIFY.include?(objeto.area) and controller_name == 'areas'
 		when 'Instancia'
 			false
 		end
@@ -226,6 +230,10 @@ module ApplicationHelper
 			controller_name == 'publicaciones'
 		when 'Clasificacion'
 			objeto.clasificacion != btn
+		when 'Carpeta'
+			['publicaciones', 'equipos'].include?(controller_name) and not Carpeta::NOT_MODIFY.include?(objeto.carpeta) and objeto.perfil.id == session[:perfil_activo]['id'].to_i
+		when 'Area'
+			controller_name == 'publicaciones'
 		end
 	end
 
@@ -264,7 +272,7 @@ module ApplicationHelper
 	def get_field_condition(objeto, field)
 		case objeto.class.name
 		when 'Publicacion'
-			objeto.origen == 'ingreso'
+			objeto.estado != 'publicada'
 		end
 	end
 

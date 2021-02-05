@@ -27,16 +27,45 @@ class PublicacionesController < ApplicationController
 
       @activo = Perfil.find(session[:perfil_activo]['id'])
 
+      @coleccion = {}
+
       # ********************** CARPETAS *****************************
       if @objeto.estado == 'publicada'
+
+        ## AMBOS
+        @ids_carpetas_base = @activo.carpetas.map {|c| c.id if Carpeta::NOT_MODIFY.include?(c.carpeta)}.compact
+        @ids_carpetas_tema = @activo.carpetas.map {|c| c.id unless Carpeta::NOT_MODIFY.include?(c.carpeta)}.compact
+
+        # ids de las carpetas del @activo
+        ids_activo = @ids_carpetas_base | @ids_carpetas_tema
+
+        # ids de la publicación que son del perfil
+        ids_publicacion = @objeto.carpetas.ids & ids_activo
+
+        @id_carpeta_revisadas  = @activo.carpetas.find_by(carpeta: 'Revisadas').id
+
+        ids_todas = @ids_carpetas_base | @ids_carpetas_tema
+
+        if ids_publicacion.empty?
+          ids_seleccion = @ids_carpetas_base
+        elsif (ids_publicacion.include?(@id_carpeta_revisadas) and ((ids_publicacion & @ids_carpetas_tema).empty?))
+          ids_seleccion = ids_todas - [@id_carpeta_revisadas]
+        elsif (@ids_carpetas_tema & ids_publicacion).any?
+          ids_seleccion = @ids_carpetas_tema - ids_publicacion
+        else
+          ids_seleccion = @ids_carpetas_base - (@ids_carpetas_base & ids_publicacion)
+        end
+
+        @carpetas_seleccion = Carpeta.find(ids_seleccion)
+
+        @coleccion['carpetas'] = @objeto.carpetas
+
+
         # IZQ las carpetas en las cuales la Publicacion está
         # DER las carpetas en las que se puede agregar
         # CARPETAS EN LAS QUE ESTÁ (Propias + Equipo)
         # 1.- los ids de las carpetas de @activo se dividen en @carpetas_base @carpetas_tema
-        @ids_carpetas_base = @activo.carpetas.map {|c| c.id if Carpeta::NOT_MODIFY.include?(c.carpeta)}.compact
-        @ids_carpetas_tema = @activo.carpetas.map {|c| c.id unless Carpeta::NOT_MODIFY.include?(c.carpeta)}.compact
 
-        @id_carpeta_revisadas = @activo.carpetas.find_by(carpeta: 'Revisadas').id
         # QUE HACEMOS CON LAS CARPETAS DE LOS EQUIPOS A LOS QUE PERTENECEMOS ??
         # SE PODRÁ NAVEGAR POR LAS CARPETAS COMPARTIDAS POR PARTICIPANTES DE UN EQUIPO
         # HABRA QUE DIFERENCIAR PUBLICACIONES PROPIAS DE COMPARTIDAS Y HABILITAR GESTION
@@ -68,7 +97,12 @@ class PublicacionesController < ApplicationController
           @carpetas_destino  = Carpeta.where(id: @ids_carpetas_tema - @ids_actual_tema)
         end
 
-      else
+      end
+      if @activo.administrador.present?
+
+        @areas_seleccion = Area.find(Area.all.ids - @objeto.areas.ids)
+
+        @coleccion['areas'] = @objeto.areas
 
         @areas_actuales = @objeto.areas
         @ids_areas_destino = Area.all.ids - @areas_actuales.ids
@@ -132,54 +166,6 @@ class PublicacionesController < ApplicationController
         format.json { render json: @objeto.errors, status: :unprocessable_entity }
       end
     end
-  end
-
-  def cambia_area
-    @activo = Perfil.find(session[:perfil_activo]['id'])
-    @objeto = Publicacion.find(params[:html_options][:publicacion_id])
-    @area   = Area.find(params[:html_options][:area_id])
-
-    case params[:html_options][:origen]
-    when 'actuales'
-      @objeto.areas.delete(@area)
-    when 'destinos'
-      @objeto.areas << @area
-    end
-
-    redirect_to @objeto
-
-  end
-
-  def cambia_carpeta
-    @activo = Perfil.find(session[:perfil_activo]['id'])
-    @objeto = Publicacion.find(params[:html_options][:publicacion_id])
-    @carpeta = Carpeta.find(params[:html_options][:carpeta_id])
-
-    @ids_carpetas_base = @activo.carpetas.map {|c| c.id if Carpeta::NOT_MODIFY.include?(c.carpeta)}.compact
-    @ids_carpetas_tema = @activo.carpetas.map {|c| c.id unless Carpeta::NOT_MODIFY.include?(c.carpeta)}.compact
-
-    @id_carpeta_revisadas = @activo.carpetas.find_by(carpeta: 'Revisadas').id
-
-    @ids_carpetas_publicacion = @objeto.carpetas.ids.intersection(@activo.carpetas.ids) 
-
-    @ids_actual_base = @ids_carpetas_base.intersection(@ids_carpetas_publicacion)
-    @ids_actual_tema = @ids_carpetas_tema.intersection(@ids_carpetas_publicacion)
-
-    case params[:html_options][:origen]
-    when 'actuales'
-      # En este caso sólo tienen link las carpetas tema y lo único que hay que hacer es eliminarlas
-      @objeto.carpetas.delete(@carpeta)
-    when 'destinos'
-      if @ids_carpetas_base.include?(params[:html_options][:carpeta_id].to_i)
-        @cars = Carpeta.where(id: @ids_actual_base)
-        @cars.each do |cc|
-          @objeto.carpetas.delete(cc)
-        end
-      end
-      @objeto.carpetas << @carpeta
-    end
-
-    redirect_to @objeto
   end
 
   def cambia_tipo

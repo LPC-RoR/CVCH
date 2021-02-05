@@ -7,7 +7,9 @@ class CargasController < ApplicationController
   # GET /cargas.json
   def index
     @activo = Perfil.find(session[:perfil_activo]['id'])
-    @coleccion = @activo.cargas
+
+    @coleccion = {}
+    @coleccion['cargas'] = @activo.cargas
   end
 
   def sel_archivo

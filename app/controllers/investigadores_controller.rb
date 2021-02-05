@@ -17,14 +17,12 @@ class InvestigadoresController < ApplicationController
     else
       @tab = params[:html_options][:tab].blank? ? 'publicaciones' : params[:html_options][:tab]
     end
+    @options = {'tab' => @tab}
 #    @estado = params[:estado].blank? ? @tab.classify.constantize::ESTADOS[0] : params[:estado]
     # tenemos que cubrir todos los casos
     # 1. has_many : }
-    @coleccion = @objeto.send(@tab).page(params[:page]) #.where(estado: @estado)
-    @options = {'tab' => @tab}
-  end
-
-  def perfil
+    @coleccion = {}
+    @coleccion[@tab] = @objeto.send(@tab).page(params[:page]) #.where(estado: @estado)
   end
 
   # GET /investigadores/new

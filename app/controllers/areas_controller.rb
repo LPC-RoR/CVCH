@@ -1,12 +1,13 @@
 class AreasController < ApplicationController
   before_action :authenticate_usuario!
   before_action :inicia_session
-  before_action :set_area, only: [:show, :edit, :update, :destroy]
+  before_action :set_area, only: [:show, :edit, :update, :destroy, :elimina_area]
 
   # GET /areas
   # GET /areas.json
   def index
-    @coleccion = Area.all
+    @coleccion = {}
+    @coleccion['areas'] = Area.all
   end
 
   # GET /areas/1
@@ -17,8 +18,10 @@ class AreasController < ApplicationController
     else
       @tab = params[:html_options][:tab].blank? ? 'papers' : params[:html_options][:tab]
     end
-    @coleccion = @objeto.papers.where(estado: 'publicada').page(params[:page])
     @options = {'tab' => @tab}
+
+    @coleccion = {}
+    @coleccion['publicaciones'] = @objeto.papers.where(estado: 'publicada').page(params[:page])
   end
 
   # GET /areas/new
@@ -62,6 +65,21 @@ class AreasController < ApplicationController
     end
   end
 
+  def asigna
+    @activo = Perfil.find(session[:perfil_activo]['id'])
+
+    publicacion = Publicacion.find(params[:publicacion_id])
+
+    unless params[:area_base][:area_id].blank?
+      area     = Area.find(params[:area_base][:area_id])
+
+      publicacion.areas << area
+    end
+
+    redirect_to publicacion
+    
+  end
+
   # DELETE /areas/1
   # DELETE /areas/1.json
   def destroy
@@ -71,6 +89,14 @@ class AreasController < ApplicationController
       format.html { redirect_to @redireccion, notice: 'Area was successfully destroyed.' }
       format.json { head :no_content }
     end
+  end
+
+  def elimina_area
+    publicacion = Publicacion.find(params[:objeto_id])
+
+    @objeto.papers.delete(publicacion)
+
+    redirect_to publicacion
   end
 
   private

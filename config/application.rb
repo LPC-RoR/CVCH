@@ -150,26 +150,32 @@ module Cvch
             conditions: ['crud']
         },
         'Carpeta'       => {
-            conditions: ['crud']
+            conditions: ['crud', 'x'],
+            x_btns: [
+                ['Eliminar', '/elimina_carpeta', true]
+            ]
         },
         'Carga'         => {
             conditions: ['x', 'crud'],
             x_btns: [   
-                ['Proceso', '/cargas/', '/procesa_carga', false]
+                ['Proceso', '/procesa_carga', false]
             ]
         },
         'Area'         => {
-            conditions: ['crud']
+            conditions: ['crud', 'x'],
+            x_btns: [
+                ['Eliminar', '/elimina_area', true]
+            ]
         },
         'Equipo'       => {
             x_btns: [
-                ['Eliminar', '/equipos/', '/elimina_equipo', true]
+                ['Eliminar', '/elimina_equipo', true]
             ]
         },
         'Instancia'    => {
             conditions: ['x', 'crud'],
             x_btns: [
-                ['Eliminar', '/instancias/', '/elimina_instancia', true]
+                ['Eliminar', '/elimina_instancia', true]
             ]
         }
     }
@@ -228,7 +234,7 @@ module Cvch
 
     config.x.show.hidden = {
         'publicaciones'  => ['autores', 'investigadores', 'procesos', 'cargas', 'clasificaciones', 'carpetas', 'evaluaciones', 'asignaciones', 'areas', 'rutas', 'instancias'],
-        'carpetas'       => ['clasificaciones'],
+        'carpetas'       => ['clasificaciones', 'herencias'],
         'investigadores' => ['autores', 'carpetas'],
         'equipos'        => ['investigadores', 'instancias', 'integrantes', 'herencias'],
         'areas'          => ['clasificaciones', 'cargas'],

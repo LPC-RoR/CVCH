@@ -13,7 +13,9 @@ class RevistasController < ApplicationController
   # GET /revistas/1.json
   def show
     @tab = params[:tab].blank? ? 'publicaciones' : params[:tab]
-    @coleccion = @objeto.publicaciones.where(estado: 'publicada').page(params[:page])
+
+    @coleccion = {}
+    @coleccion['publicaciones'] = @objeto.publicaciones.where(estado: 'publicada').page(params[:page])
   end
 
   # GET /revistas/new

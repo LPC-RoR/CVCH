@@ -7,8 +7,9 @@ class ContribucionesController < ApplicationController
   # GET /contribuciones.json
   def index
     @activo = Perfil.find(session[:perfil_activo]['id'])
-    @table_controller = 'publicaciones'
-    @coleccion = @activo.contribuciones.where(estado: ['ingreso', 'contribucion']).page(params[:page])
+
+    @coleccion = {}
+    @coleccion['publicaciones'] = @activo.contribuciones.where(estado: ['ingreso', 'contribucion']).page(params[:page])
   end
 
   # GET /contribuciones/1

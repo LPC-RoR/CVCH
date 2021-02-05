@@ -1,13 +1,15 @@
 class CarpetasController < ApplicationController
   before_action :authenticate_usuario!
   before_action :inicia_session
-  before_action :set_carpeta, only: [:show, :edit, :update, :destroy]
+  before_action :set_carpeta, only: [:show, :edit, :update, :destroy, :elimina_carpeta]
 
   # GET /carpetas
   # GET /carpetas.json
   def index
     @activo = Perfil.find(session[:perfil_activo]['id'])
-    @coleccion =  session[:perfil_activo] == session[:perfil_base] ? @coleccion = @activo.carpetas : @coleccion = @activo.equipo.carpetas
+
+    @coleccion = {}
+    @coleccion['carpetas'] =  @activo.carpetas
     end
 
   # GET /carpetas/1
@@ -18,8 +20,10 @@ class CarpetasController < ApplicationController
     else
       @tab = params[:html_options][:tab].blank? ? 'publicaciones' : params[:html_options][:tab]
     end
-    @coleccion = @objeto.send(@tab).page(params[:page])
     @options = {'tab' => @tab}
+
+    @coleccion = {}
+    @coleccion[@tab] = @objeto.send(@tab).page(params[:page])
   end
 
   # GET /carpetas/new
@@ -72,6 +76,31 @@ class CarpetasController < ApplicationController
     end
   end
 
+  def asigna
+    @activo = Perfil.find(session[:perfil_activo]['id'])
+
+    publicacion = Publicacion.find(params[:publicacion_id])
+
+    unless params[:carpeta_base][:carpeta_id].blank?
+      carpeta     = Carpeta.find(params[:carpeta_base][:carpeta_id])
+
+      ids_carpetas_base = @activo.carpetas.map {|c| c.id if Carpeta::NOT_MODIFY.include?(c.carpeta)}.compact
+      ids_carpetas_tema = @activo.carpetas.map {|c| c.id unless Carpeta::NOT_MODIFY.include?(c.carpeta)}.compact
+      ids_activo = (ids_carpetas_base | ids_carpetas_tema)
+      ids_publicacion = publicacion.carpetas.ids & ids_activo
+
+      if ids_carpetas_base.include?(params[:carpeta_base][:carpeta_id].to_i)
+        publicacion.carpetas.each do |cpta|
+          publicacion.carpetas.delete(cpta)
+        end
+      end
+      publicacion.carpetas << carpeta
+    end
+
+    redirect_to publicacion
+    
+  end
+
   # DELETE /carpetas/1
   # DELETE /carpetas/1.json
   def destroy
@@ -81,6 +110,19 @@ class CarpetasController < ApplicationController
       format.html { redirect_to @redireccion, notice: 'Carpeta was successfully destroyed.' }
       format.json { head :no_content }
     end
+  end
+
+  def elimina_carpeta
+    case params[:class_name]
+    when 'Publicacion'
+      elemento = Publicacion.find(params[:objeto_id])
+      @objeto.publicaciones.delete(elemento)
+    when 'Equipo'
+      elemento = Equipo.find(params[:objeto_id])
+      @objeto.equipos.delete(elemento)
+    end
+
+    redirect_to elemento
   end
 
   private

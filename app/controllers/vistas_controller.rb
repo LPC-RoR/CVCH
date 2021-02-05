@@ -10,8 +10,6 @@ class VistasController < ApplicationController
     # BI FRAME
     # Lista de 'selectors'
     @frame_selector = Area.all.map {|a| [a.area, a.papers.count]}
-    # CONTROLADOR de la tabla a depslegar
-    @table_controller = 'publicaciones'
 
     # ftab
     if params[:html_options].blank?
@@ -26,8 +24,9 @@ class VistasController < ApplicationController
     # opciones para los links
     @options = {'sel' => @sel ,'ftab' => @ftab}
 
+    @coleccion = {}
     if @ftab == 'Completa'
-      @coleccion = @area.papers.where(estado: 'publicada').page(params[:page])
+      @coleccion['publicaciones'] = @area.papers.where(estado: 'publicada').page(params[:page])
     elsif @ftab == 'Pendiente'
       @activo = Perfil.find(session[:perfil_activo]['id'])
       @propios_ids = []
@@ -35,7 +34,7 @@ class VistasController < ApplicationController
         @propios_ids = @propios_ids.union(car.publicaciones.ids)
       end
       @area_completa_ids = @area.papers.ids
-      @coleccion = Publicacion.where(id: @area_completa_ids - @propios_ids).where(estado: 'publicada').page(params[:page])
+      @coleccion['publicaciones'] = Publicacion.where(id: @area_completa_ids - @propios_ids).where(estado: 'publicada').page(params[:page])
     end
   end
 
@@ -44,8 +43,6 @@ class VistasController < ApplicationController
     # Lista de 'selectors'
     @activo = Perfil.find(session[:perfil_activo]['id'])
     @frame_selector = @activo.carpetas.all.map {|c| [c.carpeta, c.publicaciones.count]}
-    # CONTROLADOR de la tabla a depslegar
-    @table_controller = 'publicaciones'
 
     # ftab
     if params[:html_options].blank?
@@ -60,7 +57,8 @@ class VistasController < ApplicationController
     # opciones para los links
     @options = {'sel' => @sel}
 
-    @coleccion = @carpeta.publicaciones.page(params[:page])
+    @coleccion = {}
+    @coleccion['publicaciones'] = @carpeta.publicaciones.page(params[:page])
   end
 
   # GET /vistas/1

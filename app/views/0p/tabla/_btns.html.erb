@@ -9,7 +9,8 @@
 
 	<% if btns?(objeto, 'x') %>
 		<% x_btns(objeto).each do |btn| %>
-			<%= render partial: '0p/general/btn_w_html_options', locals: {texto: btn[0], link: "#{btn[1]}#{objeto.id}#{btn[2]}#{(!!btn[2].match(/\?+/) ? '&' : '?') if btn[3]}#{"objeto_id=#{@objeto.id if @objeto.present?}" if btn[3]}", delete: false} if x_conditions(objeto, btn[0]) %>
+			<%#= render partial: '0p/general/btn_w_html_options', locals: {texto: btn[0], link: "#{btn[1]}#{objeto.id}#{btn[2]}#{(!!btn[2].match(/\?+/) ? '&' : '?') if btn[3]}#{"objeto_id=#{@objeto.id if @objeto.present?}" if btn[3]}", delete: false} if x_conditions(objeto, btn[0]) %>
+			<%= render partial: '0p/general/btn_w_html_options', locals: {texto: btn[0], link: "/#{objeto.class.name.tableize}/#{objeto.id}#{btn[1]}#{(!!btn[1].match(/\?+/) ? '&' : '?') if btn[2]}#{"class_name=#{@objeto.class.name}&objeto_id=#{@objeto.id if @objeto.present?}" if btn[2]}", delete: false} if x_conditions(objeto, btn[0]) %>
 		<% end %>
 	<% end %>
 <% end %>

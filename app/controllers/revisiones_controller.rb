@@ -18,15 +18,14 @@ class RevisionesController < ApplicationController
 
     # Lista de 'selectors'
     @frame_selector = Area.all.map {|a| [a.area, a.papers.where(estado: @ftab.singularize.downcase).count]}
-    # CONTROLADOR de la tabla a depslegar
-    @table_controller = 'publicaciones'
 
     # selector activo
     @sel = @area.area
     # opciones para los links
     @options = {'sel' => @sel ,'ftab' => @ftab}
 
-    @coleccion = (@ftab == 'Contribuciones' ? Publicacion.where(estado: 'contribucion').page(params[:page]) : @area.papers.where(estado: @ftab.singularize.downcase).page(params[:page]))
+    @coleccion = {}
+    @coleccion['publicaciones'] = (@ftab == 'Contribuciones' ? Publicacion.where(estado: 'contribucion').page(params[:page]) : @area.papers.where(estado: @ftab.singularize.downcase).page(params[:page]))
 
 #    @coleccion = @area.papers.where(estado: @ftab.singularize.downcase).page(params[:page])
 
