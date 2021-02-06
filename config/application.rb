@@ -115,10 +115,11 @@ module Cvch
     config.x.tables.exceptions = {
         'publicaciones' => {
             elementos: {
-                tabs:  ['self'],
+                tabs:  ['self', 'contribuciones'],
                 paginas: ['*'],
-                nuevo:   ['self', 'contribuciones']
-            }
+                nuevo:   ['self', 'contribuciones'],
+            },
+            tabs: ['ingreso', 'contribucion', 'publicada']
         },
 #        'carpetas'        => {
 #            elementos: {

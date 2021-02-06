@@ -5,7 +5,6 @@ class Perfil < ApplicationRecord
 
 
 	belongs_to :administrador, optional: true
-	belongs_to :investigador, optional: true
 
 	has_many :equipos, foreign_key: 'administrador_id'
 	

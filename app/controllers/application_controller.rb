@@ -26,12 +26,7 @@ class ApplicationController < ActionController::Base
 
 	      # 3.- VERIFICA INVESTIGADOR
 	      @investigador = Investigador.find_by(email: @perfil.email)
-	      # 1.- SI Hay que crear el Investigador?
-	      if (@administrador.blank? and @perfil.investigador.blank? and @investigador.blank?)
-	        @investigador = Investigador.create(investigador: @perfil.email, email: @perfil.email)
-	        @perfil.investigador = @investigador
-	        @perfil.save
-	      end
+	      @investigador.delete if @investigador.present?
 
 	      if @perfil.carpetas.empty?
 	        @perfil.carpetas.create(carpeta: 'Revisar')

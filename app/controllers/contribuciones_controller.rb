@@ -8,8 +8,15 @@ class ContribucionesController < ApplicationController
   def index
     @activo = Perfil.find(session[:perfil_activo]['id'])
 
+    if params[:html_options].blank?
+      @tab = 'ingreso'
+    else
+      @tab = params[:html_options][:tab].blank? ? 'ingreso' : params[:html_options][:tab]
+    end
+    @options = { 'tab' => @tab }
+
     @coleccion = {}
-    @coleccion['publicaciones'] = @activo.contribuciones.where(estado: ['ingreso', 'contribucion']).page(params[:page])
+    @coleccion['publicaciones'] = @activo.contribuciones.where(estado: @tab).page(params[:page])
   end
 
   # GET /contribuciones/1

@@ -60,53 +60,12 @@ class PublicacionesController < ApplicationController
 
         @coleccion['carpetas'] = @objeto.carpetas
 
-
-        # IZQ las carpetas en las cuales la Publicacion está
-        # DER las carpetas en las que se puede agregar
-        # CARPETAS EN LAS QUE ESTÁ (Propias + Equipo)
-        # 1.- los ids de las carpetas de @activo se dividen en @carpetas_base @carpetas_tema
-
-        # QUE HACEMOS CON LAS CARPETAS DE LOS EQUIPOS A LOS QUE PERTENECEMOS ??
-        # SE PODRÁ NAVEGAR POR LAS CARPETAS COMPARTIDAS POR PARTICIPANTES DE UN EQUIPO
-        # HABRA QUE DIFERENCIAR PUBLICACIONES PROPIAS DE COMPARTIDAS Y HABILITAR GESTION
-
-        # Tomamos de las carpetas de la publicacion SOLO las que pertenecen a @activo
-        @ids_carpetas_publicacion = @objeto.carpetas.ids.intersection(@activo.carpetas.ids) 
-
-        @ids_actual_base = @ids_carpetas_base.intersection(@ids_carpetas_publicacion)
-        @ids_actual_tema = @ids_carpetas_tema.intersection(@ids_carpetas_publicacion)
-
-        # El primer caso es cuando NO esta en NINGUNA CARPETA
-        if @ids_carpetas_publicacion.empty?
-          @carpetas_actuales  = nil
-          @carpetas_destino = Carpeta.where(id: @ids_carpetas_base)
-        elsif @ids_actual_tema.empty?
-          # En este caso tenemos dos casos distintos 
-          # 1.- El tema es "Revisada" ? Se pueden agregar carpetas Personalizadas
-          # 2.- Otro tema : Solo se puede cambiar de Carpeta base
-          if @ids_actual_base.include?(@id_carpeta_revisadas)
-            @carpetas_actuales = Carpeta.where(id: @ids_actual_base)
-            @carpetas_destino  = Carpeta.where(id: @ids_carpetas_base.union(@ids_carpetas_tema) - @ids_actual_base)
-          else
-            @carpetas_actuales = Carpeta.where(id: @ids_actual_base)
-            @carpetas_destino  = Carpeta.where(id: @ids_carpetas_base - @ids_actual_base)
-          end
-        else
-          # En este caso SOLO se pueden AGREGAR o QUITAR Carpetas TEMA
-          @carpetas_actuales = Carpeta.where(id: @ids_actual_base.union(@ids_actual_tema))
-          @carpetas_destino  = Carpeta.where(id: @ids_carpetas_tema - @ids_actual_tema)
-        end
-
       end
       if @activo.administrador.present?
 
         @areas_seleccion = Area.find(Area.all.ids - @objeto.areas.ids)
 
         @coleccion['areas'] = @objeto.areas
-
-        @areas_actuales = @objeto.areas
-        @ids_areas_destino = Area.all.ids - @areas_actuales.ids
-        @areas_destino = Area.where(id: @ids_areas_destino)
 
       end
     end

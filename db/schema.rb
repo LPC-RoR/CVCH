@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_31_205555) do
+ActiveRecord::Schema.define(version: 2021_02_06_032931) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -185,13 +185,11 @@ ActiveRecord::Schema.define(version: 2021_01_31_205555) do
   create_table "perfiles", force: :cascade do |t|
     t.integer "usuario_id"
     t.integer "administrador_id"
-    t.integer "investigador_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "email"
     t.index ["administrador_id"], name: "index_perfiles_on_administrador_id"
     t.index ["email"], name: "index_perfiles_on_email"
-    t.index ["investigador_id"], name: "index_perfiles_on_investigador_id"
     t.index ["usuario_id"], name: "index_perfiles_on_usuario_id"
   end
 

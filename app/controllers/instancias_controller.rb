@@ -32,7 +32,7 @@ class InstanciasController < ApplicationController
       @sha1 = Digest::SHA1.hexdigest(params[:instancia_nuevo][:instancia].strip.downcase)
       @existente = Instancia.find_by(sha1: @sha1)
       if @existente.blank?
-        @existente = Instancia.create(instancia: params[:instancia_nuevo][:instancia].downcase.strip, sha1: @sha1)
+        @existente = Instancia.create(instancia: params[:instancia_nuevo][:instancia].downcase.strip, sha1: @sha1, concepto_id: params[:instancia_nuevo][:concepto_id])
       end
       unless @publicacion.instancias.ids.include?(@existente.id)
         @publicacion.instancias << @existente
