@@ -234,7 +234,7 @@ module Cvch
         'Concepto' => {
             f_detail: false,
             conditional_fields: [
-                'administrativo'
+                'administracion'
             ]
         }
     }

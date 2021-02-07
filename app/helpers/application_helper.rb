@@ -289,7 +289,7 @@ module ApplicationHelper
 	# Manejo de campos condicionales FORM y SHOW
 	def filtro_conditional_field?(objeto, field)
 		if Rails.configuration.x.form.exceptions[objeto.class.name].present?
-			Rails.configuration.x.form.exceptions[objeto.class.name][:conditional_fields].include?(field) ? get_field_condition(objeto, field) : false
+			Rails.configuration.x.form.exceptions[objeto.class.name][:conditional_fields].include?(field) ? get_field_condition(objeto, field) : true
 		else
 			true
 		end

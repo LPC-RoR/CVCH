@@ -68,6 +68,10 @@ class PublicacionesController < ApplicationController
         @coleccion['areas'] = @objeto.areas
 
       end
+
+      @coleccion['rutas'] = @objeto.rutas
+      @coleccion['propuestas'] = @objeto.propuestas
+
     end
 
     # ********************** DUPLICADOS *****************************
@@ -82,9 +86,6 @@ class PublicacionesController < ApplicationController
     end
 
     # ********************** INSTANCIAS *****************************
-
-    @coleccion['rutas'] = @objeto.rutas
-    @coleccion['propuestas'] = @objeto.propuestas
 
     @tl_coleccion = @objeto.instancias
       
