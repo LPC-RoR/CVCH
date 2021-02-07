@@ -64,6 +64,9 @@ class Publicacion < ApplicationRecord
 	has_many :rutas
 	has_many :instancias, through: :rutas
 
+	has_many :propuestas
+	has_many :pendientes, through: :propuestas, source: 'instancia'
+
 	def show_title
 		self.title
 	end

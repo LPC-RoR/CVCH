@@ -1,0 +1,27 @@
+<%= form_with(model: diccionario, local: true) do |form| %>
+  <% if diccionario.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(diccionario.errors.count, "error") %> prohibited this diccionario from being saved:</h2>
+
+      <ul>
+      <% diccionario.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :concepto_id %>
+    <%= form.number_field :concepto_id %>
+  </div>
+
+  <div class="field">
+    <%= form.label :instancia_id %>
+    <%= form.number_field :instancia_id %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

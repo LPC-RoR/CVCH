@@ -23,6 +23,13 @@
 		  </div>
 		<% when 'select' %>
 			<%= form.select field[0], field[0].split('_')[0].classify.constantize.all.collect { |p| [p.send(field[0].split('_')[0].downcase), p.id] }, include_blank: true %>
+		<% when  'check_box' %>
+				<p>
+				<label>
+				  <%= form.check_box field[0] %>
+				  <%= field[0] %>
+				</label>
+				</p>
 		<% when 'file_field' %>
 			</br>
 		  <p>

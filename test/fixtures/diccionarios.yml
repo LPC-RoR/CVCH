@@ -1,0 +1,9 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  concepto_id: 1
+  instancia_id: 1
+
+two:
+  concepto_id: 1
+  instancia_id: 1

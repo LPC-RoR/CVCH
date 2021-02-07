@@ -12,6 +12,10 @@ class Perfil < ApplicationRecord
 	has_many :cargas
 	has_many :contribuciones, class_name: 'Publicacion'
 	has_many :evaluaciones
+	has_many :conceptos
+
+	has_many :rutas
+	has_many :propuestas
 
 	has_many :integrantes
 	has_many :participaciones, through: :integrantes, source: :equipo

@@ -109,6 +109,12 @@ module Cvch
         },
         'Equipo' => {
             'email' => ['bt_field', 'administrador']
+        },
+        'Ruta'   => {
+            'instancia' => ['bt_field', 'instancia']
+        },
+        'Propuesta'   => {
+            'instancia' => ['bt_field', 'instancia']
         }
     }
 
@@ -136,6 +142,12 @@ module Cvch
                 # '*' en todo controller_name
                 '*' => 'inline'
             }
+        },
+        'conceptos' => {
+            elementos: {
+                tabs: ['self']
+            },
+            tabs: ['propios', 'plataforma', 'comunidad']
         }
     }
 
@@ -178,6 +190,18 @@ module Cvch
             x_btns: [
                 ['Eliminar', '/elimina_instancia', true]
             ]
+        },
+        'Ruta'         => {
+            conditions: ['x', 'crud'],
+            x_btns: [
+                ['Eliminar', '/elimina_ruta', true]
+            ]
+        },
+        'Propuesta'         => {
+            conditions: ['x', 'crud'],
+            x_btns: [
+                ['Eliminar', '/elimina_propuesta', true]
+            ]
         }
     }
 
@@ -205,6 +229,12 @@ module Cvch
                 'editor',
                 'academic_degree',
                 'ciudad_pais'
+            ]
+        },
+        'Concepto' => {
+            f_detail: false,
+            conditional_fields: [
+                'administrativo'
             ]
         }
     }
@@ -239,8 +269,8 @@ module Cvch
         'investigadores' => ['autores', 'carpetas'],
         'equipos'        => ['investigadores', 'instancias', 'integrantes', 'herencias'],
         'areas'          => ['clasificaciones', 'cargas'],
-        'conceptos'      => ['rel_hijos'],
-        'instancias'     => ['rutas']
+        'conceptos'      => ['rel_hijos', 'hijos', 'diccionarios'],
+        'instancias'     => ['rutas', 'diccionarios', 'propuestas']
     }
 
   end

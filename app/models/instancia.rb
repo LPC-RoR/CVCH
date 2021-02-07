@@ -9,8 +9,12 @@ class Instancia < ApplicationRecord
 	]
 
 
-	belongs_to :concepto, optional: true
+	has_many :diccionarios
+	has_many :conceptos, through: :diccionarios
 
 	has_many :rutas
 	has_many :publicaciones, through: :rutas
+
+	has_many :propuestas
+	has_many :aprobaciones, through: :propuestas, source: 'publicacion'
 end

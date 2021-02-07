@@ -1,5 +1,4 @@
 Rails.application.routes.draw do
-  resources :herencias
   resources :administradores
   resources :areas do 
     match :asigna, via: :post, on: :collection
@@ -26,6 +25,7 @@ Rails.application.routes.draw do
   end
   resources :configuraciones
   resources :contribuciones
+  resources :diccionarios
   resources :equipos do
     match :nuevo, via: :post, on: :collection
     match :nueva_carpeta_equipo, via: :post, on: :collection
@@ -36,6 +36,7 @@ Rails.application.routes.draw do
   resources :idiomas do 
     resources :revistas
   end
+  resources :herencias
   resources :integrantes
   resources :instancias do
     match :nuevo, via: :post, on: :collection
@@ -50,6 +51,9 @@ Rails.application.routes.draw do
   end
   resources :perfiles
   resources :procesos
+  resources :propuestas do
+    match :elimina_propuesta, via: :get, on: :member
+  end
   resources :publicaciones do
     match :cambia_evaluacion, via: :get, on: :member
     match :cambia_tipo, via: :get, on: :collection
@@ -65,7 +69,9 @@ Rails.application.routes.draw do
     resources :publicaciones
   end
   resources :revisiones
-  resources :rutas
+  resources :rutas do
+    match :elimina_ruta, via: :get, on: :member
+  end
   resources :revistas do
     resources :publicaciones
   end

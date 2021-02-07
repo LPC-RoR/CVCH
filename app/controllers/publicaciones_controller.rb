@@ -83,6 +83,9 @@ class PublicacionesController < ApplicationController
 
     # ********************** INSTANCIAS *****************************
 
+    @coleccion['rutas'] = @objeto.rutas
+    @coleccion['propuestas'] = @objeto.propuestas
+
     @tl_coleccion = @objeto.instancias
       
   end

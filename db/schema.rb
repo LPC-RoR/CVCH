@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_06_032931) do
+ActiveRecord::Schema.define(version: 2021_02_07_001929) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -96,7 +96,11 @@ ActiveRecord::Schema.define(version: 2021_02_06_032931) do
     t.string "concepto"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "perfil_id"
+    t.boolean "administracion"
+    t.index ["administracion"], name: "index_conceptos_on_administracion"
     t.index ["concepto"], name: "index_conceptos_on_concepto"
+    t.index ["perfil_id"], name: "index_conceptos_on_perfil_id"
   end
 
   create_table "departamentos", force: :cascade do |t|
@@ -105,6 +109,15 @@ ActiveRecord::Schema.define(version: 2021_02_06_032931) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["institucion_id"], name: "index_departamentos_on_institucion_id"
+  end
+
+  create_table "diccionarios", force: :cascade do |t|
+    t.integer "concepto_id"
+    t.integer "instancia_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["concepto_id"], name: "index_diccionarios_on_concepto_id"
+    t.index ["instancia_id"], name: "index_diccionarios_on_instancia_id"
   end
 
   create_table "equipos", force: :cascade do |t|
@@ -149,10 +162,8 @@ ActiveRecord::Schema.define(version: 2021_02_06_032931) do
   create_table "instancias", force: :cascade do |t|
     t.string "instancia"
     t.string "sha1"
-    t.integer "concepto_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["concepto_id"], name: "index_instancias_on_concepto_id"
     t.index ["sha1"], name: "index_instancias_on_sha1"
   end
 
@@ -200,6 +211,17 @@ ActiveRecord::Schema.define(version: 2021_02_06_032931) do
     t.datetime "updated_at", null: false
     t.index ["carga_id"], name: "index_procesos_on_carga_id"
     t.index ["publicacion_id"], name: "index_procesos_on_publicacion_id"
+  end
+
+  create_table "propuestas", force: :cascade do |t|
+    t.integer "instancia_id"
+    t.integer "publicacion_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "perfil_id"
+    t.index ["instancia_id"], name: "index_propuestas_on_instancia_id"
+    t.index ["perfil_id"], name: "index_propuestas_on_perfil_id"
+    t.index ["publicacion_id"], name: "index_propuestas_on_publicacion_id"
   end
 
   create_table "publicaciones", force: :cascade do |t|
@@ -278,7 +300,9 @@ ActiveRecord::Schema.define(version: 2021_02_06_032931) do
     t.integer "publicacion_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "perfil_id"
     t.index ["instancia_id"], name: "index_rutas_on_instancia_id"
+    t.index ["perfil_id"], name: "index_rutas_on_perfil_id"
     t.index ["publicacion_id"], name: "index_rutas_on_publicacion_id"
   end
 

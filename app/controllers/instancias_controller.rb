@@ -17,8 +17,12 @@ class InstanciasController < ApplicationController
     else
       @tab = params[:html_options][:tab].blank? ? 'publicaciones' : params[:html_options][:tab]
     end
-    @coleccion = @objeto.publicaciones.page(params[:page])
     @options = {'tab' => @tab}
+
+    @coleccion = {}
+    @coleccion['publicaciones'] = @objeto.publicaciones.page(params[:page])
+    @coleccion['conceptos'] = @objeto.conceptos
+    @coleccion['aprobaciones'] = @objeto.aprobaciones
   end
 
   # GET /instancias/new
@@ -27,19 +31,48 @@ class InstanciasController < ApplicationController
   end
 
   def nuevo
-    unless params[:instancia_nuevo][:instancia].blank?
-      @publicacion = Publicacion.find(params[:publicacion_id])
+    # Aqui nos ganamos lo porotos!
+    publicacion = Publicacion.find(params[:publicacion_id])
+
+    unless params[:instancia_nuevo][:instancia].blank? or params[:instancia_nuevo][:concepto_id].blank?
+      @activo = Perfil.find(session[:perfil_activo]['id'])
+
+      concepto = Concepto.find(params[:instancia_nuevo][:concepto_id])
+      # generamos el SHA1 del texto ingresado strip & downcase
       @sha1 = Digest::SHA1.hexdigest(params[:instancia_nuevo][:instancia].strip.downcase)
-      @existente = Instancia.find_by(sha1: @sha1)
-      if @existente.blank?
-        @existente = Instancia.create(instancia: params[:instancia_nuevo][:instancia].downcase.strip, sha1: @sha1, concepto_id: params[:instancia_nuevo][:concepto_id])
+      # vemos si la instancia existe
+      instancia = Instancia.find_by(sha1: @sha1)
+
+      if instancia.blank?
+        # 1.- Crear Instancia
+        instancia = Instancia.create(instancia: params[:instancia_nuevo][:instancia].downcase.strip, sha1: @sha1)
+        concepto.instancias << instancia
+      else
+        # 1.- Instancia
+        # si existe aún debemos verifiacar que esté asociado al concepto que queremos vincular
+        unless instancia.conceptos.ids.include?(concepto.id)
+          concepto.instancias << instancia
+        end
       end
-      unless @publicacion.instancias.ids.include?(@existente.id)
-        @publicacion.instancias << @existente
+      # 2.- Enrutar
+      if concepto.perfil.administrador.present? or concepto.perfil.id == @activo.id
+        unless publicacion.instancias.ids.include?(instancia.id)
+          publicacion.instancias << instancia
+          ruta = Ruta.where(publicacion_id: publicacion.id).find_by(instancia_id: instancia.id)
+          ruta.perfil_id = @activo.id
+          ruta.save
+        end
+      else
+        unless publicacion.instancias.ids.include?(instancia.id)
+          publicacion.pendientes << instancia
+          propuesta = Propuesta.where(publicacion_id: publicacion.id).find_by(instancia_id: instancia.id)
+          propuesta.perfil_id = @activo.id
+          propuesta.save
+        end
       end
     end
 
-    redirect_to @publicacion
+    redirect_to publicacion
   end
 
   # GET /instancias/1/edit

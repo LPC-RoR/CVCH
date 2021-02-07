@@ -219,6 +219,10 @@ module ApplicationHelper
 			not Area::NOT_MODIFY.include?(objeto.area) and controller_name == 'areas'
 		when 'Instancia'
 			false
+		when 'Ruta'
+			false
+		when 'Propuesta'
+			false
 		end
 	end
 
@@ -234,6 +238,10 @@ module ApplicationHelper
 			['publicaciones', 'equipos'].include?(controller_name) and not Carpeta::NOT_MODIFY.include?(objeto.carpeta) and objeto.perfil.id == session[:perfil_activo]['id'].to_i
 		when 'Area'
 			controller_name == 'publicaciones'
+		when 'Ruta'
+			@activo.administrador.present? or objeto.perfil.id == @activo.id
+		when 'Propuesta'
+			@activo.administrador.present? or objeto.perfil.id == @activo.id
 		end
 	end
 
@@ -273,6 +281,8 @@ module ApplicationHelper
 		case objeto.class.name
 		when 'Publicacion'
 			objeto.estado != 'publicada'
+		when 'Concepto'
+			@activo.administrador.present?
 		end
 	end
 
