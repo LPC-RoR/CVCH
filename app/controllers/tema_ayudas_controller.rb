@@ -24,7 +24,7 @@ class TemaAyudasController < ApplicationController
   end
 
   def nuevo
-    tipo = params[:tema_ayuda_base][:tipo]
+    tipo = params[:tema_ayuda_base][:tipo].blank? ? 'tema' : params[:tema_ayuda_base][:tipo]
     orden = params[:tema_ayuda_base][:orden]
     tema_ayuda = params[:tema_ayuda_base][:tema_ayuda]
     detalle = params[:tema_ayuda_base][:detalle]

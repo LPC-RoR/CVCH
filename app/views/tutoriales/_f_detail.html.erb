@@ -1,14 +1,16 @@
+<small><%= form.label 'Orden | Tutorial' %></small></br>
 <div class='form-inline'>
 	<% if filtro_conditional_field?(@objeto, 'orden') %>
-		<%= form.text_field(:orden, size: 5, placeholder: 'orden', class: 'form-control' ) %>
+		<%= form.text_field(:orden, size: 5, class: 'form-control' ) %>
 	<% end %>
 	<% if filtro_conditional_field?(@objeto, 'tutorial') %>
-		<%= form.text_field(:tutorial, placeholder: 'tutorial', size: 57, class: 'form-control' ) %>
+		<%= form.text_field(:tutorial, size: 57, class: 'form-control' ) %>
 	<% end %>
 </div>
 
 <% if filtro_conditional_field?(@objeto, 'detalle') %>
-  	<%= form.text_area :detalle, placeholder: 'detalle', size: '68x3' %><!--/br-->
+	<small><%= form.label 'Detalle' %></small></br>
+  	<%= form.text_area :detalle, size: '68x3' %><!--/br-->
 <% end %>
 
 <%= form.hidden_field :tema_ayuda_id %>

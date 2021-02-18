@@ -4,7 +4,7 @@ class ApplicationController < ActionController::Base
 	## TEMAS AYUDA
 	def carga_temas_ayuda
 		@temas_ayuda  = TemaAyuda.where(tipo: 'tema').order(:orden)
-		@temas_inicio = TemaAyuda.where(tipo: 'inicio').order(:orden)
+		@tutoriales_basicos = TemaAyuda.find_by(orden: 1).tutoriales.order(:orden)
 	end
 
 	# Este método se usa para construir un nombre de directorio a partir de un correo electrónico.

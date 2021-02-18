@@ -9,9 +9,9 @@
       <% end %>
     <% end %>
     <div class="dropdown-divider"></div>
-    <% unless @temas_inicio.empty? %>
-      <% @temas_inicio.each do |tema| %>
-        <%= link_to tema.tema_ayuda, tema, class: "dropdown-item" %>
+    <% unless @tutoriales_basicos.empty? %>
+      <% @tutoriales_basicos.each do |tutorial| %>
+        <%= link_to tutorial.tutorial, tutorial, class: "dropdown-item" %>
       <% end %>
     <% end %>
     <div class="dropdown-divider"></div>
