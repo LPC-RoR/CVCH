@@ -1,0 +1,31 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Observaciones</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Observacion</th>
+      <th>Detalle</th>
+      <th>Publicacion</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @observaciones.each do |observacion| %>
+      <tr>
+        <td><%= observacion.observacion %></td>
+        <td><%= observacion.detalle %></td>
+        <td><%= observacion.publicacion_id %></td>
+        <td><%= link_to 'Show', observacion %></td>
+        <td><%= link_to 'Edit', edit_observacion_path(observacion) %></td>
+        <td><%= link_to 'Destroy', observacion, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Observacion', new_observacion_path %>

@@ -1,0 +1,16 @@
+<% if filtro_conditional_field?(@objeto, 'tipo') %>
+	<%= form.select :tipo, TemaAyuda::TIPO, include_blank: true %>
+<% end %>
+
+<div class='form-inline'>
+	<% if filtro_conditional_field?(@objeto, 'orden') %>
+		<%= form.text_field(:orden, size: 5, placeholder: 'orden', class: 'form-control' ) %>
+	<% end %>
+	<% if filtro_conditional_field?(@objeto, 'tema_ayuda') %>
+		<%= form.text_field(:tema_ayuda, placeholder: 'tema', size: 57, class: 'form-control' ) %>
+	<% end %>
+</div>
+
+<% if filtro_conditional_field?(@objeto, 'detalle') %>
+  	<%= form.text_area :detalle, placeholder: 'detalle', size: '68x3' %><!--/br-->
+<% end %>

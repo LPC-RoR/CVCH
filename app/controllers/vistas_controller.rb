@@ -1,8 +1,11 @@
 class VistasController < ApplicationController
   before_action :authenticate_usuario!, only: [:escritorio]
   before_action :inicia_session
+  before_action :carga_temas_ayuda
   before_action :set_vista, only: [:show, :edit, :update, :destroy]
   before_action :check_areas, only: [:index]
+
+  helper_method :sort_column, :sort_direction
 
   # GET /vistas
   # GET /vistas.json
@@ -25,17 +28,12 @@ class VistasController < ApplicationController
     @options = {'sel' => @sel ,'ftab' => @ftab}
 
     @coleccion = {}
-    if @ftab == 'Completa'
-      @coleccion['publicaciones'] = @area.papers.where(estado: 'publicada').page(params[:page])
-    elsif @ftab == 'Pendiente'
-      @activo = Perfil.find(session[:perfil_activo]['id'])
-      @propios_ids = []
-      @activo.carpetas.each do |car|
-        @propios_ids = @propios_ids.union(car.publicaciones.ids)
-      end
-      @area_completa_ids = @area.papers.ids
-      @coleccion['publicaciones'] = Publicacion.where(id: @area_completa_ids - @propios_ids).where(estado: 'publicada').page(params[:page])
-    end
+    puts "************************ index"
+    puts params[:sort]
+    puts params[:direction]
+    puts sort_column
+    puts sort_direction
+    @coleccion['publicaciones'] = @area.papers.where(estado: 'publicada').order(sort_column + " " + sort_direction).page(params[:page])
   end
 
   def escritorio
@@ -117,6 +115,20 @@ class VistasController < ApplicationController
 
   private
     # Use callbacks to share common setup or constraints between actions.
+
+    def sort_column
+      puts "********************** sort_column"
+      puts params[:sort]
+      Publicacion.column_names.include?(params[:sort]) ? params[:sort] : "Author"
+    end
+    
+    def sort_direction
+      puts "*********************** sort_direction"
+      puts params[:direction]
+      %w[asc desc].include?(params[:direction]) ? params[:direction] : "asc"
+    end
+      
+
     def set_vista
       @objeto = Vista.find(params[:id])
     end

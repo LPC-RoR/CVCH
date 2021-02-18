@@ -1,0 +1,19 @@
+<li class="nav-item dropdown ml-auto">
+  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    Ayuda
+  </a>
+  <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+    <% unless @temas_ayuda.empty? %>
+      <% @temas_ayuda.each do |tema| %>
+        <%= link_to tema.tema_ayuda, tema, class: "dropdown-item" %>
+      <% end %>
+    <% end %>
+    <div class="dropdown-divider"></div>
+    <% unless @temas_inicio.empty? %>
+      <% @temas_inicio.each do |tema| %>
+        <%= link_to tema.tema_ayuda, tema, class: "dropdown-item" %>
+      <% end %>
+    <% end %>
+    <div class="dropdown-divider"></div>
+  </div>
+</li>

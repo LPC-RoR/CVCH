@@ -44,10 +44,31 @@ module Cvch
         tabla:        true,
         adjuntos:    false
     }
+
+    ## ------------------------------------------------- COLORES ESTRUCTURA
+    # En 'app' los controladores son los que NO son de los otros tipos
+    config.colors = {
+        'navbar' => {
+            color: 'info'
+        },
+        'app' => {
+            color: 'info'
+        },
+        'help' => {
+            color: 'secondary',
+            controllers: ['tema_ayudas', 'tutoriales', 'pasos', 'mensajes', 'observaciones', 'mejoras']
+        },
+        'data' => {
+            color: 'success',
+            controllers: ['etapas', 'tablas', 'lineas', 'especificaciones', 'archivos', 'imagenes']
+        }
+    }
+
     ## ------------------------------------------------- MENU
     # controladores que NO despliegan MENU
     # se usa en nomenu?
-    config.x.menu.exceptions_controllers = ['confirmations', 'mailer', 'passwords', 'registrations', 'sessions', 'unlocks']    
+    #config.x.menu.exceptions_controllers = ['confirmations', 'mailer', 'passwords', 'registrations', 'sessions', 'unlocks']    
+    config.x.menu.exceptions_controllers = []    
 
     ## Menu principal de la aplicación
     # [0] : Item del menú
@@ -62,12 +83,15 @@ module Cvch
         ["Contribuciones", "/contribuciones",    'usuario'],
         ["Equipos",        "/equipos",           'usuario'],
         ["Carpetas",       "/carpetas",          'usuario'],
-        ["Administradores","/administradores",   'admin'],
-        ["Areas",          "/areas",             'admin'],
-        ["Conceptos",      "/conceptos",         'admin'],
-        ["Revisiones",     "/revisiones",        'admin'],
-        ["Cargas",         "/cargas",            'admin'] 
+        ["Conceptos",      "/conceptos",           'admin'],
+        ["Archivos",       "/recursos",            'admin'],
+        ["Revisiones",     "/revisiones",          'admin'],
+        ["Cargas",         "/cargas",              'admin'],
+        ["Temas Ayuda",    "/tema_ayudas",         'admin'] 
     ]
+
+    config.menu_con_contacto = true
+    config.menu_con_ayuda = true
 
     ## ------------------------------------------------- FRAMES
     config.frames = {
@@ -75,7 +99,6 @@ module Cvch
             'index' => {
                 titulo: 'Colecciones',
                 selector: 'Áreas',
-                tabs: ['Completa', 'Pendiente'],
                 action_type: 'tabla'
             },
             'escritorio' => {
@@ -115,7 +138,7 @@ module Cvch
         },
         'Propuesta'   => {
             'instancia' => ['bt_field', 'instancia']
-        }
+        },
     }
 
     config.x.tables.exceptions = {
@@ -148,8 +171,32 @@ module Cvch
                 tabs: ['self']
             },
             tabs: ['propios', 'plataforma', 'comunidad']
+        },
+        'versiones' => {
+            elementos: {
+                nuevo: ['proyectos']
+            }
+        },
+        'etapas' => {
+            elementos: {
+                nuevo: ['proyectos']
+            }
+        },
+        'areas' => {
+            elementos: {
+                titulo: ['recursos'],
+                nuevo: ['recursos']
+            }
+        },
+        'administradores' => {
+            elementos: {
+                titulo: ['recursos'],
+                nuevo: ['recursos']
+            }
         }
     }
+
+    config.sortable_tables = ['publicaciones']
 
     ## ------------------------------------------------- TABLA | BTNS
 
@@ -202,6 +249,12 @@ module Cvch
             x_btns: [
                 ['Eliminar', '/elimina_propuesta', true]
             ]
+        },
+        'Observacion' => {
+            conditions: ['crud']
+        },
+        'Mejora' => {
+            conditions: ['crud']
         }
     }
 
@@ -236,7 +289,23 @@ module Cvch
             conditional_fields: [
                 'administracion'
             ]
-        }
+        },
+        'Mensaje' => {
+            f_detail: true,
+            conditional_fields: ['email']
+        },
+        'TemaAyuda' => {
+            f_detail: true,
+            conditional_fields: []
+        },
+        'Tutorial' => {
+            f_detail: true,
+            conditional_fields: []
+        },
+        'Paso' => {
+            f_detail: true,
+            conditional_fields: []
+        },
     }
 
     ## ------------------------------------------------- SHOW

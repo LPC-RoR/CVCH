@@ -1,7 +1,9 @@
 class PublicacionesController < ApplicationController
   before_action :authenticate_usuario!, except: :show
   before_action :inicia_session
+  before_action :carga_temas_ayuda
   before_action :set_publicacion, only: [:show, :edit, :update, :destroy]
+
   after_action :procesa_author, only: [:update, :create]
   after_action :procesa_sha1, only: [:update, :create]
   after_action :procesa_journal, only: [:update, :create]
@@ -23,11 +25,12 @@ class PublicacionesController < ApplicationController
   # GET /publicaciones/1.json
   def show
 
+    @coleccion = {}
+
     if usuario_signed_in?
 
       @activo = Perfil.find(session[:perfil_activo]['id'])
 
-      @coleccion = {}
 
       # ********************** CARPETAS *****************************
       if @objeto.estado == 'publicada'
@@ -69,8 +72,8 @@ class PublicacionesController < ApplicationController
 
       end
 
-      @coleccion['rutas'] = @objeto.rutas
-      @coleccion['propuestas'] = @objeto.propuestas
+      @coleccion['rutas'] = @objeto.rutas.order(:created_at)
+      @coleccion['propuestas'] = @objeto.propuestas.order(:created_at)
 
     end
 
@@ -85,10 +88,9 @@ class PublicacionesController < ApplicationController
       @duplicados = Publicacion.where(id: @duplicados_ids)
     end
 
-    # ********************** INSTANCIAS *****************************
+    @coleccion['observaciones'] = @objeto.observaciones.order(created_at: :desc)
+    @coleccion['mejoras'] = @objeto.mejoras.order(created_at: :desc)
 
-    @tl_coleccion = @objeto.instancias
-      
   end
 
   # GET /publicaciones/new

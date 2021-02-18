@@ -6,7 +6,6 @@
 				<tr>
 					<% case field[1] %>
 					<% when 'normal' %>
-
 						<% if c.classify.constantize.column_names.include?(field[0]) %>
 							<td><small> <%= field[0] %> </small></td>
 							<td><small> <%=  o[field[0]] %> </small></td>

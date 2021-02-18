@@ -1,0 +1,52 @@
+<%= form_with(model: mensaje, local: true) do |form| %>
+  <% if mensaje.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(mensaje.errors.count, "error") %> prohibited this mensaje from being saved:</h2>
+
+      <ul>
+      <% mensaje.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :mensaje %>
+    <%= form.text_field :mensaje %>
+  </div>
+
+  <div class="field">
+    <%= form.label :tipo %>
+    <%= form.text_field :tipo %>
+  </div>
+
+  <div class="field">
+    <%= form.label :estado %>
+    <%= form.text_field :estado %>
+  </div>
+
+  <div class="field">
+    <%= form.label :email %>
+    <%= form.text_field :email %>
+  </div>
+
+  <div class="field">
+    <%= form.label :fecha_envio %>
+    <%= form.datetime_select :fecha_envio %>
+  </div>
+
+  <div class="field">
+    <%= form.label :detalle %>
+    <%= form.text_area :detalle %>
+  </div>
+
+  <div class="field">
+    <%= form.label :perfil_id %>
+    <%= form.number_field :perfil_id %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

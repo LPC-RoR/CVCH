@@ -1,0 +1,15 @@
+<div class='row'>
+	<div class='col-md-1'></div>
+	<div class='col-md-6'>
+		<% @coleccion.each do |tema| %>
+			</br>
+			<h1><%= tema.tema_ayuda %></h1>
+			<h5>
+				<%= sanitize tema.d_detalle %>
+			</h5>
+		<% end %>
+	</div>
+	<div class='col-md-4'>
+	</div>
+	<div class='col-md-1'></div>
+</div>

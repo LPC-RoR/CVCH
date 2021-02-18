@@ -1,0 +1,18 @@
+<% if filtro_conditional_field?(@objeto, 'email') %>
+	<small><%= form.label 'email' %></small></br>
+	<%= form.text_field(:email, size: 30, class: 'form-control' ) %>
+<% end %>
+<% if filtro_conditional_field?(@objeto, 'mensaje') %>
+	<small><%= form.label 'mensaje' %></small></br>
+	<%= form.text_field(:mensaje, size: 30, class: 'form-control' ) %>
+<% end %>
+
+<% if filtro_conditional_field?(@objeto, 'detalle') %>
+	<small><%= form.label 'detalle' %></small></br>
+  	<%= form.text_area :detalle, size: '66x10' %><!--/br-->
+<% end %>
+
+<%= form.hidden_field :perfil_id %>
+<%= form.hidden_field :tipo %>
+<%= form.hidden_field :estado %>
+<%= form.hidden_field :fecha_envio %>

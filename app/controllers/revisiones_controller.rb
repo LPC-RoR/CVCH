@@ -1,6 +1,7 @@
 class RevisionesController < ApplicationController
   before_action :authenticate_usuario!
   before_action :inicia_session
+  before_action :carga_temas_ayuda
   before_action :set_revision, only: [:show, :edit, :update, :destroy]
 
   # GET /revisiones

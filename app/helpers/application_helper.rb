@@ -34,6 +34,14 @@ module ApplicationHelper
 		end
 	end
 
+	def menu_con_ayuda
+		Rails.configuration.menu_con_ayuda
+	end
+
+	def menu_con_contacto
+		Rails.configuration.menu_con_contacto
+	end
+
 	## ------------------------------------------------------- FRAME
 
 	def frame_titulo(controlador, accion)
@@ -167,7 +175,7 @@ module ApplicationHelper
 		when 'detalle_pedido'
 			"/#{controller.classify.constantize::SELECTOR}/seleccion?#{@objeto.class.name.downcase}_id=#{@objeto.id}&empresa_id=#{@objeto.registro.empresa.id}"
 		when 'normal'
-			f_controller(controller_name) == controller ? "/#{controller}/new" : "/#{@objeto.class.name.tableize}/#{@objeto.id}/#{controller}/new"
+			(f_controller(controller_name) == controller or @objeto.blank?) ? "/#{controller}/new" : "/#{@objeto.class.name.tableize}/#{@objeto.id}/#{controller}/new"
 		end
 	end
 
@@ -205,6 +213,37 @@ module ApplicationHelper
 		Rails.configuration.x.tables.exceptions[controller][:estados]
 	end
 
+	def tr_row(objeto)
+		case objeto.class.name
+		when 'Publicacion'
+			if usuario_signed_in?
+				activo = Perfil.find(session[:perfil_activo]['id'])
+				(objeto.carpetas.ids & activo.carpetas.ids).empty? ? 'default' : 'dark'
+			else
+				'default'
+			end
+		else
+			'default'
+		end
+	end
+
+	def sortable?(controller)
+		Rails.configuration.sortable_tables.include?(controller)
+	end
+
+	def sortable(column, title = nil)
+	  title ||= column.titleize
+	  css_class = column == sort_column ? "current #{sort_direction}" : nil
+	  direction = column == sort_column && sort_direction == "asc" ? "desc" : "asc"
+	  puts "************************* sortable"
+	  puts column
+	  puts sort_column
+	  puts sort_direction
+	  puts css_class
+	  puts direction
+	  link_to title, {:sort => column, :direction => direction, html_options: @options}, {:class => css_class}
+	end
+
 	## ------------------------------------------------------- TABLA | BTNS
 
 	def crud_conditions(objeto)
@@ -216,13 +255,17 @@ module ApplicationHelper
 		when 'Carpeta'
 			not Carpeta::NOT_MODIFY.include?(objeto.carpeta) and controller_name == 'carpetas'
 		when 'Area'
-			not Area::NOT_MODIFY.include?(objeto.area) and controller_name == 'areas'
+			not Area::NOT_MODIFY.include?(objeto.area) and controller_name == 'recursos'
 		when 'Instancia'
 			false
 		when 'Ruta'
 			false
 		when 'Propuesta'
 			false
+		when 'Observacion'
+			usuario_signed_in? ? (objeto.owner_id == session[:perfil_activo]['id'] or session[:es_administrador]) : false
+		when 'Mejora'
+			usuario_signed_in? ? (objeto.owner_id == session[:perfil_activo]['id'] or session[:es_administrador]) : false
 		end
 	end
 
@@ -298,6 +341,8 @@ module ApplicationHelper
 	## ------------------------------------------------------- FORM
 
 	def form_f_detail?(objeto)
+		puts "******************************* form_f_detail"
+		puts Rails.configuration.x.form.exceptions[objeto.class.name].present?
 		if Rails.configuration.x.form.exceptions[objeto.class.name].present?
 			Rails.configuration.x.form.exceptions[objeto.class.name][:f_detail].present? ? Rails.configuration.x.form.exceptions[objeto.class.name][:f_detail] : false
 		else
@@ -331,13 +376,13 @@ module ApplicationHelper
 						objeto.title
 					end
 				else
-					objeto.send(objeto.class.name.downcase)
+					objeto.send(objeto.class.name.tableize.singularize)
 				end
 			else
-				objeto.send(objeto.class.name.downcase)
+				objeto.send(objeto.class.name.tableize.singularize)
 			end
 		else
-			objeto.send(objeto.class.name.downcase)
+			objeto.send(objeto.class.name.tableize.singularize)
 		end
 	end
 
@@ -388,6 +433,20 @@ module ApplicationHelper
 	end
 
 	## ------------------------------------------------------- GENERAL
+
+	def navbar_color
+		Rails.configuration.colors['navbar'][:color]
+	end
+
+	def c_color(controller)
+		if Rails.configuration.colors['help'][:controllers].include?(controller)
+			Rails.configuration.colors['help'][:color]
+		elsif Rails.configuration.colors['data'][:controllers].include?(controller)
+			Rails.configuration.colors['data'][:color]
+		else
+			Rails.configuration.colors['app'][:color]
+		end
+	end
 
 	# Manejode options para selectors múltiples
 	def get_html_opts(options, label, value)

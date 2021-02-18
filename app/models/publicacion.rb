@@ -17,6 +17,7 @@ class Publicacion < ApplicationRecord
 
 	# Campos qeu se despliegan en la tabla
 	TABLA_FIELDS = [
+		['author',      'normal'],
 		['title',         'show'], 
 		['doc_type',    'normal'], 
 		['year',        'normal']
@@ -48,6 +49,9 @@ class Publicacion < ApplicationRecord
 	belongs_to :area, optional: true
 
 	has_many :evaluaciones
+
+	has_many :observaciones
+	has_many :mejoras
 
 	has_many :autores
 	has_many :investigadores, through: :autores

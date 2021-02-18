@@ -1,0 +1,2 @@
+class Relacion < ApplicationRecord
+end

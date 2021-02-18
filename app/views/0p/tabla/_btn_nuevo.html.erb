@@ -1,5 +1,5 @@
 <!-- BOTON NUEVO OBJETO TABLA -->
 <!-- c: controlador -->
-<%= link_to get_new_link(c), class: "btn btn-outline-info btn-sm" do %>
-    <%= "+ #{c.singularize.capitalize}" %>
+<%= link_to get_new_link(c), class: "btn btn-outline-#{c_color(c)} btn-sm" do %>
+    <%= "+ #{c.humanize.singularize}" %>
 <% end %>

@@ -1,9 +1,9 @@
 <!-- TITULO -->
 <!-- size: determina el tamaño del font -->
 <!-- titulo: Es el texto del título -->
-<div class="p-3 mb-2 bg-info text-white">
+<div class="p-3 mb-2 bg-<%=c_color(o.class.name.tableize)%> text-white">
 	<h<%= size.to_i+1%>>
-		<%= "#{o.class.name}" %>
+		<%= "#{o.class.name.tableize.humanize.singularize}" %>
 	</h<%= size.to_i+1%>>
 	
 	<h<%= size%>>

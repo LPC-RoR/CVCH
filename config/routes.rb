@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  resources :pasos
+  resources :relaciones
+  resources :mensajes
   resources :administradores
   resources :areas do 
     match :asigna, via: :post, on: :collection
@@ -49,6 +52,13 @@ Rails.application.routes.draw do
   resources :investigadores do
     match :perfil, via: :get, on: :member
   end
+  resources :mejoras do
+    match :nuevo, via: :post, on: :collection
+  end
+  resources :observaciones do
+    match :nuevo, via: :post, on: :collection
+  end
+  resources :pasos
   resources :perfiles
   resources :procesos
   resources :propuestas do
@@ -61,8 +71,8 @@ Rails.application.routes.draw do
   end
   resources :recursos do
     collection do
-      match :tablas, via: :get
-      match :manual, via: :get
+      match :home, via: :get
+      match :archivos, via: :get
     end
   end
   resources :registros do
@@ -75,14 +85,28 @@ Rails.application.routes.draw do
   resources :revistas do
     resources :publicaciones
   end
+  resources :tema_ayudas do
+    resources :tutoriales
+  end
+  resources :tutoriales do
+    resources :pasos
+  end
   resources :vistas do
     match :escritorio, via: :get, on: :collection
     match :graficos, via: :get, on: :collection
   end
 
-  devise_for :usuarios
+  devise_for :usuarios, controllers: {
+        confirmations: 'usuarios/confirmations',
+#        omniauth_callbacks: 'usuarios/omniauth_callbacks',
+        passwords: 'usuarios/passwords',
+        registrations: 'usuarios/registrations',
+        sessions: 'usuarios/sessions',
+        unlocks: 'usuarios/unlocks'
+      }
+
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 
-  root 'vistas#index'
+  root 'recursos#home'
 
 end

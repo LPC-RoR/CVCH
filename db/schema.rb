@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_07_001929) do
+ActiveRecord::Schema.define(version: 2021_02_17_182804) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -193,6 +193,54 @@ ActiveRecord::Schema.define(version: 2021_02_07_001929) do
     t.index ["investigador"], name: "index_investigadores_on_investigador"
   end
 
+  create_table "mejoras", force: :cascade do |t|
+    t.string "mejora"
+    t.text "detalle"
+    t.integer "publicacion_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "owner_id"
+    t.index ["publicacion_id"], name: "index_mejoras_on_publicacion_id"
+  end
+
+  create_table "mensajes", force: :cascade do |t|
+    t.string "mensaje"
+    t.string "tipo"
+    t.string "estado"
+    t.string "email"
+    t.datetime "fecha_envio"
+    t.text "detalle"
+    t.integer "perfil_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["email"], name: "index_mensajes_on_email"
+    t.index ["estado"], name: "index_mensajes_on_estado"
+    t.index ["fecha_envio"], name: "index_mensajes_on_fecha_envio"
+    t.index ["perfil_id"], name: "index_mensajes_on_perfil_id"
+    t.index ["tipo"], name: "index_mensajes_on_tipo"
+  end
+
+  create_table "observaciones", force: :cascade do |t|
+    t.string "observacion"
+    t.text "detalle"
+    t.integer "publicacion_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "owner_id"
+    t.index ["publicacion_id"], name: "index_observaciones_on_publicacion_id"
+  end
+
+  create_table "pasos", force: :cascade do |t|
+    t.integer "orden"
+    t.string "paso"
+    t.text "detalle"
+    t.integer "tutorial_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["orden"], name: "index_pasos_on_orden"
+    t.index ["tutorial_id"], name: "index_pasos_on_tutorial_id"
+  end
+
   create_table "perfiles", force: :cascade do |t|
     t.integer "usuario_id"
     t.integer "administrador_id"
@@ -286,6 +334,15 @@ ActiveRecord::Schema.define(version: 2021_02_07_001929) do
     t.index ["institucion_id"], name: "index_registros_on_institucion_id"
   end
 
+  create_table "relaciones", force: :cascade do |t|
+    t.integer "parent_id"
+    t.integer "child_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["child_id"], name: "index_relaciones_on_child_id"
+    t.index ["parent_id"], name: "index_relaciones_on_parent_id"
+  end
+
   create_table "revistas", force: :cascade do |t|
     t.string "revista"
     t.integer "idioma_id"
@@ -304,6 +361,28 @@ ActiveRecord::Schema.define(version: 2021_02_07_001929) do
     t.index ["instancia_id"], name: "index_rutas_on_instancia_id"
     t.index ["perfil_id"], name: "index_rutas_on_perfil_id"
     t.index ["publicacion_id"], name: "index_rutas_on_publicacion_id"
+  end
+
+  create_table "tema_ayudas", force: :cascade do |t|
+    t.integer "orden"
+    t.string "tema_ayuda"
+    t.text "detalle"
+    t.string "tipo"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["orden"], name: "index_tema_ayudas_on_orden"
+    t.index ["tipo"], name: "index_tema_ayudas_on_tipo"
+  end
+
+  create_table "tutoriales", force: :cascade do |t|
+    t.integer "orden"
+    t.string "tutorial"
+    t.text "detalle"
+    t.integer "tema_ayuda_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["orden"], name: "index_tutoriales_on_orden"
+    t.index ["tema_ayuda_id"], name: "index_tutoriales_on_tema_ayuda_id"
   end
 
   create_table "usuarios", force: :cascade do |t|
