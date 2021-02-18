@@ -326,6 +326,8 @@ module ApplicationHelper
 			objeto.estado != 'publicada'
 		when 'Concepto'
 			@activo.administrador.present?
+		when 'Mensaje'
+			field != 'email' or not usuario_signed_in?
 		end
 	end
 
@@ -341,8 +343,6 @@ module ApplicationHelper
 	## ------------------------------------------------------- FORM
 
 	def form_f_detail?(objeto)
-		puts "******************************* form_f_detail"
-		puts Rails.configuration.x.form.exceptions[objeto.class.name].present?
 		if Rails.configuration.x.form.exceptions[objeto.class.name].present?
 			Rails.configuration.x.form.exceptions[objeto.class.name][:f_detail].present? ? Rails.configuration.x.form.exceptions[objeto.class.name][:f_detail] : false
 		else

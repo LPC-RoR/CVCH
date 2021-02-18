@@ -1,5 +1,5 @@
 class TemaAyuda < ApplicationRecord
-	TIPO = ['inicio', 'tema']
+	TIPO = ['inicio', 'tema', 'admin']
 
 	TABLA_FIELDS = [
 		['orden',    'normal'],

@@ -8,12 +8,23 @@
         <%= link_to tema.tema_ayuda, tema, class: "dropdown-item" %>
       <% end %>
     <% end %>
+
+    <% if usuario_signed_in? %>
+      <% if session[:es_administrador] %>
+        <div class="dropdown-divider"></div>
+        <% unless @temas_admin.empty? %>
+          <% @temas_admin.each do |tema| %>
+            <%= link_to tema.tema_ayuda, tema, class: "dropdown-item" %>
+          <% end %>
+        <% end %>
+      <% end %>
+    <% end %>
+
     <div class="dropdown-divider"></div>
     <% unless @tutoriales_basicos.empty? %>
       <% @tutoriales_basicos.each do |tutorial| %>
         <%= link_to tutorial.tutorial, tutorial, class: "dropdown-item" %>
       <% end %>
     <% end %>
-    <div class="dropdown-divider"></div>
   </div>
 </li>

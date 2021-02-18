@@ -1,7 +1,7 @@
 class MensajesController < ApplicationController
   before_action :inicia_session
   before_action :carga_temas_ayuda
-  before_action :set_mensaje, only: [:show, :edit, :update, :destroy]
+  before_action :set_mensaje, only: [:show, :edit, :update, :destroy, :estado]
 
   # GET /mensajes
   # GET /mensajes.json

@@ -4,6 +4,7 @@ class ApplicationController < ActionController::Base
 	## TEMAS AYUDA
 	def carga_temas_ayuda
 		@temas_ayuda  = TemaAyuda.where(tipo: 'tema').order(:orden)
+		@temas_admin  = TemaAyuda.where(tipo: 'admin').order(:orden)
 		@tutoriales_basicos = TemaAyuda.where(tipo: 'tema').order(:orden).first.tutoriales.order(:orden)
 	end
 

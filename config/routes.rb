@@ -1,7 +1,6 @@
 Rails.application.routes.draw do
   resources :pasos
   resources :relaciones
-  resources :mensajes
   resources :administradores
   resources :areas do 
     match :asigna, via: :post, on: :collection
@@ -54,6 +53,10 @@ Rails.application.routes.draw do
   end
   resources :mejoras do
     match :nuevo, via: :post, on: :collection
+  end
+  resources :mensajes do 
+    match :estado, via: :get, on: :member
+    match :respuesta, via: :post, on: :collection
   end
   resources :observaciones do
     match :nuevo, via: :post, on: :collection
