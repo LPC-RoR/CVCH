@@ -4,6 +4,7 @@ class InvestigadoresController < ApplicationController
   before_action :carga_temas_ayuda
   before_action :set_investigador, only: [:show, :edit, :update, :destroy, :perfil]
 
+  helper_method :sort_column, :sort_direction
   # GET /investigadores
   # GET /investigadores.json
   def index
@@ -23,7 +24,7 @@ class InvestigadoresController < ApplicationController
     # tenemos que cubrir todos los casos
     # 1. has_many : }
     @coleccion = {}
-    @coleccion[@tab] = @objeto.send(@tab).page(params[:page]) #.where(estado: @estado)
+    @coleccion[@tab] = @objeto.send(@tab).order(sort_column + " " + sort_direction).page(params[:page]) #.where(estado: @estado)
   end
 
   # GET /investigadores/new
@@ -77,6 +78,14 @@ class InvestigadoresController < ApplicationController
 
   private
     # Use callbacks to share common setup or constraints between actions.
+    def sort_column
+      Publicacion.column_names.include?(params[:sort]) ? params[:sort] : "Author"
+    end
+    
+    def sort_direction
+      %w[asc desc].include?(params[:direction]) ? params[:direction] : "asc"
+    end
+
     def set_investigador
       @objeto = Investigador.find(params[:id])
     end

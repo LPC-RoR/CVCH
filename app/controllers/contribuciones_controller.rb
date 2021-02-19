@@ -4,6 +4,7 @@ class ContribucionesController < ApplicationController
   before_action :carga_temas_ayuda
   before_action :set_contribucion, only: [:show, :edit, :update, :destroy]
 
+  helper_method :sort_column, :sort_direction
   # GET /contribuciones
   # GET /contribuciones.json
   def index
@@ -17,7 +18,7 @@ class ContribucionesController < ApplicationController
     @options = { 'tab' => @tab }
 
     @coleccion = {}
-    @coleccion['publicaciones'] = @activo.contribuciones.where(estado: @tab).page(params[:page])
+    @coleccion['publicaciones'] = @activo.contribuciones.where(estado: @tab).order(sort_column + " " + sort_direction).page(params[:page])
   end
 
   # GET /contribuciones/1
@@ -76,6 +77,14 @@ class ContribucionesController < ApplicationController
 
   private
     # Use callbacks to share common setup or constraints between actions.
+    def sort_column
+      Publicacion.column_names.include?(params[:sort]) ? params[:sort] : "Author"
+    end
+    
+    def sort_direction
+      %w[asc desc].include?(params[:direction]) ? params[:direction] : "asc"
+    end
+
     def set_contribucion
       @objeto = Contribucion.find(params[:id])
     end

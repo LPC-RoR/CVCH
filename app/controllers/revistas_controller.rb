@@ -4,6 +4,7 @@ class RevistasController < ApplicationController
   before_action :carga_temas_ayuda
   before_action :set_revista, only: [:show, :edit, :update, :destroy]
 
+  helper_method :sort_column, :sort_direction
   # GET /revistas
   # GET /revistas.json
   def index
@@ -16,7 +17,7 @@ class RevistasController < ApplicationController
     @tab = params[:tab].blank? ? 'publicaciones' : params[:tab]
 
     @coleccion = {}
-    @coleccion['publicaciones'] = @objeto.publicaciones.where(estado: 'publicada').page(params[:page])
+    @coleccion['publicaciones'] = @objeto.publicaciones.where(estado: 'publicada').order(sort_column + " " + sort_direction).page(params[:page])
   end
 
   # GET /revistas/new
@@ -70,6 +71,14 @@ class RevistasController < ApplicationController
 
   private
     # Use callbacks to share common setup or constraints between actions.
+    def sort_column
+      Publicacion.column_names.include?(params[:sort]) ? params[:sort] : "Author"
+    end
+    
+    def sort_direction
+      %w[asc desc].include?(params[:direction]) ? params[:direction] : "asc"
+    end
+
     def set_revista
       @objeto = Revista.find(params[:id])
     end

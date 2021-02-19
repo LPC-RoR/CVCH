@@ -6,7 +6,7 @@
 	<% else %>	
 		<!-- LINKS AREAS -->
 		<% (Publicacion::DOC_TYPES - [@objeto.doc_type]).each do |doc_type| %>
-			<%= render partial: '0p/tabla/btn', locals: {texto: "#{doc_type}", link: "/publicaciones/cambia_tipo?publicacion_id=#{o.id}&doc_type=#{doc_type}", delete: false }  %>
+			<%= render partial: '0p/tabla/btn', locals: {texto: "#{doc_type}", link: "/publicaciones/cambia_tipo?publicacion_id=#{o.id}&doc_type=#{doc_type}", clr: c_color(@objeto.class.name.tableize), delete: false }  %>
 		<% end %>
 		</br></br>
 	<% end %>

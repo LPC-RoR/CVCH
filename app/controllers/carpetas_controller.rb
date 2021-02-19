@@ -4,6 +4,7 @@ class CarpetasController < ApplicationController
   before_action :carga_temas_ayuda
   before_action :set_carpeta, only: [:show, :edit, :update, :destroy, :elimina_carpeta]
 
+  helper_method :sort_column, :sort_direction
   # GET /carpetas
   # GET /carpetas.json
   def index
@@ -24,7 +25,7 @@ class CarpetasController < ApplicationController
     @options = {'tab' => @tab}
 
     @coleccion = {}
-    @coleccion[@tab] = @objeto.send(@tab).page(params[:page])
+    @coleccion[@tab] = @objeto.send(@tab).order(sort_column + " " + sort_direction).page(params[:page])
   end
 
   # GET /carpetas/new
@@ -128,6 +129,14 @@ class CarpetasController < ApplicationController
 
   private
     # Use callbacks to share common setup or constraints between actions.
+    def sort_column
+      Publicacion.column_names.include?(params[:sort]) ? params[:sort] : "Author"
+    end
+    
+    def sort_direction
+      %w[asc desc].include?(params[:direction]) ? params[:direction] : "asc"
+    end
+
     def set_carpeta
       @objeto = Carpeta.find(params[:id])
     end

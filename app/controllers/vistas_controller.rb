@@ -28,11 +28,6 @@ class VistasController < ApplicationController
     @options = {'sel' => @sel ,'ftab' => @ftab}
 
     @coleccion = {}
-    puts "************************ index"
-    puts params[:sort]
-    puts params[:direction]
-    puts sort_column
-    puts sort_direction
     @coleccion['publicaciones'] = @area.papers.where(estado: 'publicada').order(sort_column + " " + sort_direction).page(params[:page])
   end
 
@@ -56,7 +51,7 @@ class VistasController < ApplicationController
     @options = {'sel' => @sel}
 
     @coleccion = {}
-    @coleccion['publicaciones'] = @carpeta.publicaciones.page(params[:page])
+    @coleccion['publicaciones'] = @carpeta.publicaciones.order(sort_column + " " + sort_direction).page(params[:page])
   end
 
   # GET /vistas/1
@@ -117,17 +112,12 @@ class VistasController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
 
     def sort_column
-      puts "********************** sort_column"
-      puts params[:sort]
       Publicacion.column_names.include?(params[:sort]) ? params[:sort] : "Author"
     end
     
     def sort_direction
-      puts "*********************** sort_direction"
-      puts params[:direction]
       %w[asc desc].include?(params[:direction]) ? params[:direction] : "asc"
     end
-      
 
     def set_vista
       @objeto = Vista.find(params[:id])

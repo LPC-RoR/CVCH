@@ -4,7 +4,9 @@ class RevisionesController < ApplicationController
   before_action :carga_temas_ayuda
   before_action :set_revision, only: [:show, :edit, :update, :destroy]
 
-  # GET /revisiones
+    helper_method :sort_column, :sort_direction
+
+# GET /revisiones
   # GET /revisiones.json
   def index
     # BI FRAME
@@ -26,7 +28,7 @@ class RevisionesController < ApplicationController
     @options = {'sel' => @sel ,'ftab' => @ftab}
 
     @coleccion = {}
-    @coleccion['publicaciones'] = (@ftab == 'Contribuciones' ? Publicacion.where(estado: 'contribucion').page(params[:page]) : @area.papers.where(estado: @ftab.singularize.downcase).page(params[:page]))
+    @coleccion['publicaciones'] = (@ftab == 'Contribuciones' ? Publicacion.where(estado: 'contribucion').order(sort_column + " " + sort_direction).page(params[:page]) : @area.papers.where(estado: @ftab.singularize.downcase).order(sort_column + " " + sort_direction).page(params[:page]))
 
 #    @coleccion = @area.papers.where(estado: @ftab.singularize.downcase).page(params[:page])
 
@@ -90,6 +92,14 @@ class RevisionesController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_revision
       @objeto = Revision.find(params[:id])
+    end
+
+    def sort_column
+      Publicacion.column_names.include?(params[:sort]) ? params[:sort] : "Author"
+    end
+    
+    def sort_direction
+      %w[asc desc].include?(params[:direction]) ? params[:direction] : "asc"
     end
 
     # Only allow a list of trusted parameters through.
