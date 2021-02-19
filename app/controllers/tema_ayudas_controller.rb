@@ -7,8 +7,8 @@ class TemaAyudasController < ApplicationController
   # GET /tema_ayudas.json
   def index
     @coleccion = {}
-    @coleccion['tema_inicio'] = TemaAyuda.where(tipo: 'inicio')
-    @coleccion['tema_tutorial'] = TemaAyuda.where(tipo: 'tema')
+    @coleccion['tema_inicio'] = TemaAyuda.where(tipo: 'inicio').order(:orden)
+    @coleccion['tema_tutorial'] = TemaAyuda.where(tipo: 'tema').order(:orden)
   end
 
   # GET /tema_ayudas/1

@@ -4,7 +4,7 @@
 		<tbody>
 			<% @coleccion['observaciones'].each do |obs| %>
 				<tr><td><%= "| #{obs.observacion} |" %></td><td><%= render partial: '0p/tabla/btns', locals: {a: 'index', objeto: obs} %></td></tr>
-				<tr><td><small><%= sanitize obs.d_detalle %></small></td></tr>
+				<tr><td colspan="2"><small><%= sanitize obs.d_detalle %></small></td></tr>
 			<% end %>
 		</tbody>
 	</table>

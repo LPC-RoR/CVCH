@@ -12,7 +12,7 @@
 				<tbody>
 					<% @coleccion['pasos'].each do |paso| %>
 						<tr><td><%= "| #{paso.orden} | #{paso.paso} |" %></td><td><%= render partial: '0p/tabla/btns', locals: {a: 'index', objeto: paso} %></td></tr>
-						<tr><td><small><%= sanitize paso.d_detalle %></small></td></tr>
+						<tr><td colspan="2"><small><%= sanitize paso.d_detalle %></small></td></tr>
 					<% end %>
 				</tbody>
 			</table>
