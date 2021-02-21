@@ -10,7 +10,7 @@
 <h5 class='text-primary text-center'>SILVA E, J CHINGA (2021) <i>Repositorio Citas Bibliográficas Vertebrados Chilenos</i> http://cvch.cl</h5>
 </b>
 
-<% @coleccion.each do |tema| %>
+<% @coleccion['tema_ayudas'].each do |tema| %>
 <div class='row'>
 	<div class='col-md-1'></div>
 	<div class='col-md-6'>
@@ -27,3 +27,7 @@
 	<div class='col-md-1'></div>
 </div>
 <% end %>
+
+<%= render partial: '0p/general/titulo', locals: {c: 'publicaciones', a: nil, titulo: 'últimas 10 actualizaciones', size: '5'} %>
+
+<%= render partial: '0p/tabla/solo_tabla', locals: {c: 'publicaciones', a: 'inidex'} %>
