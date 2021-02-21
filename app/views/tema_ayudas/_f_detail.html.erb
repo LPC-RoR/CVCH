@@ -17,3 +17,25 @@
 	<small><%= form.label 'Detalle' %></small></br>
   	<%= form.text_area :detalle, size: '68x3' %><!--/br-->
 <% end %>
+
+</br>
+
+<p>
+	<small><%= form.label 'Ilustracion' %></small></br>
+
+	<% if @objeto.ilustracion.present? %>
+  		<%= image_tag(@objeto.ilustracion.half.url) %></br>
+	<% else %>
+	    <%= form.file_field :ilustracion %>
+	    <%= form.hidden_field :ilustracion_cache %>
+	<% end %>
+</p>
+
+<% if @objeto.ilustracion.present? %>
+	<p>
+	<label>
+	  <%= form.check_box :remove_ilustracion %>
+	  Remueve Ilustracion
+	</label>
+	</p>
+<% end %>

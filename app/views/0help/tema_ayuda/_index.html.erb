@@ -6,7 +6,8 @@
 				<tbody>
 					<% @coleccion['tema_inicio'].each do |ta| %>
 						<tr><td><%= "| #{ta.tipo} | #{ta.orden} | "%><%= link_to ta.tema_ayuda, ta %><%=" |" %></td><td><%= render partial: '0p/tabla/btns', locals: {a: 'index', objeto: ta} %></td></tr>
-						<tr><td colspan='2'><small><%= sanitize ta.d_detalle %></small></td></tr>
+						<tr><td colspan='3'><%= image_tag ta.ilustracion.half.url if ta.ilustracion? %></td></tr>
+						<tr><td colspan='3'><small><%= sanitize ta.d_detalle %></small></td></tr>
 					<% end %>
 				</tbody>
 			</table>

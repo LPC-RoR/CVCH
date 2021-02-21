@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_17_182804) do
+ActiveRecord::Schema.define(version: 2021_02_21_020216) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -370,6 +370,8 @@ ActiveRecord::Schema.define(version: 2021_02_17_182804) do
     t.string "tipo"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "ilustracion"
+    t.string "ilustracion_cache"
     t.index ["orden"], name: "index_tema_ayudas_on_orden"
     t.index ["tipo"], name: "index_tema_ayudas_on_tipo"
   end

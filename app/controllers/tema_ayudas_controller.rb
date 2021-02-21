@@ -93,6 +93,6 @@ class TemaAyudasController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def tema_ayuda_params
-      params.require(:tema_ayuda).permit(:orden, :tema_ayuda, :detalle, :tipo)
+      params.require(:tema_ayuda).permit(:orden, :tema_ayuda, :detalle, :tipo, :ilustracion, :ilustracion_cache, :remove_ilustracion)
     end
 end

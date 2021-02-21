@@ -1,15 +1,23 @@
 <div class='row'>
+	<%= image_tag 'Portada.jpg', class: "mx-auto d-block" %>
+</div>
+
+<p class="text-center"><small><i>Crédito fotografías: <b>Bruno Savelli Videla</b></i></small></p>
+
+<% @coleccion.each do |tema| %>
+<div class='row'>
 	<div class='col-md-1'></div>
 	<div class='col-md-6'>
-		<% @coleccion.each do |tema| %>
-			</br>
-			<h1><%= tema.tema_ayuda %></h1>
-			<h5>
-				<%= sanitize tema.d_detalle %>
-			</h5>
-		<% end %>
+		</br>
+		<h1 class='text-info'><%= tema.tema_ayuda %></h1>
+		<h5 class='text-info'>
+			<%= sanitize tema.d_detalle %>
+		</h5>
 	</div>
 	<div class='col-md-4'>
+		</br></br></br>
+		<%= image_tag tema.ilustracion.half.url, class: "mx-auto d-block" if tema.ilustracion? %>
 	</div>
 	<div class='col-md-1'></div>
 </div>
+<% end %>
