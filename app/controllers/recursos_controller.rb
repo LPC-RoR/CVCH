@@ -14,7 +14,8 @@ class RecursosController < ApplicationController
 	def home
 		@coleccion = {}
 		@coleccion['tema_ayudas'] = TemaAyuda.where(tipo: 'inicio').order(:orden)
-		@coleccion['publicaciones'] = Publicacion.where(estado: 'publicada').order(created_at: :asc).last(10)
+    ultimos_ids = Publicacion.where(estado: 'publicada').order(created_at: :asc).last(10).map {|pub| pub.id}
+		@coleccion['publicaciones'] = Publicacion.where(id: ultimos_ids).order(sort_column + " " + sort_direction)
 	end
 
   private
