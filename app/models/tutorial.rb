@@ -18,6 +18,9 @@ class Tutorial < ApplicationRecord
 
 	has_many :pasos
 
+	validates :orden, :tutorial, :detalle, presence: true
+	validates :orden, numericality: { only_integer: true }
+
 	def d_detalle
 	  self.detalle.blank? ? '' : self.detalle.gsub(/\n/, '<br>')
 	end

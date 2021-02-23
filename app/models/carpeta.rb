@@ -19,6 +19,9 @@ class Carpeta < ApplicationRecord
 	has_many :herencias
 	has_many :equipos, through: :herencias
 
+	validates :carpeta, presence: true
+	validates :carpeta, uniqueness: true
+
 	def btns_control
 		not NOT_MODIFY.include?(self.carpeta)
 	end

@@ -25,7 +25,9 @@ class MejorasController < ApplicationController
     
     owner_id = usuario_signed_in? ? session[:perfil_activo]['id'] : nil
 
-    @objeto.mejoras.create(mejora: params[:mejora_base][:mejora], detalle: params[:mejora_base][:detalle], owner_id: owner_id)
+    unless params[:mejora_base][:observacion].blank? or params[:mejora_base][:detalle].blank?
+      @objeto.mejoras.create(mejora: params[:mejora_base][:mejora], detalle: params[:mejora_base][:detalle], owner_id: owner_id)
+    end
 
     redirect_to @objeto
   end

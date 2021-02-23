@@ -1,8 +1,8 @@
-<%- if controller_name != 'sessions' %>
+<%- if controller_name != 'sessions' && false %>
   <small><%= link_to "Ingresar", new_session_path(resource_name) %></small><br />
 <% end %>
 
-<%- if devise_mapping.registerable? && controller_name != 'registrations' %>
+<%- if devise_mapping.registerable? && controller_name != 'registrations' && false %>
   <small><%= link_to "Registrar", new_registration_path(resource_name) %></small><br />
 <% end %>
 

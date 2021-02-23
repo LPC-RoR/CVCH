@@ -10,4 +10,8 @@ class Administrador < ApplicationRecord
 	]
 
 	has_one :perfil
+
+	validates :administrador, :email, presence: true
+	validates :administrador, :email, uniqueness: true
+
 end

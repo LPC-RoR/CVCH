@@ -21,6 +21,9 @@ class TemaAyuda < ApplicationRecord
 
 	has_many :tutoriales
 
+	validates :tipo, :orden, :tema_ayuda, :detalle, presence: true
+	validates :orden, numericality: { only_integer: true }
+
 	mount_uploader :ilustracion, IlustracionUploader
 
 	def d_detalle

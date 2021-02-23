@@ -23,8 +23,10 @@ class ObservacionesController < ApplicationController
     end
 
     owner_id = usuario_signed_in? ? session[:perfil_activo]['id'] : nil
-    
-    @objeto.observaciones.create(observacion: params[:observacion_base][:observacion], detalle: params[:observacion_base][:detalle], owner_id: owner_id)
+
+    unless params[:observacion_base][:observacion].blank? or params[:observacion_base][:detalle].blank?
+      @objeto.observaciones.create(observacion: params[:observacion_base][:observacion], detalle: params[:observacion_base][:detalle], owner_id: owner_id)
+    end
 
     redirect_to @objeto
   end

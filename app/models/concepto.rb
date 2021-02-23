@@ -24,4 +24,7 @@ class Concepto < ApplicationRecord
 	has_one :padre, through: :rel_padre
 	has_many :hijos, through: :rel_hijos
 
+	validates :concepto, presence: true
+	validates :concepto, uniqueness: true
+
 end
