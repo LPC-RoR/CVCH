@@ -37,7 +37,8 @@ class EquiposController < ApplicationController
     # tenemos que cubrir todos los casos
     # 1. has_many : }
     @coleccion = {}
-    @coleccion[@tab] = @objeto.send(@tab).page(params[:page]) #.where(estado: @estado)
+    @coleccion['perfiles'] = @objeto.perfiles
+    @coleccion['carpetas'] = @objeto.carpetas
 
     ids_carpetas_tema = @activo.carpetas.map {|c| c.id unless Carpeta::NOT_MODIFY.include?(c.carpeta)}.compact
     @carpetas_seleccion = Carpeta.find(ids_carpetas_tema - @objeto.carpetas.ids)
@@ -56,7 +57,6 @@ class EquiposController < ApplicationController
         @texto_sha1 = session[:perfil_activo]['email']+params[:nuevo_equipo][:equipo]
         @sha1 = Digest::SHA1.hexdigest(@texto_sha1)
         @equipo = @activo.equipos.create(equipo: params[:nuevo_equipo][:equipo], sha1: @sha1)
-        @perfil = Perfil.create(equipo_id: @equipo.id)
       when 'Participaciones'
         @sha1 = params[:nuevo_equipo][:equipo]
         @equipo = Equipo.find_by(sha1: @sha1)

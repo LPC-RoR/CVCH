@@ -10,7 +10,7 @@
 		<%= "#{show_title(o)}" %>
 	</h<%= size%>>
 
-	<% if o.class::column_names.include?('status') %>
+	<% if status?(o) %>
 		<p><small><%= "#{o.status}" %></small></p>
 	<% else %>
 		</br>

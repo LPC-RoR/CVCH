@@ -71,6 +71,8 @@ class Publicacion < ApplicationRecord
 	has_many :propuestas
 	has_many :pendientes, through: :propuestas, source: 'instancia'
 
+	validates :tipo, :title, :year, :author, presence: true
+
 	def show_title
 		self.title
 	end

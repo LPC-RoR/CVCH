@@ -1,9 +1,0 @@
-<% if @tab == 'carpetas' and @carpetas_seleccion.any? %>
-	<%= form_for :carpeta_base, url: "/equipos/nueva_carpeta_equipo?equipo_id=#{@objeto.id}" do |form| %>
-		<div class='form-inline'>
-			<%= form.select :carpeta_id, @carpetas_seleccion.collect { |p| [p.carpeta, p.id] }, include_blank: false, prompt: "Seleccione Carpeta" %>
-			<%= form.submit '+ Carpeta'  %>
-		</div>
-	<% end  %>
-	</br>
-<% end %>

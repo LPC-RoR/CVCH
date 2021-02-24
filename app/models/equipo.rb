@@ -28,4 +28,11 @@ class Equipo < ApplicationRecord
 
 	has_many :herencias
 	has_many :carpetas, through: :herencias
+
+	validates :sha1, uniqueness: true
+
+	def status
+		"| #{self.administrador.email} | #{self.sha1} |"
+	end
+
 end

@@ -315,7 +315,10 @@ module Cvch
             elementos: [:clasifica, :detalle, :tabla, 'show_title'],
         },
         'Equipo'     => {
-            elementos: [:detalle, :inline_form]
+            elementos: [:detalle, :inline_form, :status]
+        },
+        'Carga' => {
+            elementos: [:status]
         }
     }
 

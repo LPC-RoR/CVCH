@@ -346,6 +346,10 @@ module ApplicationHelper
 
 	## ------------------------------------------------------- SHOW
 
+	def status?(objeto)
+		Rails.configuration.x.show.exceptions[objeto.class.name][:elementos].include?(:status)
+	end
+
 	# Maneja comportamiento por defecto y excepciones de SHOW
 	def in_show?(objeto, label)
 		excepcion = false
