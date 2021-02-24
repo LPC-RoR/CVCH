@@ -255,6 +255,15 @@ module Cvch
         },
         'Mejora' => {
             conditions: ['crud']
+        },
+        'TemaAyuda' => {
+            conditions: ['crud']
+        },
+        'Tutorial' => {
+            conditions: ['crud']
+        },
+        'Paso' => {
+            conditions: ['crud']
         }
     }
 

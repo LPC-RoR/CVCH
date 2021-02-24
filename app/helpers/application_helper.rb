@@ -260,6 +260,12 @@ module ApplicationHelper
 			usuario_signed_in? ? (objeto.owner_id == session[:perfil_activo]['id'] or session[:es_administrador]) : false
 		when 'Mejora'
 			usuario_signed_in? ? (objeto.owner_id == session[:perfil_activo]['id'] or session[:es_administrador]) : false
+		when 'TemaAyuda'
+			usuario_signed_in? and session[:es_administrador]
+		when 'Tutorial'
+			usuario_signed_in? and session[:es_administrador]
+		when 'Paso'
+			usuario_signed_in? and session[:es_administrador]
 		end
 	end
 
@@ -347,7 +353,11 @@ module ApplicationHelper
 	## ------------------------------------------------------- SHOW
 
 	def status?(objeto)
+		if Rails.configuration.x.show.exceptions[objeto.class.name].present?
 		Rails.configuration.x.show.exceptions[objeto.class.name][:elementos].include?(:status)
+		else
+			false
+		end
 	end
 
 	# Maneja comportamiento por defecto y excepciones de SHOW
