@@ -161,6 +161,8 @@ class PublicacionesController < ApplicationController
 
   def estado
     @publicacion = Publicacion.find(params[:publicacion_id])
+    puts "******************************** estado"
+    puts params[:publicacion_id]
     if params[:estado] == 'eliminado'
       # Tiene dos has_many Through
       # 1.- cargas, through: procesos
