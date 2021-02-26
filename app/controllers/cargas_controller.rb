@@ -1,4 +1,7 @@
 class CargasController < ApplicationController
+
+  include ProcesaCarga
+
   before_action :authenticate_usuario!
   before_action :inicia_session
   before_action :carga_temas_ayuda

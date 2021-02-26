@@ -196,6 +196,14 @@ module Cvch
         }
     }
 
+    config.alias_controllers = {
+        'papers'         => 'publicaciones',
+        'hijos'          => 'conceptos',
+        'contribuciones' => 'publicaciones',
+        'vistas'         => 'publicaciones',
+        'revisiones'     => 'publicaciones'
+    }
+
     config.sortable_tables = ['publicaciones']
 
     ## ------------------------------------------------- TABLA | BTNS

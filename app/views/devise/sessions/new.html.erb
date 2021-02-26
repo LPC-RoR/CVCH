@@ -1,27 +1,39 @@
-<h2>Ingreso</h2>
-
-<%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-  <div class="field">
-    <small><%= f.label :email %><br /></small>
-    <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
+<div class='row'>
+  <div class='col-md-12'>
+    <%= render partial: '0p/general/titulo', locals: {c: nil, a: nil, titulo: 'Ingreso', size: '5'} %>
   </div>
-
-  <div class="field">
-    <small><%= f.label 'contraseña' %><br /></small>
-    <%= f.password_field :password, autocomplete: "current-password" %>
+</div>
+<div class='row'>
+  <div class='col-md-6'>
   </div>
+  <div class='col-md-6'>
+    <!--h2>Ingreso</h2-->
 
-  <% if devise_mapping.rememberable? %>
-    <div class="field">
-      <%= f.check_box :remember_me %>
-      <small><%= f.label 'recuerdame' %></small>
-    </div>
-  <% end %>
+    <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+      <div class="field">
+        <small><%= f.label :email %><br /></small>
+        <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
+      </div>
 
-  <div class="actions">
-    <%= f.submit "Ingresar" %>
+      <div class="field">
+        <small><%= f.label 'contraseña' %><br /></small>
+        <%= f.password_field :password, autocomplete: "current-password" %>
+      </div>
+
+      <% if devise_mapping.rememberable? %>
+        <div class="field">
+          <%= f.check_box :remember_me %>
+          <small><%= f.label 'recuerdame' %></small>
+        </div>
+      <% end %>
+
+      <div class="actions">
+        <%= f.submit "Ingresar" %>
+      </div>
+    <% end %>
+
+    <p id="notice"><%= notice %></p>
+    <%= render "devise/shared/links" %>
   </div>
-<% end %>
+</div>
 
-<p id="notice"><%= notice %></p>
-<%= render "devise/shared/links" %>
