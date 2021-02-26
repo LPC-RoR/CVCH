@@ -161,8 +161,6 @@ class PublicacionesController < ApplicationController
 
   def estado
     @publicacion = Publicacion.find(params[:publicacion_id])
-    puts "******************************** estado"
-    puts params[:publicacion_id]
     if params[:estado] == 'eliminado'
       # Tiene dos has_many Through
       # 1.- cargas, through: procesos
@@ -178,6 +176,13 @@ class PublicacionesController < ApplicationController
       @publicacion.estado = (@publicacion.origen == 'carga' ? 'carga' : 'contribucion')
       @publicacion.unicidad = 'unico'
       @publicacion.save
+
+      @publicacion.investigadores.delete_all
+
+      revista = @publicacion.revista
+      revista.publicaciones.delete(@publicacion)
+      revista.delete if revista.publicaciones.empty?
+
     elsif params[:estado] == 'multiple'
       @publicacion.estado = 'publicada'
       @publicacion.unicidad = 'multiple'
