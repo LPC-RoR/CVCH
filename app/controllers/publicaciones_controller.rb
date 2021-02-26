@@ -177,11 +177,13 @@ class PublicacionesController < ApplicationController
       @publicacion.unicidad = 'unico'
       @publicacion.save
 
-      @publicacion.investigadores.delete_all
+      @publicacion.investigadores.delete_all unless @publicacion.investigadores.empty?
 
-      revista = @publicacion.revista
-      revista.publicaciones.delete(@publicacion)
-      revista.delete if revista.publicaciones.empty?
+      unless @publicacion.revista.blank?
+        revista = @publicacion.revista
+        revista.publicaciones.delete(@publicacion)
+        revista.delete if revista.publicaciones.empty?
+      end
 
     elsif params[:estado] == 'multiple'
       @publicacion.estado = 'publicada'

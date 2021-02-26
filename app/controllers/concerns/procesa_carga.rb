@@ -220,8 +220,13 @@ module ProcesaCarga
 
 		# Procesa Autores
 		authors = []
-		last_author = cita.author.split('&').last
-		prev_authors = cita.author.split('&')[0].split(',')
+		if !!cita.author.match(/&+/)
+			last_author = cita.author.split('&').last
+			prev_authors = cita.author.split('&')[0].split(',')
+		else
+			last_author = nil
+			prev_authors = [cita.author]
+		end
 		prev_authors.each_with_index  do |val, index|
 			# Encontramos un caso donde sólo se usa el apellido
 			if val.split(' ').length == 1
@@ -231,7 +236,7 @@ module ProcesaCarga
 			end
 			authors << author_with_format
 		end
-		authors << last_author
+		authors << last_author unless last_author.blank?
 
 		authors.each do |aut|
 			inv = Investigador.find_by(investigador: aut)
