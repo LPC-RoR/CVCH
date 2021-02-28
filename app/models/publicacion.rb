@@ -132,9 +132,9 @@ class Publicacion < ApplicationRecord
 				primeros.each_with_index do |aut, i|
 					primeros_ok << procesa_autor(aut, i)
 				end
-				primeros_ok.join(', ')+' & '+ultimo
+				(primeros_ok.join(', ')+' & '+ultimo).upcase
 			else
-				author
+				author.upcase
 			end
 		else
 			'[ autor vacío ]'
