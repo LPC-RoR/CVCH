@@ -289,11 +289,11 @@ module ProcesaCarga
 		autores.pop
 		case autores.length
 		when 0
-			last
+			last.upcase
 		when 1
-			autores[0]+' & '+last
+			(autores[0]+' & '+last).upcase
 		else
-			autores.join(', ')+' & '+last
+			(autores.join(', ')+' & '+last).upcase
 		end
 	end
 	
