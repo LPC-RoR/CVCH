@@ -12,6 +12,34 @@
 				</tbody>
 			</table>
 		<% end %>
+
+		<%= render partial: '0p/general/titulo', locals: {c: 'tema_ayudas', a: nil, titulo: 'Portada', size: '5', bg_color: 'bg-'+c_color('tema_ayudas')} %>
+		<% unless @coleccion['tema_portada'].empty? %>
+			<table class="table table-striped table-sm  thead-dark">
+				<tbody>
+					<% @coleccion['tema_portada'].each do |ta| %>
+						<tr><td><%= "| #{ta.tipo} | #{ta.orden} | "%><%= link_to ta.tema_ayuda, ta %><%=" |" %></td><td><%= render partial: '0p/tabla/btns', locals: {a: 'index', objeto: ta} %></td></tr>
+						<tr><td colspan='3'><%= image_tag ta.ilustracion.half.url if ta.ilustracion? %></td></tr>
+						<tr><td colspan='3'><small><%= sanitize ta.d_detalle %></small></td></tr>
+					<% end %>
+				</tbody>
+			</table>
+		<% end %>
+
+		<%= render partial: '0p/general/titulo', locals: {c: 'tema_ayudas', a: nil, titulo: 'Pie de página', size: '5', bg_color: 'bg-'+c_color('tema_ayudas')} %>
+		<% unless @coleccion['tema_foot'].empty? %>
+			<table class="table table-striped table-sm  thead-dark">
+				<tbody>
+					<% @coleccion['tema_foot'].each do |ta| %>
+						<tr><td><%= "| #{ta.tipo} | #{ta.orden} | "%><%= link_to ta.tema_ayuda, ta %><%=" |" %></td><td><%= render partial: '0p/tabla/btns', locals: {a: 'index', objeto: ta} %></td></tr>
+						<tr><td colspan='3'><%= image_tag ta.ilustracion.half.url if ta.ilustracion? %></td></tr>
+						<tr><td colspan='3'><small><%= sanitize ta.d_detalle %></small></td></tr>
+					<% end %>
+				</tbody>
+			</table>
+		<% end %>
+
+
 	</div>
 	<div class='col-md-6'>
 		<%= render partial: '0p/general/titulo', locals: {c: 'tema_ayudas', a: nil, titulo: 'Temas', size: '5', bg_color: 'bg-'+c_color('tema_ayudas')} %>

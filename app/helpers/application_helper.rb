@@ -14,6 +14,14 @@ module ApplicationHelper
 		Rails.configuration.menu
 	end
 
+	def foot_image
+		TemaAyuda.where(tipo: 'foot').any? ? TemaAyuda.where(tipo: 'foot').first.ilustracion.half.url : nil
+	end
+
+	def portada_image
+		TemaAyuda.where(tipo: 'portada').any? ? TemaAyuda.where(tipo: 'portada').first.ilustracion.url : nil
+	end
+
 	def item_active(link)
 		detalle_link = link.split('/')
 		nombre_accion = (detalle_link.length == 2 ? 'index' : detalle_link[2])
