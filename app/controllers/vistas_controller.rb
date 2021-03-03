@@ -16,16 +16,14 @@ class VistasController < ApplicationController
 
     # ftab
     session[:page] = params[:page] unless params[:page].blank?
+
     if params[:html_options].blank?
       @area = session[:area].blank? ? Area.first : Area.find_by(area: session[:area])
       params[:page] = session[:page] unless session[:page].blank?
     else
-      @area = params[:html_options]['sel'].blank? ? Area.first : Area.find_by(area: params[:html_options]['sel'])
-      if session[:area] == @area.area
-        params[:page] = session[:page] if params[:page].blank?
-      else
-        session[:area] = @area.area
-      end
+      #@area = params[:html_options]['sel'].blank? ? Area.first : Area.find_by(area: params[:html_options]['sel'])
+      @area = Area.find_by(area: params[:html_options]['sel'])
+      session[:area] = @area.area if (session[:area] != @area.area)
     end
 
     # selector activo
