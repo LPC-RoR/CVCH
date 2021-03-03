@@ -15,17 +15,23 @@ class VistasController < ApplicationController
     @frame_selector = Area.all.map {|a| [a.area, a.papers.count]}
 
     # ftab
+    session[:page] = params[:page] unless params[:page].blank?
     if params[:html_options].blank?
-      @ftab = 'Completa'
-      @area = Area.first
+      @area = session[:area].blank? ? Area.first : Area.find_by(area: session[:area])
+      params[:page] = session[:page] unless session[:page].blank?
     else
-      @ftab = (params[:html_options]['ftab'].blank? or session[:perfil_activo].blank?) ? 'Completa' : params[:html_options]['ftab']
       @area = params[:html_options]['sel'].blank? ? Area.first : Area.find_by(area: params[:html_options]['sel'])
+      if session[:area] == @area.area
+        params[:page] = session[:page] if params[:page].blank?
+      else
+        session[:area] = @area.area
+      end
     end
+
     # selector activo
     @sel = @area.area
     # opciones para los links
-    @options = {'sel' => @sel ,'ftab' => @ftab}
+    @options = {'sel' => @sel}
 
     @coleccion = {}
     @coleccion['publicaciones'] = @area.papers.where(estado: 'publicada').order(sort_column + " " + sort_direction).page(params[:page])
