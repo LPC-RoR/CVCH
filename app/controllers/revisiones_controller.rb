@@ -17,7 +17,7 @@ class RevisionesController < ApplicationController
     else
       @ftab = params[:html_options]['ftab'].blank? ? 'Cargas' : params[:html_options]['ftab']
       #@area = params[:html_options]['sel'].blank? ? Area.first : Area.find_by(area: params[:html_options]['sel'])
-      @area = params[:html_options]['sel']
+      @area = Area.find_by(area: params[:html_options]['sel'])
       session[:area] = @area.area if session[:area] != @area.area
     end
 
