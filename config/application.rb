@@ -272,6 +272,9 @@ module Cvch
         },
         'Paso' => {
             conditions: ['crud']
+        },
+        'Usuario' => {
+            conditions: ['crud']
         }
     }
 

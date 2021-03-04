@@ -27,6 +27,8 @@ module RecursosHelper
 			usuario_signed_in? and session[:es_administrador]
 		when 'Paso'
 			usuario_signed_in? and session[:es_administrador]
+		when 'Usuario'
+			false
 		end
 	end
 

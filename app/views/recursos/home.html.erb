@@ -29,6 +29,11 @@
 </div>
 <% end %>
 
+<h4 class='text-warning text-center'>ADVERTENCIA</h4>
+<%#= image_tag 'Proyecto ID.jpg', class: "mx-auto d-block" %>
+<h6 class='text-warning text-center'>El dispositivo de traducción automática de su navegador produce efectos que distorsionan los datos de nuestra colección, recomendamos su desactivación.</h6>
+</br>
+
 <%= render partial: '0p/general/titulo', locals: {c: 'publicaciones', a: nil, titulo: 'últimas 10 actualizaciones', size: '5'} %>
 
 <%= render partial: '0p/tabla/solo_tabla', locals: {c: 'publicaciones', a: 'inidex'} %>

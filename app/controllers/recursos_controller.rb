@@ -11,6 +11,7 @@ class RecursosController < ApplicationController
 		@coleccion['areas'] = Area.all
 
     @coleccion['mejoras'] = Mejora.all if session[:es_administrador]
+    @coleccion['usuarios'] = Usuario.all
 	end
 
 	def home
