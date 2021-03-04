@@ -56,21 +56,21 @@ class InstanciasController < ApplicationController
         end
       end
       # 2.- Enrutar
-      if concepto.perfil.administrador.present? or concepto.perfil.id == @activo.id
+#      if concepto.perfil.administrador.present? or concepto.perfil.id == @activo.id
         unless publicacion.instancias.ids.include?(instancia.id)
           publicacion.instancias << instancia
           ruta = Ruta.where(publicacion_id: publicacion.id).find_by(instancia_id: instancia.id)
           ruta.perfil_id = @activo.id
           ruta.save
         end
-      else
-        unless publicacion.instancias.ids.include?(instancia.id)
-          publicacion.pendientes << instancia
-          propuesta = Propuesta.where(publicacion_id: publicacion.id).find_by(instancia_id: instancia.id)
-          propuesta.perfil_id = @activo.id
-          propuesta.save
-        end
-      end
+#      else
+#        unless publicacion.instancias.ids.include?(instancia.id)
+#          publicacion.pendientes << instancia
+#          propuesta = Propuesta.where(publicacion_id: publicacion.id).find_by(instancia_id: instancia.id)
+#          propuesta.perfil_id = @activo.id
+#          propuesta.save
+#        end
+#      end
     end
 
     redirect_to publicacion
