@@ -2,8 +2,9 @@ class AreasController < ApplicationController
   before_action :authenticate_usuario!
   before_action :inicia_session
   before_action :carga_temas_ayuda
-  before_action :set_area, only: [:show, :edit, :update, :destroy, :elimina_area]
+  before_action :set_area, only: [:show, :edit, :update, :destroy, :desasignar]
 
+  helper_method :sort_column, :sort_direction
   # GET /areas
   # GET /areas.json
   def index
@@ -22,7 +23,7 @@ class AreasController < ApplicationController
     @options = {'tab' => @tab}
 
     @coleccion = {}
-    @coleccion['publicaciones'] = @objeto.papers.where(estado: 'publicada').page(params[:page])
+    @coleccion['publicaciones'] = @objeto.papers.where(estado: 'publicada').order(sort_column + " " + sort_direction).page(params[:page])
   end
 
   # GET /areas/new
@@ -92,7 +93,7 @@ class AreasController < ApplicationController
     end
   end
 
-  def elimina_area
+  def desasignar
     publicacion = Publicacion.find(params[:objeto_id])
 
     @objeto.papers.delete(publicacion)
@@ -102,12 +103,20 @@ class AreasController < ApplicationController
 
   private
     # Use callbacks to share common setup or constraints between actions.
+    def sort_column
+      Publicacion.column_names.include?(params[:sort]) ? params[:sort] : "Author"
+    end
+    
+    def sort_direction
+      %w[asc desc].include?(params[:direction]) ? params[:direction] : "asc"
+    end
+
     def set_area
       @objeto = Area.find(params[:id])
     end
 
     def set_redireccion
-      @redireccion = recursos_path
+      @redireccion = '/rutas'
     end
 
     # Only allow a list of trusted parameters through.

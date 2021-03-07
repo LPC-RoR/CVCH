@@ -16,6 +16,13 @@ ActiveSupport::Inflector.inflections(:en) do |inflect|
 	# palabras terminadas en 'a', no agregue las otras vocales porque no hay problema
     inflect.plural /(a)$/i, '\1s'
 
+    # palabras terminadas en 'a', no agregue las otras vocales porque no hay problema
+    inflect.singular /(e)s$/i, '\1'
+
+    # palabras terminadas en 'cion' y 'sion'
+    inflect.plural /(r)$/i, '\1es'
+    inflect.singular /(r)es/i, '\1'
+
 	# palabras terminadas en 'cion' y 'sion'
     inflect.plural /(ion)$/i, '\1es'
     inflect.singular /(ion)es/i, '\1'

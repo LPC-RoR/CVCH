@@ -71,6 +71,11 @@ class Publicacion < ApplicationRecord
 	has_many :propuestas
 	has_many :pendientes, through: :propuestas, source: 'instancia'
 
+	has_many :etiquetas
+	has_many :categorias, through: :etiquetas
+
+	has_many :especies, through: :etiquetas
+
 	validates :doc_type, :title, :year, :author, presence: true
 
 	def show_title
@@ -90,6 +95,10 @@ class Publicacion < ApplicationRecord
 			['Corrección', "/publicaciones/estado?publicacion_id=#{self.id}&estado=correccion",   self.estado == 'publicada']
 		]
 		
+	end
+
+	def d_abstract
+	  self.abstract.blank? ? '' : self.abstract.gsub(/\n/, '<br>')
 	end
 
 	def btns_control

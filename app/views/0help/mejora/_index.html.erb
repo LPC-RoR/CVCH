@@ -1,5 +1,5 @@
 <% unless @coleccion['mejoras'].empty? %>
-	<%= render partial: '0p/general/titulo', locals: {c: 'mejoras', a: nil, titulo: 'Mejoras', size: '5'} %>
+	<%= render partial: '0p/general/titulo', locals: {c: 'mejoras', a: nil, titulo: 'Mejoras', size: '6'} %>
 	<table class="table table-striped table-sm  thead-dark">
 		<tbody>
 			<% @coleccion['mejoras'].each do |mej| %>
@@ -10,5 +10,5 @@
 	</table>
 
 <% else %>
-	<h3 class='text-warning'>No se han recibido mejoras</h3>
+	<%= render partial: '0p/general/titulo', locals: {c: 'mejoras', a: nil, titulo: 'Mejoras (Vacio)', size: '6'} %>
 <% end %>

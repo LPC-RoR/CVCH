@@ -1,0 +1,22 @@
+<%= form_with(model: especie, local: true) do |form| %>
+  <% if especie.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(especie.errors.count, "error") %> prohibited this especie from being saved:</h2>
+
+      <ul>
+      <% especie.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :especie %>
+    <%= form.text_field :especie %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

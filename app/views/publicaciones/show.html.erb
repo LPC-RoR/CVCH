@@ -1,1 +1,21 @@
-<%= render partial: '0p/show/show' %>
+<%= render partial: '0p/show/links', locals: {o: @objeto} %>
+
+<%= render partial: 'publicaciones/botones_doc_type' %>
+
+<!-- CARPETAS Y DESPLIEGUE DE CITA -->
+<div class='row'>
+
+	<%= render partial: 'publicaciones/cuerpo_publicacion' %>
+
+</div>
+</br></br></br>
+<div class='row'>
+	<div class='col-md-6'>
+		<%= render partial: '0help/observacion/index' %>
+		<%= render partial: '0help/observacion/form' %>
+	</div>
+	<div class='col-md-6'>
+		<%= render partial: '0help/mejora/index' %>
+		<%= render partial: '0help/mejora/form' %>
+	</div>
+</div>

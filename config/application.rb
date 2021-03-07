@@ -82,8 +82,8 @@ module Cvch
         ["Escritorio",     "/vistas/escritorio", 'usuario'],
         ["Equipos",        "/equipos",           'usuario'],
         ["Contribuciones", "/contribuciones",    'usuario'],
-        ["Carpetas",       "/carpetas",          'usuario'],
-        ["Conceptos",      "/conceptos",           'admin'],
+        ["Rutas",          "/rutas",             'usuario'],
+#        ["Conceptos",      "/conceptos",           'admin'],
         ["Archivos",       "/recursos",            'admin'],
         ["Revisiones",     "/revisiones",          'admin'],
         ["Cargas",         "/cargas",              'admin'],
@@ -150,11 +150,11 @@ module Cvch
             },
             tabs: ['ingreso', 'contribucion', 'publicada']
         },
-#        'carpetas'        => {
-#            elementos: {
-#                nuevo:    ['equipos']
-#            }
-#        },
+        'carpetas'        => {
+            elementos: {
+                nuevo:    ['vistas']
+            }
+        },
         'equipos'     => {
             elementos: {
                 tabs:    ['self']
@@ -184,14 +184,25 @@ module Cvch
         },
         'areas' => {
             elementos: {
-                titulo: ['recursos'],
-                nuevo: ['recursos']
+                titulo: ['rutas'],
+                nuevo: ['rutas']
             }
         },
         'administradores' => {
             elementos: {
                 titulo: ['recursos'],
                 nuevo: ['recursos']
+            }
+        },
+        'categorias' => {
+            elementos: {
+                titulo: ['rutas'],
+                nuevo: ['rutas']
+            }
+        },
+        'especies' => {
+            elementos: {
+                titulo: ['rutas']
             }
         }
     }
@@ -220,7 +231,7 @@ module Cvch
         'Carpeta'       => {
             conditions: ['crud', 'x'],
             x_btns: [
-                ['Eliminar', '/elimina_carpeta', true]
+                ['Desasignar', '/desasignar', true]
             ]
         },
         'Carga'         => {
@@ -232,7 +243,7 @@ module Cvch
         'Area'         => {
             conditions: ['crud', 'x'],
             x_btns: [
-                ['Eliminar', '/elimina_area', true]
+                ['Desasignar', '/desasignar', true]
             ]
         },
         'Equipo'       => {
@@ -275,6 +286,22 @@ module Cvch
         },
         'Usuario' => {
             conditions: ['crud']
+        },
+        'Categoria' => {
+            conditions: ['crud', 'x'],
+            x_btns: [
+                ['Desasignar', '/desasignar', true],
+                ['Aceptar',    '/aceptar',    true],
+                ['Rechazar',   '/rechazar',   true]
+            ]
+        },
+        'Especie' => {
+            conditions: ['crud', 'x'],
+            x_btns: [
+                ['Desasignar', '/desasignar', true],
+                ['Aceptar',    '/aceptar',    true],
+                ['Rechazar',   '/rechazar',   true]
+            ]
         }
     }
 
@@ -326,6 +353,10 @@ module Cvch
             f_detail: true,
             conditional_fields: []
         },
+        'Categoria' => {
+            f_detail: false,
+            conditional_fields: ['base']
+        }
     }
 
     ## ------------------------------------------------- SHOW
@@ -356,13 +387,15 @@ module Cvch
 
 
     config.x.show.hidden = {
-        'publicaciones'  => ['autores', 'investigadores', 'procesos', 'cargas', 'clasificaciones', 'carpetas', 'evaluaciones', 'asignaciones', 'areas', 'rutas', 'instancias'],
+        'publicaciones'  => ['autores', 'investigadores', 'procesos', 'cargas', 'clasificaciones', 'carpetas', 'evaluaciones', 'asignaciones', 'areas', 'rutas', 'instancias', 'etiquetas'],
         'carpetas'       => ['clasificaciones', 'herencias'],
         'investigadores' => ['autores', 'carpetas'],
         'equipos'        => ['investigadores', 'instancias', 'integrantes', 'herencias'],
         'areas'          => ['clasificaciones', 'cargas'],
         'conceptos'      => ['rel_hijos', 'hijos', 'diccionarios'],
-        'instancias'     => ['rutas', 'diccionarios', 'propuestas']
+        'instancias'     => ['rutas', 'diccionarios', 'propuestas'],
+        'categorias'     => ['etiquetas', 'suscripciones', 'perfiles'],
+        'especies'       => ['etiquetas']
     }
 
   end

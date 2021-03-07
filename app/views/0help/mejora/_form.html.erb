@@ -1,4 +1,4 @@
-<%= render partial: '0p/general/titulo', locals: {c: 'mejoras', a: nil, titulo: '+ Mejora', size: '5'} %>
+<%#= render partial: '0p/general/titulo', locals: {c: 'mejoras', a: nil, titulo: '+ Mejora', size: '6'} %>
 <%= form_for :mejora_base, url: "/mejoras/nuevo?class_name=#{@objeto.class.name}&objeto_id=#{@objeto.id}" do |form| %>
 	<div class='form-inline'>
 		<small><%= form.label :mejora %></small></br>

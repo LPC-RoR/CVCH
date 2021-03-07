@@ -24,6 +24,7 @@ class VistasController < ApplicationController
       #@area = params[:html_options]['sel'].blank? ? Area.first : Area.find_by(area: params[:html_options]['sel'])
       @area = Area.find_by(area: params[:html_options]['sel'])
       session[:area] = @area.area if (session[:area] != @area.area)
+      params[:page] = 1
     end
 
     # selector activo
@@ -56,6 +57,8 @@ class VistasController < ApplicationController
 
     @coleccion = {}
     @coleccion['publicaciones'] = @carpeta.publicaciones.order(sort_column + " " + sort_direction).page(params[:page])
+
+    @coleccion['carpetas'] = @activo.carpetas
   end
 
   # GET /vistas/1

@@ -79,6 +79,10 @@ class PublicacionesController < ApplicationController
       @coleccion['propuestas'] = @objeto.propuestas.order(:created_at)
 
     end
+    @categorias_seleccion = Categoria.all.order(:categoria)
+    @coleccion['categorias'] = @objeto.categorias.order(:created_at)
+
+    @coleccion['especies'] = @objeto.especies.order(:created_at)
 
     # ********************** DUPLICADOS *****************************
 

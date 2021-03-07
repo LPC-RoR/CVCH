@@ -8,9 +8,9 @@ module RecursosHelper
 		when 'Publicacion'
 			['ingreso', 'contribucion'].include?(objeto.origen)
 		when 'Carpeta'
-			not Carpeta::NOT_MODIFY.include?(objeto.carpeta) and controller_name == 'carpetas'
+			not Carpeta::NOT_MODIFY.include?(objeto.carpeta) and controller_name == 'vistas'
 		when 'Area'
-			not Area::NOT_MODIFY.include?(objeto.area) and controller_name == 'recursos'
+			not Area::NOT_MODIFY.include?(objeto.area) and controller_name == 'rutas' and session[:es_administrador]
 		when 'Instancia'
 			false
 		when 'Ruta'
@@ -29,6 +29,10 @@ module RecursosHelper
 			usuario_signed_in? and session[:es_administrador]
 		when 'Usuario'
 			false
+		when 'Categoria'
+			usuario_signed_in? and objeto.perfil_id == session[:perfil_activo]['id'] or session[:es_administrador] and controller_name == 'rutas'
+		when 'Especie'
+			usuario_signed_in? and session[:es_administrador] and controller_name == 'rutas'
 		end
 	end
 
@@ -48,6 +52,43 @@ module RecursosHelper
 			@activo.administrador.present? or objeto.perfil.id == @activo.id
 		when 'Propuesta'
 			@activo.administrador.present? or objeto.perfil.id == @activo.id
+		when 'Categoria'
+			if controller_name == 'publicaciones' and usuario_signed_in?
+				etiqueta = Etiqueta.where(publicacion_id: @objeto.id).find_by(categoria_id: objeto.id)
+				mi_categoria = objeto.perfil.id == session[:perfil_activo]['id']
+				mi_asignacion = etiqueta.asociado_por == session[:perfil_activo]['id']
+				etiqueta_revisada = etiqueta.revisado.blank? ? false : (etiqueta.revisado)
+				asignacion_administrativa = Perfil.find(etiqueta.asociado_por).administrador.present?
+
+				case btn
+				when 'Desasignar'
+					session[:es_administrador] or mi_categoria or mi_asignacion
+				when 'Aceptar'
+					(session[:es_administrador] or mi_categoria) and (not (mi_asignacion or asignacion_administrativa)) and (not etiqueta_revisada)
+				when 'Rechazar'
+					(session[:es_administrador] or mi_categoria) and (not (mi_asignacion or asignacion_administrativa)) and (etiqueta_revisada)
+				end
+			else
+				false
+			end
+		when 'Especie'
+			if controller_name == 'publicaciones' and usuario_signed_in?
+				etiqueta = Etiqueta.where(publicacion_id: @objeto.id).find_by(especie_id: objeto.id)
+				mi_asignacion = etiqueta.asociado_por == session[:perfil_activo]['id']
+				etiqueta_revisada = etiqueta.revisado.blank? ? false : (etiqueta.revisado)
+				asignacion_administrativa = Perfil.find(etiqueta.asociado_por).administrador.present?
+
+				case btn
+				when 'Desasignar'
+					session[:es_administrador] or mi_asignacion
+				when 'Aceptar'
+					session[:es_administrador] and (not (mi_asignacion or asignacion_administrativa)) and (not etiqueta_revisada)
+				when 'Rechazar'
+					session[:es_administrador] and (not (mi_asignacion or asignacion_administrativa)) and (etiqueta_revisada)
+				end
+			else
+				false
+			end
 		end
 	end
 
@@ -62,6 +103,8 @@ module RecursosHelper
 			@activo.administrador.present?
 		when 'Mensaje'
 			field != 'email' or not usuario_signed_in?
+		when 'Categoria'
+			session[:es_administrador]
 		end
 	end
 

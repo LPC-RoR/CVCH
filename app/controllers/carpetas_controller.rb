@@ -2,7 +2,7 @@ class CarpetasController < ApplicationController
   before_action :authenticate_usuario!
   before_action :inicia_session
   before_action :carga_temas_ayuda
-  before_action :set_carpeta, only: [:show, :edit, :update, :destroy, :elimina_carpeta]
+  before_action :set_carpeta, only: [:show, :edit, :update, :destroy, :desasignar]
 
   helper_method :sort_column, :sort_direction
   # GET /carpetas
@@ -114,7 +114,7 @@ class CarpetasController < ApplicationController
     end
   end
 
-  def elimina_carpeta
+  def desasignar
     case params[:class_name]
     when 'Publicacion'
       elemento = Publicacion.find(params[:objeto_id])
@@ -142,7 +142,7 @@ class CarpetasController < ApplicationController
     end
 
     def set_redireccion
-      @redireccion = '/carpetas'
+      @redireccion = '/vistas/escritorio'
     end
 
     # Only allow a list of trusted parameters through.

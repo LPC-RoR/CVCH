@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_21_020216) do
+ActiveRecord::Schema.define(version: 2021_03_06_213621) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -79,6 +79,18 @@ ActiveRecord::Schema.define(version: 2021_02_21_020216) do
     t.index ["perfil_id"], name: "index_carpetas_on_perfil_id"
   end
 
+  create_table "categorias", force: :cascade do |t|
+    t.string "categoria"
+    t.integer "perfil_id"
+    t.boolean "base"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.boolean "aceptado"
+    t.index ["base"], name: "index_categorias_on_base"
+    t.index ["categoria"], name: "index_categorias_on_categoria"
+    t.index ["perfil_id"], name: "index_categorias_on_perfil_id"
+  end
+
   create_table "clasificaciones", force: :cascade do |t|
     t.integer "carpeta_id"
     t.integer "publicacion_id"
@@ -129,6 +141,26 @@ ActiveRecord::Schema.define(version: 2021_02_21_020216) do
     t.index ["administrador_id"], name: "index_equipos_on_administrador_id"
     t.index ["equipo"], name: "index_equipos_on_equipo"
     t.index ["sha1"], name: "index_equipos_on_sha1"
+  end
+
+  create_table "especies", force: :cascade do |t|
+    t.string "especie"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["especie"], name: "index_especies_on_especie"
+  end
+
+  create_table "etiquetas", force: :cascade do |t|
+    t.integer "categoria_id"
+    t.integer "publicacion_id"
+    t.integer "especie_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.boolean "revisado"
+    t.integer "asociado_por"
+    t.index ["categoria_id"], name: "index_etiquetas_on_categoria_id"
+    t.index ["especie_id"], name: "index_etiquetas_on_especie_id"
+    t.index ["publicacion_id"], name: "index_etiquetas_on_publicacion_id"
   end
 
   create_table "evaluaciones", force: :cascade do |t|
@@ -361,6 +393,15 @@ ActiveRecord::Schema.define(version: 2021_02_21_020216) do
     t.index ["instancia_id"], name: "index_rutas_on_instancia_id"
     t.index ["perfil_id"], name: "index_rutas_on_perfil_id"
     t.index ["publicacion_id"], name: "index_rutas_on_publicacion_id"
+  end
+
+  create_table "suscripciones", force: :cascade do |t|
+    t.integer "categoria_id"
+    t.integer "perfil_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["categoria_id"], name: "index_suscripciones_on_categoria_id"
+    t.index ["perfil_id"], name: "index_suscripciones_on_perfil_id"
   end
 
   create_table "tema_ayudas", force: :cascade do |t|

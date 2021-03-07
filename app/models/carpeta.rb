@@ -1,6 +1,6 @@
 class CarpetaUnicaValidator < ActiveModel::Validator
   def validate(record)
-    if record.perfil.carpetas.map {|carpeta| carpeta.carpeta}.include?(record.carpeta)
+    if record.perfil.carpetas.map {|carpeta| carpeta.carpeta}.include?(record.carpeta) and not record.perfil.carpetas.map {|carpeta| carpeta.id}.include?(record.id)
       record.errors[:base] << "Este nombre de Carpeta ya la ha usado"
     end
   end

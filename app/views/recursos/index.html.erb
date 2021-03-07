@@ -3,7 +3,8 @@
 		<%= render partial: '0p/tabla/tabla', locals: {c: 'administradores', a: 'index'} %>
 	</div>
 	<div class='col-md-6'>
-		<%= render partial: '0p/tabla/tabla', locals: {c: 'areas', a: 'index'} %>
+		<%= render partial: '0p/general/titulo', locals: {c: 'usuarios', a: nil, titulo: 'Usuarios registrados', size: '5'} %>
+		<%= render partial: '0p/tabla/solo_tabla', locals: {c: 'usuarios', a: 'index'} %>
 	</div>
 </div>
 
@@ -24,8 +25,6 @@
 		<% end %>
 	</div>
 	<div class='col-md-6'>
-		<%= render partial: '0p/general/titulo', locals: {c: 'usuarios', a: nil, titulo: 'Usuarios registrados', size: '5'} %>
-		<%= render partial: '0p/tabla/solo_tabla', locals: {c: 'usuarios', a: 'index'} %>
 	</div>
 </div>
 

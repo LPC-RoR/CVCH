@@ -1,10 +1,12 @@
 Rails.application.routes.draw do
+  resources :etiquetas
+  resources :suscripciones
   resources :pasos
   resources :relaciones
   resources :administradores
   resources :areas do 
     match :asigna, via: :post, on: :collection
-    match :elimina_area, via: :get, on: :member
+    match :desasignar, via: :get, on: :member
   end
   resources :ascendencias
   resources :autores
@@ -16,9 +18,15 @@ Rails.application.routes.draw do
     match :nuevo, via: :post, on: :collection
     match :seleccion, via: :get, on: :collection
     match :asigna, via: :post, on: :collection
-    match :elimina_carpeta, via: :get, on: :member
+    match :desasignar, via: :get, on: :member
   end
   resources :clasificaciones
+  resources :categorias do
+    match :asigna, via: :post, on: :collection
+    match :desasignar, via: :get, on: :member
+    match :aceptar, via: :get, on: :member
+    match :rechazar, via: :get, on: :member
+  end
   resources :departamentos do
     resources :investigadores
   end
@@ -33,6 +41,12 @@ Rails.application.routes.draw do
     match :nueva_carpeta_equipo, via: :post, on: :collection
 
     match :elimina_equipo, via: :get, on: :member
+  end
+  resources :especies do
+    match :asigna, via: :post, on: :collection
+    match :desasignar, via: :get, on: :member
+    match :aceptar, via: :get, on: :member
+    match :rechazar, via: :get, on: :member
   end
   resources :evaluaciones
   resources :idiomas do 

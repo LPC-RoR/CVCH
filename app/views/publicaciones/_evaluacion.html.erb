@@ -1,0 +1,20 @@
+<% if false %>
+	<%= render partial: '0p/general/titulo', locals: {c: nil, a: nil, titulo: 'Evaluación', size: '5'} %>
+	<table class="table table-striped table-sm  thead-dark">
+		<tbody>
+			<% Publicacion::EVALUACION.keys.each do |item| %>
+				<tr>
+					<th><small><%= item %></small></th>
+					<td>
+					<small><%= get_evaluacion_publicacion(o, item) %>
+					<% get_btns_evaluacion(o, item).each do |btn| %>
+						<%= link_to btn, cambia_evaluacion_publicacion_path(item: item, evaluacion: btn) %>
+						<%#= link_to btn, link: "/publicaciones/cambia_evaluacion?publicacion_id=#{o.id}&item=#{item}&evaluacion=#{btn}" %>
+					<% end %>
+					</small>
+					</td>
+				</tr>
+			<% end %>
+		</tbody>
+	</table>
+<% end %>

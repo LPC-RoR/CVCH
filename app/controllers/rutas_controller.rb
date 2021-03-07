@@ -1,12 +1,19 @@
 class RutasController < ApplicationController
   before_action :authenticate_usuario!
   before_action :inicia_session
+  before_action :carga_temas_ayuda
   before_action :set_ruta, only: [:show, :edit, :update, :destroy, :elimina_ruta]
 
   # GET /rutas
   # GET /rutas.json
   def index
-    @coleccion = Ruta.all
+    @coleccion = {}
+
+    @coleccion['areas'] = Area.all
+    @coleccion['categorias'] = Categoria.all.order(:categoria)
+    @coleccion['especies'] = Especie.all.order(:especie)
+#    @coleccion['investigadores'] = Investigador.all.order(:investigador)
+#    @coleccion['revistas'] = Revista.all.order(:revista)
   end
 
   # GET /rutas/1

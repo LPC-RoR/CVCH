@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Categoria:</strong>
+  <%= @suscripcion.categoria_id %>
+</p>
+
+<p>
+  <strong>Perfil:</strong>
+  <%= @suscripcion.perfil_id %>
+</p>
+
+<%= link_to 'Edit', edit_suscripcion_path(@suscripcion) %> |
+<%= link_to 'Back', suscripciones_path %>

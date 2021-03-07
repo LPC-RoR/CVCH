@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  categoria: MyString
+  perfil_id: 1
+  base: false
+
+two:
+  categoria: MyString
+  perfil_id: 1
+  base: false
