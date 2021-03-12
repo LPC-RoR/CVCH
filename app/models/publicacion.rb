@@ -76,7 +76,8 @@ class Publicacion < ApplicationRecord
 
 	has_many :especies, through: :etiquetas
 
-	validates :doc_type, :title, :year, :author, presence: true
+#	validates :doc_type, :title, :year, :author, presence: true
+	validates :doc_type, :title, presence: true
 
 	def show_title
 		self.title
