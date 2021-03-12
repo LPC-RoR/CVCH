@@ -64,7 +64,25 @@ module Cvch
         }
     }
 
+    ## ------------------------------------------------- CONFIGURACION HOME
+
+    config.home = {
+        favicon: true,
+        home: 'http://www.cvch.cl',
+        nombre: 'CVCh',
+        imagen_portada: false,
+        titulo_size: '1',
+        titulo_color: 'primary',
+        detalle_size: '6',
+        detalle_color: 'primary',
+        foot_size: 'half'
+    }
+
     ## ------------------------------------------------- MENU
+
+    config.menu_con_logo = false
+    config.logo_sobre_el_menu = true
+
     # controladores que NO despliegan MENU
     # se usa en nomenu?
     #config.x.menu.exceptions_controllers = ['confirmations', 'mailer', 'passwords', 'registrations', 'sessions', 'unlocks']    
@@ -307,10 +325,14 @@ module Cvch
 
     ## ------------------------------------------------- FORM
 
+    config.detail_types_controller = {
+        dependencias: ['mejoras', 'mensajes', 'observaciones', 'tema_ayudas', 'tutoriales', 'pasos'],
+        modelo: ['publicaciones']
+    }
+
     # estan condiciones se aplican a FORM y SHOW
     config.x.form.exceptions = {
         'Publicacion' => {
-            f_detail: true,
             conditional_fields: [
                 'd_quote',
                 'm_quote',
@@ -332,29 +354,14 @@ module Cvch
             ]
         },
         'Concepto' => {
-            f_detail: false,
             conditional_fields: [
                 'administracion'
             ]
         },
         'Mensaje' => {
-            f_detail: true,
             conditional_fields: ['email']
         },
-        'TemaAyuda' => {
-            f_detail: true,
-            conditional_fields: []
-        },
-        'Tutorial' => {
-            f_detail: true,
-            conditional_fields: []
-        },
-        'Paso' => {
-            f_detail: true,
-            conditional_fields: []
-        },
         'Categoria' => {
-            f_detail: false,
             conditional_fields: ['base']
         }
     }

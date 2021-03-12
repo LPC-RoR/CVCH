@@ -1,6 +1,20 @@
 module RecursosHelper
 	## ------------------------------------------------------- TABLA | BTNS
 
+	def tr_row(objeto)
+		case objeto.class.name
+		when 'Publicacion'
+			if usuario_signed_in?
+				activo = Perfil.find(session[:perfil_activo]['id'])
+				(objeto.carpetas.ids & activo.carpetas.ids).empty? ? 'default' : 'dark'
+			else
+				'default'
+			end
+		else
+			'default'
+		end
+	end
+
 	def crud_conditions(objeto)
 		case objeto.class.name
 		when 'Carga'
@@ -109,6 +123,13 @@ module RecursosHelper
 	end
 
 	## ------------------------------------------------------- SHOW
+
+	def objeto_title(objeto)
+		case objeto.class.name
+		when 'Publicacion'
+			objeto.title
+		end
+	end
 
 	def show_links(objeto)
 		case objeto.class.name

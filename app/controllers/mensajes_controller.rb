@@ -92,6 +92,12 @@ class MensajesController < ApplicationController
       tipo      = 'anónimo'
       estado    = 'enviado'
     end
+    
+    tas = TemaAyuda.where(tipo: 'mensaje')
+    ta = tas.empty? ? nil : tas.first
+    @titulo = ta.blank? ? nil : ta.tema_ayuda
+    @texto = ta.blank? ? nil : ta.detalle
+
     @objeto = Mensaje.new(estado: estado, fecha_envio: DateTime.current, perfil_id: perfil_id, tipo: tipo)
   end
 

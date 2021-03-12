@@ -21,9 +21,11 @@
     <% end %>
 
     <div class="dropdown-divider"></div>
+    <% unless @tutoriales_basicos.blank? %>
     <% unless @tutoriales_basicos.empty? %>
       <% @tutoriales_basicos.each do |tutorial| %>
         <%= link_to tutorial.tutorial, tutorial, class: "dropdown-item" %>
+      <% end %>
       <% end %>
     <% end %>
   </div>

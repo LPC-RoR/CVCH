@@ -74,7 +74,7 @@ class CategoriasController < ApplicationController
     unless params[:categoria_base][:categoria_id].blank?
       categoria     = Categoria.find(params[:categoria_base][:categoria_id])
 
-      unless publicacion.categorias.ids.inlcude(categoria.id)
+      unless publicacion.categorias.ids.include?(categoria.id)
         publicacion.categorias << categoria
 
         etiqueta = Etiqueta.where(publicacion_id: publicacion.id).find_by(categoria_id: categoria.id)

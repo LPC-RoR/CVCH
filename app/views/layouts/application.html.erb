@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>CVCh</title>
+    <title><%=nombre%></title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
-    <%= favicon_link_tag asset_path('favicon.ico') %>
+    <%= favicon_link_tag asset_path('favicon.ico') if favicon? %>
   </head>
 
   <body>
@@ -20,8 +20,6 @@
     <!------------------------------------------->
     </br></br></br>
     <%= image_tag foot_image, class: "mx-auto d-block" unless foot_image.blank? %>
-  </body>
-  </br></br></br>
-
+    </br></br></br>
   </body>
 </html>

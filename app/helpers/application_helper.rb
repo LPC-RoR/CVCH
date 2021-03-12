@@ -3,6 +3,40 @@ module ApplicationHelper
 
 	## CAPITAN
 
+	## ------------------------------------------------------- HOME
+
+	def imagen_portada
+		Rails.configuration.home[:imagen_portada]
+	end
+
+	def t_size
+		Rails.configuration.home[:titulo_size]
+	end
+
+	def t_color
+		Rails.configuration.home[:titulo_color]
+	end
+
+	def d_size
+		Rails.configuration.home[:detalle_size]
+	end
+
+	def d_color
+		Rails.configuration.home[:detalle_color]
+	end
+
+	def favicon?
+		Rails.configuration.home[:favicon]
+	end
+
+	def nombre
+		Rails.configuration.home[:nombre]
+	end
+
+	def home
+		Rails.configuration.home[:home]
+	end
+
 	## ------------------------------------------------------- MENU
 
 	# Obtiene los controladores que no despliegan menu
@@ -15,7 +49,8 @@ module ApplicationHelper
 	end
 
 	def foot_image
-		TemaAyuda.where(tipo: 'foot').any? ? TemaAyuda.where(tipo: 'foot').first.ilustracion.half.url : nil
+		size =  Rails.configuration.home[:foot_size]
+		TemaAyuda.where(tipo: 'foot').any? ? TemaAyuda.where(tipo: 'foot').first.ilustracion.send(size).url : nil
 	end
 
 	def portada_image
@@ -48,6 +83,14 @@ module ApplicationHelper
 
 	def menu_con_contacto
 		Rails.configuration.menu_con_contacto
+	end
+
+	def menu_con_logo
+		Rails.configuration.menu_con_logo
+	end
+
+	def logo_sobre_el_menu
+		Rails.configuration.logo_sobre_el_menu
 	end
 
 	## ------------------------------------------------------- FRAME
@@ -182,20 +225,6 @@ module ApplicationHelper
 		Rails.configuration.x.tables.exceptions[controller][:estados]
 	end
 
-	def tr_row(objeto)
-		case objeto.class.name
-		when 'Publicacion'
-			if usuario_signed_in?
-				activo = Perfil.find(session[:perfil_activo]['id'])
-				(objeto.carpetas.ids & activo.carpetas.ids).empty? ? 'default' : 'dark'
-			else
-				'default'
-			end
-		else
-			'default'
-		end
-	end
-
 	def sortable?(controller)
 		Rails.configuration.sortable_tables.include?(controller)
 	end
@@ -251,6 +280,16 @@ module ApplicationHelper
 
 	## ------------------------------------------------------- FORM
 
+	def detail_partial(controller)
+		if Rails.configuration.detail_types_controller[:dependencias].include?(controller)
+			"0help/#{controller.singularize}/detail"
+		elsif Rails.configuration.detail_types_controller[:modelo].include?(controller)
+			"#{controller}/detail"
+		else
+			'0p/form/detail'
+		end
+	end
+
 	def form_f_detail?(objeto)
 		if Rails.configuration.x.form.exceptions[objeto.class.name].present?
 			Rails.configuration.x.form.exceptions[objeto.class.name][:f_detail].present? ? Rails.configuration.x.form.exceptions[objeto.class.name][:f_detail] : false
@@ -288,10 +327,7 @@ module ApplicationHelper
 		if Rails.configuration.x.show.exceptions[objeto.class.name].present?
 			if Rails.configuration.x.show.exceptions[objeto.class.name][:elementos].present?
 				if Rails.configuration.x.show.exceptions[objeto.class.name][:elementos].include?('show_title')
-					case objeto.class.name
-					when 'Publicacion'
-						objeto.title
-					end
+					objeto_title(objeto)
 				else
 					objeto.send(objeto.class.name.tableize.singularize)
 				end
