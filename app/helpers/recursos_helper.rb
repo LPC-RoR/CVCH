@@ -1,4 +1,10 @@
 module RecursosHelper
+	## ------------------------------------------------------- MENU
+
+	def display_item_app(item, tipo_item)
+		true
+	end
+
 	## ------------------------------------------------------- TABLA | BTNS
 
 	def tr_row(objeto)

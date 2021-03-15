@@ -63,13 +63,13 @@ module ApplicationHelper
 		detalle_link[1] == controller_name and nombre_accion == action_name
 	end
 
-	def display_item_menu?(tipo_item)
+	def display_item_menu?(item, tipo_item)
 		# ITEMS de MENU sólo para USUARIOS REGISTRADOS
 		case tipo_item
 		when 'admin'
 			(usuario_signed_in? and session[:es_administrador] == true)
 		when 'usuario'
-			usuario_signed_in?
+			usuario_signed_in? and display_item_app(item, tipo_item)
 		when 'anonimo'
 			true
 		when 'excluir'
