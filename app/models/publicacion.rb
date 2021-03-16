@@ -19,7 +19,7 @@ class Publicacion < ApplicationRecord
 	TABLA_FIELDS = [
 		['author',      'normal'],
 		['title',         'show'], 
-		['d_ace',       'normal'],
+#		['d_ace',       'normal'],
 		['doc_type',    'normal'], 
 		['year',        'normal']
 	]

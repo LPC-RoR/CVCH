@@ -226,10 +226,6 @@ module ApplicationHelper
 	end
 
 	def sortable?(controller, field)
-		puts "**************************** sortable?"
-		puts controller
-		puts field
-		puts Rails.configuration.sortable_tables[controller].present?
 		if Rails.configuration.sortable_tables[controller].present?
 			Rails.configuration.sortable_tables[controller].include?(field) ? true : false
 		else
