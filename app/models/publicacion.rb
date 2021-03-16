@@ -19,6 +19,7 @@ class Publicacion < ApplicationRecord
 	TABLA_FIELDS = [
 		['author',      'normal'],
 		['title',         'show'], 
+		['d_ace',       'normal'],
 		['doc_type',    'normal'], 
 		['year',        'normal']
 	]
@@ -100,6 +101,13 @@ class Publicacion < ApplicationRecord
 
 	def d_abstract
 	  self.abstract.blank? ? '' : self.abstract.gsub(/\n/, '<br>')
+	end
+
+	def d_ace
+		a = self.abstract.present? ? 'a' : '-'
+		c = self.categorias.empty? ? '-' : 'c'
+		e = self.especies.empty? ? '-' : 'e'
+		"#{a}#{c}#{e}"
 	end
 
 	def btns_control

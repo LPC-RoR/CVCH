@@ -14,7 +14,7 @@
 		<% when 'url'  %>
 			<td><small> <%= objeto.send(f[0]).send('url').present? ? objeto.send(f[0]).send('url').split('/').last : '[ sin archivo carga ]' %> </small></td>
 		<% when 'link_file' %>
-			<td><small><%= link_to objeto.send(f[0]).send('url').split('/').last, objeto.send(f[0]).send('url') %></small></td>
+			<td><small><%= (objeto.send(f[0]).present? ? link_to( objeto.send(f[0]).send('url').split('/').last, objeto.send(f[0]).send('url')) : '[ Sin archivo cargado ]') %></small></td>
 		<% end %>
 	<% end %>
 

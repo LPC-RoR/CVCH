@@ -52,7 +52,7 @@ module RecursosHelper
 		when 'Categoria'
 			usuario_signed_in? and objeto.perfil_id == session[:perfil_activo]['id'] or session[:es_administrador] and controller_name == 'rutas'
 		when 'Especie'
-			usuario_signed_in? and session[:es_administrador] and controller_name == 'rutas'
+			false
 		end
 	end
 

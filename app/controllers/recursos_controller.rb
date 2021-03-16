@@ -11,7 +11,7 @@ class RecursosController < ApplicationController
 		@coleccion['areas'] = Area.all
 
     @coleccion['mejoras'] = Mejora.all if session[:es_administrador]
-    @coleccion['usuarios'] = Usuario.all
+    @coleccion['usuarios'] = Usuario.all.order(created_at: :asc)
 	end
 
 	def home

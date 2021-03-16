@@ -6,6 +6,11 @@ class Usuario < ApplicationRecord
 
 
 	TABLA_FIELDS = [
-		['email',    'normal']
+		['email',         'normal'],
+		['d_tipo_usuario',  'normal']
 	]
+
+	def d_tipo_usuario
+		(Administrador.find_by(email: self.email).blank? ? 'usuario' : 'administrador')
+	end
 end

@@ -1,0 +1,7 @@
+<small><%= form.label 'Observación' %></small></br>
+<%= form.text_field(:observacion, size: 66 ) %></br>
+<small><%= form.label :detalle %></small></br>
+<%= form.text_area :detalle, size: '66x3' %>
+
+<%= form.hidden_field :tabla_id %>
+<%= form.hidden_field :linea_id %>
