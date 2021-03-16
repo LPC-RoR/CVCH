@@ -79,7 +79,7 @@ class PublicacionesController < ApplicationController
       @coleccion['propuestas'] = @objeto.propuestas.order(:created_at)
 
     end
-    @categorias_seleccion = Categoria.all.order(:categoria)
+    @categorias_seleccion = Categoria.where(id: Categoria.all.ids - @objeto.categorias.ids).order(:categoria)
     @coleccion['categorias'] = @objeto.categorias.order(:created_at)
 
     @coleccion['especies'] = @objeto.especies.order(:created_at)

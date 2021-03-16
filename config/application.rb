@@ -233,7 +233,9 @@ module Cvch
         'revisiones'     => 'publicaciones'
     }
 
-    config.sortable_tables = ['publicaciones']
+    config.sortable_tables = {
+        'publicaciones' => ['author', 'title', 'doc_type', 'year']
+    }
 
     ## ------------------------------------------------- TABLA | BTNS
 

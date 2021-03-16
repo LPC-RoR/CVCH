@@ -225,8 +225,16 @@ module ApplicationHelper
 		Rails.configuration.x.tables.exceptions[controller][:estados]
 	end
 
-	def sortable?(controller)
-		Rails.configuration.sortable_tables.include?(controller)
+	def sortable?(controller, field)
+		puts "**************************** sortable?"
+		puts controller
+		puts field
+		puts Rails.configuration.sortable_tables[controller].present?
+		if Rails.configuration.sortable_tables[controller].present?
+			Rails.configuration.sortable_tables[controller].include?(field) ? true : false
+		else
+			false
+		end
 	end
 
 	def sortable(column, title = nil)
