@@ -1,24 +1,12 @@
 <%= render partial: '0p/general/titulo', locals: {c: 'vistas', a: nil, titulo: 'Escritorio', size: '5'} %>
 <div class='row'>
-	<!-- SELECTOR -->
 	<div class='col-md-3'>
-		<%= render partial: '0p/list/links_w_badges', locals: {titulo: bi_frame_selector(controller_name, action_name), list: @frame_selector, sel: @sel, options: @options} %>
+		<%= render partial: '0p/list/selector', locals: {titulo: 'Carpetas', list: @list_selector, sel: @sel, options: @options} %>
 		</br>
 		<%= render partial: '0p/general/titulo', locals: {c: 'vistas', a: nil, titulo: 'Gestión de Carpetas', size: '6'} %>
 		<%= render partial: '0p/tabla/tabla', locals: {c: 'carpetas', a: 'index'} %>
 	</div>
-	<!-- TABLA -->
 	<div class='col-md-9'>
-		<!-- Pregunta si esta acción de recursos despliega TABS -->
-		<!-- Si es así, obtiene los TABSv del modelo Recurso -->
-		<% if frame_with_tabs?(controller_name, action_name) %>
-			<%= render partial: '0p/tabs/tabs', locals: {tabs: frame_tabs(controller_name, action_name), tag: 'ftab', active: @ftab } %>
-		<% end %>
-
-		<!-- Pregunta si esta acción despliega una TABLA, si es asi la despliega -->
-		<% if frame_with_table?(controller_name, action_name) %>
-			<%= render partial: '0p/tabla/tabla', locals: {c: alias_tabla(controller_name), a: 'index'} %>
-		<% end %>
+		<%= render partial: '0p/tabla/tabla', locals: {c: 'publicaciones', a: 'index'} %>
 	</div>
 </div>
-<%#= render partial: '0p/frame/bi_frame' %>

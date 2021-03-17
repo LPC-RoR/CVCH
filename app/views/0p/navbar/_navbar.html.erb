@@ -1,10 +1,10 @@
-<%= image_tag("logo.jpg", class: "img-responsive", id: "logo") if logo_sobre_el_menu %>
+<%= image_tag("logo.jpg", class: "img-responsive", id: "logo") if banner? %>
 <!--nav class="navbar navbar-expand-lg navbar-light bg-light"-->
 <nav class="navbar navbar-expand-lg navbar-dark bg-<%=navbar_color%>">
   <div class="container-fluid">
 
-    <% if menu_con_logo %>
-      <a class="navbar-brand" href="<%=home%>">
+    <% if logo_navbar %>
+      <a class="navbar-brand" href="<%=home_link%>">
         <%= image_tag("logo_navbar.gif", height: "40", class: "img-responsive", id: "navbar-logo") %>
       </a>
     <% end %>

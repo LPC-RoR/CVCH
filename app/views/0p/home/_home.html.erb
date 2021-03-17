@@ -1,5 +1,5 @@
 <div class='row'>
-	<% if imagen_portada %>
+	<% if imagen_portada? %>
 		<%= image_tag portada_image, class: "mx-auto d-block" unless portada_image.blank? %>
 	<% end %>
 </div>

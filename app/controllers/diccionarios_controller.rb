@@ -1,6 +1,6 @@
 class DiccionariosController < ApplicationController
   before_action :authenticate_usuario!
-  before_action :inicia_session
+  before_action :inicia_sesion
   before_action :set_diccionario, only: [:show, :edit, :update, :destroy]
 
   # GET /diccionarios

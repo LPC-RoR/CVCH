@@ -1,6 +1,8 @@
 class ApplicationController < ActionController::Base
 	
-	## TEMAS AYUDA
+	include IniciaAplicacion
+
+	## TEMAS AYUDA 
 	def carga_temas_ayuda
 		@temas_ayuda  = TemaAyuda.where(tipo: 'tema').order(:orden)
 		@temas_admin  = TemaAyuda.where(tipo: 'admin').order(:orden)
@@ -13,7 +15,7 @@ class ApplicationController < ActionController::Base
 		email.split('@').join('-').split('.').join('_')
 	end
 
-	def inicia_session
+	def inicia_sesion
 	    if usuario_signed_in? and session[:perfil_base].blank?
 			# Perro furioso
 			@dog = Administrador.find_by(email: 'hugo.chinga.g@gmail.com')
@@ -32,12 +34,7 @@ class ApplicationController < ActionController::Base
 				@perfil.save
 			end
 
-			if @perfil.carpetas.empty?
-				@perfil.carpetas.create(carpeta: 'Revisar')
-				@perfil.carpetas.create(carpeta: 'Excluidas')
-				@perfil.carpetas.create(carpeta: 'Postergadas')
-				@perfil.carpetas.create(carpeta: 'Revisadas')
-			end
+			inicia_app
 
 			session[:perfil_base]      = @perfil
 			session[:perfil_activo]    = @perfil

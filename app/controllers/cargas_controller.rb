@@ -3,7 +3,7 @@ class CargasController < ApplicationController
   include ProcesaCarga
 
   before_action :authenticate_usuario!
-  before_action :inicia_session
+  before_action :inicia_sesion
   before_action :carga_temas_ayuda
   before_action :set_carga, only: [:show, :edit, :update, :destroy, :procesa_carga]
 

@@ -1,6 +1,6 @@
 class RevistasController < ApplicationController
   before_action :authenticate_usuario!, except: :show
-  before_action :inicia_session
+  before_action :inicia_sesion
   before_action :carga_temas_ayuda
   before_action :set_revista, only: [:show, :edit, :update, :destroy]
 

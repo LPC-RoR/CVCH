@@ -1,6 +1,29 @@
 module RecursosHelper
 	## ------------------------------------------------------- MENU
 
+    ## Menu principal de la aplicación
+    # [0] : Item del menú
+    # [1] : Link del ítem
+    # [2] : Tipo de ítem {'admin', 'usuario', 'anonimo', 'excluir'}
+    # se usa directamente en 0p/navbar/_navbar.html.erb
+	def menu
+		
+	    [
+	        ["Gráficos",       "/vistas/graficos",   'usuario'],
+	        ["Colecciones",    "/vistas",            'anonimo'],
+	        ["Escritorio",     "/vistas/escritorio", 'usuario'],
+	        ["Equipos",        "/equipos",           'usuario'],
+	        ["Contribuciones", "/contribuciones",    'usuario'],
+	        ["Rutas",          "/rutas",             'usuario'],
+#   	     ["Conceptos",      "/conceptos",           'admin'],
+	        ["Archivos",       "/recursos",            'admin'],
+	        ["Revisiones",     "/revisiones",          'admin'],
+	        ["Cargas",         "/cargas",              'admin'],
+	        ["Temas Ayuda",    "/tema_ayudas",         'admin'] 
+	    ]
+
+	end
+
 	def display_item_app(item, tipo_item)
 		true
 	end

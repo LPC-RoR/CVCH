@@ -1,6 +1,6 @@
 class VistasController < ApplicationController
   before_action :authenticate_usuario!, only: [:escritorio]
-  before_action :inicia_session
+  before_action :inicia_sesion
   before_action :carga_temas_ayuda
   before_action :set_vista, only: [:show, :edit, :update, :destroy]
   before_action :check_areas, only: [:index]
@@ -10,17 +10,12 @@ class VistasController < ApplicationController
   # GET /vistas
   # GET /vistas.json
   def index
-    # BI FRAME
-    # Lista de 'selectors'
-    @frame_selector = Area.all.map {|a| [a.area, a.papers.count]}
-
-    # ftab
-    session[:page] = params[:page] unless params[:page].blank?
+    @list_selector = Area.all.map {|a| [a.area, a.papers.count]}
 
     if params[:html_options].blank?
       #Recordar el lugar si se vuelve a entrar a Colección
       @area = session[:area].blank? ? Area.first : Area.find_by(area: session[:area])
-      params[:page] = session[:page] unless session[:page].blank?
+      params[:page] = session[:page] unless (session[:page].blank? or params[:page] == 2)
     else
       @area = Area.find_by(area: params[:html_options]['sel'])
       unless session[:area] == params[:html_options]['sel']
@@ -28,6 +23,7 @@ class VistasController < ApplicationController
         session[:area] = @area.area
       end
     end
+    session[:page] = params[:page]
 
     # selector activo
     @sel = @area.area
@@ -39,22 +35,16 @@ class VistasController < ApplicationController
   end
 
   def escritorio
-    # BI FRAME
-    # Lista de 'selectors'
     @activo = Perfil.find(session[:perfil_activo]['id'])
-    @frame_selector = @activo.carpetas.all.map {|c| [c.carpeta, c.publicaciones.count]}
+    @list_selector = @activo.carpetas.all.map {|c| [c.carpeta, c.publicaciones.count]}
 
-    # ftab
     if params[:html_options].blank?
-#      @ftab = 'Completa'
       @carpeta = @activo.carpetas.first
     else
-#      @ftab = params[:html_options]['ftab'].blank? ? 'Completa' : params[:html_options]['ftab']
       @carpeta = params[:html_options]['sel'].blank? ? @activo.carpetas.first : @activo.carpetas.find_by(carpeta: params[:html_options]['sel'])
     end
-    # selector activo
+
     @sel = @carpeta.carpeta
-    # opciones para los links
     @options = {'sel' => @sel}
 
     @coleccion = {}

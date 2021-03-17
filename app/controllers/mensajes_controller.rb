@@ -1,5 +1,5 @@
 class MensajesController < ApplicationController
-  before_action :inicia_session
+  before_action :inicia_sesion
   before_action :carga_temas_ayuda
   before_action :set_mensaje, only: [:show, :edit, :update, :destroy, :estado]
 

@@ -1,6 +1,6 @@
 class AscendenciasController < ApplicationController
   before_action :authenticate_usuario!
-  before_action :inicia_session
+  before_action :inicia_sesion
   before_action :set_ascendencia, only: [:show, :edit, :update, :destroy]
 
   # GET /ascendencias

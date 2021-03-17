@@ -1,6 +1,6 @@
 class RecursosController < ApplicationController
   before_action :authenticate_usuario!, only: :index
-  before_action :inicia_session
+  before_action :inicia_sesion
   before_action :carga_temas_ayuda
 
   helper_method :sort_column, :sort_direction

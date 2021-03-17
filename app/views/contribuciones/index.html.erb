@@ -1,1 +1,3 @@
-<%= render partial: '0p/frame/frame' %>
+<%= render partial: '0p/general/titulo', locals: {c: controller_name, a: nil, titulo: 'Contribuciones del Usuario', size: '5'} %>
+
+<%= render partial: '0p/tabla/tabla', locals: {c: 'publicaciones', a: 'index'} %>

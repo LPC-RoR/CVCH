@@ -45,101 +45,47 @@ module Cvch
         adjuntos:    false
     }
 
-    ## ------------------------------------------------- COLORES ESTRUCTURA
-    # En 'app' los controladores son los que NO son de los otros tipos
-    config.colors = {
+    ## ------------------------------------------------- APARIENCIA APLICACION
+
+    config.look_app = {
+        'aplicacion' => {
+            favicon: true,
+            banner: true,
+            nombre: 'CVCh',
+            home_link: 'httpg://www.cvch.cl',
+            imagen_portada: false,
+            titulo_size: '1',
+            titulo_color: 'primary',
+            detalle_size: '6',
+            detalle_color: 'primary',
+            foot_size: 'half'
+        },
         'navbar' => {
-            color: 'info'
+            color: 'info',
+            logo: false
         },
-        'app' => {
-            color: 'info'
-        },
-        'help' => {
-            color: 'secondary',
-            controllers: ['tema_ayudas', 'tutoriales', 'pasos', 'mensajes', 'observaciones', 'mejoras']
-        },
-        'data' => {
-            color: 'success',
-            controllers: ['etapas', 'tablas', 'lineas', 'especificaciones', 'archivos', 'imagenes']
+        'look_elementos' => {
+            'app' => {
+                color: 'info'
+            },
+            'help' => {
+                color: 'secondary',
+                controllers: ['tema_ayudas', 'tutoriales', 'pasos', 'mensajes', 'observaciones', 'mejoras']
+            },
+            'data' => {
+                color: 'success',
+                controllers: ['etapas', 'tablas', 'lineas', 'especificaciones', 'observaciones', 'archivos', 'imagenes']
+            }
         }
-    }
-
-    ## ------------------------------------------------- CONFIGURACION HOME
-
-    config.home = {
-        favicon: true,
-        home: 'http://www.cvch.cl',
-        nombre: 'CVCh',
-        imagen_portada: false,
-        titulo_size: '1',
-        titulo_color: 'primary',
-        detalle_size: '6',
-        detalle_color: 'primary',
-        foot_size: 'half'
     }
 
     ## ------------------------------------------------- MENU
 
-    config.menu_con_logo = false
-    config.logo_sobre_el_menu = true
-
-    # controladores que NO despliegan MENU
-    # se usa en nomenu?
-    #config.x.menu.exceptions_controllers = ['confirmations', 'mailer', 'passwords', 'registrations', 'sessions', 'unlocks']    
-    config.x.menu.exceptions_controllers = []    
-
-    ## Menu principal de la aplicación
-    # [0] : Item del menú
-    # [1] : Link del ítem
-    # [2] : Tipo de ítem {'admin', 'usuario', 'anonimo', 'excluir'}
-    # se usa directamente en 0p/navbar/_navbar.html.erb
-
-    config.menu = [
-        ["Gráficos",       "/vistas/graficos",   'usuario'],
-        ["Colecciones",    "/vistas",            'anonimo'],
-        ["Escritorio",     "/vistas/escritorio", 'usuario'],
-        ["Equipos",        "/equipos",           'usuario'],
-        ["Contribuciones", "/contribuciones",    'usuario'],
-        ["Rutas",          "/rutas",             'usuario'],
-#        ["Conceptos",      "/conceptos",           'admin'],
-        ["Archivos",       "/recursos",            'admin'],
-        ["Revisiones",     "/revisiones",          'admin'],
-        ["Cargas",         "/cargas",              'admin'],
-        ["Temas Ayuda",    "/tema_ayudas",         'admin'] 
-    ]
-
-    config.menu_con_contacto = true
-    config.menu_con_ayuda = true
-
-    ## ------------------------------------------------- FRAMES
-    config.frames = {
-        'vistas' => {
-            'index' => {
-                titulo: 'Colecciones',
-                selector: 'Áreas',
-                action_type: 'tabla'
-            },
-            'escritorio' => {
-                titulo: 'Escritorio',
-                selector: 'Carpetas',
-                action_type: 'tabla'
-            }
-
-        },
-        'revisiones' => {
-            'index' => {
-                titulo: 'Revisión de Citas',
-                selector: 'Áreas',
-                tabs: ['Cargas', 'Contribuciones', 'Formatos', 'Duplicados', 'Papelera'],
-                action_type: 'tabla'
-            }
-        },
-        'contribuciones' => {
-            'index' => {
-                titulo: 'Contribución de Citas',
-                action_type: 'tabla'
-            }
-        }
+    config.menu = {
+#        nomenu_controllers: ['confirmations', 'mailer', 'passwords', 'registrations', 'sessions', 'unlocks'],
+        nomenu_controllers: [],
+        add_contacto: true,
+        add_ayuda: true
     }
 
     ## ------------------------------------------------- TABLA
@@ -162,11 +108,14 @@ module Cvch
     config.x.tables.exceptions = {
         'publicaciones' => {
             elementos: {
-                tabs:  ['self', 'contribuciones'],
+                tabs:  ['self', 'contribuciones', 'revisiones'],
                 paginas: ['*'],
                 nuevo:   ['self', 'contribuciones'],
             },
-            tabs: ['ingreso', 'contribucion', 'publicada']
+            tabs: {
+                'contribuciones' => ['ingreso', 'contribucion', 'publicada'],
+                'revisiones'     => ['Cargas', 'Contribuciones', 'Formatos', 'Duplicados', 'Papelera']
+            }
         },
         'carpetas'        => {
             elementos: {

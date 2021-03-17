@@ -1,60 +1,91 @@
 module ApplicationHelper
 	## USO GENERAL
 
-	## CAPITAN
+	## CAPITAN 
 
 	## ------------------------------------------------------- HOME
 
-	def imagen_portada
-		Rails.configuration.home[:imagen_portada]
-	end
-
-	def t_size
-		Rails.configuration.home[:titulo_size]
-	end
-
-	def t_color
-		Rails.configuration.home[:titulo_color]
-	end
-
-	def d_size
-		Rails.configuration.home[:detalle_size]
-	end
-
-	def d_color
-		Rails.configuration.home[:detalle_color]
-	end
-
 	def favicon?
-		Rails.configuration.home[:favicon]
+		Rails.configuration.look_app['aplicacion'][:favicon]
+	end
+
+	def banner?
+		Rails.configuration.look_app['aplicacion'][:banner]
 	end
 
 	def nombre
-		Rails.configuration.home[:nombre]
+		Rails.configuration.look_app['aplicacion'][:nombre]
 	end
 
-	def home
-		Rails.configuration.home[:home]
+	def home_link
+		Rails.configuration.look_app['aplicacion'][:home_link]
+	end
+
+	def imagen_portada?
+		Rails.configuration.look_app['aplicacion'][:imagen_portada]
+	end
+
+	def t_size
+		Rails.configuration.look_app['aplicacion'][:titulo_size]
+	end
+
+	def t_color
+		Rails.configuration.look_app['aplicacion'][:titulo_color]
+	end
+
+	def d_size
+		Rails.configuration.look_app['aplicacion'][:detalle_size]
+	end
+
+	def d_color
+		Rails.configuration.look_app['aplicacion'][:detalle_color]
+	end
+
+	def foot_size
+		Rails.configuration.look_app['aplicacion'][:foot_size]
+	end
+
+	def navbar_color
+		Rails.configuration.look_app['navbar'][:color]
+	end
+
+	def logo_navbar
+		Rails.configuration.look_app['navbar'][:logo]
+	end
+
+	def c_color(controller)
+		if Rails.configuration.look_app['look_elementos']['help'][:controllers].include?(controller)
+			Rails.configuration.look_app['look_elementos']['help'][:color]
+		elsif Rails.configuration.look_app['look_elementos']['data'][:controllers].include?(controller)
+			Rails.configuration.look_app['look_elementos']['data'][:color]
+		else
+			Rails.configuration.look_app['look_elementos']['app'][:color]
+		end
+	end
+
+	## ------------------------------------------------------- MENU AYUDA HOME
+
+	def foot_image
+		TemaAyuda.where(tipo: 'foot').any? ? TemaAyuda.where(tipo: 'foot').first.ilustracion.send(foot_size).url : nil
+	end
+
+	def portada_image
+		TemaAyuda.where(tipo: 'portada').any? ? TemaAyuda.where(tipo: 'portada').first.ilustracion.url : nil
 	end
 
 	## ------------------------------------------------------- MENU
 
 	# Obtiene los controladores que no despliegan menu
 	def nomenu?(controller)
-		Rails.configuration.x.menu.exceptions_controllers.include?(controller)
+		Rails.configuration.menu[:nomenu_controllers].include?(controller)
 	end
 
-	def menu
-		Rails.configuration.menu
+	def menu_con_ayuda
+		Rails.configuration.menu[:add_ayuda]
 	end
 
-	def foot_image
-		size =  Rails.configuration.home[:foot_size]
-		TemaAyuda.where(tipo: 'foot').any? ? TemaAyuda.where(tipo: 'foot').first.ilustracion.send(size).url : nil
-	end
-
-	def portada_image
-		TemaAyuda.where(tipo: 'portada').any? ? TemaAyuda.where(tipo: 'portada').first.ilustracion.url : nil
+	def menu_con_contacto
+		Rails.configuration.menu[:add_contacto]
 	end
 
 	def item_active(link)
@@ -75,48 +106,6 @@ module ApplicationHelper
 		when 'excluir'
 			false
 		end
-	end
-
-	def menu_con_ayuda
-		Rails.configuration.menu_con_ayuda
-	end
-
-	def menu_con_contacto
-		Rails.configuration.menu_con_contacto
-	end
-
-	def menu_con_logo
-		Rails.configuration.menu_con_logo
-	end
-
-	def logo_sobre_el_menu
-		Rails.configuration.logo_sobre_el_menu
-	end
-
-	## ------------------------------------------------------- FRAME
-
-	def frame_titulo(controlador, accion)
-		Rails.configuration.frames[controlador][accion][:titulo]
-	end
-
-	# "_frame.html.erb" y "_bi_frame.html.erb"
-	def frame_with_tabs?(controlador, accion)
-		Rails.configuration.frames[controlador][accion][:tabs].present?
-	end
-
-	# Obtiene TABS de un controller + action
-	def frame_tabs(controlador, accion)
-		Rails.configuration.frames[controlador][accion][:tabs]
-	end
-
-	# "_frame.html.erb" y "_bi_frame.html.erb"
-	def frame_with_table?(controlador, accion)
-		Rails.configuration.frames[controlador][accion][:action_type] == 'tabla'
-	end
-
-	def bi_frame_selector(controlador, accion)
-#		controlador.classify.constantize::FRAME_SELECTOR[accion]
-		Rails.configuration.frames[controlador][accion][:selector]
 	end
 
 	## ------------------------------------------------------- TABLA
@@ -216,7 +205,7 @@ module ApplicationHelper
 	# Obtiene los TABS de un modelo usando el controlador
 	# "-tabla.html.erb"
 	def c_tabs(controller)
-		Rails.configuration.x.tables.exceptions[controller][:tabs]
+		Rails.configuration.x.tables.exceptions[controller][:tabs][controller_name]
 	end
 
 	# Obtiene los estados de un modelo usando el controlador
@@ -285,8 +274,10 @@ module ApplicationHelper
 	## ------------------------------------------------------- FORM
 
 	def detail_partial(controller)
-		if Rails.configuration.detail_types_controller[:dependencias].include?(controller)
+		if Rails.configuration.detail_types_controller[:help].include?(controller)
 			"0help/#{controller.singularize}/detail"
+		elsif Rails.configuration.detail_types_controller[:data].include?(controller)
+			"0data/#{controller.singularize}/detail"
 		elsif Rails.configuration.detail_types_controller[:modelo].include?(controller)
 			"#{controller}/detail"
 		else
@@ -373,20 +364,6 @@ module ApplicationHelper
 	end
 
 	## ------------------------------------------------------- GENERAL
-
-	def navbar_color
-		Rails.configuration.colors['navbar'][:color]
-	end
-
-	def c_color(controller)
-		if Rails.configuration.colors['help'][:controllers].include?(controller)
-			Rails.configuration.colors['help'][:color]
-		elsif Rails.configuration.colors['data'][:controllers].include?(controller)
-			Rails.configuration.colors['data'][:color]
-		else
-			Rails.configuration.colors['app'][:color]
-		end
-	end
 
 	# Manejode options para selectors múltiples
 	def get_html_opts(options, label, value)

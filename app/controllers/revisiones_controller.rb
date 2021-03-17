@@ -1,6 +1,6 @@
 class RevisionesController < ApplicationController
   before_action :authenticate_usuario!
-  before_action :inicia_session
+  before_action :inicia_sesion
   before_action :carga_temas_ayuda
   before_action :set_revision, only: [:show, :edit, :update, :destroy]
 
@@ -9,30 +9,26 @@ class RevisionesController < ApplicationController
 # GET /revisiones
   # GET /revisiones.json
   def index
-    # BI FRAME
-    # ftab y sel
     if params[:html_options].blank?
-      @ftab = 'Cargas'
+      @tab = 'Cargas'
       @area = session[:area].blank? ? Area.first : Area.find_by(area: session[:area])
     else
-      @ftab = params[:html_options]['ftab'].blank? ? 'Cargas' : params[:html_options]['ftab']
+      @tab = params[:html_options]['tab'].blank? ? 'Cargas' : params[:html_options]['tab']
       #@area = params[:html_options]['sel'].blank? ? Area.first : Area.find_by(area: params[:html_options]['sel'])
       @area = Area.find_by(area: params[:html_options]['sel'])
       session[:area] = @area.area if session[:area] != @area.area
     end
 
     # Lista de 'selectors'
-    @frame_selector = Area.all.map {|a| [a.area, a.papers.where(estado: @ftab.singularize.downcase).count]}
+    @list_selector = Area.all.map {|a| [a.area, a.papers.where(estado: @tab.singularize.downcase).count]}
 
     # selector activo
     @sel = @area.area
     # opciones para los links
-    @options = {'sel' => @sel ,'ftab' => @ftab}
+    @options = {'sel' => @sel ,'tab' => @tab}
 
     @coleccion = {}
-    @coleccion['publicaciones'] = (@ftab == 'Contribuciones' ? Publicacion.where(estado: 'contribucion').order(sort_column + " " + sort_direction).page(params[:page]) : @area.papers.where(estado: @ftab.singularize.downcase).order(sort_column + " " + sort_direction).page(params[:page]))
-
-#    @coleccion = @area.papers.where(estado: @ftab.singularize.downcase).page(params[:page])
+    @coleccion['publicaciones'] = (@tab == 'Contribuciones' ? Publicacion.where(estado: 'contribucion').order(sort_column + " " + sort_direction).page(params[:page]) : @area.papers.where(estado: @tab.singularize.downcase).order(sort_column + " " + sort_direction).page(params[:page]))
 
   end
 
