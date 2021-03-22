@@ -19,9 +19,7 @@ module Cvch
     # +++ HCH activa locala :es
     config.i18n.default_locale = :es
 
-
-    ## ------------------------------------------------- CAPITAN
-
+    ## ------------------------------------------------- 0p
     ## ------------------------------------------------- STANDARD
 
     ## comportamiento por defecto de los elementos de una tabla
@@ -48,243 +46,137 @@ module Cvch
     ## ------------------------------------------------- APARIENCIA APLICACION
 
     config.look_app = {
-        'aplicacion' => {
+        aplicacion: {
             favicon: true,
             banner: true,
-            nombre: 'CVCh',
-            home_link: 'httpg://www.cvch.cl',
-            imagen_portada: false,
+            nombre_aplicacion: 'CVCh',
+            home_link: 'http://www.cvch.cl',
             titulo_size: '1',
             titulo_color: 'primary',
             detalle_size: '6',
             detalle_color: 'primary',
-            foot_size: 'half'
+            portada: {
+                active: true,
+                size: nil,
+                clase: 'mx-auto d-block'
+            },
+            init: {
+                size: 'half',
+                clase: 'mx-auto d-block',
+                titulo_size: 1,
+                titulo_color: 'info',
+                detalle_size: 6,
+                detalle_color: 'info'
+            },
+            foot: {
+                active: true,
+                size: 'half',
+                clase: 'mx-auto d-block'
+            },
+            help: {
+                size: 'quarter',
+                clase: 'mx-auto d-block'
+            }
         },
-        'navbar' => {
+        navbar: {
             color: 'info',
-            logo: false
+            logo: false,
+            nomenu_controllers: [],
+            item_contacto: true,
+            item_ayuda: true
         },
-        'look_elementos' => {
-            'app' => {
+        look_elementos: {
+            app: {
                 color: 'info'
             },
-            'help' => {
+            help: {
                 color: 'secondary',
-                controllers: ['tema_ayudas', 'tutoriales', 'pasos', 'mensajes', 'observaciones', 'mejoras']
+                controllers: ['tema_ayudas', 'tutoriales', 'pasos', 'mensajes']
             },
-            'data' => {
+            data: {
                 color: 'success',
                 controllers: ['etapas', 'tablas', 'lineas', 'especificaciones', 'observaciones', 'archivos', 'imagenes']
             }
         }
     }
 
-    ## ------------------------------------------------- MENU
-
-    config.menu = {
-#        nomenu_controllers: ['confirmations', 'mailer', 'passwords', 'registrations', 'sessions', 'unlocks'],
-        nomenu_controllers: [],
-        add_contacto: true,
-        add_ayuda: true
-    }
-
     ## ------------------------------------------------- TABLA
 
-    config.x.tables.bt_fields = {
-        'Modelo' => {
-            'field' => ['field_type', 'bt_object']
-        },
-        'Equipo' => {
-            'email' => ['bt_field', 'administrador']
-        },
-        'Ruta'   => {
-            'instancia' => ['bt_field', 'instancia']
-        },
-        'Propuesta'   => {
-            'instancia' => ['bt_field', 'instancia']
-        },
-    }
-
-    config.x.tables.exceptions = {
-        'publicaciones' => {
-            elementos: {
-                tabs:  ['self', 'contribuciones', 'revisiones'],
-                paginas: ['*'],
-                nuevo:   ['self', 'contribuciones'],
+    config.tables = {
+        exceptions: {
+            titulo: {
+                'areas' => ['rutas'],
+                'administradores' => ['recursos'],
+                'categorias' => ['rutas'],
+                'especies' => ['rutas']
             },
+            estados: {},
             tabs: {
+                'publicaciones' => ['contribuciones', 'revisiones'],
+                'equipos' => ['self'],
+                'conceptos' => ['self']
+            },
+            paginas: {
+                'publicaciones' => ['*']
+            },
+            nuevo: {
+                'publicaciones' => ['self', 'contribuciones'],
+                'carpetas' => ['vistas'],
+                'versiones' => ['proyectos'],
+                'etapas' => ['proyectos'],
+                'areas' => ['rutas'],
+                'administradores' => ['recursos'],
+                'categorias' => ['rutas']
+            },
+            inline_form: {
+                'equipos' => ['*']
+            }
+        },
+        tabs: {
+            'publicaciones' => {
                 'contribuciones' => ['ingreso', 'contribucion', 'publicada'],
                 'revisiones'     => ['Cargas', 'Contribuciones', 'Formatos', 'Duplicados', 'Papelera']
-            }
-        },
-        'carpetas'        => {
-            elementos: {
-                nuevo:    ['vistas']
-            }
-        },
-        'equipos'     => {
-            elementos: {
-                tabs:    ['self']
             },
-            tabs: ['Administrados', 'Participaciones'],
-            new_type: {
-                #'controller' => 'tipo_new'
-                # '*' en todo controller_name
-                '*' => 'inline'
-            }
-        },
-        'conceptos' => {
-            elementos: {
-                tabs: ['self']
+            'equipos' => {
+                'equipos' => ['Administrados', 'Participaciones']
             },
-            tabs: ['propios', 'plataforma', 'comunidad']
-        },
-        'versiones' => {
-            elementos: {
-                nuevo: ['proyectos']
+            'conceptos' => {
+                'conceptos' => ['propios', 'plataforma', 'comunidad']
             }
         },
-        'etapas' => {
-            elementos: {
-                nuevo: ['proyectos']
+        bt_fields: {
+            'Equipo' => {
+                'email' => 'administrador'
+            },
+            'Ruta' => {
+                'instancia' => 'instancia'
+            },
+            'Propuesta' => {
+                'instancia' => 'instancia'
             }
         },
-        'areas' => {
-            elementos: {
-                titulo: ['rutas'],
-                nuevo: ['rutas']
-            }
+        alias: {
+            'papers' => 'publicaciones',
+            'hijos' => 'conceptos',
+            'contribuciones' => 'publicaciones',
+            'vistas' => 'publicaciones',
+            'revisiones' => 'publicaciones'
         },
-        'administradores' => {
-            elementos: {
-                titulo: ['recursos'],
-                nuevo: ['recursos']
-            }
-        },
-        'categorias' => {
-            elementos: {
-                titulo: ['rutas'],
-                nuevo: ['rutas']
-            }
-        },
-        'especies' => {
-            elementos: {
-                titulo: ['rutas']
-            }
-        }
-    }
-
-    config.alias_controllers = {
-        'papers'         => 'publicaciones',
-        'hijos'          => 'conceptos',
-        'contribuciones' => 'publicaciones',
-        'vistas'         => 'publicaciones',
-        'revisiones'     => 'publicaciones'
-    }
-
-    config.sortable_tables = {
-        'publicaciones' => ['author', 'title', 'doc_type', 'year']
-    }
-
-    ## ------------------------------------------------- TABLA | BTNS
-
-    ## x_btns
-    # [0] : Nombre del boton
-    # [1] : link base, a esta base se le agrega el instancia_id
-    # [2] : Si es true se agrega "objeto_id=#{@objeto.id}"
-
-    config.x.btns.exceptions = {
-        'Publicacion'   => {
-            conditions: ['crud']
-        },
-        'Carpeta'       => {
-            conditions: ['crud', 'x'],
-            x_btns: [
-                ['Desasignar', '/desasignar', true]
-            ]
-        },
-        'Carga'         => {
-            conditions: ['x', 'crud'],
-            x_btns: [   
-                ['Proceso', '/procesa_carga', false]
-            ]
-        },
-        'Area'         => {
-            conditions: ['crud', 'x'],
-            x_btns: [
-                ['Desasignar', '/desasignar', true]
-            ]
-        },
-        'Equipo'       => {
-            x_btns: [
-                ['Eliminar', '/elimina_equipo', true]
-            ]
-        },
-        'Instancia'    => {
-            conditions: ['x', 'crud'],
-            x_btns: [
-                ['Eliminar', '/elimina_instancia', true]
-            ]
-        },
-        'Ruta'         => {
-            conditions: ['x', 'crud'],
-            x_btns: [
-                ['Eliminar', '/elimina_ruta', true]
-            ]
-        },
-        'Propuesta'         => {
-            conditions: ['x', 'crud'],
-            x_btns: [
-                ['Eliminar', '/elimina_propuesta', true]
-            ]
-        },
-        'Observacion' => {
-            conditions: ['crud']
-        },
-        'Mejora' => {
-            conditions: ['crud']
-        },
-        'TemaAyuda' => {
-            conditions: ['crud']
-        },
-        'Tutorial' => {
-            conditions: ['crud']
-        },
-        'Paso' => {
-            conditions: ['crud']
-        },
-        'Usuario' => {
-            conditions: ['crud']
-        },
-        'Categoria' => {
-            conditions: ['crud', 'x'],
-            x_btns: [
-                ['Desasignar', '/desasignar', true],
-                ['Aceptar',    '/aceptar',    true],
-                ['Rechazar',   '/rechazar',   true]
-            ]
-        },
-        'Especie' => {
-            conditions: ['crud', 'x'],
-            x_btns: [
-                ['Desasignar', '/desasignar', true],
-                ['Aceptar',    '/aceptar',    true],
-                ['Rechazar',   '/rechazar',   true]
-            ]
+        sortable: {
+            'publicaciones' => ['author', 'title', 'doc_type', 'year']
         }
     }
 
     ## ------------------------------------------------- FORM
 
-    config.detail_types_controller = {
-        dependencias: ['mejoras', 'mensajes', 'observaciones', 'tema_ayudas', 'tutoriales', 'pasos'],
-        modelo: ['publicaciones']
-    }
-
-    # estan condiciones se aplican a FORM y SHOW
-    config.x.form.exceptions = {
-        'Publicacion' => {
-            conditional_fields: [
+    config.form = {
+        detail_types_controller: {
+            help: ['mejoras', 'mensajes', 'observaciones', 'tema_ayudas', 'tutoriales', 'pasos'],
+            data: ['especificaciones', 'tablas'],
+            modelo: ['publicaciones']
+        },
+        conditional_fields: {
+            'Publicacion' => [
                 'd_quote',
                 'm_quote',
                 'd_author',
@@ -302,58 +194,41 @@ module Cvch
                 'editor',
                 'academic_degree',
                 'ciudad_pais'
-            ]
-        },
-        'Concepto' => {
-            conditional_fields: [
-                'administracion'
-            ]
-        },
-        'Mensaje' => {
-            conditional_fields: ['email']
-        },
-        'Categoria' => {
-            conditional_fields: ['base']
+            ],
+            'Mensaje' => ['email'],
+            'Concepto' => ['administracion'],
+            'Categoria' => ['base']
         }
     }
 
     ## ------------------------------------------------- SHOW
 
-    config.x.show.exceptions = {
-        'Publicacion' => {
-            elementos: [:clasifica, :detalle, :tabla, 'show_title'],
-        },
-        'Equipo'     => {
-            elementos: [:detalle, :inline_form, :status]
-        },
-        'Carga' => {
-            elementos: [:status]
-        }
-    }
-
-    config.x.show.links = {
-        links:     ['Publicacion'],
-        bt_links:  ['Publicacion'],
-        hmt_links: ['Publicacion'],
-        bt_objects: {
+    config.show = {
+        titulo: [],
+        show_title: ['Publicacion'],
+        partial_links: [],
+        detalle: ['Publicacion', 'Equipo'],
+        inline_form: ['Equipo'],
+        tabla: ['Publicacion'],
+        links: ['Publicacion'],
+        bt_links: {
             'Publicacion' => ['revista']
         },
-        hmt_collections: {
+        hmt_links: {
             'Publicacion' => ['investigadores']
+        },
+        status: ['Equipo', 'Carga'],
+        hidden: {
+            'publicaciones'  => ['autores', 'investigadores', 'procesos', 'cargas', 'clasificaciones', 'carpetas', 'evaluaciones', 'asignaciones', 'areas', 'rutas', 'instancias', 'etiquetas'],
+            'carpetas'       => ['clasificaciones', 'herencias'],
+            'investigadores' => ['autores', 'carpetas'],
+            'equipos'        => ['investigadores', 'instancias', 'integrantes', 'herencias'],
+            'areas'          => ['clasificaciones', 'cargas'],
+            'conceptos'      => ['rel_hijos', 'hijos', 'diccionarios'],
+            'instancias'     => ['rutas', 'diccionarios', 'propuestas'],
+            'categorias'     => ['etiquetas', 'suscripciones', 'perfiles'],
+            'especies'       => ['etiquetas']
         }
-    }
-
-
-    config.x.show.hidden = {
-        'publicaciones'  => ['autores', 'investigadores', 'procesos', 'cargas', 'clasificaciones', 'carpetas', 'evaluaciones', 'asignaciones', 'areas', 'rutas', 'instancias', 'etiquetas'],
-        'carpetas'       => ['clasificaciones', 'herencias'],
-        'investigadores' => ['autores', 'carpetas'],
-        'equipos'        => ['investigadores', 'instancias', 'integrantes', 'herencias'],
-        'areas'          => ['clasificaciones', 'cargas'],
-        'conceptos'      => ['rel_hijos', 'hijos', 'diccionarios'],
-        'instancias'     => ['rutas', 'diccionarios', 'propuestas'],
-        'categorias'     => ['etiquetas', 'suscripciones', 'perfiles'],
-        'especies'       => ['etiquetas']
     }
 
   end

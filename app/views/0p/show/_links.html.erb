@@ -1,4 +1,4 @@
-<% if Rails.configuration.x.show.links[:links].include?(o.class.name) %>
+<% if config_show(:links).include?(o.class.name) %>
 	<% if show_links(o).map {|ll| ll[2]}.include?(true) %>
 		<% show_links(o).each do |l| %>
 			<%= render partial: '0p/general/btn', locals: {texto: l[0], link: l[1], delete: false, style: 'btn-outline-dark', clr: c_color(controller_name)} if l[2] %>
@@ -7,9 +7,9 @@
 	<% end %>
 <% end %>
 
-<% if Rails.configuration.x.show.links[:bt_links].include?(o.class.name) %>
-	<% unless Rails.configuration.x.show.links[:bt_objects][o.class.name].map {|mbt| o.send(mbt)}.compact.empty? %>
-		<% Rails.configuration.x.show.links[:bt_objects][o.class.name].each do |bt| %>
+<% if config_show(:bt_links)[o.class.name].present? %>
+	<% unless config_show(:bt_links)[o.class.name].map {|mbt| o.send(mbt)}.compact.empty? %>
+		<% config_show(:bt_links)[o.class.name].each do |bt| %>
 			<% o_bt = o.send(bt.downcase) %>
 			<%= render partial: '0p/general/btn', locals: {texto: show_title(o_bt), link: o_bt, delete: false, style: 'btn-outline-dark', clr: c_color(controller_name) } unless o_bt.blank? %>
 		<% end %>
@@ -17,9 +17,9 @@
 	<% end %>
 <% end %>
 
-<% if Rails.configuration.x.show.links[:hmt_links].include?(o.class.name) %>
-	<% unless Rails.configuration.x.show.links[:hmt_collections][o.class.name].map {|mhtm| o.send(mhtm)}.compact.empty? %>
-		<% Rails.configuration.x.show.links[:hmt_collections][o.class.name].each do |hmt| %>
+<% if config_show(:hmt_links)[o.class.name].present? %>
+	<% unless config_show(:hmt_links)[o.class.name].map {|mhtm| o.send(mhtm)}.compact.empty? %>
+		<% config_show(:hmt_links)[o.class.name].each do |hmt| %>
 			<% coleccion = o.send(hmt) %>
 			<% coleccion.each do |l| %>
 				<%= render partial: '0p/general/btn', locals: {texto: show_title(l), link: l, delete: false, style: 'btn-outline-dark', clr: c_color(controller_name) } %>

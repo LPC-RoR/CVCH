@@ -3,11 +3,6 @@
 		<%= render partial: '0p/form/form', locals: {c: controller_name, a: action_name} %>
 	</div>
 	<div class='col-md-6'>
-		<%= render partial: '0p/general/titulo', locals: {c: controller_name, a: nil, titulo: @titulo, size: '5'} unless @titulo.blank?%>
-
-		<h5 class='center'>
-			</br></br>
-			<%= sanitize @texto.gsub(/\n/, '<br>') unless @texto.blank? %>
-		</h5>
+		<%= render partial: '0help/tema_ayuda/mensaje', locals: {objeto: objeto_tema_ayuda('mensaje')} %>
 	</div>
 </div>

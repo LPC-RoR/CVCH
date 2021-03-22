@@ -2,15 +2,13 @@
 	<%= render partial: '0p/tabla/btn_seleccion', locals: {link_seleccion: "#{@link_seleccion}#{objeto.id}", clr: c_color(objeto.class.name.tableize) } %>
 <% else %>
 
-	<% if btns?(objeto, 'crud') %>
-		<%= render partial: '0p/tabla/btns_e', locals: {objeto: objeto} %>
-		<!-- BOTONES ESTADO : SOLO -->
-		<%= render partial: '0p/tabla/btns_estado', locals: {objeto: objeto, estados: objeto.class.name.constantize::ESTADOS, link_estado: "/#{objeto.class.name.tableize}/#{objeto.id}/estado?estado="} if in_t?(objeto.class.name.tableize, :estados) %>
-	<% end %>
+	<%= render partial: '0p/tabla/btns_e', locals: {objeto: objeto} %>
+	<!-- BOTONES ESTADO : SOLO -->
+	<%= render partial: '0p/tabla/btns_estado', locals: {objeto: objeto, estados: objeto.class.name.constantize::ESTADOS, link_estado: "/#{objeto.class.name.tableize}/#{objeto.id}/estado?estado="} if in_t?(objeto.class.name.tableize, :estados) %>
 
-	<% if btns?(objeto, 'x') %>
-		<% x_btns(objeto).each do |btn| %>
-			<%= render partial: '0p/general/btn_w_html_options', locals: {texto: btn[0], link: "/#{objeto.class.name.tableize}/#{objeto.id}#{btn[1]}#{(!!btn[1].match(/\?+/) ? '&' : '?') if btn[2]}#{"class_name=#{@objeto.class.name}&objeto_id=#{@objeto.id if @objeto.present?}" if btn[2]}", clr: c_color(objeto.class.name.tableize), delete: false} if x_conditions(objeto, btn[0]) %>
+	<% x_btns(objeto).each do |btn| %>
+		<% if x_conditions(objeto, btn[0]) %> 
+			<%= render partial: '0p/general/btn', locals: {texto: btn[0], link: "/#{objeto.class.name.tableize}/#{objeto.id}#{btn[1]}#{(!!btn[1].match(/\?+/) ? '&' : '?') if btn[2]}#{"class_name=#{@objeto.class.name}&objeto_id=#{@objeto.id if @objeto.present?}" if btn[2]}", clr: c_color(objeto.class.name.tableize), delete: false} %>
 		<% end %>
 	<% end %>
 <% end %>

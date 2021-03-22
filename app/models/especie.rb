@@ -2,7 +2,7 @@ class Especie < ApplicationRecord
 
 	#-------------------------------------------------------------  TABLA
 	TABLA_FIELDS = [
-		['especie',  'show'], 
+		['d_especie',  'show'], 
 		['d_pubs', 'normal']
 	]
 
@@ -15,5 +15,9 @@ class Especie < ApplicationRecord
 
 	def d_pubs
 		self.publicaciones.count
+	end
+
+	def d_especie
+		self.especie.capitalize
 	end
 end

@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title><%=nombre%></title>
+    <title><%=config_aplicacion(:nombre_aplicacion)%></title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
-    <%= favicon_link_tag asset_path('favicon.ico') if favicon? %>
+    <%= favicon_link_tag asset_path('favicon.ico') if config_aplicacion(:favicon) %>
   </head>
 
   <body>
@@ -19,7 +19,9 @@
     </div>
     <!------------------------------------------->
     </br></br></br>
-    <%= image_tag foot_image, class: "mx-auto d-block" unless foot_image.blank? %>
+    <% if config_foot(:active) %>
+      <%= render partial: '0help/tema_ayuda/0h_ilustracion', locals: {objeto: objeto_tema_ayuda('foot'), class_image: config_foot(:clase), size: config_foot(:size) } %>
+    <% end %>
     </br></br></br>
   </body>
 </html>

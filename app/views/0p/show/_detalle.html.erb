@@ -11,7 +11,7 @@
 							<td><small> <%=  o[field[0]] %> </small></td>
 						<% else %>
 							<td><small> <%= field[0] %> </small></td>
-							<td><small> <%= f_tabla_field(o, field[0]) %> </small></td>
+							<td><small> <%= get_field(field[0], o) %> </small></td>
 						<% end %>
 					<% when 'metodo' %>
 						<td><small> <%= field[0] %> </small></td>
@@ -23,7 +23,7 @@
 							<td><small> <%=  l(o[field[0]]) %> </small></td>
 						<% else %>
 							<td><small> <%= field[0] %> </small></td>
-							<td><small> <%= l(f_tabla_field(o, field[0])) %> </small></td>
+							<td><small> <%= l(get_field(field[0], o)) %> </small></td>
 						<% end %>
 
 					<% end %>

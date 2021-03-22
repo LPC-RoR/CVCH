@@ -1,10 +1,10 @@
-<%= image_tag("logo.jpg", class: "img-responsive", id: "logo") if banner? %>
+<%= image_tag("logo.jpg", class: "img-responsive", id: "logo") if config_aplicacion(:banner) %>
 <!--nav class="navbar navbar-expand-lg navbar-light bg-light"-->
-<nav class="navbar navbar-expand-lg navbar-dark bg-<%=navbar_color%>">
+<nav class="navbar navbar-expand-lg navbar-dark bg-<%=config_navbar(:color)%>">
   <div class="container-fluid">
 
-    <% if logo_navbar %>
-      <a class="navbar-brand" href="<%=home_link%>">
+    <% if config_navbar(:logo) %>
+      <a class="navbar-brand" href="<%=config_aplicacion(:home_link)%>">
         <%= image_tag("logo_navbar.gif", height: "40", class: "img-responsive", id: "navbar-logo") %>
       </a>
     <% end %>
@@ -25,15 +25,15 @@
 
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
 
-        <%= render partial: '0help/tema_ayuda/dropdown_menu' if menu_con_ayuda %>
+        <%= render partial: '0help/tema_ayuda/dropdown_menu' if config_navbar(:item_ayuda) %>
 
         <% if usuario_signed_in? %>
 
-          <%= render partial: '0p/navbar/btn', locals: {nombre: 'Contacto', link: mensajes_path, active: controller_name == 'contactos', delete: false} if menu_con_contacto %>
+          <%= render partial: '0p/navbar/btn', locals: {nombre: 'Contacto', link: mensajes_path, active: controller_name == 'contactos', delete: false} if config_navbar(:item_contacto) %>
 
           <%= render partial: '0p/navbar/btn', locals: {nombre: 'Salir', link: destroy_usuario_session_path, active: false, delete: true} %>
         <% else %>
-          <%= render partial: '0p/navbar/btn', locals: {nombre: 'Contacto', link: new_mensaje_path, active: controller_name == 'contactos', delete: false} if menu_con_contacto %>
+          <%= render partial: '0p/navbar/btn', locals: {nombre: 'Contacto', link: new_mensaje_path, active: controller_name == 'contactos', delete: false} if config_navbar(:item_contacto) %>
 
           <%= render partial: '0p/navbar/btn', locals: {nombre: 'Ingreso', link: new_usuario_session_path, active: (controller_name == 'sessions'), delete: false} %>
           <%= render partial: '0p/navbar/btn', locals: {nombre: 'Registro', link: new_usuario_registration_path, active: (controller_name == 'registrations'), delete: false} %>

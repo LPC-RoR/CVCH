@@ -1,0 +1,3 @@
+<tr><td><%= "| #{objeto.orden} | "%><%= link_to objeto.tema_ayuda, objeto %><%=" |" %></td><td><%= render partial: '0p/tabla/btns', locals: {a: 'index', objeto: objeto} %></td></tr>
+<tr><td colspan='3'><%= image_tag objeto.ilustracion.half.url if objeto.ilustracion? %></td></tr>
+<tr><td colspan='3'><small><%= sanitize objeto.d_detalle %></small></td></tr>

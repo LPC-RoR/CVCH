@@ -1,6 +1,4 @@
-<div class='row'>
-	<%= image_tag portada_image, class: "mx-auto d-block" unless portada_image.blank? %>
-</div>
+<%= render partial: '0help/tema_ayuda/portada' %>
 
 <p class="text-center"><small><i>Crédito fotografías: <b>Bruno Savelli Videla</b></i></small></p>
 
@@ -11,23 +9,7 @@
 </b>
 <h4 class='text-primary text-center'>Fecha Lanzamiento : 01 de Marzo, 2021</h4>
 
-<% @coleccion['tema_ayudas'].each do |tema| %>
-<div class='row'>
-	<div class='col-md-1'></div>
-	<div class='col-md-6'>
-		</br>
-		<h1 class='text-info'><%= tema.tema_ayuda %></h1>
-		<h5 class='text-info'>
-			<%= sanitize tema.d_detalle %>
-		</h5>
-	</div>
-	<div class='col-md-4'>
-		</br></br></br>
-		<%= image_tag tema.ilustracion.half.url, class: "mx-auto d-block" if tema.ilustracion? %>
-	</div>
-	<div class='col-md-1'></div>
-</div>
-<% end %>
+<%= render partial: '0help/tema_ayuda/init_elementos' %>
 
 <h4 class='text-warning text-center'>ADVERTENCIA</h4>
 <%#= image_tag 'Proyecto ID.jpg', class: "mx-auto d-block" %>

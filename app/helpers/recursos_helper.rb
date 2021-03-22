@@ -44,7 +44,7 @@ module RecursosHelper
 		end
 	end
 
-	def crud_conditions(objeto)
+	def crud_conditions(objeto, btn)
 		case objeto.class.name
 		when 'Carga'
 			objeto.estado == 'ingreso'
@@ -133,6 +133,43 @@ module RecursosHelper
 				false
 			end
 		end
+	end
+
+	def x_btns(objeto)
+		case objeto.class.name
+		when 'Carpeta'
+			[['Desasignar', '/desasignar', true]]
+		when 'Carga'
+			[['Proceso', '/procesa_carga', false]]
+		when 'Area'
+			[['Desasignar', '/desasignar', true]]
+		when 'Equipo'
+			[['Eliminar', '/elimina_equipo', true]]
+        when 'Instancia'
+        	[['Eliminar', '/elimina_instancia', true]]
+        when 'Ruta'
+        	[['Eliminar', '/elimina_ruta', true]]
+        when 'Propuesta'
+        	[['Eliminar', '/elimina_propuesta', true]]
+        when 'Categoria'
+        	[
+                ['Desasignar', '/desasignar', true],
+                ['Aceptar',    '/aceptar',    true],
+                ['Rechazar',   '/rechazar',   true]
+        	]
+        when 'Especie'
+        	[
+                ['Desasignar', '/desasignar', true],
+                ['Aceptar',    '/aceptar',    true],
+                ['Rechazar',   '/rechazar',   true]
+        	]
+        else
+        	[]
+		end		
+	end
+
+	def show_link_condition(objeto)
+		true
 	end
 
 	## ------------------------------------------------------- FORM & SHOW
