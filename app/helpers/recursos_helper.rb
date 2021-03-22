@@ -49,7 +49,7 @@ module RecursosHelper
 		when 'Carga'
 			objeto.estado == 'ingreso'
 		when 'Publicacion'
-			['ingreso', 'contribucion'].include?(objeto.origen)
+			['ingreso', 'contribucion'].include?(objeto.origen) and controller_name == 'contribuciones'
 		when 'Carpeta'
 			not Carpeta::NOT_MODIFY.include?(objeto.carpeta) and controller_name == 'vistas'
 		when 'Area'
