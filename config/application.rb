@@ -51,10 +51,6 @@ module Cvch
             banner: true,
             nombre_aplicacion: 'CVCh',
             home_link: 'http://www.cvch.cl',
-            titulo_size: '1',
-            titulo_color: 'primary',
-            detalle_size: '6',
-            detalle_color: 'primary',
             portada: {
                 active: true,
                 size: nil,

@@ -1,4 +1,5 @@
 class Observacion < ApplicationRecord
+
 	TABLA_FIELDS = [
 		['observacion', 'show']
 	]

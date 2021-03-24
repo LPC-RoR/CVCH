@@ -2,7 +2,7 @@ class TemaAyuda < ApplicationRecord
 
 	require 'carrierwave/orm/activerecord'
 
-	TIPO = ['inicio', 'tema', 'admin', 'portada', 'foot', 'mensaje']
+	TIPO = ['portada', 'inicio', 'tema', 'admin', 'mensaje', 'foot']
 
 	TABLA_FIELDS = [
 		['orden',    'normal'],
