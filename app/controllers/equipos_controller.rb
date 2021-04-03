@@ -61,7 +61,7 @@ class EquiposController < ApplicationController
         @sha1 = params[:nuevo_equipo][:equipo]
         @equipo = Equipo.find_by(sha1: @sha1)
         unless @equipo.blank?
-          @activo.asociaciones << @equipo
+          @activo.participaciones << @equipo
         end
       end
 

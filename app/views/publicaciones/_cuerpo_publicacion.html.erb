@@ -1,19 +1,14 @@
 	<div class= 'col-md-4'>
 		<% if usuario_signed_in? %>
 			<% if @activo.administrador.present? %>
-
 				<%= render partial: 'publicaciones/areas' %>
-
 			<% end %>
 			<% if @objeto.estado == 'publicada' %>
-
 				<%= render partial: 'publicaciones/carpetas' %></br>
-
 			<% end %>
 		<% end %>
 		<% if @objeto.estado == 'publicada' %>
 			<%= render partial: 'publicaciones/categorias' %></br>
-
 			<%= render partial: 'publicaciones/especies' %>
 		<% end %>
 

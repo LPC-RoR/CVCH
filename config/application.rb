@@ -122,7 +122,7 @@ module Cvch
             },
             nuevo: {
                 'publicaciones' => ['self', 'contribuciones'],
-                'carpetas' => ['vistas'],
+                'carpetas' => [],
                 'versiones' => ['proyectos'],
                 'etapas' => ['proyectos'],
                 'areas' => ['rutas'],

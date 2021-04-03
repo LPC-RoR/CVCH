@@ -35,11 +35,16 @@ class CarpetasController < ApplicationController
   end
 
   def nuevo
-    @equipo = Equipo.find(params[:equipo_id])
-    if params[:nueva_carpeta][:carpeta].present?
-      @equipo.carpetas << Carpeta.create(carpeta: params[:nueva_carpeta][:carpeta])
+    publicacion = Publicacion.find(params[:objeto_id])
+    activo = Perfil.find(session[:perfil_activo]['id'])
+    unless params[:nueva_carpeta][:carpeta].blank?
+      activo.carpetas.create(carpeta: params[:nueva_carpeta][:carpeta])
     end
-    redirect_to @equipo
+#    @equipo = Equipo.find(params[:equipo_id])
+#    if params[:nueva_carpeta][:carpeta].present?
+#      @equipo.carpetas << Carpeta.create(carpeta: params[:nueva_carpeta][:carpeta])
+#    end
+    redirect_to publicacion
   end
 
   # GET /carpetas/1/edit

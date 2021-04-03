@@ -1,6 +1,6 @@
 class Perfil < ApplicationRecord
 	TABLA_FIELDS = [
-		['m_padre', 'show'], 
+		['email', 'show'], 
 	]
 
 
@@ -24,11 +24,4 @@ class Perfil < ApplicationRecord
 	has_many :suscripciones
 	has_many :categorias, through: :suscripciones
 
-	def m_padre
-		if self.investigador.present?
-			self.investigador.email
-		elsif self.equipo.present?
-			self.equipo.equipo
-		end				
-	end
 end

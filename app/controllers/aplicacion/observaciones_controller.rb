@@ -34,7 +34,8 @@ class Aplicacion::ObservacionesController < ApplicationController
 
     respond_to do |format|
       if @objeto.save
-        format.html { redirect_to @objeto, notice: 'Observacion was successfully created.' }
+        set_redireccion
+        format.html { redirect_to @redireccion, notice: 'Observacion was successfully created.' }
         format.json { render :show, status: :created, location: @objeto }
       else
         format.html { render :new }
@@ -48,7 +49,8 @@ class Aplicacion::ObservacionesController < ApplicationController
   def update
     respond_to do |format|
       if @objeto.update(observacion_params)
-        format.html { redirect_to @objeto, notice: 'Observacion was successfully updated.' }
+        set_redireccion
+        format.html { redirect_to @redireccion, notice: 'Observacion was successfully updated.' }
         format.json { render :show, status: :ok, location: @objeto }
       else
         format.html { render :edit }
@@ -60,9 +62,10 @@ class Aplicacion::ObservacionesController < ApplicationController
   # DELETE /observaciones/1
   # DELETE /observaciones/1.json
   def destroy
+    set_redireccion
     @objeto.destroy
     respond_to do |format|
-      format.html { redirect_to observaciones_url, notice: 'Observacion was successfully destroyed.' }
+      format.html { redirect_to @redireccion, notice: 'Observacion was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
@@ -71,6 +74,10 @@ class Aplicacion::ObservacionesController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_observacion
       @objeto = Observacion.find(params[:id])
+    end
+
+    def set_redireccion
+      @redireccion = @objeto.publicacion
     end
 
     # Only allow a list of trusted parameters through.

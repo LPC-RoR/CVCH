@@ -51,7 +51,8 @@ class Aplicacion::MejorasController < ApplicationController
 
     respond_to do |format|
       if @objeto.save
-        format.html { redirect_to @objeto, notice: 'Mejora was successfully created.' }
+        set_redireccion
+        format.html { redirect_to @redireccion, notice: 'Mejora was successfully created.' }
         format.json { render :show, status: :created, location: @objeto }
       else
         format.html { render :new }
@@ -65,7 +66,8 @@ class Aplicacion::MejorasController < ApplicationController
   def update
     respond_to do |format|
       if @objeto.update(mejora_params)
-        format.html { redirect_to @objeto, notice: 'Mejora was successfully updated.' }
+        set_redireccion
+        format.html { redirect_to @redireccion, notice: 'Mejora was successfully updated.' }
         format.json { render :show, status: :ok, location: @objeto }
       else
         format.html { render :edit }
@@ -77,9 +79,10 @@ class Aplicacion::MejorasController < ApplicationController
   # DELETE /mejoras/1
   # DELETE /mejoras/1.json
   def destroy
+    set_redireccion
     @objeto.destroy
     respond_to do |format|
-      format.html { redirect_to mejoras_url, notice: 'Mejora was successfully destroyed.' }
+      format.html { redirect_to @redireccion, notice: 'Mejora was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
@@ -88,6 +91,10 @@ class Aplicacion::MejorasController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_mejora
       @objeto = Mejora.find(params[:id])
+    end
+
+    def set_redireccion
+      @redireccion = @objeto.publicacion
     end
 
     # Only allow a list of trusted parameters through.
