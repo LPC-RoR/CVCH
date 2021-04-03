@@ -1,0 +1,48 @@
+<% if filtro_conditional_field?(@objeto, 'tipo') %>
+	<small><%= form.label 'Tipo' %></small></br>
+	<%= form.select :tipo, TemaAyuda::TIPO, include_blank: true %></br>
+<% end %>
+
+<small><%= form.label 'Orden | Tema Ayuda' %></small></br>
+<div class='form-inline'>
+	<% if filtro_conditional_field?(@objeto, 'orden') %>
+		<%= form.text_field(:orden, size: 5, class: 'form-control' ) %>
+	<% end %>
+	<% if filtro_conditional_field?(@objeto, 'tema_ayuda') %>
+		<%= form.text_field(:tema_ayuda, size: 57, class: 'form-control' ) %>
+	<% end %>
+</div>
+
+<% if filtro_conditional_field?(@objeto, 'detalle') %>
+	<small><%= form.label 'Detalle' %></small></br>
+  	<%= form.text_area :detalle, size: '68x6' %><!--/br-->
+<% end %>
+
+<p>
+<label>
+  <%= form.check_box :activo %>
+  <%= 'Activo' %>
+</label>
+</p>
+
+</br>
+
+<p>
+	<small><%= form.label 'Ilustracion' %></small></br>
+
+	<% if @objeto.ilustracion.present? %>
+  		<%= image_tag(@objeto.ilustracion.half.url) %></br>
+	<% else %>
+	    <%= form.file_field :ilustracion %>
+	    <%= form.hidden_field :ilustracion_cache %>
+	<% end %>
+</p>
+
+<% if @objeto.ilustracion.present? %>
+	<p>
+	<label>
+	  <%= form.check_box :remove_ilustracion %>
+	  Remueve Ilustracion
+	</label>
+	</p>
+<% end %>

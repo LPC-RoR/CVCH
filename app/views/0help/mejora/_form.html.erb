@@ -1,8 +1,0 @@
-<%#= render partial: '0p/general/titulo', locals: {c: 'mejoras', a: nil, titulo: '+ Mejora', size: '6'} %>
-<%= form_for :mejora_base, url: "/mejoras/nuevo?class_name=#{@objeto.class.name}&objeto_id=#{@objeto.id}" do |form| %>
-	<small><%= form.label :mejora %></small></br>
-	<%= form.text_field(:mejora, size: 67, class: 'form-control' ) %>
-	<small><%= form.label :detalle %></small></br>
-  	<%= form.text_area :detalle, size: '68x3' %></br>
-	<%= form.submit '+ Mejora'  %>
-<% end  %>

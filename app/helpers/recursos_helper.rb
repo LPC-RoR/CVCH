@@ -64,18 +64,14 @@ module RecursosHelper
 			usuario_signed_in? ? (objeto.owner_id == session[:perfil_activo]['id'] or session[:es_administrador]) : false
 		when 'Mejora'
 			usuario_signed_in? ? (objeto.owner_id == session[:perfil_activo]['id'] or session[:es_administrador]) : false
-		when 'TemaAyuda'
-			usuario_signed_in? and session[:es_administrador]
-		when 'Tutorial'
-			usuario_signed_in? and session[:es_administrador]
-		when 'Paso'
-			usuario_signed_in? and session[:es_administrador]
 		when 'Usuario'
 			false
 		when 'Categoria'
 			usuario_signed_in? and objeto.perfil_id == session[:perfil_activo]['id'] or session[:es_administrador] and controller_name == 'rutas'
 		when 'Especie'
 			false
+		else
+			['TemaAyuda', 'Tutorial', 'Paso'].include?(objeto.class.name) ? (usuario_signed_in? ? session[:es_administrador] : false) : true
 		end
 	end
 
@@ -173,6 +169,14 @@ module RecursosHelper
 	end
 
 	## ------------------------------------------------------- FORM & SHOW
+
+	def detail_controller_path(controller)
+		if ['publicaciones'].include?(controller)
+			"#{controller}/detail"
+		else
+			'0p/form/detail'
+		end
+	end
 
 	# apoyo de filtro_condicional_field? (abajo)
 	def get_field_condition(objeto, field)

@@ -8,7 +8,8 @@
 
 	<% x_btns(objeto).each do |btn| %>
 		<% if x_conditions(objeto, btn[0]) %> 
-			<%= render partial: '0p/general/btn', locals: {texto: btn[0], link: "/#{objeto.class.name.tableize}/#{objeto.id}#{btn[1]}#{(!!btn[1].match(/\?+/) ? '&' : '?') if btn[2]}#{"class_name=#{@objeto.class.name}&objeto_id=#{@objeto.id if @objeto.present?}" if btn[2]}", clr: c_color(objeto.class.name.tableize), delete: false} %>
+			<%#= render partial: '0p/general/btn', locals: {texto: btn[0], link: "/#{objeto.class.name.tableize}/#{objeto.id}#{btn[1]}#{(!!btn[1].match(/\?+/) ? '&' : '?') if btn[2]}#{"class_name=#{@objeto.class.name}&objeto_id=#{@objeto.id if @objeto.present?}" if btn[2]}", clr: c_color(objeto.class.name.tableize), delete: false} %>
+			<%= render partial: '0p/general/btn', locals: {texto: btn[0], link: link_x_btn(objeto, btn[1], btn[2]), clr: c_color(objeto.class.name.tableize), delete: false} %>
 		<% end %>
 	<% end %>
 <% end %>

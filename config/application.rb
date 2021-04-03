@@ -43,6 +43,11 @@ module Cvch
         adjuntos:    false
     }
 
+    config.look_parameters = {
+        image_sizes: ['entire', 'half', 'quarter', 'thumb'],
+        colors: ['primary', 'secondary', 'success', 'danger', 'warning', 'info', 'light', 'dark', 'muted', 'white']
+    }
+
     ## ------------------------------------------------- APARIENCIA APLICACION
 
     config.look_app = {
@@ -166,11 +171,6 @@ module Cvch
     ## ------------------------------------------------- FORM
 
     config.form = {
-        detail_types_controller: {
-            help: ['mejoras', 'mensajes', 'observaciones', 'tema_ayudas', 'tutoriales', 'pasos'],
-            data: ['especificaciones', 'tablas'],
-            modelo: ['publicaciones']
-        },
         conditional_fields: {
             'Publicacion' => [
                 'd_quote',

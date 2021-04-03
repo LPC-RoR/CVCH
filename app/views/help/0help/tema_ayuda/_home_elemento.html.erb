@@ -1,0 +1,15 @@
+<div class='row'>
+	<div class='col-md-1'></div>
+	<div class='col-md-6'>
+		</br>
+		<h<%=config_init(:titulo_size)%> class="text-<%=config_init(:titulo_color)%>"><%= objeto.tema_ayuda %></h<%=config_init(:titulo_size)%>>
+		<h<%=config_init(:detalle_size)%> class='text-<%=config_init(:detalle_color)%>'>
+			<%= sanitize objeto.d_detalle %>
+		</h<%=config_init(:detalle_size)%>>
+	</div>
+	<div class='col-md-4'>
+		</br></br></br>
+		<%= render partial: 'help/0help/tema_ayuda/0h_ilustracion', locals: {objeto: objeto, class_image: config_init(:clase), size: config_init(:size) } %>
+	</div>
+	<div class='col-md-1'></div>
+</div>

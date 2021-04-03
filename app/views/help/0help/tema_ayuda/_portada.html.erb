@@ -1,0 +1,10 @@
+<% unless coleccion_tema_ayuda('portada').blank? %>
+	<% coleccion_tema_ayuda('portada').each do |ta| %>
+		<%= render partial: 'help/0help/tema_ayuda/0h_ilustracion', locals: {objeto: ta, class_image: config_portada(:clase), size: config_portada(:size) } %>
+
+		</br>
+		<% unless ta.detalle.blank? %>
+			<%= sanitize ta.detalle %>
+		<% end %>
+	<% end %>
+<% end %>

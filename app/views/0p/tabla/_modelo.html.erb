@@ -11,10 +11,18 @@
 			<% else %>
 				<td><small> <%= get_field(f[0], objeto) %> </small></td>
 			<% end %>
+		<% when 'show_link' %>
+			<% if show_link_condition(objeto) %>
+				<td><small><%= (a == 'seleccion' ? get_field(f[0], objeto) : link_to( "[ #{get_field(f[0], objeto)} ]", objeto)) %></small><small><%= (objeto.link.blank? ? '(link no encontrado)' :link_to( "( link )", objeto.link)) %></small></td>
+			<% else %>
+				<td><small> <%= get_field(f[0], objeto) %> </small><%= (objeto.link.blank? ? '(link no encontrado)' :link_to( "( link )", objeto.link)) %></td>
+			<% end %>
 		<% when 'normal' %>
 			<td><small> <%= get_field(f[0], objeto) %> </small></td>
 		<% when 'diahora' %>
 			<td><small> <%= l(objeto.send(f[0])) %> </small></td>
+		<% when 'link'  %>
+				<td><small><%= (get_field(f[0], objeto).blank? ? '[ link no disponible ]' : link_to( "[ #{get_field(f[0], objeto)} ]", get_field(f[0], objeto), target: :_blank)) %></small></td>
 		<% when 'url'  %>
 			<td><small> <%= objeto.send(f[0]).send('url').present? ? objeto.send(f[0]).send('url').split('/').last : '[ sin archivo carga ]' %> </small></td>
 		<% when 'link_file' %>

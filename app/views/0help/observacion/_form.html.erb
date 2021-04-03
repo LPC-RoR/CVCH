@@ -1,8 +1,0 @@
-<%#= render partial: '0p/general/titulo', locals: {c: 'observaciones', a: nil, titulo: '+ Observacion', size: '6'} %>
-<%= form_for :observacion_base, url: "/observaciones/nuevo?class_name=#{@objeto.class.name}&objeto_id=#{@objeto.id}" do |form| %>
-	<small><%= form.label :observacion %></small></br>
-	<%= form.text_field(:observacion, size: 67, class: 'form-control' ) %>
-	<small><%= form.label :detalle %></small></br>
-  	<%= form.text_area :detalle, size: '68x3' %></br>
-	<%= form.submit '+ Observación'  %>
-<% end  %>

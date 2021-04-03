@@ -1,9 +1,40 @@
 Rails.application.routes.draw do
+
+  # SCOPE APLICACION
+  scope module: 'aplicacion' do
+    resources :administradores
+    resources :perfiles
+    resources :observaciones
+    resources :mejoras do
+      match :nuevo, via: :post, on: :collection
+    end
+    resources :recursos do
+      collection do
+        match :home, via: :get
+        match :archivos, via: :get
+      end
+    end
+  end
+
+  # SCOPE HELP
+  scope module: 'help' do
+#    resources :conversaciones
+    resources :mensajes do 
+      match :estado, via: :get, on: :member
+      match :respuesta, via: :post, on: :collection
+    end
+    resources :pasos
+    resources :tema_ayudas do
+      resources :tutoriales
+    end
+    resources :tutoriales do
+      resources :pasos
+    end
+  end
+
   resources :etiquetas
   resources :suscripciones
-  resources :pasos
   resources :relaciones
-  resources :administradores
   resources :areas do 
     match :asigna, via: :post, on: :collection
     match :desasignar, via: :get, on: :member
@@ -65,18 +96,7 @@ Rails.application.routes.draw do
   resources :investigadores do
     match :perfil, via: :get, on: :member
   end
-  resources :mejoras do
-    match :nuevo, via: :post, on: :collection
-  end
-  resources :mensajes do 
-    match :estado, via: :get, on: :member
-    match :respuesta, via: :post, on: :collection
-  end
-  resources :observaciones do
-    match :nuevo, via: :post, on: :collection
-  end
   resources :pasos
-  resources :perfiles
   resources :procesos
   resources :propuestas do
     match :elimina_propuesta, via: :get, on: :member
@@ -85,12 +105,6 @@ Rails.application.routes.draw do
     match :cambia_evaluacion, via: :get, on: :member
     match :cambia_tipo, via: :get, on: :collection
     match :estado, via: :get, on: :collection
-  end
-  resources :recursos do
-    collection do
-      match :home, via: :get
-      match :archivos, via: :get
-    end
   end
   resources :registros do
     resources :publicaciones
@@ -101,12 +115,6 @@ Rails.application.routes.draw do
   end
   resources :revistas do
     resources :publicaciones
-  end
-  resources :tema_ayudas do
-    resources :tutoriales
-  end
-  resources :tutoriales do
-    resources :pasos
   end
   resources :vistas do
     match :escritorio, via: :get, on: :collection
@@ -124,6 +132,6 @@ Rails.application.routes.draw do
 
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 
-  root 'recursos#home'
+  root 'aplicacion/recursos#home'
 
 end

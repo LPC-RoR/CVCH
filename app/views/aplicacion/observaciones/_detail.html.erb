@@ -1,0 +1,9 @@
+<small><%= form.label 'Observación' %></small></br>
+<div class='form-inline'>
+	<%= form.text_field(:observacion, size: 65, class: 'form-control' ) %>
+</div>
+<small><%= form.label :detalle %></small></br>
+<%= form.text_area :detalle, size: '66x6' %>
+
+<%= form.hidden_field :linea_id %>
+<%= form.hidden_field :tabla_id %>
