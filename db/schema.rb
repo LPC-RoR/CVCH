@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_03_041335) do
+ActiveRecord::Schema.define(version: 2021_04_05_064712) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -189,6 +189,60 @@ ActiveRecord::Schema.define(version: 2021_04_03_041335) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["idioma"], name: "index_idiomas_on_idioma"
+  end
+
+  create_table "ind_bases", force: :cascade do |t|
+    t.integer "clave_id"
+    t.integer "ind_palabra_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["clave_id"], name: "index_ind_bases_on_clave_id"
+    t.index ["ind_palabra_id"], name: "index_ind_bases_on_ind_palabra_id"
+  end
+
+  create_table "ind_claves", force: :cascade do |t|
+    t.string "ind_clave"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["ind_clave"], name: "index_ind_claves_on_ind_clave"
+  end
+
+  create_table "ind_direcciones", force: :cascade do |t|
+    t.integer "origen_id"
+    t.integer "destino_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["destino_id"], name: "index_ind_direcciones_on_destino_id"
+    t.index ["origen_id"], name: "index_ind_direcciones_on_origen_id"
+  end
+
+  create_table "ind_indices", force: :cascade do |t|
+    t.integer "ind_clave_id"
+    t.string "class_name"
+    t.integer "objeto_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["class_name"], name: "index_ind_indices_on_class_name"
+    t.index ["ind_clave_id"], name: "index_ind_indices_on_ind_clave_id"
+    t.index ["objeto_id"], name: "index_ind_indices_on_objeto_id"
+  end
+
+  create_table "ind_lenguajes", force: :cascade do |t|
+    t.string "ind_lenguaje"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["ind_lenguaje"], name: "index_ind_lenguajes_on_ind_lenguaje"
+  end
+
+  create_table "ind_palabras", force: :cascade do |t|
+    t.string "ind_palabra"
+    t.integer "ind_lenguaje_id"
+    t.integer "ind_clave_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["ind_clave_id"], name: "index_ind_palabras_on_ind_clave_id"
+    t.index ["ind_lenguaje_id"], name: "index_ind_palabras_on_ind_lenguaje_id"
+    t.index ["ind_palabra"], name: "index_ind_palabras_on_ind_palabra"
   end
 
   create_table "instancias", force: :cascade do |t|

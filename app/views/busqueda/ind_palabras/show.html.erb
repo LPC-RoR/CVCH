@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Ind palabra:</strong>
+  <%= @ind_palabra.ind_palabra %>
+</p>
+
+<p>
+  <strong>Ind lenguaje:</strong>
+  <%= @ind_palabra.ind_lenguaje_id %>
+</p>
+
+<p>
+  <strong>Ind clave:</strong>
+  <%= @ind_palabra.ind_clave_id %>
+</p>
+
+<%= link_to 'Edit', edit_ind_palabra_path(@ind_palabra) %> |
+<%= link_to 'Back', ind_palabras_path %>

@@ -1,0 +1,32 @@
+<%= form_with(model: ind_indice, local: true) do |form| %>
+  <% if ind_indice.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(ind_indice.errors.count, "error") %> prohibited this ind_indice from being saved:</h2>
+
+      <ul>
+      <% ind_indice.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :ind_clave_id %>
+    <%= form.number_field :ind_clave_id %>
+  </div>
+
+  <div class="field">
+    <%= form.label :class_name %>
+    <%= form.text_field :class_name %>
+  </div>
+
+  <div class="field">
+    <%= form.label :objeto_id %>
+    <%= form.number_field :objeto_id %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

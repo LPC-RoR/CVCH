@@ -1,0 +1,27 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Ind Lenguajes</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Ind lenguaje</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @ind_lenguajes.each do |ind_lenguaje| %>
+      <tr>
+        <td><%= ind_lenguaje.ind_lenguaje %></td>
+        <td><%= link_to 'Show', ind_lenguaje %></td>
+        <td><%= link_to 'Edit', edit_ind_lenguaje_path(ind_lenguaje) %></td>
+        <td><%= link_to 'Destroy', ind_lenguaje, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Ind Lenguaje', new_ind_lenguaje_path %>

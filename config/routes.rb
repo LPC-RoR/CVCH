@@ -32,6 +32,15 @@ Rails.application.routes.draw do
     end
   end
 
+  scope module: 'busqueda' do
+    resources :ind_indices
+    resources :ind_bases
+    resources :ind_direcciones
+    resources :ind_claves
+    resources :ind_palabras
+    resources :ind_lenguajes
+  end
+
   resources :etiquetas
   resources :suscripciones
   resources :relaciones

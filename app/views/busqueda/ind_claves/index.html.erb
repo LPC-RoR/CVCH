@@ -1,0 +1,27 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Ind Claves</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Ind clave</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @ind_claves.each do |ind_clave| %>
+      <tr>
+        <td><%= ind_clave.ind_clave %></td>
+        <td><%= link_to 'Show', ind_clave %></td>
+        <td><%= link_to 'Edit', edit_ind_clave_path(ind_clave) %></td>
+        <td><%= link_to 'Destroy', ind_clave, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Ind Clave', new_ind_clave_path %>

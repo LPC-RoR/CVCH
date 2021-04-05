@@ -1,0 +1,27 @@
+<%= form_with(model: ind_direccion, local: true) do |form| %>
+  <% if ind_direccion.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(ind_direccion.errors.count, "error") %> prohibited this ind_direccion from being saved:</h2>
+
+      <ul>
+      <% ind_direccion.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :origen_id %>
+    <%= form.number_field :origen_id %>
+  </div>
+
+  <div class="field">
+    <%= form.label :destino_id %>
+    <%= form.number_field :destino_id %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

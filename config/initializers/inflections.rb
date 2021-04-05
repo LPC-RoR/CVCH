@@ -36,6 +36,11 @@ ActiveSupport::Inflector.inflections(:en) do |inflect|
     inflect.singular 'imagenes', 'imagen'
     inflect.singular 'Imagenes', 'Imagen'
 
+    inflect.plural 'raiz', 'raices'
+    inflect.plural 'Raiz', 'Raices'
+    inflect.singular 'raices', 'raiz'
+    inflect.singular 'Raices', 'Raiz'
+
 end
 
 # These inflection rules are supported but not enabled by default:
