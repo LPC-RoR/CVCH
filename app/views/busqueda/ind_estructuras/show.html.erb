@@ -1,0 +1,15 @@
+<%= render partial: '0p/general/o_titulo', locals: {o: @objeto, a: action_name, size: '5'} %>
+<div class='row'>
+	<div class='col-md-6'>
+		<%= render partial: '0p/general/titulo', locals: {c: 'ind_modelos', a: nil, titulo: 'Modelos', size: '5'} %>
+		<%= render partial: '0p/tabla/solo_tabla', locals: {c: 'ind_modelos', a: 'index'} %>
+		<%= render partial: '0p/tabla/btn_nuevo', locals: {c: 'ind_modelos'} %>
+
+		<%= render partial: '0p/general/titulo', locals: {c: 'ind_expresiones', a: nil, titulo: 'Expresiones', size: '5'} %>
+		<%= render partial: '0p/tabla/solo_tabla', locals: {c: 'ind_expresiones', a: 'index'} %>
+	</div>
+	<div class='col-md-6'>
+		<%= render partial: '0p/general/titulo', locals: {c: 'ind_palabras', a: nil, titulo: 'Palabras', size: '5'} %>
+		<%= render partial: '0p/tabla/solo_tabla', locals: {c: 'ind_palabras', a: 'index'} %>
+	</div>
+</div>

@@ -1,4 +1,6 @@
 class Busqueda::IndLenguajesController < ApplicationController
+  before_action :inicia_sesion
+  before_action :carga_temas_ayuda
   before_action :set_ind_lenguaje, only: [:show, :edit, :update, :destroy]
 
   # GET /ind_lenguajes

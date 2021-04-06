@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  ind_modelo: MyString
+  campos: MyString
+  ind_estructura_id: 1
+
+two:
+  ind_modelo: MyString
+  campos: MyString
+  ind_estructura_id: 1

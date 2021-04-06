@@ -1,0 +1,32 @@
+<%= form_with(model: ind_modelo, local: true) do |form| %>
+  <% if ind_modelo.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(ind_modelo.errors.count, "error") %> prohibited this ind_modelo from being saved:</h2>
+
+      <ul>
+      <% ind_modelo.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :ind_modelo %>
+    <%= form.text_field :ind_modelo %>
+  </div>
+
+  <div class="field">
+    <%= form.label :campos %>
+    <%= form.text_field :campos %>
+  </div>
+
+  <div class="field">
+    <%= form.label :ind_estructura_id %>
+    <%= form.number_field :ind_estructura_id %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

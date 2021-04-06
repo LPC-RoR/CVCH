@@ -1,0 +1,2 @@
+module IndModelosHelper
+end

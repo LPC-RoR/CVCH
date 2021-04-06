@@ -19,7 +19,8 @@ module RecursosHelper
 	        ["Archivos",       "/recursos",            'admin'],
 	        ["Revisiones",     "/revisiones",          'admin'],
 	        ["Cargas",         "/cargas",              'admin'],
-	        ["Temas Ayuda",    "/tema_ayudas",         'admin'] 
+	        ["Temas Ayuda",    "/tema_ayudas",         'admin'],
+	        ["Estructuras",    "/ind_estructuras",       'dog'] 
 	    ]
 
 	end
@@ -128,6 +129,8 @@ module RecursosHelper
 			else
 				false
 			end
+		when 'IndEstructura'
+			true
 		end
 	end
 
@@ -159,6 +162,8 @@ module RecursosHelper
                 ['Aceptar',    '/aceptar',    true],
                 ['Rechazar',   '/rechazar',   true]
         	]
+        when 'IndEstructura'
+        	[['Proceso', '/procesa_estructura', false]]
         else
         	[]
 		end		

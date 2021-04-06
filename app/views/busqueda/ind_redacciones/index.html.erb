@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Ind Redacciones</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Ind palabra</th>
+      <th>Ind expresion</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @ind_redacciones.each do |ind_redaccion| %>
+      <tr>
+        <td><%= ind_redaccion.ind_palabra_id %></td>
+        <td><%= ind_redaccion.ind_expresion_id %></td>
+        <td><%= link_to 'Show', ind_redaccion %></td>
+        <td><%= link_to 'Edit', edit_ind_redaccion_path(ind_redaccion) %></td>
+        <td><%= link_to 'Destroy', ind_redaccion, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Ind Redaccion', new_ind_redaccion_path %>

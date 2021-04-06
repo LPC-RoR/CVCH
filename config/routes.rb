@@ -39,6 +39,13 @@ Rails.application.routes.draw do
     resources :ind_claves
     resources :ind_palabras
     resources :ind_lenguajes
+    resources :ind_redacciones
+    resources :ind_expresiones
+    resources :ind_modelos
+    resources :ind_estructuras do
+      resources :ind_modelos
+      match :procesa_estructura, via: :get, on: :member
+    end
   end
 
   resources :etiquetas
