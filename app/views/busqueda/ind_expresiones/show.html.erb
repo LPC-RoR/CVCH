@@ -1,9 +1,5 @@
-<p id="notice"><%= notice %></p>
+<%= render partial: '0p/general/o_titulo', locals: {o: @objeto, a: action_name, size: '5'} %>
 
-<p>
-  <strong>Ind expresion:</strong>
-  <%= @ind_expresion.ind_expresion %>
-</p>
+<%= render partial: '0p/general/titulo', locals: {c: 'ind_palabras', a: nil, titulo: 'Palabras', size: '5'} %>
+<%= render partial: '0p/tabla/solo_tabla', locals: {c: 'ind_palabras', a: 'index'} %>
 
-<%= link_to 'Edit', edit_ind_expresion_path(@ind_expresion) %> |
-<%= link_to 'Back', ind_expresiones_path %>

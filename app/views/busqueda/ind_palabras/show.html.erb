@@ -1,19 +1,12 @@
-<p id="notice"><%= notice %></p>
+<%= render partial: '0p/general/o_titulo', locals: {o: @objeto, a: action_name, size: '5'} %>
 
-<p>
-  <strong>Ind palabra:</strong>
-  <%= @ind_palabra.ind_palabra %>
-</p>
-
-<p>
-  <strong>Ind lenguaje:</strong>
-  <%= @ind_palabra.ind_lenguaje_id %>
-</p>
-
-<p>
-  <strong>Ind clave:</strong>
-  <%= @ind_palabra.ind_clave_id %>
-</p>
-
-<%= link_to 'Edit', edit_ind_palabra_path(@ind_palabra) %> |
-<%= link_to 'Back', ind_palabras_path %>
+<div class='row'>
+	<div class='col-md-6'>
+		<%= render partial: '0p/general/titulo', locals: {c: 'ind_expresiones', a: nil, titulo: 'Expresiones', size: '5'} %>
+		<%= render partial: '0p/tabla/solo_tabla', locals: {c: 'ind_expresiones', a: 'index'} %>
+	</div>
+	<div class='col-md-6'>
+		<%= render partial: '0p/general/titulo', locals: {c: 'ind_indices', a: nil, titulo: 'Índices', size: '5'} %>
+		<%= render partial: '0p/tabla/solo_tabla', locals: {c: 'ind_indices', a: 'index'} %>
+	</div>
+</div>

@@ -17,8 +17,8 @@ class Busqueda::IndEstructurasController < ApplicationController
   def show
     @coleccion = {}
     @coleccion['ind_modelos'] = @objeto.ind_modelos.order(:ind_modelos)
-    @coleccion['ind_palabras'] = @objeto.ind_palabras.order(:ind_palabra)
-    @coleccion['ind_expresiones'] = @objeto.ind_expresiones.order(:ind_expresion)
+    @coleccion['ind_palabras'] = @objeto.ind_palabras.order(:ind_palabra).page(params[:page])
+#    @coleccion['ind_expresiones'] = @objeto.ind_expresiones.order(:ind_expresion)
   end
 
   # GET /ind_estructuras/new

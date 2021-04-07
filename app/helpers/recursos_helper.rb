@@ -72,7 +72,13 @@ module RecursosHelper
 		when 'Especie'
 			false
 		else
-			['TemaAyuda', 'Tutorial', 'Paso'].include?(objeto.class.name) ? (usuario_signed_in? ? session[:es_administrador] : false) : true
+			if ['TemaAyuda', 'Tutorial', 'Paso'].include?(objeto.class.name)
+				(usuario_signed_in? ? session[:es_administrador] : false)
+			elsif ['IndClave', 'IndExpresion', 'IndIndice', 'IndPalabra'].include?(objeto.class.name)
+				false
+			else
+				true
+			end
 		end
 	end
 
@@ -131,6 +137,12 @@ module RecursosHelper
 			end
 		when 'IndEstructura'
 			true
+		else
+			if ['IndEstructura', 'IndPalabra'].include?(objeto.class.name)
+				true
+			else
+				false
+			end
 		end
 	end
 
@@ -164,6 +176,8 @@ module RecursosHelper
         	]
         when 'IndEstructura'
         	[['Proceso', '/procesa_estructura', false]]
+        when 'IndPalabra'
+        	[['Excluir', '/excluir', true]]
         else
         	[]
 		end		

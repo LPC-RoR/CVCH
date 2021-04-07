@@ -20,12 +20,17 @@ module ProcesaEstructura
 
 			frases.each do |frase|
 
-				expresion = estructura.ind_expresiones.find_by(ind_expresion: frase)
-				if expresion.blank?
-					expresion = estructura.ind_expresiones.create(ind_expresion: frase)
+				palabras = frase.split(' ')
+
+				unless [0, 1].include?(palabras.length)
+					expresion = estructura.ind_expresiones.find_by(ind_expresion: frase)
+					if expresion.blank?
+						expresion = estructura.ind_expresiones.create(ind_expresion: frase)
+					end
+				else
+					expresion = nil
 				end
 
-				palabras = frase.split(' ')
 				palabras.each do |pal|
 
 					unless excluye_palabra(pal)
@@ -40,7 +45,7 @@ module ProcesaEstructura
 							palabra = estructura.ind_palabras.create(ind_palabra: pal, ind_clave_id: clave.id)
 						end
 
-						expresion.ind_palabras << palabra
+						expresion.ind_palabras << palabra unless expresion.blank?
 
 						if clave.ind_indices.where(class_name: objeto.class.name).where(objeto_id: objeto.id).empty?
 							clave.ind_indices.create(ind_estructura_id: estructura.id, class_name: objeto.class.name, objeto_id: objeto.id)
@@ -61,8 +66,17 @@ module ProcesaEstructura
 			entero = Integer(palabra) rescue nil
 			enteros_no_permitidos = (palabra.length != 4 and (not entero.blank?))
 
-			letras_no_peritidas or enteros_no_permitidos
+			letras_no_peritidas or enteros_no_permitidos or exception(palabra)
 		end
+	end
+
+	def exception(palabra)
+		espanol = IndPalabra::E_ESPANOL.include?(palabra)
+		ingles = IndPalabra::E_INGLES.include?(palabra)
+		numbers = IndPalabra::NUMBERS.include?(palabra)
+		exceptions = IndPalabra::EXCEPTIONS.include?(palabra)
+
+		espanol or ingles or numbers or exceptions
 	end
 
 end

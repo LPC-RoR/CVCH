@@ -1,7 +1,7 @@
 class Busqueda::IndPalabrasController < ApplicationController
   before_action :inicia_sesion
   before_action :carga_temas_ayuda
-  before_action :set_ind_palabra, only: [:show, :edit, :update, :destroy]
+  before_action :set_ind_palabra, only: [:show, :edit, :update, :destroy, :excluir]
 
   # GET /ind_palabras
   # GET /ind_palabras.json
@@ -12,6 +12,9 @@ class Busqueda::IndPalabrasController < ApplicationController
   # GET /ind_palabras/1
   # GET /ind_palabras/1.json
   def show
+    @coleccion = {}
+    @coleccion['ind_expresiones'] = @objeto.ind_expresiones.order(:ind_expresion)
+    @coleccion['ind_indices'] = (@objeto.ind_clave.present? ? @objeto.ind_clave.ind_indices : [])
   end
 
   # GET /ind_palabras/new

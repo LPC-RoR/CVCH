@@ -1,8 +1,13 @@
 class IndPalabra < ApplicationRecord
 
+	E_ESPANOL = ['a', 'al', 'así', 'alla', 'con', 'de', 'del', 'don', 'doña', 'el', 'en', 'la', 'las', 'le', 'les', 'los', 'más', 'no', 'o', 'para', 'que', 'qué', 'se', 'sic', 'su', 'sus', 'un', 'una', 'vs', 'y', '&']
+	E_INGLES = ['an', 'at', 'as', 'are', 'and', 'any', 'be', 'but', 'by', 'in', 'et', 'for', 'from', 'in', 'into', 'is', 'it', 'its', 'not', 'of', 'on', 'or', 'that', 'the', 'these', 'there', 'their', 'they', 'this', 'to', 'very', 'we', 'where', 'when', 'with']
+	NUMBERS = ['i', 'ii', 'iii', 'iv', 'v', 'vi', 'vii', 'viii', 'ix', 'x', 'xi', 'x', 'xi', 'xii', 'xiii', 'xiv', 'xv', 'xvi', 'xvii', 'xviii', 'xix', 'xx']
+	EXCEPTIONS = ['abstract', 'pp']
+
 	TABLA_FIELDS = [
 		['ind_palabra', 'show'],
-		['d_ordering', 'normal']
+		['d_indices', 'normal']
 	]
 
 	belongs_to :ind_lenguaje, optional: true
@@ -27,6 +32,10 @@ class IndPalabra < ApplicationRecord
 
 	def d_ordering
 		self.ind_palabra.split('').map {|c| c.ord}.join(' ')
+	end
+
+	def d_indices
+		self.ind_clave.present? ? self.ind_clave.ind_indices.count : 0
 	end
 
 end

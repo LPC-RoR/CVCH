@@ -12,6 +12,8 @@ class Busqueda::IndExpresionesController < ApplicationController
   # GET /ind_expresiones/1
   # GET /ind_expresiones/1.json
   def show
+    @coleccion = {}
+    @coleccion['ind_palabras'] = @objeto.ind_palabras.order(:ind_palabra)
   end
 
   # GET /ind_expresiones/new
