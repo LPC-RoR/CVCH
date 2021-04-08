@@ -65,8 +65,10 @@ class Busqueda::IndEstructurasController < ApplicationController
   def procesa_estructura
     @objeto.ind_modelos.each do |ind_modelo|
       ind_modelo.ind_modelo.constantize.all.each do |objeto|
-        ind_modelo.campos.split(' ').each do |campo|
-          procesa_campos_busqueda(@objeto, objeto, campo)
+        if @objeto.ind_indices.where(class_name: objeto.class.name).where(objeto_id: objeto.id).empty?
+          ind_modelo.campos.split(' ').each do |campo|
+            procesa_campos_busqueda(@objeto, objeto, campo)
+          end
         end
       end
     end

@@ -17,11 +17,11 @@ class VistasController < ApplicationController
     if params[:html_options].blank?
       #Recordar el lugar si se vuelve a entrar a Colección
       @area = session[:area].blank? ? Area.first : Area.find_by(area: session[:area])
-      params[:page] = session[:page] unless (session[:page].blank? or params[:page] == 2)
+      params[:page] = session[:page] unless (session[:page].blank? or params[:page] == 2 or params[:search].present?)
     else
       @area = Area.find_by(area: params[:html_options]['sel'])
       unless session[:area] == params[:html_options]['sel']
-        params[:page] = nil 
+        params[:page] = nil unless params[:search].present?
         session[:area] = @area.area
       end
     end

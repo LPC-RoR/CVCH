@@ -12,4 +12,5 @@ class IndEstructura < ApplicationRecord
 	has_many :ind_expresiones
 	has_many :ind_claves
 	has_many :ind_indices
+
 end
