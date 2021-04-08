@@ -7,6 +7,8 @@ class VistasController < ApplicationController
 
   helper_method :sort_column, :sort_direction
 
+  include ProcesaEstructura
+
   # GET /vistas
   # GET /vistas.json
   def index
@@ -31,7 +33,12 @@ class VistasController < ApplicationController
     @options = {'sel' => @sel}
 
     @coleccion = {}
-    @coleccion['publicaciones'] = @area.papers.where(estado: 'publicada').order(sort_column + " " + sort_direction).page(params[:page])
+
+    if params[:search].blank?
+      @coleccion['publicaciones'] = @area.papers.where(estado: 'publicada').order(sort_column + " " + sort_direction).page(params[:page])
+    else
+      @coleccion['publicaciones'] = busqueda_publicaciones(params[:search], 'Publicacion').order(sort_column + " " + sort_direction).page(params[:page])
+    end
   end
 
   def escritorio

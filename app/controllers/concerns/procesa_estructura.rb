@@ -79,4 +79,36 @@ module ProcesaEstructura
 		espanol or ingles or numbers or exceptions
 	end
 
+	def busqueda_publicaciones(search, modelo)
+		palabras = search.split(' ')
+		modelo_ids = []
+		palabras.each do |palabra|
+
+			ind_palabra = IndPalabra.find_by(ind_palabra: palabra.strip.downcase)
+			if excluye_palabra(palabra) or ind_palabra.blank?
+				modelo_ids = []
+			else
+				modelo_ids = ind_palabra.ind_clave.present? ? modelo_ids.union(ind_palabra.ind_clave.ind_indices.where(class_name: modelo).map {|ii| ii.objeto_id}) : []
+			end
+		end
+		publicaciones = modelo.constantize.where(id: modelo_ids)
+		publicaciones
+	end
+
+	def indexa_registro(objeto)
+		modelos_proceso = IndModelo.where(ind_modelo: objeto.class.name)
+
+		modelos_proceso.each do |modelo|
+			campos = modelo.campos.split(' ')
+			campos.each do |campo|
+				procesa_campos_busqueda(modelo.ind_estructura, objeto, campo)
+			end
+		end
+	end
+
+	def desindexa_registro(objeto)
+		indices = IndIndice.where(class_name: objeto.class.name).where(objeto_id: objeto.id)
+		indices.delete_all
+	end
+
 end

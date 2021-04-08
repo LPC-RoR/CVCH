@@ -1,6 +1,7 @@
 class PublicacionesController < ApplicationController
 
   include ProcesaCarga
+  include ProcesaEstructura
 
   before_action :authenticate_usuario!, except: :show
   before_action :inicia_sesion
@@ -189,6 +190,8 @@ class PublicacionesController < ApplicationController
         revista.delete if revista.publicaciones.empty?
       end
 
+      desindexa_registro(@publicacion)
+
     elsif params[:estado] == 'multiple'
       @publicacion.estado = 'publicada'
       @publicacion.unicidad = 'multiple'
@@ -200,6 +203,8 @@ class PublicacionesController < ApplicationController
 
     if @publicacion.estado == 'publicada'
       procesa_cita_carga(@publicacion)
+
+      indexa_registro(@publicacion)
     end
 
     redirect_to "/revisiones"
