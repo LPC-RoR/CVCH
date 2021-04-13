@@ -8,7 +8,7 @@
 <% end %>
 
 <% if config_show(:bt_links)[o.class.name].present? %>
-	<% unless config_show(:bt_links)[o.class.name].map {|mbt| o.send(mbt)}.compact.empty? %>
+	<% unless config_show(:bt_links)[o.class.name].map {|mbt| o.send(mbt) if o.send(mbt).present?}.compact.empty? %>
 		<% config_show(:bt_links)[o.class.name].each do |bt| %>
 			<% o_bt = o.send(bt.downcase) %>
 			<%= render partial: '0p/general/btn', locals: {texto: show_title(o_bt), link: o_bt, delete: false, style: 'btn-outline-dark', clr: c_color(controller_name) } unless o_bt.blank? %>
@@ -18,7 +18,7 @@
 <% end %>
 
 <% if config_show(:hmt_links)[o.class.name].present? %>
-	<% unless config_show(:hmt_links)[o.class.name].map {|mhtm| o.send(mhtm)}.compact.empty? %>
+	<% unless config_show(:hmt_links)[o.class.name].map {|mhtm| o.send(mhtm) if o.send(mhtm).any?}.compact.empty? %>
 		<% config_show(:hmt_links)[o.class.name].each do |hmt| %>
 			<% coleccion = o.send(hmt) %>
 			<% coleccion.each do |l| %>

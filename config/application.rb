@@ -32,17 +32,6 @@ module Cvch
         nuevo:   {'self' => true,  'show' => false}
     }
 
-    # Se verifica con el helper in_show?(c, label)
-    config.s_default = {
-        titulo:       true,
-        links:        true,
-        clasifica:   false,
-        detalle:     false,
-        inline_form: false,
-        tabla:        true,
-        adjuntos:    false
-    }
-
     config.look_parameters = {
         image_sizes: ['entire', 'half', 'quarter', 'thumb'],
         colors: ['primary', 'secondary', 'success', 'danger', 'warning', 'info', 'light', 'dark', 'muted', 'white']
@@ -200,12 +189,7 @@ module Cvch
     ## ------------------------------------------------- SHOW
 
     config.show = {
-        titulo: [],
-        show_title: ['Publicacion'],
         partial_links: [],
-        detalle: ['Publicacion', 'Equipo'],
-        inline_form: ['Equipo'],
-        tabla: ['Publicacion'],
         links: ['Publicacion'],
         bt_links: {
             'Publicacion' => ['revista']
@@ -213,18 +197,7 @@ module Cvch
         hmt_links: {
             'Publicacion' => ['investigadores']
         },
-        status: ['Equipo', 'Carga'],
-        hidden: {
-            'publicaciones'  => ['autores', 'investigadores', 'procesos', 'cargas', 'clasificaciones', 'carpetas', 'evaluaciones', 'asignaciones', 'areas', 'rutas', 'instancias', 'etiquetas'],
-            'carpetas'       => ['clasificaciones', 'herencias'],
-            'investigadores' => ['autores', 'carpetas'],
-            'equipos'        => ['investigadores', 'instancias', 'integrantes', 'herencias'],
-            'areas'          => ['clasificaciones', 'cargas'],
-            'conceptos'      => ['rel_hijos', 'hijos', 'diccionarios'],
-            'instancias'     => ['rutas', 'diccionarios', 'propuestas'],
-            'categorias'     => ['etiquetas', 'suscripciones', 'perfiles'],
-            'especies'       => ['etiquetas']
-        }
+        status: ['Equipo', 'Carga']
     }
 
   end

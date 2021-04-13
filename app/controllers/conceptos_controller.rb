@@ -36,13 +36,6 @@ class ConceptosController < ApplicationController
   # GET /conceptos/1
   # GET /conceptos/1.json
   def show
-    if params[:html_options].blank?
-      @tab = 'instancias'
-    else
-      @tab = params[:html_options][:tab].blank? ? 'instancias' : params[:html_options][:tab]
-    end
-    @options = {'tab' => @tab}
-
     @coleccion = {}
     @coleccion['instancias'] = @objeto.send(@tab)
   end

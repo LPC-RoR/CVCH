@@ -80,7 +80,6 @@ Rails.application.routes.draw do
   resources :conceptos do
     resources :instancias
   end
-  resources :configuraciones
   resources :contribuciones
   resources :diccionarios
   resources :equipos do

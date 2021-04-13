@@ -266,29 +266,6 @@ module ApplicationHelper
 		config_show(:status).include?(objeto.class.name)
 	end
 
-	# Maneja comportamiento por defecto y excepciones de SHOW
-	def in_show?(objeto, label)
-		defecto = Rails.configuration.s_default[label]
-		(config_show(label).include?(objeto.class.name) ? (not defecto) : defecto)
-	end
-
-	# SHOW_TITLE con manejo de excepciones
-	# Se usa dentro de la aplicación también
-	def show_title(objeto)
-		Rails.configuration.show[:show_title].include?(objeto.class.name) ? objeto_title(objeto) : objeto.send(objeto.class.name.tableize.singularize)
-	end
-
-	# método de apoyo usado en el método has_many_tabs (arriba)
-	def hidden_childs(controller)
-		config_show(:hidden)[controller].present? ? config_show(:hidden)[controller] : []
-	end
-
-	# Toma las relaciones has_many y les descuenta las HIDDEN_CHILDS
-	# "_show.html.erb"
-	def has_many_tabs(controller)
-		controller.classify.constantize.reflect_on_all_associations(:has_many).map {|a| a.name.to_s} - hidden_childs(controller)
-	end
-
 	## ------------------------------------------------------- GENERAL
 
 	# Manejode options para selectors múltiples

@@ -24,12 +24,6 @@ class CargasController < ApplicationController
   # GET /cargas/1
   # GET /cargas/1.json
   def show
-    @tab = params[:tab].blank? ? 'publicaciones' : params[:tab]
-#    @estado = params[:estado].blank? ? @tab.classify.constantize::ESTADOS[0] : params[:estado]
-    # tenemos que cubrir todos los casos
-    # 1. has_many : }
-    @coleccion = @objeto.send(@tab).page(params[:page]) #.where(estado: @estado)
-    @options = {'tab' => @tab}
   end
 
   def procesa_carga

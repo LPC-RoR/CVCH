@@ -15,13 +15,6 @@ class AreasController < ApplicationController
   # GET /areas/1
   # GET /areas/1.json
   def show
-    if params[:html_options].blank?
-      @tab = 'papers'
-    else
-      @tab = params[:html_options][:tab].blank? ? 'papers' : params[:html_options][:tab]
-    end
-    @options = {'tab' => @tab}
-
     @coleccion = {}
     @coleccion['publicaciones'] = @objeto.papers.where(estado: 'publicada').order(sort_column + " " + sort_direction).page(params[:page])
   end

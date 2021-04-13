@@ -13,13 +13,6 @@ class CategoriasController < ApplicationController
   # GET /categorias/1
   # GET /categorias/1.json
   def show
-    if params[:html_options].blank?
-      @tab = 'publicaciones'
-    else
-      @tab = params[:html_options][:tab].blank? ? 'publicaciones' : params[:html_options][:tab]
-    end
-    @options = {'tab' => @tab}
-
     @coleccion = {}
     @coleccion['publicaciones'] = @objeto.publicaciones.where(estado: 'publicada').order(sort_column + " " + sort_direction).page(params[:page])
   end

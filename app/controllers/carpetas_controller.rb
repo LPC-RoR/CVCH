@@ -17,15 +17,8 @@ class CarpetasController < ApplicationController
   # GET /carpetas/1
   # GET /carpetas/1.json
   def show
-    if params[:html_options].blank?
-      @tab = 'publicaciones'
-    else
-      @tab = params[:html_options][:tab].blank? ? 'publicaciones' : params[:html_options][:tab]
-    end
-    @options = {'tab' => @tab}
-
     @coleccion = {}
-    @coleccion[@tab] = @objeto.send(@tab).order(sort_column + " " + sort_direction).page(params[:page])
+    @coleccion['publicaciones'] = @objeto.publicaciones.order(sort_column + " " + sort_direction).page(params[:page])
   end
 
   # GET /carpetas/new

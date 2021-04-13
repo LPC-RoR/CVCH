@@ -213,10 +213,12 @@ module RecursosHelper
 
 	## ------------------------------------------------------- SHOW
 
-	def objeto_title(objeto)
+	def show_title(objeto)
 		case objeto.class.name
 		when 'Publicacion'
 			objeto.title
+		else
+			objeto.send(objeto.class.name.downcase)
 		end
 	end
 
