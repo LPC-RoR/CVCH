@@ -1,5 +1,9 @@
 <% if page.current? %>
-<td class="cur"><span class="csb" style="background-position:-53px 0;width:20px"></span><%= page %></td>
+  <li class="page-item active">
+    <%= content_tag :a, page, data: { remote: remote }, rel: page.rel, class: 'page-link' %>
+  </li>
 <% else %>
-<td><%= link_to raw(%Q[<span class="csb ch" style="background-position:-74px 0;width:20px"></span>#{page}]), url, :class => 'fl', :remote => remote %></td>
+  <li class="page-item">
+    <%= link_to page, url, remote: remote, rel: page.rel, class: 'page-link' %>
+  </li>
 <% end %>

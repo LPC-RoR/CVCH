@@ -54,7 +54,7 @@ module RecursosHelper
 		when 'Carpeta'
 			not Carpeta::NOT_MODIFY.include?(objeto.carpeta) and controller_name == 'vistas'
 		when 'Area'
-			not Area::NOT_MODIFY.include?(objeto.area) and controller_name == 'rutas' and session[:es_administrador]
+			(not Area::NOT_MODIFY.include?(objeto.area) and controller_name == 'rutas' and session[:es_administrador]) or (session[:perfil_activo]['email'] == 'hugo.chinga.g@gmail.com')
 		when 'Instancia'
 			false
 		when 'Ruta'
