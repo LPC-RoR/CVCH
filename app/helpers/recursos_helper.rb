@@ -218,7 +218,7 @@ module RecursosHelper
 		when 'Publicacion'
 			objeto.title
 		else
-			objeto.send(objeto.class.name.downcase)
+			objeto.send(objeto.class.name.tableize.singularize)
 		end
 	end
 
