@@ -65,6 +65,15 @@ class VistasController < ApplicationController
     @coleccion['carpetas'] = @activo.carpetas
   end
 
+  def graficos
+    @days_hash = Usuario.group_by_day(:created_at).count
+    total = 0
+    @days_hash.keys.each do |dia|
+      @days_hash[dia] = @days_hash[dia] + total
+      total = @days_hash[dia]
+    end
+  end
+
   # GET /vistas/1
   # GET /vistas/1.json
   def show

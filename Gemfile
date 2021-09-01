@@ -16,6 +16,7 @@ gem 'kaminari'
 gem "roo", "~> 2.8.0"
 
 gem "chartkick"
+gem 'groupdate'
 
 gem "passenger", ">= 5.0.25", require: "phusion_passenger/rack_handler"
 

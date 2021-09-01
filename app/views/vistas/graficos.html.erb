@@ -1,6 +1,13 @@
 <%#= column_chart Task.group_by_hour_of_day(:created_at, format: "%l %P").count %>
 
 <% Area.all.each do |area| %>
+
+	<div class='row'>
+		<div class='col-md-12'>
+			<%= line_chart @days_hash %>
+		</div>
+	</div>
+
 	<div class='row'>
 		<div class='col-md-12'>
 			<h5><%= area.area %></h5>
