@@ -72,6 +72,25 @@ class VistasController < ApplicationController
       @days_hash[dia] = @days_hash[dia] + total
       total = @days_hash[dia]
     end
+
+    @accesos_dia = {
+      'Marzo'  => 54,
+      'Abril'  => 61,
+      'Mayo'   => 69,
+      'Junio'  => 63,
+      'Julio'  => 65,
+      'Agosto' => 73
+    }
+
+    @busquedas = {
+      'Marzo'  => 6,
+      'Abril'  => 24,
+      'Mayo'   => 78,
+      'Junio'  => 146,
+      'Julio'  => 378,
+      'Agosto' => 422
+    }
+
   end
 
   # GET /vistas/1

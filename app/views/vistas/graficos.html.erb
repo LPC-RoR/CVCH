@@ -1,12 +1,27 @@
 <%#= column_chart Task.group_by_hour_of_day(:created_at, format: "%l %P").count %>
 
-<% Area.all.each do |area| %>
-
-	<div class='row'>
-		<div class='col-md-12'>
-			<%= line_chart @days_hash %>
-		</div>
+<div class='row'>
+	<div class='col-md-12'>
+		<h5>Usuarios Activos</h5>
+		<%= line_chart @days_hash %>
 	</div>
+</div>
+
+<div class='row'>
+	<div class='col-md-12'>
+		<h5>Accesos promedio por día</h5>
+		<%= line_chart @accesos_dia %>
+	</div>
+</div>
+
+<div class='row'>
+	<div class='col-md-12'>
+		<h5>Búsquedas por mes</h5>
+		<%= line_chart @busquedas %>
+	</div>
+</div>
+
+<% Area.all.each do |area| %>
 
 	<div class='row'>
 		<div class='col-md-12'>
