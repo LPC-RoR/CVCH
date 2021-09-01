@@ -9,6 +9,7 @@
 	<div class='col-md-9'>
 		<%= render partial: '0p/search/form', locals: {path: vistas_path} %>
 		<%= paginate @coleccion['publicaciones'], outer_window: 3 %>
+		<small><small><%= page_entries_info(@coleccion['publicaciones']) %></small></small>
 		<%= render partial: '0p/tabla/solo_tabla', locals: {c: 'publicaciones', a: 'index'} %>
 		<%= paginate @coleccion['publicaciones'], outer_window: 3 %>
 	</div>
