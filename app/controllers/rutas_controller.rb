@@ -11,7 +11,7 @@ class RutasController < ApplicationController
 
     @coleccion['areas'] = Area.all
     @coleccion['categorias'] = Categoria.all.order(:categoria)
-    @coleccion['especies'] = Especie.all.order(:especie)
+    @coleccion['especies'] = Especie.all.order(:especie).page(params[:page])
 #    @coleccion['investigadores'] = Investigador.all.order(:investigador)
 #    @coleccion['revistas'] = Revista.all.order(:revista)
   end

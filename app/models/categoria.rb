@@ -2,7 +2,8 @@ class Categoria < ApplicationRecord
 
 	#-------------------------------------------------------------  TABLA
 	TABLA_FIELDS = [
-		['categoria', 'show'], 
+		['categoria',         'show'], 
+		['d_publicaciones', 'normal'] 
 	]
 
  	FORM_FIELDS = [
@@ -18,4 +19,8 @@ class Categoria < ApplicationRecord
 
 	has_many :etiquetas
 	has_many :publicaciones, through: :etiquetas
+
+	def d_publicaciones
+		self.publicaciones.count
+	end
 end

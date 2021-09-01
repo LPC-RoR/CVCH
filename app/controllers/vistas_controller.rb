@@ -12,7 +12,7 @@ class VistasController < ApplicationController
   # GET /vistas
   # GET /vistas.json
   def index
-    @list_selector = Area.all.map {|a| [a.area, a.papers.count]}
+    @list_selector = Area.all.map {|a| [a.area, a.papers.where(estado: 'publicada').count]}
 
     if params[:html_options].blank?
       #Recordar el lugar si se vuelve a entrar a Colección
