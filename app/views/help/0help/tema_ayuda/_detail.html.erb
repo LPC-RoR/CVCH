@@ -46,3 +46,8 @@
 	</label>
 	</p>
 <% end %>
+
+<% if filtro_conditional_field?(@objeto, 'tema_ayuda') %>
+	<small><%= form.label 'Crédito Fotografía' %></small></br>
+	<%= form.text_field(:credito, size: 57, class: 'form-control' ) %>
+<% end %>

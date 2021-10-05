@@ -10,6 +10,11 @@
 	<div class='col-md-4'>
 		</br></br></br>
 		<%= render partial: 'help/0help/tema_ayuda/0h_ilustracion', locals: {objeto: objeto, class_image: config_init(:clase), size: config_init(:size) } %>
+
+		<% unless objeto.credito.blank? %>
+			<small><p class='text-center'><i>Crédito Fotografía: <b><%= sanitize objeto.credito %></b></i></p></small>
+		<% end %>
+
 	</div>
 	<div class='col-md-1'></div>
 </div>

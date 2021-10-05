@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_06_013545) do
+ActiveRecord::Schema.define(version: 2021_10_05_131846) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -506,6 +506,7 @@ ActiveRecord::Schema.define(version: 2021_04_06_013545) do
     t.string "ilustracion"
     t.string "ilustracion_cache"
     t.boolean "activo"
+    t.string "credito"
     t.index ["activo"], name: "index_tema_ayudas_on_activo"
     t.index ["orden"], name: "index_tema_ayudas_on_orden"
     t.index ["tipo"], name: "index_tema_ayudas_on_tipo"

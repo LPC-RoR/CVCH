@@ -59,7 +59,6 @@ module Cvch
                 detalle_color: 'info'
             },
             foot: {
-                active: true,
                 size: 'half',
                 clase: 'mx-auto d-block'
             },
