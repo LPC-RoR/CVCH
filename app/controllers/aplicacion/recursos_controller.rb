@@ -22,6 +22,11 @@ class Aplicacion::RecursosController < ApplicationController
 		@coleccion['publicaciones'] = Publicacion.where(id: ultimos_ids).order(sort_column + " " + sort_direction)
 	end
 
+  def ayuda
+    carga_sidebar('Ayuda', params[:t])
+#    carga_tutorial(@sb_elementos, @t)
+  end
+
   def administracion
     # Trae sidebar desde concern 'sidebar.rb'
 
