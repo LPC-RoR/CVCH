@@ -136,15 +136,17 @@ module IniciaAplicacion
 		# HLP_TUTORIALES
 
 		if ActiveRecord::Base.connection.table_exists? 'hlp_tutoriales'
-			if ActiveRecord::Base.connection.table_exists? 'tutoriales'
-				Tutorial.all.each do |tut|
-					app_tut = HlpTutorial.find_by(tutorial: tut.tutorial)
-					if app_tut.blank?
-						app_tut = HlpTutorial.create(tutorial: tut.tutorial, detalle: tut.detalle)
-					end
+			if HlpTutorial.all.empty?
+				if ActiveRecord::Base.connection.table_exists? 'tutoriales'
+					Tutorial.all.each do |tut|
+						app_tut = HlpTutorial.find_by(tutorial: tut.tutorial)
+						if app_tut.blank?
+							app_tut = HlpTutorial.create(tutorial: tut.tutorial, detalle: tut.detalle)
+						end
 
-					tut.pasos.each do |paso|
-						app_tut.hlp_pasos.create(orden: paso.orden, paso: paso.paso, detalle: paso.detalle)
+						tut.pasos.each do |paso|
+							app_tut.hlp_pasos.create(orden: paso.orden, paso: paso.paso, detalle: paso.detalle)
+						end
 					end
 				end
 			end
