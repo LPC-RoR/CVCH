@@ -53,7 +53,7 @@ module Sidebar
     	@sb_link = (lista.blank? ? nil : lista.link)
 	    @sb_elementos = get_elementos(lista)
 
-	    unless ['new', 'edit'].include?(action_name)
+	    unless ['new', 'edit', 'create', 'show'].include?(action_name)
 	    	@t = get_t(@sb_elementos, param_t)
 	    	@controlador = get_controller(@sb_elementos, @t)
 	    	@despliegue = get_display(@sb_elementos, @t)
@@ -64,16 +64,17 @@ module Sidebar
 			    @objeto = HlpTutorial.find_by(clave: @controlador)
 			    @coleccion = {}
 			    @coleccion['hlp_pasos'] = @objeto.hlp_pasos.order(:orden) unless @objeto.blank?
-		    elsif @despliegue == 'list'
+		    elsif ['list', 'ulist'].include?(@despliegue)
 		    	@coleccion = {}
 
-				if @controlador.classify.constantize.all.count > 25
-					@coleccion[@controlador] = @controlador.classify.constantize.all.page(params[:page])
-					@paginate = true
-				else
+				if @controlador.classify.constantize.all.count < 26 or @despliegue == 'ulist'
 					@coleccion[@controlador] = @controlador.classify.constantize.all
 					@paginate = false
+				else
+					@coleccion[@controlador] = @controlador.classify.constantize.all.page(params[:page])
+					@paginate = true
 				end
+
 		    end
 		end
 	end

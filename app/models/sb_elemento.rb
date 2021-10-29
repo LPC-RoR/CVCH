@@ -4,7 +4,7 @@ class SbElemento < ApplicationRecord
 
 	TIPOS = ['item', 'list']
 	ACCESOS = ['usuario', 'admin', 'anonimo', 'dog']
-	DESPLIEGUES = ['show', 'list', 'ayuda']
+	DESPLIEGUES = ['show', 'list', 'ayuda', 'ulist']
 
 	DISPLAY_FIELDS = [
 		['orden',       'Orden',            'number'],
