@@ -12,7 +12,7 @@
 		<%= render partial: '0p/imagenes/ilustracion', locals: {objeto: elem, class_image: tema_home_setup[:clase], size: tema_home_setup[:size] } %>
 
 		<% unless elem.credito_foto.blank? %>
-			<small><p class='text-center'><i>Crédito Fotografía: <b><%= sanitize elem.credito_foto %></b></i></p></small>
+			<!--small><p class='text-center'><i>Crédito Fotografía: <b><%#= sanitize elem.credito_foto %></b></i></p></small-->
 		<% end %>
 	</div>
 	<div class='col-md-1'></div>
