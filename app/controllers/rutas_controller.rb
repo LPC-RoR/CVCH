@@ -1,7 +1,6 @@
 class RutasController < ApplicationController
   before_action :authenticate_usuario!
   before_action :inicia_sesion
-  before_action :carga_temas_ayuda
   before_action :set_ruta, only: [:show, :edit, :update, :destroy, :elimina_ruta]
 
   # GET /rutas

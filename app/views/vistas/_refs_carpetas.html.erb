@@ -1,0 +1,10 @@
+<%= render partial: '0p/general/icon_text', locals: {text: 'Links', gly: 'box-arrow-up-right', clr: 'info'} %>
+<small>
+<% @activo.carpetas.each do |carpeta| %>
+	<%= link_to carpeta do %>
+		<i class="bi bi-folder"></i>
+		<small><%= carpeta.carpeta %></small>
+	<% end %>
+<% end %>
+
+</small>

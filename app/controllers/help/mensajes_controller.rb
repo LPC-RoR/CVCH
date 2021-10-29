@@ -1,13 +1,16 @@
 class Help::MensajesController < ApplicationController
   before_action :inicia_sesion
-  before_action :carga_temas_ayuda
   before_action :set_mensaje, only: [:show, :edit, :update, :destroy, :estado]
 
   # GET /mensajes
   # GET /mensajes.json
   def index
 
-    @activo = Perfil.find(session[:perfil_activo]['id'])
+    if ActiveRecord::Base.connection.table_exists? 'app_perfiles'
+      @activo = AppPerfil.find(session[:perfil_activo]['id'])
+    else
+      @activo = Perfil.find(session[:perfil_activo]['id'])
+    end
 
     @tabs = ['ingreso', 'enviados', 'recibidos', 'cerrados']
     if params[:html_options].blank?

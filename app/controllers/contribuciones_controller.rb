@@ -1,20 +1,19 @@
 class ContribucionesController < ApplicationController
   before_action :authenticate_usuario!
   before_action :inicia_sesion
-  before_action :carga_temas_ayuda
   before_action :set_contribucion, only: [:show, :edit, :update, :destroy]
 
   helper_method :sort_column, :sort_direction
   # GET /contribuciones
   # GET /contribuciones.json
   def index
-    @activo = Perfil.find(session[:perfil_activo]['id'])
-
-    if params[:html_options].blank?
-      @tab = 'ingreso'
+    if ActiveRecord::Base.connection.table_exists? 'app_perfiles'
+      @activo = AppPerfil.find(session[:perfil_activo]['id'])
     else
-      @tab = params[:html_options][:tab].blank? ? 'ingreso' : params[:html_options][:tab]
+      @activo = Perfil.find(session[:perfil_activo]['id'])
     end
+
+    init_tab(['ingreso', 'contribucion', 'publicada'], params)
     @options = { 'tab' => @tab }
 
     @coleccion = {}

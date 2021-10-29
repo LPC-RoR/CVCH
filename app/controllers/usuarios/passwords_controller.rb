@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 class Usuarios::PasswordsController < Devise::PasswordsController
-  before_action :carga_temas_ayuda
   # GET /resource/password/new
   # def new
   #   super

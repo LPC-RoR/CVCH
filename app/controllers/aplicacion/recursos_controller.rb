@@ -1,7 +1,8 @@
 class Aplicacion::RecursosController < ApplicationController
   before_action :authenticate_usuario!, only: :index
   before_action :inicia_sesion
-  before_action :carga_temas_ayuda
+
+  include Sidebar
 
   helper_method :sort_column, :sort_direction
 
@@ -20,6 +21,13 @@ class Aplicacion::RecursosController < ApplicationController
     ultimos_ids = Publicacion.where(estado: 'publicada').order(created_at: :asc).last(10).map {|pub| pub.id}
 		@coleccion['publicaciones'] = Publicacion.where(id: ultimos_ids).order(sort_column + " " + sort_direction)
 	end
+
+  def administracion
+    # Trae sidebar desde concern 'sidebar.rb'
+
+    carga_sidebar('Administración', params[:t])
+  
+  end
 
   private
     # Use callbacks to share common setup or constraints between actions.

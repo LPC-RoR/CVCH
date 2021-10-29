@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 class Usuarios::UnlocksController < Devise::UnlocksController
-  before_action :carga_temas_ayuda
   # GET /resource/unlock/new
   # def new
   #   super

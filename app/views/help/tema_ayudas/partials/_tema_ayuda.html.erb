@@ -1,0 +1,4 @@
+<% if ta.ilustracion? %>
+	<tr><td colspan='3'><%= image_tag ta.ilustracion.half.url %></td></tr>
+<% end %>
+<tr><td colspan='3'><small><%= sanitize ta.d_detalle %></small></td></tr>

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_10_05_131846) do
+ActiveRecord::Schema.define(version: 2021_10_29_193212) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -23,6 +23,62 @@ ActiveRecord::Schema.define(version: 2021_10_05_131846) do
     t.datetime "updated_at", null: false
     t.index ["email"], name: "index_administradores_on_email"
     t.index ["usuario_id"], name: "index_administradores_on_usuario_id"
+  end
+
+  create_table "app_administradores", force: :cascade do |t|
+    t.string "administrador"
+    t.string "email"
+    t.integer "usuario_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["email"], name: "index_app_administradores_on_email"
+    t.index ["usuario_id"], name: "index_app_administradores_on_usuario_id"
+  end
+
+  create_table "app_mejoras", force: :cascade do |t|
+    t.text "detalle"
+    t.string "estado"
+    t.string "owner_class"
+    t.integer "owner_id"
+    t.integer "app_perfil_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["app_perfil_id"], name: "index_app_mejoras_on_app_perfil_id"
+    t.index ["estado"], name: "index_app_mejoras_on_estado"
+    t.index ["owner_class"], name: "index_app_mejoras_on_owner_class"
+    t.index ["owner_id"], name: "index_app_mejoras_on_owner_id"
+  end
+
+  create_table "app_nominas", force: :cascade do |t|
+    t.string "nombre"
+    t.string "email"
+    t.string "tipo"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["email"], name: "index_app_nominas_on_email"
+  end
+
+  create_table "app_observaciones", force: :cascade do |t|
+    t.text "detalle"
+    t.string "owner_class"
+    t.integer "owner_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "app_perfil_id"
+    t.index ["app_perfil_id"], name: "index_app_observaciones_on_app_perfil_id"
+    t.index ["owner_class"], name: "index_app_observaciones_on_owner_class"
+    t.index ["owner_id"], name: "index_app_observaciones_on_owner_id"
+  end
+
+  create_table "app_perfiles", force: :cascade do |t|
+    t.string "email"
+    t.integer "usuario_id"
+    t.integer "app_administrador_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["app_administrador_id"], name: "index_app_perfiles_on_app_administrador_id"
+    t.index ["email"], name: "index_app_perfiles_on_email"
+    t.index ["usuario_id"], name: "index_app_perfiles_on_usuario_id"
   end
 
   create_table "areas", force: :cascade do |t|
@@ -66,6 +122,8 @@ ActiveRecord::Schema.define(version: 2021_10_05_131846) do
     t.integer "n_publicadas"
     t.integer "n_areas"
     t.string "archivo_carga"
+    t.integer "app_perfil_id"
+    t.index ["app_perfil_id"], name: "index_cargas_on_app_perfil_id"
     t.index ["area_id"], name: "index_cargas_on_area_id"
     t.index ["perfil_id"], name: "index_cargas_on_perfil_id"
   end
@@ -75,6 +133,8 @@ ActiveRecord::Schema.define(version: 2021_10_05_131846) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "perfil_id"
+    t.integer "app_perfil_id"
+    t.index ["app_perfil_id"], name: "index_carpetas_on_app_perfil_id"
     t.index ["carpeta"], name: "index_carpetas_on_carpeta"
     t.index ["perfil_id"], name: "index_carpetas_on_perfil_id"
   end
@@ -138,7 +198,9 @@ ActiveRecord::Schema.define(version: 2021_10_05_131846) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "administrador_id"
+    t.integer "app_administrador_id"
     t.index ["administrador_id"], name: "index_equipos_on_administrador_id"
+    t.index ["app_administrador_id"], name: "index_equipos_on_app_administrador_id"
     t.index ["equipo"], name: "index_equipos_on_equipo"
     t.index ["sha1"], name: "index_equipos_on_sha1"
   end
@@ -182,6 +244,26 @@ ActiveRecord::Schema.define(version: 2021_10_05_131846) do
     t.datetime "updated_at", null: false
     t.index ["carpeta_id"], name: "index_herencias_on_carpeta_id"
     t.index ["equipo_id"], name: "index_herencias_on_equipo_id"
+  end
+
+  create_table "hlp_pasos", force: :cascade do |t|
+    t.integer "orden"
+    t.string "paso"
+    t.text "detalle"
+    t.integer "hlp_tutorial_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["hlp_tutorial_id"], name: "index_hlp_pasos_on_hlp_tutorial_id"
+    t.index ["orden"], name: "index_hlp_pasos_on_orden"
+  end
+
+  create_table "hlp_tutoriales", force: :cascade do |t|
+    t.string "tutorial"
+    t.string "clave"
+    t.text "detalle"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["clave"], name: "index_hlp_tutoriales_on_clave"
   end
 
   create_table "idiomas", force: :cascade do |t|
@@ -365,6 +447,15 @@ ActiveRecord::Schema.define(version: 2021_10_05_131846) do
     t.index ["tutorial_id"], name: "index_pasos_on_tutorial_id"
   end
 
+  create_table "per_equipos", force: :cascade do |t|
+    t.integer "app_perfil_id"
+    t.integer "equipo_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["app_perfil_id"], name: "index_per_equipos_on_app_perfil_id"
+    t.index ["equipo_id"], name: "index_per_equipos_on_equipo_id"
+  end
+
   create_table "perfiles", force: :cascade do |t|
     t.integer "usuario_id"
     t.integer "administrador_id"
@@ -438,6 +529,8 @@ ActiveRecord::Schema.define(version: 2021_10_05_131846) do
     t.string "editor"
     t.string "ciudad_pais"
     t.string "journal"
+    t.integer "app_perfil_id"
+    t.index ["app_perfil_id"], name: "index_publicaciones_on_app_perfil_id"
     t.index ["doc_type"], name: "index_publicaciones_on_doc_type"
     t.index ["estado"], name: "index_publicaciones_on_estado"
     t.index ["origen"], name: "index_publicaciones_on_origen"
@@ -487,6 +580,31 @@ ActiveRecord::Schema.define(version: 2021_10_05_131846) do
     t.index ["publicacion_id"], name: "index_rutas_on_publicacion_id"
   end
 
+  create_table "sb_elementos", force: :cascade do |t|
+    t.integer "orden"
+    t.integer "nivel"
+    t.string "tipo"
+    t.string "elemento"
+    t.string "acceso"
+    t.boolean "activo"
+    t.string "despliegue"
+    t.string "controlador"
+    t.integer "sb_lista_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["orden"], name: "index_sb_elementos_on_orden"
+    t.index ["sb_lista_id"], name: "index_sb_elementos_on_sb_lista_id"
+  end
+
+  create_table "sb_listas", force: :cascade do |t|
+    t.string "lista"
+    t.string "acceso"
+    t.string "link"
+    t.boolean "activa"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "suscripciones", force: :cascade do |t|
     t.integer "categoria_id"
     t.integer "perfil_id"
@@ -506,7 +624,7 @@ ActiveRecord::Schema.define(version: 2021_10_05_131846) do
     t.string "ilustracion"
     t.string "ilustracion_cache"
     t.boolean "activo"
-    t.string "credito"
+    t.string "credito_foto"
     t.index ["activo"], name: "index_tema_ayudas_on_activo"
     t.index ["orden"], name: "index_tema_ayudas_on_orden"
     t.index ["tipo"], name: "index_tema_ayudas_on_tipo"

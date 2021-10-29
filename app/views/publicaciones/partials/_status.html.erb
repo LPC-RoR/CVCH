@@ -1,0 +1,10 @@
+<p class='text-info'>
+	<small>
+		<i class="bi bi-tag"></i>
+		<%= @objeto.doc_type %>
+		<i class="bi bi-dot"></i>
+		<%= @objeto.estado %>
+		<i class="bi bi-dot"></i>
+		[<%= @objeto.areas.map {|aa| aa.area}.join(' , ') %>]
+	</small>
+</p>

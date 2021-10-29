@@ -1,0 +1,5 @@
+<% unless @coleccion['tema_ayudas'].empty? %>
+	<% @coleccion['tema_ayudas'].each do |tema| %>
+		<%= render partial: 'help/tema_ayudas/partials/home_elemento', locals: {elem: tema} %>
+	<% end %>
+<% end %>

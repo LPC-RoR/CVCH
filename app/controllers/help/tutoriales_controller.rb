@@ -1,6 +1,5 @@
 class Help::TutorialesController < ApplicationController
   before_action :inicia_sesion
-  before_action :carga_temas_ayuda
   before_action :set_tutorial, only: [:show, :edit, :update, :destroy]
 
   # GET /tutoriales

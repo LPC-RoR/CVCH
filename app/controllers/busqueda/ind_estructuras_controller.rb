@@ -1,6 +1,5 @@
 class Busqueda::IndEstructurasController < ApplicationController
   before_action :inicia_sesion
-  before_action :carga_temas_ayuda
   before_action :set_ind_estructura, only: [:show, :edit, :update, :destroy, :procesa_estructura]
 
   include ProcesaEstructura

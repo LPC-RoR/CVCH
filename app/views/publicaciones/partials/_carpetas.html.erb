@@ -1,0 +1,20 @@
+<%#= render partial: '0p/general/icon_text', locals: {text: 'Gestión de Carpetas', gly: 'check-all', clr: 'info'} %>
+</br>
+<%= form_for :nueva_carpeta, url: "/carpetas/nuevo?objeto_id=#{@objeto.id}" do |form| %>
+	<div class='form-inline'>
+		<%= form.text_field(:carpeta, size: 35, class: 'form-control' ) %>
+		<button type="submit" class="btn btn-info">
+		  <i class="bi bi-plus-circle icon-white"></i>
+		  <i class="bi bi-folder icon-white"></i>
+		</button>
+	</div>
+<% end  %>
+
+<div class='row'>
+	<div class='col-md-6'>
+		<%= render partial: '0p/list/action_list', locals: {nombre: 'Asignadas', gly: 'card-checklist', clr: 'info', coleccion: @coleccion['carpetas'], field: 'carpeta', link: '/desasignar', gly_link: 'x-circle', base: true} %>
+	</div>
+	<div class='col-md-6'>
+		<%= render partial: '0p/list/action_list', locals: {nombre: 'Disponibles', gly: 'card-list', clr: 'info', coleccion: @carpetas_seleccion, field: 'carpeta', link: '/asigna', gly_link: 'plus-circle', base: true} %>
+	</div>
+</div>

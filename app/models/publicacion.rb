@@ -1,4 +1,5 @@
 class Publicacion < ApplicationRecord
+
 	# NO SE USA EN CVCH AUN
 	NOMBRES_BIB = ["Author", "Title", "Year", "Volume", "Month", "Abstract", "Publisher", "Address", "Affiliation", "DOI", "Article-Number", "ISSN", "EISSN", "Keywords", "Keywords-Plus", "Research-Areas", "Web-of-Science-Categories", "Author-Email", "Unique-ID", "DA"]
 
@@ -47,12 +48,14 @@ class Publicacion < ApplicationRecord
 	belongs_to :registro, optional: true
 	belongs_to :revista, optional: true
 	belongs_to :perfil, optional: true
+	belongs_to :app_perfil, optional: true
+
 	belongs_to :area, optional: true
 
 	has_many :evaluaciones
 
-	has_many :observaciones
-	has_many :mejoras
+#	has_many :observaciones
+#	has_many :mejoras
 
 	has_many :autores
 	has_many :investigadores, through: :autores
@@ -79,6 +82,16 @@ class Publicacion < ApplicationRecord
 
 #	validates :doc_type, :title, :year, :author, presence: true
 	validates :doc_type, :title, presence: true
+
+	def observaciones
+		obs_pubs = AppObservacion.where(owner_class: 'Publicacion')
+		obs_pubs.blank? ? obs_pubs : obs_pubs.where(owner_id: self.id)
+	end
+
+	def mejoras
+		mej_pubs = AppMejora.where(owner_class: 'Publicacion')
+		mej_pubs.blank? ? mej_pubs : mej_pubs.where(owner_id: self.id)
+	end
 
 	def show_title
 		self.title

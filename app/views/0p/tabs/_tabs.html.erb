@@ -1,6 +1,6 @@
 <!-- TAB -->
 <% if tabs.count == 1 %>
-  <h6><%= "| #{tabs[0]}" %></h6>
+  <%= render partial: '0p/general/icon_text', locals: {text: tabs[0], gly: 'arrow-right', clr: app_color[:app]} %>
 <% else %>
   <div class="container-fluid">
     <ul class="nav nav-tabs">

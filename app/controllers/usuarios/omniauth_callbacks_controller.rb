@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 class Usuarios::OmniauthCallbacksController < Devise::OmniauthCallbacksController
-  before_action :carga_temas_ayuda
   # You should configure your model like this:
   # devise :omniauthable, omniauth_providers: [:twitter]
 

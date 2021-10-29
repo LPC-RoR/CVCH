@@ -1,6 +1,5 @@
 class Busqueda::IndIndicesController < ApplicationController
   before_action :inicia_sesion
-  before_action :carga_temas_ayuda
   before_action :set_ind_indice, only: [:show, :edit, :update, :destroy]
 
   # GET /ind_indices

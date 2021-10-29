@@ -1,41 +1,67 @@
 module RecursosHelper
-	## ------------------------------------------------------- MENU
+	## ------------------------------------------------------- GENERAL
 
-    ## Menu principal de la aplicación
-    # [0] : Item del menú
-    # [1] : Link del ítem
-    # [2] : Tipo de ítem {'admin', 'usuario', 'anonimo', 'excluir'}
-    # se usa directamente en 0p/navbar/_navbar.html.erb
-	def menu
-		
-	    [
-	        ["Gráficos",       "/vistas/graficos",   'usuario'],
-	        ["Colecciones",    "/vistas",            'anonimo'],
-	        ["Escritorio",     "/vistas/escritorio", 'usuario'],
-	        ["Equipos",        "/equipos",           'usuario'],
-	        ["Contribuciones", "/contribuciones",    'usuario'],
-	        ["Rutas",          "/rutas",             'usuario'],
-#   	     ["Conceptos",      "/conceptos",           'admin'],
-	        ["Archivos",       "/recursos",            'admin'],
-	        ["Revisiones",     "/revisiones",          'admin'],
-	        ["Cargas",         "/cargas",              'admin'],
-	        ["Temas Ayuda",    "/tema_ayudas",         'admin'],
-	        ["Estructuras",    "/ind_estructuras",       'dog'] 
-	    ]
-
+	def app_setup
+		{
+			nombre: 'CVCh',
+			home_link: 'http://www.cvch.cl'
+		}
 	end
 
-	def display_item_app(item, tipo_item)
-		true
+	def portada_setup
+		{
+			size: nil,
+			clase: 'mx-auto d-block'
+		}
+	end
+
+	def tema_home_setup
+		{
+            size: 'half',
+            clase: 'mx-auto d-block',
+            titulo_size: 1,
+            titulo_color: 'info',
+            detalle_size: 6,
+            detalle_color: 'info'
+		}
+	end
+
+	def foot_setup
+		{
+            size: 'half',
+            clase: 'mx-auto d-block'
+		}
+	end
+
+	def app_color
+		{
+			app: 'info',
+			navbar: 'info',
+			help: 'dark',
+			data: 'success'
+		}
 	end
 
 	## ------------------------------------------------------- TABLA | BTNS
 
-	def tr_row(objeto)
+	def sortable_fields
+		{
+			'publicaciones' => ['author', 'title', 'doc_type', 'year']
+		}
+	end
+
+	# En modelo.html.erb define el tipo de tabla con la que se despliegan las tablas
+	# <tr class="table-<%=tr_row(objeto)%>">
+	# ex 'tr_row'
+	def table_class(objeto)
 		case objeto.class.name
 		when 'Publicacion'
 			if usuario_signed_in?
-				activo = Perfil.find(session[:perfil_activo]['id'])
+				if ActiveRecord::Base.connection.table_exists? 'app_perfiles'
+					activo = AppPerfil.find(session[:perfil_activo]['id'])
+				else
+					activo = Perfil.find(session[:perfil_activo]['id'])
+				end
 				(objeto.carpetas.ids & activo.carpetas.ids).empty? ? 'default' : 'dark'
 			else
 				'default'
@@ -45,16 +71,49 @@ module RecursosHelper
 		end
 	end
 
-	def crud_conditions(objeto, btn)
+	def app_alias_tabla(controller)
+		case controller
+		when 'papers'
+			'publicaciones'
+		when 'hijos'
+			'conceptos'
+		when 'contribuciones'
+			'publicaciones'
+		when 'vistas'
+			'publicaciones'
+		when 'revisiones'
+			'publicaciones'
+		else
+			controller
+		end
+	end
+
+	def app_new_button_conditions(controller)
+		case controller
+		when 'publicaciones'
+			controller_name == 'contribuciones'
+		when 'areas'
+			controller_name == 'recursos'
+		when 'categorias'
+			controller_name == 'recursos'
+		else
+			true
+		end
+	end
+
+	def app_crud_conditions(objeto, btn)
 		case objeto.class.name
 		when 'Carga'
 			objeto.estado == 'ingreso'
 		when 'Publicacion'
 			['ingreso', 'contribucion'].include?(objeto.origen) and controller_name == 'contribuciones'
 		when 'Carpeta'
-			not Carpeta::NOT_MODIFY.include?(objeto.carpeta) and controller_name == 'vistas'
+			(not Carpeta::NOT_MODIFY.include?(objeto.carpeta)) and controller_name == 'vistas'
 		when 'Area'
-			(not Area::NOT_MODIFY.include?(objeto.area) and controller_name == 'rutas' and session[:es_administrador]) or (session[:perfil_activo]['email'] == 'hugo.chinga.g@gmail.com')
+			(not Area::NOT_MODIFY.include?(objeto.area)) and
+			controller_name == 'recursos' and
+			((session[:es_administrador]) or (session[:perfil_activo]['email'] == 'hugo.chinga.g@gmail.com'))
+#			((not Area::NOT_MODIFY.include?(objeto.area)) and controller_name == 'rutas' and ((session[:es_administrador]) or (session[:perfil_activo]['email'] == 'hugo.chinga.g@gmail.com')))
 		when 'Instancia'
 			false
 		when 'Ruta'
@@ -68,7 +127,7 @@ module RecursosHelper
 		when 'Usuario'
 			false
 		when 'Categoria'
-			usuario_signed_in? and objeto.perfil_id == session[:perfil_activo]['id'] or session[:es_administrador] and controller_name == 'rutas'
+			usuario_signed_in? and objeto.perfil_id == session[:perfil_activo]['id'] or session[:es_administrador] and controller_name == 'recursos'
 		when 'Especie'
 			false
 		else
@@ -80,6 +139,10 @@ module RecursosHelper
 				true
 			end
 		end
+	end
+
+	def estados_conditions(objeto)
+		false
 	end
 
 	def x_conditions(objeto, btn)
@@ -187,33 +250,9 @@ module RecursosHelper
 		true
 	end
 
-	## ------------------------------------------------------- FORM & SHOW
-
-	def detail_controller_path(controller)
-		if ['publicaciones'].include?(controller)
-			"#{controller}/detail"
-		else
-			'0p/form/detail'
-		end
-	end
-
-	# apoyo de filtro_condicional_field? (abajo)
-	def get_field_condition(objeto, field)
-		case objeto.class.name
-		when 'Publicacion'
-			objeto.estado != 'publicada'
-		when 'Concepto'
-			@activo.administrador.present?
-		when 'Mensaje'
-			field != 'email' or not usuario_signed_in?
-		when 'Categoria'
-			session[:es_administrador]
-		end
-	end
-
 	## ------------------------------------------------------- SHOW
 
-	def show_title(objeto)
+	def app_show_title(objeto)
 		case objeto.class.name
 		when 'Publicacion'
 			objeto.title

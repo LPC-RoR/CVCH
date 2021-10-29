@@ -1,14 +1,26 @@
 class EspeciesController < ApplicationController
 #  before_action :authenticate_usuario!
 #  before_action :inicia_sesion
-  before_action :carga_temas_ayuda
   before_action :set_especie, only: [:show, :edit, :update, :destroy, :desasignar, :aceptar, :rechazar]
 
   helper_method :sort_column, :sort_direction
   # GET /especies
   # GET /especies.json
   def index
-    @coleccion = Especie.all
+    @stat = {}
+    Especie.all.each do |esp|
+      if @stat[esp.publicaciones.count.to_s].present?
+        @stat[esp.publicaciones.count.to_s] += 1
+      else
+        @stat[esp.publicaciones.count.to_s] = 1
+      end
+    end
+    puts @stat
+#    @muchas_ids = Especie.all.map {|esp| esp.id if esp.publicaciones.count > 9}.compact
+#    @pocas_ids = Especie.all.map {|esp| esp.id if esp.publicaciones.count < 10}.compact
+
+    @coleccion = {}
+    @coleccion['especies'] = Especie.all.order(:especie)
   end
 
   # GET /especies/1
@@ -65,7 +77,6 @@ class EspeciesController < ApplicationController
   end
 
   def asigna
-    @activo = Perfil.find(session[:perfil_activo]['id'])
 
     publicacion = Publicacion.find(params[:publicacion_id])
 
@@ -86,20 +97,15 @@ class EspeciesController < ApplicationController
       end
     end
 
-    redirect_to publicacion
-    
+    redirect_to "/publicaciones/#{publicacion.id}?html_options[tab]=Especies"
   end
 
   def desasignar
-    case params[:class_name]
-    when 'Publicacion'
-      publicacion = Publicacion.find(params[:objeto_id])
-      @objeto.publicaciones.delete(publicacion)
+    elemento = params[:class_name].constantize.find(params[:objeto_id])
+    elemento.especies.delete(@objeto)
+    @objeto.delete if @objeto.send(params[:class_name].tableize).empty?
 
-      @objeto.delete if @objeto.publicaciones.empty?
-    end
-
-    redirect_to publicacion
+    redirect_to "/publicaciones/#{elemento.id}?html_options[tab]=Especies"
   end
 
   def aceptar

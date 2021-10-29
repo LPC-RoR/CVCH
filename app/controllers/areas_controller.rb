@@ -1,8 +1,7 @@
 class AreasController < ApplicationController
   before_action :authenticate_usuario!
   before_action :inicia_sesion
-  before_action :carga_temas_ayuda
-  before_action :set_area, only: [:show, :edit, :update, :destroy, :desasignar]
+  before_action :set_area, only: [:show, :edit, :update, :destroy, :desasignar, :asigna]
 
   helper_method :sort_column, :sort_direction
   # GET /areas
@@ -61,18 +60,10 @@ class AreasController < ApplicationController
   end
 
   def asigna
-    @activo = Perfil.find(session[:perfil_activo]['id'])
+    elemento = params[:class_name].constantize.find(params[:objeto_id])
+    elemento.areas << @objeto
 
-    publicacion = Publicacion.find(params[:publicacion_id])
-
-    unless params[:area_base][:area_id].blank?
-      area     = Area.find(params[:area_base][:area_id])
-
-      publicacion.areas << area
-    end
-
-    redirect_to publicacion
-    
+    redirect_to "/publicaciones/#{elemento.id}?html_options[tab]=Áreas"
   end
 
   # DELETE /areas/1
@@ -87,11 +78,10 @@ class AreasController < ApplicationController
   end
 
   def desasignar
-    publicacion = Publicacion.find(params[:objeto_id])
+    elemento = params[:class_name].constantize.find(params[:objeto_id])
+    @objeto.papers.delete(elemento)
 
-    @objeto.papers.delete(publicacion)
-
-    redirect_to publicacion
+    redirect_to elemento
   end
 
   private
@@ -109,7 +99,7 @@ class AreasController < ApplicationController
     end
 
     def set_redireccion
-      @redireccion = '/rutas'
+      @redireccion = '/recursos/administracion?t=Áreas'
     end
 
     # Only allow a list of trusted parameters through.

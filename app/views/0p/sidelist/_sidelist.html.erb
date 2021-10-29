@@ -1,0 +1,24 @@
+<%= render partial: '0p/general/titulo', locals: {c: nil, a: nil, titulo: name_list, size: '5'} %>
+<% sb_list.each do |elemento| %>
+	<small>
+
+	<div class='row'>
+		<div class="col-md-<%= elemento.nivel-1%>"></div>
+		<div class="col-md-<%= 12 - elemento.nivel+1%>">
+			<% case elemento.tipo %>
+			<% when 'item' %>
+				<% if @t == elemento.elemento %>
+					<b class='text-primary'><%= elemento.elemento %></b>
+				<% elsif elemento.activo == false %>
+					<i class='text-muted'><%= elemento.elemento %></i>
+				<% else %>
+					<%= link_to elemento.elemento, "#{sb_link}?t=#{elemento.elemento}" %>
+				<% end %>
+			<% when 'list' %>
+				<b class='text-muted'><%= elemento.elemento %></b>
+			<% end %>
+		</div>
+	</div>
+
+	</small>
+<% end %>

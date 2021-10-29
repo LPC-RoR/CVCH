@@ -1,25 +1,20 @@
-<%= render partial: '0p/general/titulo', locals: {c: 'vistas', a: nil, titulo: 'Escritorio', size: '5'} %>
 <div class='row'>
 	<div class='col-md-3'>
 		<%= render partial: '0p/list/selector', locals: {titulo: 'Carpetas', list: @list_selector, sel: @sel, options: @options} %>
-		</br>
-		<%= render partial: '0p/general/titulo', locals: {c: 'vistas', a: nil, titulo: 'Gestión de Carpetas', size: '6'} %>
-		<%= render partial: '0p/tabla/tabla', locals: {c: 'carpetas', a: 'index'} %>
 	</div>
 	<div class='col-md-9'>
 		<%= render partial: '0p/tabs/tabs', locals: {tabs: @tabs, tag: 'tab', active: @tab} %>
 		<% if @tab == 'Publicaciones' %>
-			<%= render partial: '0p/tabla/tabla', locals: {c: 'publicaciones', a: 'index'} %>
+			<%= render partial: '0p/tabla/solo_tabla', locals: {c: 'publicaciones', a: 'index'} %>
 		<% else %>
 
-			<%= render partial: '0p/general/titulo', locals: {c: controller_name, a: nil, titulo: 'Bibliografía', size: '5'} %>
+			<%#= render partial: '0p/general/titulo', locals: {c: controller_name, a: nil, titulo: 'Bibliografía', size: '5'} %>
 
 			<div class='row'>
 				<div class='col-md-1'>
 				</div>
 				<div class='col-md-10'>
 					<% @coleccion['citas'].each do |cita| %>
-						<!--p><small>| <%#= link_to(publicacion.doc_type, publicacion) %> | <%#= link_to "https://doi.org/#{publicacion.doi}", "https://doi.org/#{publicacion.doi}", target: :blank unless publicacion.doi.blank? %> |</small></p-->
 						<p><small><%= sanitize cita.m_quote %></small></p>
 					<% end %>
 				</div>

@@ -23,6 +23,7 @@ class Carpeta < ApplicationRecord
 	]
 
 	belongs_to :perfil, optional: true
+	belongs_to :app_perfil, optional: true
 
 	has_many :clasificaciones
 	has_many :publicaciones, through: :clasificaciones

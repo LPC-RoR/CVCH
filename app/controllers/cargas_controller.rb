@@ -4,13 +4,16 @@ class CargasController < ApplicationController
 
   before_action :authenticate_usuario!
   before_action :inicia_sesion
-  before_action :carga_temas_ayuda
   before_action :set_carga, only: [:show, :edit, :update, :destroy, :procesa_carga]
 
   # GET /cargas
   # GET /cargas.json
   def index
-    @activo = Perfil.find(session[:perfil_activo]['id'])
+    if ActiveRecord::Base.connection.table_exists? 'app_perfiles'
+      @activo = AppPerfil.find(session[:perfil_activo]['id'])
+    else
+      @activo = Perfil.find(session[:perfil_activo]['id'])
+    end
 
     @coleccion = {}
     @coleccion['cargas'] = @activo.cargas
@@ -41,7 +44,7 @@ class CargasController < ApplicationController
 
   # GET /cargas/new
   def new         
-    @objeto  = Carga.new(estado: 'ingreso', perfil_id: session[:perfil_activo]['id'])
+    @objeto  = Carga.new(estado: 'ingreso', app_perfil_id: session[:perfil_activo]['id'])
 
   end
 
@@ -104,6 +107,6 @@ class CargasController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def carga_params
-      params.require(:carga).permit(:archivo, :nota, :estado, :perfil_id, :area_id, :archivo_carga, :archivo_carga_cache)
+      params.require(:carga).permit(:archivo, :nota, :estado, :app_perfil_id, :area_id, :archivo_carga, :archivo_carga_cache)
     end
 end

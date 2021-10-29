@@ -1,8 +1,7 @@
 class CarpetasController < ApplicationController
   before_action :authenticate_usuario!
   before_action :inicia_sesion
-  before_action :carga_temas_ayuda
-  before_action :set_carpeta, only: [:show, :edit, :update, :destroy, :desasignar]
+  before_action :set_carpeta, only: [:show, :edit, :update, :destroy, :asigna, :desasignar]
 
   helper_method :sort_column, :sort_direction
   # GET /carpetas
@@ -33,11 +32,8 @@ class CarpetasController < ApplicationController
     unless params[:nueva_carpeta][:carpeta].blank?
       activo.carpetas.create(carpeta: params[:nueva_carpeta][:carpeta])
     end
-#    @equipo = Equipo.find(params[:equipo_id])
-#    if params[:nueva_carpeta][:carpeta].present?
-#      @equipo.carpetas << Carpeta.create(carpeta: params[:nueva_carpeta][:carpeta])
-#    end
-    redirect_to publicacion
+
+    redirect_to "/publicaciones/#{publicacion.id}?html_options[tab]=Carpetas"
   end
 
   # GET /carpetas/1/edit
@@ -77,28 +73,34 @@ class CarpetasController < ApplicationController
   end
 
   def asigna
-    @activo = Perfil.find(session[:perfil_activo]['id'])
-
-    publicacion = Publicacion.find(params[:publicacion_id])
-
-    unless params[:carpeta_base][:carpeta_id].blank?
-      carpeta     = Carpeta.find(params[:carpeta_base][:carpeta_id])
-
-      ids_carpetas_base = @activo.carpetas.map {|c| c.id if Carpeta::NOT_MODIFY.include?(c.carpeta)}.compact
-      ids_carpetas_tema = @activo.carpetas.map {|c| c.id unless Carpeta::NOT_MODIFY.include?(c.carpeta)}.compact
-      ids_activo = (ids_carpetas_base | ids_carpetas_tema)
-      ids_publicacion = publicacion.carpetas.ids & ids_activo
-
-      if ids_carpetas_base.include?(params[:carpeta_base][:carpeta_id].to_i)
-        publicacion.carpetas.each do |cpta|
-          publicacion.carpetas.delete(cpta)
-        end
-      end
-      publicacion.carpetas << carpeta
+    if ActiveRecord::Base.connection.table_exists? 'app_perfiles'
+      activo = AppPerfil.find(session[:perfil_activo]['id'])
+    else
+      activo = Perfil.find(session[:perfil_activo]['id'])
     end
 
-    redirect_to publicacion
-    
+    elemento = params[:class_name].constantize.find(params[:objeto_id])
+
+    if params[:class_name] == 'Publicacion'
+      ids_carpetas_base = activo.carpetas.map {|c| c.id if Carpeta::NOT_MODIFY.include?(c.carpeta)}.compact
+      ids_carpetas_tema = activo.carpetas.map {|c| c.id unless Carpeta::NOT_MODIFY.include?(c.carpeta)}.compact
+      ids_activo = (ids_carpetas_base | ids_carpetas_tema)
+      ids_publicacion = elemento.carpetas.ids & ids_activo
+
+      if ids_carpetas_base.include?(@objeto.id)
+        elemento.carpetas.each do |cpta|
+          elemento.carpetas.delete(cpta)
+        end
+      end
+    end
+
+    elemento.carpetas << @objeto
+
+    if params[:class_name] == 'Publicacion'
+      redirect_to "/publicaciones/#{elemento.id}?html_options[tab]=Carpetas"
+    elsif
+      redirect_to elemento
+    end
   end
 
   # DELETE /carpetas/1
@@ -113,16 +115,14 @@ class CarpetasController < ApplicationController
   end
 
   def desasignar
-    case params[:class_name]
-    when 'Publicacion'
-      elemento = Publicacion.find(params[:objeto_id])
-      @objeto.publicaciones.delete(elemento)
-    when 'Equipo'
-      elemento = Equipo.find(params[:objeto_id])
-      @objeto.equipos.delete(elemento)
-    end
+    elemento = params[:class_name].constantize.find(params[:objeto_id])
+    @objeto.send(params[:class_name].tableize).delete(elemento)
 
-    redirect_to elemento
+    if params[:class_name] == 'Publicacion'
+      redirect_to "/publicaciones/#{elemento.id}?html_options[tab]=Carpetas"
+    elsif
+      redirect_to elemento
+    end
   end
 
   private

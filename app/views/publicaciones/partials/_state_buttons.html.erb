@@ -1,0 +1,59 @@
+<div class="btn-group btn-group-toggle" data-toggle="buttons">
+	<!-- EDITAR -->
+	<% if (usuario_signed_in? and not ['publicada', 'papelera'].include?(objeto.estado)) %>
+	<%# if true %>
+		<%= render partial: '0p/general/btn_turbolink', locals: {texto: nil, gly: 'pencil', clr: clr, link: [:edit, objeto], delete: false} %>
+	<% end %>
+
+	<!-- PAPELERA -->
+	<% if ['ingreso', 'duplicado', 'carga', 'formato', 'contribucion'].include?(objeto.estado) %>
+	<%# if true %>
+		<%= render partial: '0p/general/btn_turbolink', locals: {texto: 'papelera', gly: 'recycle', clr: clr, link: "/publicaciones/estado?publicacion_id=#{objeto.id}&estado=papelera", delete: false} %>
+	<% end %>
+
+	<!-- ELIMINAR -->
+	<% if ['papelera'].include?(objeto.estado) %>
+	<%# if true %>
+		<%= render partial: '0p/general/btn_turbolink', locals: {texto: nil, gly: 'trash', clr: clr, link: "/publicaciones/estado?publicacion_id=#{objeto.id}&estado=eliminado", delete: false} %>
+	<% end %>
+
+	<!-- CONTRIBUIR -->
+	<% if ['ingreso'].include?(objeto.estado) %>
+	<%# if true %>
+		<%= render partial: '0p/general/btn_turbolink', locals: {texto: 'Contribuir', gly: 'file-earmark-plus', clr: clr, link: "/publicaciones/estado?publicacion_id=#{objeto.id}&estado=contribucion", delete: false} %>
+	<% end %>
+
+	<!-- PUBLICAR -->
+	<% if (['contribucion', 'carga', 'duplicado', 'formato'].include?(objeto.estado) and not (objeto.doc_type.blank? or objeto.areas.empty?)) %>
+	<%# if true %>
+		<%= render partial: '0p/general/btn_turbolink', locals: {texto: 'Publicar', gly: 'file-earmark-check', clr: clr, link: "/publicaciones/estado?publicacion_id=#{objeto.id}&estado=publicada", delete: false} %>
+	<% end %>
+
+</div>
+
+<div class="btn-group btn-group-toggle" data-toggle="buttons">
+	<!-- CARGA -->
+	<% if (['publicado', 'papelera'].include?(objeto.estado) and objeto.origen == 'carga') %>
+	<%# if true %>
+		<%= render partial: '0p/general/btn_turbolink', locals: {texto: 'Carga', gly: 'inbox', clr: clr, link: "/publicaciones/estado?publicacion_id=#{objeto.id}&estado=carga", delete: false} %>
+	<% end %>
+
+	<!-- INGRESO -->
+	<% if (['publicado', 'papelera'].include?(objeto.estado) and objeto.origen == 'ingreso') %>
+	<%# if true %>
+		<%= render partial: '0p/general/btn_turbolink', locals: {texto: 'Ingreso', gly: 'inbox', clr: clr, link: "/publicaciones/estado?publicacion_id=#{objeto.id}&estado=ingreso", delete: false} %>
+	<% end %>
+
+	<!-- MÚLTIPLE -->
+	<% if objeto.estado == 'duplicado' %>
+	<%# if true %>
+		<%= render partial: '0p/general/btn_turbolink', locals: {texto: 'Múltiple', gly: 'inbox', clr: clr, link: "/publicaciones/estado?publicacion_id=#{objeto.id}&estado=multiple", delete: false} %>
+	<% end %>
+
+	<!-- CORRECCIÖN -->
+	<% if (objeto.estado == 'publicada' and usuario_signed_in?) %>
+	<%# if true %>
+		<%= render partial: '0p/general/btn_turbolink', locals: {texto: 'Corrección', gly: 'inbox', clr: clr, link: "/publicaciones/estado?publicacion_id=#{objeto.id}&estado=correccion", delete: false} %>
+	<% end %>
+
+</div>

@@ -1,46 +1,22 @@
 module ApplicationHelper
-	## USO GENERAL
-
-	## CAPITAN 
-
 	## ------------------------------------------------------- HOME
 
-	def config_aplicacion(clave)
-		Rails.configuration.look_app[:aplicacion][clave]
-	end
-
-	def config_portada(clave)
-		Rails.configuration.look_app[:aplicacion][:portada][clave]
-	end
-
-	def config_init(clave)
-		Rails.configuration.look_app[:aplicacion][:init][clave]
-	end
-
-	def config_foot(clave)
-		Rails.configuration.look_app[:aplicacion][:foot][clave]
-	end
-
-	def config_navbar(clave)
-		Rails.configuration.look_app[:navbar][clave]
-	end
-
-	def c_color(controller)
-		if Rails.configuration.look_app[:look_elementos][:help][:controllers].include?(controller)
-			Rails.configuration.look_app[:look_elementos][:help][:color]
-		elsif Rails.configuration.look_app[:look_elementos][:data][:controllers].include?(controller)
-			Rails.configuration.look_app[:look_elementos][:data][:color]
+	def color(ref)
+		if [:app, :navbar].include?(ref)
+			app_color[ref]
+		elsif ['hlp_tutoriales', 'hlp_pasos'].include?(ref)
+			app_color[:help]
 		else
-			Rails.configuration.look_app[:look_elementos][:app][:color]
+			app_color[:app]
 		end
 	end
 
 	def colors
-		Rails.configuration.look_parameters[:colors]
+		['primary', 'secondary', 'success', 'danger', 'warning', 'info', 'light', 'dark', 'muted', 'white']
 	end
 
 	def image_sizes
-		Rails.configuration.look_parameters[:image_sizes]
+		['entire', 'half', 'quarter', 'thumb']
 	end
 
 	def objeto_tema_ayuda(tipo)
@@ -59,9 +35,13 @@ module ApplicationHelper
 
 	## ------------------------------------------------------- MENU
 
+	def nomenu_controllers
+		['confirmations', 'mailer', 'passwords', 'registrations', 'sessions', 'unlocks']
+	end
+
 	# Obtiene los controladores que no despliegan menu
 	def nomenu?(controller)
-		config_navbar(:nomenu_controllers).include?(controller)
+		nomenu_controllers.include?(controller)
 	end
 
 	def item_active(link)
@@ -72,77 +52,62 @@ module ApplicationHelper
 
 	def display_item_menu?(item, tipo_item)
 		# ITEMS de MENU sólo para USUARIOS REGISTRADOS
-		case tipo_item
-		when 'admin'
-			(usuario_signed_in? and session[:es_administrador] == true)
-		when 'usuario'
-			usuario_signed_in? and display_item_app(item, tipo_item)
-		when 'anonimo'
-			true
-		when 'dog'
-			usuario_signed_in? and session[:perfil_activo]['email'] == 'hugo.chinga.g@gmail.com'
-		when 'excluir'
-			false
+		if session[:hay_perfil] == true
+			case tipo_item
+			when 'dog'
+				usuario_signed_in? and session[:perfil_activo]['email'] == 'hugo.chinga.g@gmail.com'
+			when 'admin'
+				(usuario_signed_in? and session[:es_administrador] == true)
+			when 'usuario'
+				usuario_signed_in? and display_item_app(item, tipo_item)
+			when 'excluir'
+				false
+			when 'anonimo'
+				true
+			end
+		else
+			(tipo_item == 'anonimo' ? true : false)
 		end
 	end
 
 	## ------------------------------------------------------- TABLA
 
-	def config_exceptions_table(clave)
-		Rails.configuration.tables[:exceptions][clave]
-	end
-
-	def config_tables(clave)
-		Rails.configuration.tables[clave]
+	def controllers_scope
+		{
+			help: ['conversaciones', 'mensajes', 'hlp_pasos', 'temaf_ayudas', 'hlp_tutoriales'],
+			data: ['caracteristicas', 'caracterizaciones', 'columnas', 'datos', 'encabezados', 'etapas', 'lineas', 'opciones', 'tablas'],
+			aplicacion: ['app_administradores', 'app_nominas', 'app_perfiles', 'app_observaciones', 'app_mejoras', 'archivos', 'comentarios', 'directorios', 'documentos', 'imagenes', 'licencias', 'mejoras', 'observaciones', 'recursos', 'subs'],
+			sidebar: ['sb_listas', 'sb_elementos']
+		}
 	end
 
 	# valida el uso de alias en las tablas
-	def alias_tabla(controlador)
-		Rails.configuration.tables[:alias][controlador].present? ? Rails.configuration.tables[:alias][controlador] : controlador
-	end
-
-	# Maneja comportamiento por defecto y excepciones de TABLA
-	def in_t?(controlador, label)
-		excepcion = false
-
-		if config_exceptions_table(label)[controlador].present?
-			elementos = config_exceptions_table(label)[controlador]
-			excepcion_self       = (controller_name == controlador and action_name == 'index' and elementos.include?('self'))
-			excepcion_todo       = (elementos.include?('*'))
-			excepcion_controller = (elementos.include?(controller_name))
-			excepcion = (excepcion_self or excepcion_todo or excepcion_controller)
-		end
-		de = (controller_name == controlador and action_name == 'index') ? Rails.configuration.t_default[label]['self'] : Rails.configuration.t_default[label]['show']
-
-		(excepcion ? (not de) : de)
-	end
-
-	def c_tabs(controller)
-		if config_tables(:tabs)[controller].present?
-			config_tables(:tabs)[controller][controller_name].present? ? config_tables(:tabs)[controller][controller_name] : []
+	def alias_tabla(controller)
+		if controllers_scope[:help].include?(controller) or controllers_scope[:data].include?(controller) or controllers_scope[:aplicacion].include?(controller) or controllers_scope[:sidebar].include?(controller)
+			controller
 		else
-			[]
+			app_alias_tabla(controller)
 		end
 	end
 
-	def inline_form?(controlador)
-		if config_exceptions_table(:inline_form)[controlador].present?
-			inline_todos      = config_exceptions_table(:inline_form)[controlador].include?('*')
-			inline_controller = config_exceptions_table(:inline_form)[controlador].include?(controller_name)
-			inline_todos or inline_controller
+	def inline_form?(controller)
+		if controllers_scope[:help].include?(controller)
+			File.exist?("app/views/help/#{controller}/_inline_nuevo.html.erb")
+		elsif controllers_scope[:data].include?(controller)
+			File.exist?("app/views/data/#{controller}/_inline_nuevo.html.erb")
+		elsif controllers_scope[:aplicacion].include?(controller)
+			File.exist?("app/views/aplicacion/#{controller}/_inline_nuevo.html.erb")
+		elsif controllers_scope[:sidebar].include?(controller)
+			File.exist?("app/views/sidebar/#{controller}/_inline_nuevo.html.erb")
 		else
-			false
+			File.exist?("app/views/#{controller}/_inline_nuevo.html.erb")
 		end
 	end
 
 	# Objtiene LINK DEL BOTON NEW
 	def get_new_link(controller)
-		if config_exceptions_table(:inline_form)[controller].present?
-			unless config_exceptions_table(:inline_form)[controller].include?('*') or (config_exceptions_table(:inline_form)[controller].include?('self') and controller == controller_name) or config_exceptions_table(:inline_form)[controller].include?(controller_name)
-				tipo_new = 'normal'
-			else				
-				tipo_new = 'inline_form'
-			end
+		if inline_form?(controller)
+			tipo_new = 'inline_form'
 		else
 			tipo_new = 'normal'
 		end
@@ -159,12 +124,13 @@ module ApplicationHelper
 	# Obtiene los estados de un modelo usando el controlador
 	# "-tabla.html.erb"
 	def c_estados(controller)
-		Rails.configuration.x.tables.exceptions[controller][:estados]
+#		dejamos con comentario para eliminar completamente el uso de config/application.rb
+#		Rails.configuration.x.tables.exceptions[controller][:estados]
 	end
 
 	def sortable?(controller, field)
-		if Rails.configuration.tables[:sortable][controller].present?
-			Rails.configuration.tables[:sortable][controller].include?(field) ? true : false
+		if sortable_fields[controller].present?
+			sortable_fields[controller].include?(field) ? true : false
 		else
 			false
 		end
@@ -178,6 +144,34 @@ module ApplicationHelper
 	end
 
 	## ------------------------------------------------------- TABLA | BTNS
+	def new_button_conditions(controller)
+		if ['app_administradores', 'app_nominas'].include?(controller)
+				session[:es_administrador]
+		elsif ['hlp_tutoriales', 'hlp_pasos'].include?(controller)
+				session[:es_administrador]
+		elsif ['app_perfiles', 'usuarios', 'ind_palabras'].include?(controller)
+			false
+		elsif ['app_observaciones'].include?(controller)
+			objeto.perfil.id == session[:perfil_activo]['id']
+		else
+			app_new_button_conditions(controller)
+		end
+	end
+	def crud_conditions(objeto, btn)
+		if ['AppAdministrador', 'AppNomina'].include?(objeto.class.name)
+				session[:es_administrador]
+		elsif ['HlpTutorial', 'HlpPaso'].include?(objeto.class.name)
+				session[:es_administrador]
+		elsif ['AppPerfil'].include?(objeto.class.name)
+			false
+		elsif ['SbLista'].include?(objeto.class.name)
+			(usuario_signed_in? and session[:perfil_activo]['email'] == 'hugo.chinga.g@gmail.com') or (session[:es_administrador] and objeto.acceso != 'dog') or (objeto.acceso == 'usuario')
+		elsif ['SbElemento'].include?(objeto.class.name)
+			(usuario_signed_in? and session[:perfil_activo]['email'] == 'hugo.chinga.g@gmail.com') or (session[:es_administrador] and objeto.sb_lista.acceso != 'dog') or (objeto.sb_lista.acceso == 'usuario')
+		else
+			app_crud_conditions(objeto, btn)
+		end
+	end
 
 	def link_x_btn(objeto, accion, objeto_ref)
 		ruta_raiz = "/#{objeto.class.name.tableize}/#{objeto.id}#{accion}"
@@ -193,17 +187,6 @@ module ApplicationHelper
 		objeto.class.reflect_on_all_associations(:has_many).map { |a| objeto.send(a.name).any? }.include?(true)
 	end
 
-	## ------------------------------------------------------- FORM & SHOW
-
-	# Manejo de campos condicionales FORM y SHOW
-	def filtro_conditional_field?(objeto, field)
-		if Rails.configuration.form[:conditional_fields][objeto.class.name].present?
-			Rails.configuration.form[:conditional_fields][objeto.class.name].include?(field) ? get_field_condition(objeto, field) : true
-		else
-			true
-		end
-	end
-
 	## ------------------------------------------------------- FORM
 
 	def url_params(parametros)
@@ -215,22 +198,18 @@ module ApplicationHelper
 	end
 
 	def detail_partial(controller)
-		if ['tema_ayudas', 'tutoriales', 'pasos', 'mensajes'].include?(controller)
-			"help/0help/#{controller.singularize}/detail"
-		elsif ['etapas', 'tablas', 'lineas', 'especificaciones'].include?(controller)
-			"data/0data/#{controller.singularize}/detail"
-		elsif ['observaciones', 'perfiles', 'mejoras'].include?(controller)
+		if controllers_scope[:help].include?(controller)
+			"help/#{controller}/detail"
+		elsif controllers_scope[:data].include?(controller)
+			"data/#{controller}/detail"
+		elsif controllers_scope[:aplicacion].include?(controller)
 			"aplicacion/#{controller}/detail"
+		elsif controllers_scope[:sidebar].include?(controller)
+			"sidebar/#{controller}/detail"
+		elsif File.exist?("app/views/#{controller}/_detail.html.erb")
+			"#{controller}/detail"
 		else
-			detail_controller_path(controller)
-		end
-	end
-
-	def form_f_detail?(objeto)
-		if Rails.configuration.x.form.exceptions[objeto.class.name].present?
-			Rails.configuration.x.form.exceptions[objeto.class.name][:f_detail].present? ? Rails.configuration.x.form.exceptions[objeto.class.name][:f_detail] : false
-		else
-			false
+			'0p/form/detail'
 		end
 	end
 
@@ -239,31 +218,49 @@ module ApplicationHelper
 	# Obtiene el campo para despleagar en una TABLA
 	# Resuelve BT_FIELDS y d_<campo> si es necesario 
 	def get_field(label, objeto)
-		if objeto.class::column_names.include?(label) or (label.split('_')[0] == 'd') or (label.split('_')[0] == 'm')
-			objeto.send(label)
-		elsif Rails.configuration.tables[:bt_fields][objeto.class.name].present?
-			if Rails.configuration.tables[:bt_fields][objeto.class.name][label].present?
-				if objeto.send(Rails.configuration.tables[:bt_fields][objeto.class.name][label]).present?
-					objeto.send(Rails.configuration.tables[:bt_fields][objeto.class.name][label]).send(label)
+
+		success = true
+		label.split(':').each do |field_name|
+			if success
+				if objeto.class::column_names.include?(label) or objeto.class.instance_methods(false).include?(label.to_sym)
+					objeto = objeto.send(field_name)
 				else
-					'Objeto NO Encontrado'
+					success = false
 				end
-			else
-				objeto.send(label)
 			end
-		else
-			'FieldNotFound'
 		end
+
+		success ? objeto : 'Objeto NO Encontrado'
+
 	end
 
 	## ------------------------------------------------------- SHOW
 
-	def config_show(clave)
-		Rails.configuration.show[clave]
+	def show_title(objeto)
+		case objeto.class.name
+		when 'SbLista'
+			objeto.lista
+		when 'SbElemento'
+			objeto.elemento
+		when 'HlpTutorial'
+			objeto.tutorial
+		else
+			app_show_title(objeto)
+		end
 	end
 
 	def status?(objeto)
-		config_show(:status).include?(objeto.class.name)
+		if controllers_scope[:help].include?(controller)
+			File.exist?("app/views/help/#{controller}/_status.html.erb")
+		elsif controllers_scope[:data].include?(controller)
+			File.exist?("app/views/data/#{controller}/_status.html.erb")
+		elsif controllers_scope[:aplicacion].include?(controller)
+			File.exist?("app/views/aplicacion/#{controller}/_status.html.erb")
+		elsif controllers_scope[:sidebar].include?(controller)
+			File.exist?("app/views/sidebar/#{controller}/_status.html.erb")
+		else
+			File.exist?("app/views/#{controller}/_status.html.erb")
+		end
 	end
 
 	## ------------------------------------------------------- GENERAL

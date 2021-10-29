@@ -23,11 +23,12 @@ class Carga < ApplicationRecord
 		['nota',               'entry'],
 		['archivo_carga', 'file_field'],
 		['estado',            'hidden'],
-		['perfil_id',         'hidden'],
+		['app_perfil_id',     'hidden'],
 		['archivo',           'hidden']
 	]
 
-	belongs_to :perfil
+	belongs_to :perfil, optional: true
+	belongs_to :app_perfil, optional: true
 	belongs_to :area
 
 	has_many :procesos

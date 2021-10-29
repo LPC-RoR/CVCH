@@ -1,0 +1,8 @@
+<%= render partial: '0p/general/icon_text', locals: {text: 'Cita', gly: 'blockquote-left', clr: 'info'} %>
+<%= render partial: 'publicaciones/partials/status' %>
+<%= render partial: 'publicaciones/partials/doc_type_buttons' %>
+<p class='text-muted'><%= @objeto.m_quote %></p>
+
+<% unless @objeto.doi.blank? %>
+	<small><%= link_to "https://doi.org/#{@objeto.doi}", "https://doi.org/#{@objeto.doi}", target: :blank %></small>
+<% end %>

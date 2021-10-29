@@ -1,7 +1,16 @@
 Rails.application.routes.draw do
 
+  resources :per_equipos
   # SCOPE APLICACION
   scope module: 'aplicacion' do
+    resources :app_administradores
+    resources :app_nominas
+    resources :app_perfiles do
+      match :desvincular, via: :get, on: :member
+    end
+    resources :app_observaciones
+    resources :app_mejoras
+
     resources :administradores
     resources :perfiles
     resources :observaciones
@@ -10,14 +19,29 @@ Rails.application.routes.draw do
     end
     resources :recursos do
       collection do
+        match :ayuda, via: :get
         match :home, via: :get
+        match :administracion, via: :get
         match :archivos, via: :get
       end
     end
   end
 
+  scope module: 'sidebar' do
+    resources :sb_elementos
+    resources :sb_listas do
+      resources :sb_elementos
+    end
+  end
+
+
   # SCOPE HELP
   scope module: 'help' do
+    resources :hlp_pasos
+    resources :hlp_tutoriales do
+      resources :hlp_pasos
+    end
+
 #    resources :conversaciones
     resources :mensajes do 
       match :estado, via: :get, on: :member
@@ -52,7 +76,7 @@ Rails.application.routes.draw do
   resources :suscripciones
   resources :relaciones
   resources :areas do 
-    match :asigna, via: :post, on: :collection
+    match :asigna, via: :get, on: :member
     match :desasignar, via: :get, on: :member
   end
   resources :ascendencias
@@ -64,12 +88,12 @@ Rails.application.routes.draw do
   resources :carpetas do
     match :nuevo, via: :post, on: :collection
     match :seleccion, via: :get, on: :collection
-    match :asigna, via: :post, on: :collection
+    match :asigna, via: :get, on: :member
     match :desasignar, via: :get, on: :member
   end
   resources :clasificaciones
   resources :categorias do
-    match :asigna, via: :post, on: :collection
+    match :asigna, via: :get, on: :member
     match :desasignar, via: :get, on: :member
     match :aceptar, via: :get, on: :member
     match :rechazar, via: :get, on: :member
@@ -84,9 +108,8 @@ Rails.application.routes.draw do
   resources :diccionarios
   resources :equipos do
     match :nuevo, via: :post, on: :collection
+    match :participa, via: :post, on: :collection
     match :nueva_carpeta_equipo, via: :post, on: :collection
-
-    match :elimina_equipo, via: :get, on: :member
   end
   resources :especies do
     match :asigna, via: :post, on: :collection

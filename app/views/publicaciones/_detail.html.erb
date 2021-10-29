@@ -1,4 +1,3 @@
-<% if filtro_conditional_field?(@objeto, 'doc_type') or filtro_conditional_field?(@objeto, 'd_quote') %>
 	<div class='row'>
 		<div class='col-md-2'>
 			<small><%= form.label 'Tipo' %></small></br>
@@ -8,27 +7,18 @@
 			<h5><%= @objeto.d_quote %></h5>
 		</div>
 	</div>
-<% end %>
-
-<% if filtro_conditional_field?(@objeto, 'd_author') %>
 	<div class='row'>
 		<div class='col-md-12'>
 			<small><%= form.label 'Author (proceso)' %></small></br>
 			<%= form.text_field(:d_author, class: 'form-control') %>
 		</div>
 	</div>
-<% end %>
-
-<% if filtro_conditional_field?(@objeto, 'author') %>
 	<div class='row'>
 		<div class='col-md-12'>
 			<small><%= form.label 'Author' %></small></br>
 			<%= form.text_field(:author, class: 'form-control') %>
 		</div>
 	</div>
-<% end %>
-
-<% if filtro_conditional_field?(@objeto, 'year') or filtro_conditional_field?(@objeto, 'title') %>
 	<div class='row'>
 		<div class='col-md-2'>
 			<small><%= form.label 'Year' %></small></br>
@@ -39,9 +29,6 @@
 			<%= form.text_field(:title, class: 'form-control') %>
 		</div>
 	</div>
-<% end %>
-
-<% if filtro_conditional_field?(@objeto, 'editor') or filtro_conditional_field?(@objeto, 'book') %>
 	<div class='row'>
 		<div class='col-md-6'>
 			<small><%= form.label 'Editor' %></small></br>
@@ -52,9 +39,6 @@
 			<%= form.text_field(:book, class: 'form-control') %>
 		</div>
 	</div>
-<% end %>
-
-<% if filtro_conditional_field?(@objeto, 'd_journal') or filtro_conditional_field?(@objeto, 'journal') %>
 	<div class='row'>
 		<div class='col-md-6'>
 			<small><%= form.label 'Journal (proceso)' %></small></br>
@@ -65,9 +49,6 @@
 			<%= form.text_field(:journal, class: 'form-control') %>
 		</div>
 	</div>
-<%	 end %>
-
-<% if filtro_conditional_field?(@objeto, 'academic_degree') or filtro_conditional_field?(@objeto, 'ciudad_pais') %>
 	<div class='row'>
 		<div class='col-md-6'>
 			<small><%= form.label 'Academic degree' %></small></br>
@@ -78,7 +59,6 @@
 			<%= form.text_field(:ciudad_pais, class: 'form-control') %>
 		</div>
 	</div>
-<% end %>
 
 <div class='row'>
 	<div class='col-md-2'>

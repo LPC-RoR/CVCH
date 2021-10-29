@@ -1,0 +1,8 @@
+<div class='row'>
+	<div class='col-md-6'>
+	</div>
+	<div class='col-md-6'>
+		<%= render partial: '0p/general/titulo', locals: {c: 'mensajes', a: nil, titulo: elem.tema_ayuda, size: '5', bg_color: 'bg-'+color('mensajes')} %>
+		<%= sanitize elem.d_detalle %>
+	</div>
+</div>

@@ -1,0 +1,8 @@
+<!-- Despliega la colección completa de PORTADAS -->
+<% unless coleccion_tema_ayuda('portada').blank? %>
+	<% coleccion_tema_ayuda('portada').each do |ta| %>
+
+		<%= render partial: 'help/tema_ayudas/partials/elem_portada', locals: {elem: ta} %>
+
+	<% end %>
+<% end %>

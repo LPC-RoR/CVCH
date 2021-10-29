@@ -1,6 +1,5 @@
 class Busqueda::IndDireccionesController < ApplicationController
   before_action :inicia_sesion
-  before_action :carga_temas_ayuda
   before_action :set_ind_direccion, only: [:show, :edit, :update, :destroy]
 
   # GET /ind_direcciones

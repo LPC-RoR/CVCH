@@ -1,0 +1,10 @@
+<% if usuario_signed_in? %>
+	<%  unless @objeto.estado == 'publicada' %>
+		<div class="btn-group btn-group-toggle" data-toggle="buttons">
+			<% (Publicacion::DOC_TYPES - [@objeto.doc_type]).each do |doc_type| %>
+				<%= render partial: '0p/general/btn_turbolink', locals: {texto: "#{doc_type}", link: "/publicaciones/cambia_tipo?publicacion_id=#{@objeto.id}&doc_type=#{doc_type}", gly: nil, clr: color(@objeto.class.name.tableize), delete: false }  %>
+			<% end %>
+		</div>
+		</br></br>
+	<% end %>
+<% end %>

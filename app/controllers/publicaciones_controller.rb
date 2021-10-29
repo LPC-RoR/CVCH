@@ -5,7 +5,6 @@ class PublicacionesController < ApplicationController
 
   before_action :authenticate_usuario!, except: :show
   before_action :inicia_sesion
-  before_action :carga_temas_ayuda
   before_action :set_publicacion, only: [:show, :edit, :update, :destroy]
 
   after_action :procesa_author, only: [:update, :create]
@@ -28,12 +27,24 @@ class PublicacionesController < ApplicationController
   # GET /publicaciones/1
   # GET /publicaciones/1.json
   def show
+    c_tab = [
+      ['Áreas', (usuario_signed_in? and session[:es_administrador])],
+      ['Carpetas', (usuario_signed_in? and @objeto.estado == 'publicada')],
+      ['Categorías', (@objeto.estado == 'publicada')],
+      ['Especies', (@objeto.estado == 'publicada')]
+    ]
+    init_tab(c_tab, params)
+    @options = { 'tab' => @tab }
 
     @coleccion = {}
 
     if usuario_signed_in?
 
-      @activo = Perfil.find(session[:perfil_activo]['id'])
+      if ActiveRecord::Base.connection.table_exists? 'app_perfiles'
+        @activo = AppPerfil.find(session[:perfil_activo]['id'])
+      else
+        @activo = Perfil.find(session[:perfil_activo]['id'])
+      end
 
 
       # ********************** CARPETAS *****************************
@@ -68,7 +79,7 @@ class PublicacionesController < ApplicationController
         @coleccion['carpetas'] = @objeto.carpetas
 
       end
-      if @activo.administrador.present?
+      if session[:es_administrador]
 
         @areas_seleccion = Area.find(Area.all.ids - @objeto.areas.ids)
 
@@ -96,14 +107,18 @@ class PublicacionesController < ApplicationController
       @duplicados = Publicacion.where(id: @duplicados_ids)
     end
 
-    @coleccion['observaciones'] = @objeto.observaciones.order(created_at: :desc)
-    @coleccion['mejoras'] = @objeto.mejoras.order(created_at: :desc)
+    @coleccion['app_observaciones'] = @objeto.observaciones.order(created_at: :desc)
+    @coleccion['app_mejoras'] = @objeto.mejoras.order(created_at: :desc)
 
   end
 
   # GET /publicaciones/new
   def new
-    @activo = Perfil.find(session[:perfil_activo]['id'])
+    if ActiveRecord::Base.connection.table_exists? 'app_perfiles'
+      @activo = AppPerfil.find(session[:perfil_activo]['id'])
+    else
+      @activo = Perfil.find(session[:perfil_activo]['id'])
+    end
     @objeto = @activo.contribuciones.new(origen: 'ingreso', estado: 'ingreso')
   end
 

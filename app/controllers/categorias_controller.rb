@@ -1,8 +1,7 @@
 class CategoriasController < ApplicationController
 #  before_action :authenticate_usuario!
 #  before_action :inicia_sesion
-  before_action :carga_temas_ayuda
-  before_action :set_categoria, only: [:show, :edit, :update, :destroy, :desasignar, :aceptar, :rechazar]
+  before_action :set_categoria, only: [:show, :edit, :update, :destroy, :asigna, :desasignar, :aceptar, :rechazar]
 
   helper_method :sort_column, :sort_direction
   # GET /categorias
@@ -19,7 +18,11 @@ class CategoriasController < ApplicationController
 
   # GET /categorias/new
   def new
-    @activo = Perfil.find(session[:perfil_activo]['id'])
+    if ActiveRecord::Base.connection.table_exists? 'app_perfiles'
+      @activo = AppPerfil.find(session[:perfil_activo]['id'])
+    else
+      @activo = Perfil.find(session[:perfil_activo]['id'])
+    end
     @objeto = @activo.aportes.new
   end
 
@@ -60,24 +63,17 @@ class CategoriasController < ApplicationController
   end
 
   def asigna
-    @activo = Perfil.find(session[:perfil_activo]['id'])
+    elemento = params[:class_name].constantize.find(params[:objeto_id])
 
-    publicacion = Publicacion.find(params[:publicacion_id])
+    elemento.categorias << @objeto
 
-    unless params[:categoria_base][:categoria_id].blank?
-      categoria     = Categoria.find(params[:categoria_base][:categoria_id])
-
-      unless publicacion.categorias.ids.include?(categoria.id)
-        publicacion.categorias << categoria
-
-        etiqueta = Etiqueta.where(publicacion_id: publicacion.id).find_by(categoria_id: categoria.id)
-        etiqueta.asociado_por = session[:perfil_activo]['id']
-        etiqueta.save
-      end
+    etiqueta = Etiqueta.where(publicacion_id: elemento.id).find_by(categoria_id: @objeto.id)
+    unless etiqueta.blank?
+      etiqueta.asociado_por = session[:perfil_activo]['id']
+      etiqueta.save
     end
 
-    redirect_to publicacion
-    
+    redirect_to "/publicaciones/#{elemento.id}?html_options[tab]=Categorías"
   end
 
   def aceptar
@@ -93,13 +89,10 @@ class CategoriasController < ApplicationController
   end
 
   def desasignar
-    case params[:class_name]
-    when 'Publicacion'
-      publicacion = Publicacion.find(params[:objeto_id])
-      @objeto.publicaciones.delete(publicacion)
-    end
+    elemento = params[:class_name].constantize.find(params[:objeto_id])
+    elemento.categorias.delete(@objeto)
 
-    redirect_to publicacion
+    redirect_to "/publicaciones/#{elemento.id}?html_options[tab]=Categorías"
   end
 
   def rechazar
@@ -140,7 +133,7 @@ class CategoriasController < ApplicationController
     end
 
     def set_redireccion
-      @redireccion = '/rutas'
+      @redireccion = '/recursos/administracion?t=Categorías'
     end
 
     # Only allow a list of trusted parameters through.

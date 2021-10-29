@@ -1,9 +1,9 @@
-<%= render partial: '0p/general/titulo', locals: {c: controller_name, a: nil, titulo: 'Revisión de Citas', size: '5'} %>
 <div class='row'>
 	<div class='col-md-3'>
 		<%= render partial: '0p/list/selector', locals: {titulo: 'Áreas', list: @list_selector, sel: @sel, options: @options} %>
 	</div>
 	<div class='col-md-9'>
-		<%= render partial: '0p/tabla/tabla', locals: {c: 'publicaciones', a: 'index'} %>
+		<%= render partial: '0p/tabs/tabs', locals: {tabs: @tabs, tag: 'tab', active: @tab} %>
+		<%= render partial: '0p/tabla/solo_tabla', locals: {c: 'publicaciones', a: 'index'} %>
 	</div>
 </div>

@@ -1,3 +1,6 @@
-<%= link_to  "/#{c}/new?class_name=#{o.class.name}&objeto_id=#{o.id}", class: "btn btn-outline-#{c_color(c)} btn-sm" do %>
-    <%= "+ #{c.humanize.singularize}" %>
+<%= link_to  "/#{c}/new?class_name=#{o.class.name}&objeto_id=#{o.id}", class: "btn btn-outline-#{color(c)} btn-sm" do %>
+	<% unless gly.blank? %>
+		<i class=<%="bi-#{gly}"%>></i>
+	<% end %>
+    <%= cristiano(c, 'controller', 'singiular') %>
 <% end %>

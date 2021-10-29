@@ -1,7 +1,6 @@
 class RevisionesController < ApplicationController
   before_action :authenticate_usuario!
   before_action :inicia_sesion
-  before_action :carga_temas_ayuda
   before_action :set_revision, only: [:show, :edit, :update, :destroy]
 
     helper_method :sort_column, :sort_direction
@@ -9,12 +8,10 @@ class RevisionesController < ApplicationController
 # GET /revisiones
   # GET /revisiones.json
   def index
+    init_tab(['Cargas', 'Contribuciones', 'Formatos', 'Duplicados', 'Papelera'], params)
     if params[:html_options].blank?
-      @tab = 'Cargas'
       @area = session[:area].blank? ? Area.first : Area.find_by(area: session[:area])
     else
-      @tab = params[:html_options]['tab'].blank? ? 'Cargas' : params[:html_options]['tab']
-      #@area = params[:html_options]['sel'].blank? ? Area.first : Area.find_by(area: params[:html_options]['sel'])
       @area = Area.find_by(area: params[:html_options]['sel'])
       session[:area] = @area.area if session[:area] != @area.area
     end

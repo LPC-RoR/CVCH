@@ -1,13 +1,9 @@
-<div class='row'>
-  <div class='col-md-12'>
-    <%= render partial: '0p/general/titulo', locals: {c: nil, a: nil, titulo: 'Registro', size: '5'} %>
-  </div>
-</div>
 <!--h2>Registro</h2-->
 <div class='row'>
   <div class='col-md-6'>
   </div>
   <div class='col-md-6'>
+    <h4><%= render partial: '0p/general/icon_text', locals: {text: 'Registro', gly: 'person-plus', clr: 'info'} %></h4>
     <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
       <%= render "devise/shared/error_messages", resource: resource %>
 

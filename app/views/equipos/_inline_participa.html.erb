@@ -1,0 +1,11 @@
+<%= form_for :participa_equipo, url: "/equipos/participa?tab=#{@tab}" do |form| %>
+	<div class='form-inline'>
+		<%= form.text_field(:equipo, size: 60, class: 'form-control', placeholder: 'Código equipo' ) %>
+		<%#= form.submit '+ Equipo'  %>
+		<button type="submit" class="btn btn-info">
+		  <i class="bi bi-plus-circle icon-white"></i>
+		  <i class="bi bi-people icon-white"></i>
+		</button>
+	</div>
+<% end  %>
+</br>

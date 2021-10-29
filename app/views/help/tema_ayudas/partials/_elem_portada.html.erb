@@ -1,0 +1,10 @@
+<%= render partial: '0p/imagenes/ilustracion', locals: {objeto: elem, class_image: portada_setup[:clase], size: portada_setup[:size] } %>
+
+<% unless elem.credito_foto.blank? %>
+	<small><p class='text-center'><i>Crédito Fotografía: <b><%= sanitize elem.credito_foto %></b></i></p></small>
+<% end %>
+
+</br>
+<% unless elem.detalle.blank? %>
+	<%= sanitize elem.detalle %>
+<% end %>

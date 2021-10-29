@@ -1,0 +1,55 @@
+<h4 class='text-muted'><%= "#{@objeto.tipo}" %></h4>
+
+</br>
+
+<% unless ['portada', 'foot'].include?(@objeto.tipo) %>
+	<small><%= form.label 'Orden | Tema Ayuda' %></small></br>
+	<div class='form-inline'>
+
+		<%= form.text_field(:orden, size: 5, class: 'form-control' ) %>
+
+		<%= form.text_field(:tema_ayuda, size: 57, class: 'form-control' ) %>
+
+	</div>
+<% end %>
+
+<% unless ['mensaje'].include?(@objeto.tipo) %>
+	<p>
+		<small><%= form.label 'Ilustracion' %></small></br>
+
+		<% if @objeto.ilustracion.present? %>
+	  		<%= image_tag(@objeto.ilustracion.half.url) %></br>
+		<% else %>
+		    <%= form.file_field :ilustracion %>
+		    <%= form.hidden_field :ilustracion_cache %>
+		<% end %>
+	</p>
+
+	<% if @objeto.ilustracion.present? %>
+		<p>
+		<label>
+		  <%= form.check_box :remove_ilustracion %>
+		  Remueve Ilustracion
+		</label>
+		</p>
+	<% end %>
+
+	<small><%= form.label 'Crédito Fotografía' %></small></br>
+	<div class='form-inline'>
+		<%= form.text_field(:credito_foto, size: 67, class: 'form-control' ) %>
+	</div>
+
+<% end %>
+
+<small><%= form.label 'Detalle' %></small></br>
+<%= form.text_area :detalle, size: '68x6' %><!--/br-->
+
+
+<p>
+<label>
+  <%= form.check_box :activo %>
+  <small><%= 'Activo' %></small>
+</label>
+</p>
+
+<%= form.hidden_field :tipo %>

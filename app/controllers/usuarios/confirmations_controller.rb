@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 class Usuarios::ConfirmationsController < Devise::ConfirmationsController
-  before_action :carga_temas_ayuda
   # GET /resource/confirmation/new
   # def new
   #   super

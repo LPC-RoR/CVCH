@@ -1,1 +1,12 @@
-<%= render partial: '0p/tabla/tabla', locals: {c: controller_name, a: 'index'} %>
+<div class='row'>
+	<div class='col-md-6'>
+		<%= render partial: '0p/general/icon_text', locals: {text: 'Equipos Administrados', gly: 'person-check', clr: 'info'} %>
+		<%= render partial: 'equipos/inline_nuevo' %>
+		<%= render partial: 'equipos/index', locals: {coleccion: @activo.equipos, botones: true} %>
+	</div>
+	<div class='col-md-6'>
+		<%= render partial: '0p/general/icon_text', locals: {text: 'Participaciones', gly: 'people', clr: 'info'} %>
+		<%= render partial: 'equipos/inline_participa' %>
+		<%= render partial: 'equipos/index', locals: {coleccion: @activo.participaciones, botones: false} %>
+	</div>
+</div>

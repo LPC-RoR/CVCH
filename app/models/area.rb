@@ -20,4 +20,12 @@ class Area < ApplicationRecord
 	validates :area, presence: true
 	validates :area, uniqueness: true
 
+	def especies_ids
+		bug_ids = []
+		self.papers.each do |pub|
+			bug_ids << pub.especies.ids
+		end
+		bug_ids.uniq
+	end
+
 end

@@ -1,6 +1,5 @@
 class Aplicacion::PerfilesController < ApplicationController
   before_action :authenticate_usuario!, except: :inicia_sesion
-  before_action :carga_temas_ayuda
   before_action :set_perfil, only: [:show, :edit, :update, :destroy]
 
   # GET /perfiles

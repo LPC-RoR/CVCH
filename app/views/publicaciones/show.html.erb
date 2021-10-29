@@ -1,23 +1,41 @@
-<%= render partial: '0p/show/links', locals: {o: @objeto} %>
-
-<%= render partial: 'publicaciones/botones_doc_type' %>
-
-<!-- CARPETAS Y DESPLIEGUE DE CITA -->
+<%= render partial: 'publicaciones/partials/header' %>
+<hr>
 <div class='row'>
+	<div class='col-md-4'>
+		<%= render partial: '0p/tabs/tabs', locals: {tabs: @tabs, tag: 'tab', active: @tab} %>
 
-	<%= render partial: 'publicaciones/cuerpo_publicacion' %>
-
+		<% if usuario_signed_in? %>
+			<% if session[:es_administrador] %>
+				<%= render partial: 'publicaciones/partials/areas' if @tab == 'Áreas' %>
+			<% end %>
+			<% if @objeto.estado == 'publicada' %>
+				<%= render partial: 'publicaciones/partials/carpetas' if @tab == 'Carpetas' %>
+			<% end %>
+		<% end %>
+		<% if @objeto.estado == 'publicada' %>
+			<%= render partial: 'publicaciones/partials/categorias' if @tab == 'Categorías' %>
+			<%= render partial: 'publicaciones/partials/especies' if @tab == 'Especies' %>
+		<% end %>
+		<%= render partial: 'publicaciones/partials/evaluacion' %>
+	</div>
+	<div class='col-md-8'>
+		<%= render partial: 'publicaciones/partials/links' %>
+		<hr>
+		<%= render partial: 'publicaciones/partials/cita' %>
+		<hr>
+		<%= render partial: 'publicaciones/partials/abstract' %>
+	</div>
 </div>
-</br></br></br>
+<hr>
 <div class='row'>
 	<div class='col-md-6'>
-		<%= render partial: '0p/general/titulo', locals: {c: 'observaciones', a: nil, titulo: 'Observaciones', size: '5'} %>
-		<%= render partial: 'aplicacion/observaciones/index' %>
-		<%= render partial: '0p/tabla/ext_btn_nuevo', locals: {o: @objeto, c: 'observaciones'} %>
+		<%= render partial: '0p/general/icon_text', locals: {text: 'Observaciones', gly: 'chat', clr: 'success'} %>
+		<%= render partial: 'aplicacion/app_observaciones/index' %>
+		<%= render partial: '0p/tabla/ext_btn_nuevo', locals: {o: @objeto, c: 'app_observaciones', clr: 'info', gly: 'plus-circle'} %>
 	</div>
 	<div class='col-md-6'>
-		<%= render partial: '0p/general/titulo', locals: {c: 'mejoras', a: nil, titulo: 'Mejoras', size: '5'} %>
-		<%= render partial: 'aplicacion/mejoras/index' %>
-		<%= render partial: '0p/tabla/ext_btn_nuevo', locals: {o: @objeto, c: 'mejoras'} %>
+		<%= render partial: '0p/general/icon_text', locals: {text: 'Mejoras', gly: 'exclamation-diamond', clr: 'info'} %>
+		<%= render partial: 'aplicacion/app_mejoras/index' %>
+		<%= render partial: '0p/tabla/ext_btn_nuevo', locals: {o: @objeto, c: 'app_mejoras', clr: 'info', gly: 'plus-circle'} %>
 	</div>
 </div>

@@ -1,31 +1,27 @@
 class EquiposController < ApplicationController
   before_action :authenticate_usuario!
   before_action :inicia_sesion
-  before_action :carga_temas_ayuda
   before_action :set_equipo, only: [:show, :edit, :update, :destroy, :elimina_equipo]
 
   # GET /equipos
   # GET /equipos.json
   def index
-    @activo = Perfil.find(session[:perfil_activo]['id'])
-
-    if params[:html_options].blank?
-      @tab = 'Administrados'
+    if ActiveRecord::Base.connection.table_exists? 'app_perfiles'
+      @activo = AppPerfil.find(session[:perfil_activo]['id'])
     else
-      @tab = params[:html_options][:tab].blank? ? 'Administrados' : params[:html_options][:tab]
+      @activo = Perfil.find(session[:perfil_activo]['id'])
     end
-    @options = {'tab' => @tab}
-
-    @coleccion = {}
-    @coleccion['equipos'] = (@tab == 'Administrados') ? @activo.equipos : @activo.participaciones
-
   end
 
   # GET /equipos/1
   # GET /equipos/1.json
   def show
     session[:equipo_id] = @objeto.id
-    @activo = Perfil.find(session[:perfil_activo]['id'])
+    if ActiveRecord::Base.connection.table_exists? 'app_perfiles'
+      @activo = AppPerfil.find(session[:perfil_activo]['id'])
+    else
+      @activo = Perfil.find(session[:perfil_activo]['id'])
+    end
 
     if params[:html_options].blank?
       @tab = 'carpetas'
@@ -37,7 +33,7 @@ class EquiposController < ApplicationController
     # tenemos que cubrir todos los casos
     # 1. has_many : }
     @coleccion = {}
-    @coleccion['perfiles'] = @objeto.perfiles
+    @coleccion['app_perfiles'] = @objeto.app_perfiles
     @coleccion['carpetas'] = @objeto.carpetas
 
     ids_carpetas_tema = @activo.carpetas.map {|c| c.id unless Carpeta::NOT_MODIFY.include?(c.carpeta)}.compact
@@ -51,22 +47,37 @@ class EquiposController < ApplicationController
 
   def nuevo
     unless params[:nuevo_equipo][:equipo].blank?
-      @activo = Perfil.find(session[:perfil_activo]['id'])
-      case params[:tab]
-      when 'Administrados'
-        @texto_sha1 = session[:perfil_activo]['email']+params[:nuevo_equipo][:equipo]
-        @sha1 = Digest::SHA1.hexdigest(@texto_sha1)
-        @equipo = @activo.equipos.create(equipo: params[:nuevo_equipo][:equipo], sha1: @sha1)
-      when 'Participaciones'
-        @sha1 = params[:nuevo_equipo][:equipo]
-        @equipo = Equipo.find_by(sha1: @sha1)
-        unless @equipo.blank?
-          @activo.participaciones << @equipo
-        end
+      if ActiveRecord::Base.connection.table_exists? 'app_perfiles'
+        activo = AppPerfil.find(session[:perfil_activo]['id'])
+      else
+        activo = Perfil.find(session[:perfil_activo]['id'])
+      end
+
+      texto_sha1 = session[:perfil_activo]['email']+params[:nuevo_equipo][:equipo]
+      sha1 = Digest::SHA1.hexdigest(texto_sha1)
+      equipo = activo.equipos.create(equipo: params[:nuevo_equipo][:equipo], sha1: sha1)
+
+    end
+
+    redirect_to equipos_path
+  end
+
+  def participa
+    unless params[:participa_equipo][:equipo].blank?
+      if ActiveRecord::Base.connection.table_exists? 'app_perfiles'
+        activo = AppPerfil.find(session[:perfil_activo]['id'])
+      else
+        activo = Perfil.find(session[:perfil_activo]['id'])
+      end
+
+      sha1 = params[:participa_equipo][:equipo]
+      equipo = Equipo.find_by(sha1: sha1)
+      unless equipo.blank?
+        activo.participaciones << equipo
       end
 
     end
-    redirect_to "/equipos?tab=#{params[:tab]}"
+    redirect_to equipos_path
   end
 
   def nueva_carpeta_equipo

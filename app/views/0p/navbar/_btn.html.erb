@@ -2,8 +2,18 @@
 <!-- las lineas comentadas borran el botón if_current -->
 <li class="nav-item <%= 'active' if active %>">
 	<% if delete %>
-		<a class="nav-link" data-method="delete" href=<%=link%>><%= nombre %></a>
+		<%= link_to link, method: :delete, class: "nav-link" do %>
+			<% unless gly.blank? %>
+				<i class=<%="bi-#{gly}"%>></i>
+			<% end %>
+		    <%= nombre unless nombre.blank? %>
+		<% end %>
 	<% else %>
-		<a class="nav-link" href=<%=link%>><%= nombre %></a>
+		<%= link_to link, class: "nav-link" do %>
+			<% unless gly.blank? %>
+				<i class=<%="bi-#{gly}"%>></i>
+			<% end %>
+			<%= nombre unless nombre.blank? %>
+		<% end %>
 	<% end %>
 </li>

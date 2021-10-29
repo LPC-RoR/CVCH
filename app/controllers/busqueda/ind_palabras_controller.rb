@@ -1,6 +1,5 @@
 class Busqueda::IndPalabrasController < ApplicationController
   before_action :inicia_sesion
-  before_action :carga_temas_ayuda
   before_action :set_ind_palabra, only: [:show, :edit, :update, :destroy, :excluir]
 
   # GET /ind_palabras

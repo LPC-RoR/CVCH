@@ -1,0 +1,13 @@
+<small><%= form.label 'email' %></small></br>
+<%= form.text_field(:email, size: 30, class: 'form-control' ) %>
+
+<small><%= form.label 'mensaje' %></small></br>
+<%= form.text_field(:mensaje, size: 30, class: 'form-control' ) %>
+
+<small><%= form.label 'detalle' %></small></br>
+<%= form.text_area :detalle, size: '65x10' %><!--/br-->
+
+<%= form.hidden_field :perfil_id %>
+<%= form.hidden_field :tipo %>
+<%= form.hidden_field :estado %>
+<%= form.hidden_field :fecha_envio %>

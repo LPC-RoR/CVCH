@@ -1,7 +1,6 @@
 class VistasController < ApplicationController
   before_action :authenticate_usuario!, only: [:escritorio]
   before_action :inicia_sesion
-  before_action :carga_temas_ayuda
   before_action :set_vista, only: [:show, :edit, :update, :destroy]
   before_action :check_areas, only: [:index]
 
@@ -12,20 +11,14 @@ class VistasController < ApplicationController
   # GET /vistas
   # GET /vistas.json
   def index
+    # Lista del SELECTOR de ÁREAS
     @list_selector = Area.all.map {|a| [a.area, a.papers.where(estado: 'publicada').count]}
 
     if params[:html_options].blank?
-      #Recordar el lugar si se vuelve a entrar a Colección
       @area = session[:area].blank? ? Area.first : Area.find_by(area: session[:area])
-      params[:page] = session[:page] unless (session[:page].blank? or params[:page] == 2 or params[:search].present?)
     else
       @area = Area.find_by(area: params[:html_options]['sel'])
-      unless session[:area] == params[:html_options]['sel']
-        params[:page] = nil unless params[:search].present?
-        session[:area] = @area.area
-      end
     end
-    session[:page] = params[:page]
 
     # selector activo
     @sel = @area.area
@@ -39,10 +32,15 @@ class VistasController < ApplicationController
     else
       @coleccion['publicaciones'] = busqueda_publicaciones(params[:search], 'Publicacion').order(sort_column + " " + sort_direction).page(params[:page])
     end
+    @paginate = true
   end
 
   def escritorio
-    @activo = Perfil.find(session[:perfil_activo]['id'])
+    if ActiveRecord::Base.connection.table_exists? 'app_perfiles'
+      @activo = AppPerfil.find(session[:perfil_activo]['id'])
+    else
+      @activo = Perfil.find(session[:perfil_activo]['id'])
+    end
     @list_selector = @activo.carpetas.all.map {|c| [c.carpeta, c.publicaciones.count]}
 
     @tabs = ['Publicaciones', 'Citas']
@@ -74,21 +72,23 @@ class VistasController < ApplicationController
     end
 
     @accesos_dia = {
-      'Marzo'  => 54,
-      'Abril'  => 61,
-      'Mayo'   => 69,
-      'Junio'  => 63,
-      'Julio'  => 65,
-      'Agosto' => 73
+      'Marzo'      => 54,
+      'Abril'      => 61,
+      'Mayo'       => 69,
+      'Junio'      => 63,
+      'Julio'      => 65,
+      'Agosto'     => 73,
+      'Septiembre' => 89
     }
 
     @busquedas = {
-      'Marzo'  => 6,
-      'Abril'  => 24,
-      'Mayo'   => 78,
-      'Junio'  => 146,
-      'Julio'  => 378,
-      'Agosto' => 422
+      'Marzo'      => 6,
+      'Abril'      => 24,
+      'Mayo'       => 78,
+      'Junio'      => 146,
+      'Julio'      => 378,
+      'Agosto'     => 422,
+      'Septiembre' => 699
     }
 
   end
