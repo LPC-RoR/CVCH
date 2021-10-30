@@ -16,6 +16,7 @@ class AreasController < ApplicationController
   def show
     @coleccion = {}
     @coleccion['publicaciones'] = @objeto.papers.where(estado: 'publicada').order(sort_column + " " + sort_direction).page(params[:page])
+    @paginate = true
   end
 
   # GET /areas/new

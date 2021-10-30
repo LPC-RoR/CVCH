@@ -14,6 +14,7 @@ class CategoriasController < ApplicationController
   def show
     @coleccion = {}
     @coleccion['publicaciones'] = @objeto.publicaciones.where(estado: 'publicada').order(sort_column + " " + sort_direction).page(params[:page])
+    @paginate = true
   end
 
   # GET /categorias/new
