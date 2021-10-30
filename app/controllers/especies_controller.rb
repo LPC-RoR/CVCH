@@ -20,7 +20,7 @@ class EspeciesController < ApplicationController
 #    @pocas_ids = Especie.all.map {|esp| esp.id if esp.publicaciones.count < 10}.compact
 
     @coleccion = {}
-    @coleccion['especies'] = Especie.all.order(:especie)
+    @coleccion['especies'] = Especie.all.order(:especie).page(params[:page])
   end
 
   # GET /especies/1
