@@ -21,6 +21,7 @@ class EspeciesController < ApplicationController
 
     @coleccion = {}
     @coleccion['especies'] = Especie.all.order(:especie).page(params[:page])
+    @paginate = true
   end
 
   # GET /especies/1
