@@ -7,7 +7,7 @@
 		<tbody>
 			<% @coleccion['tema_ayudas'].each do |ta| %>
 
-				<tr><td><%= (['tema', 'admin'].include?(ta.tipo) ? (link_to ta.label, ta) : ta.label) %></td><td><%= render partial: '0p/tabla/btns', locals: {a: 'index', objeto: ta} %></td></tr>
+				<tr><td><%= (['tema', 'admin'].include?(ta.tipo) ? (link_to ta.tema_ayuda, ta) : ta.tema_ayuda) %></td><td><%= render partial: '0p/tabla/btns', locals: {a: 'index', objeto: ta} %></td></tr>
 
 				<% if ['tema', 'admin'].include?(@tab) %>
 
