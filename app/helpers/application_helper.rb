@@ -1,6 +1,13 @@
 module ApplicationHelper
 	## ------------------------------------------------------- HOME
 
+	def img_class 
+		{
+			centrada: 'mx-auto d-block'
+
+		}
+	end
+
 	def color(ref)
 		if [:app, :navbar].include?(ref)
 			app_color[ref]
@@ -31,6 +38,42 @@ module ApplicationHelper
 		else
 			nil
 		end
+	end
+
+	## ------------------------------------------------------- SCOPES & PARTIALS
+
+	def controllers_scope
+		{
+			aplicacion: ['app_administradores', 'app_nominas', 'app_perfiles', 'app_observaciones', 'app_mejoras', 'app_imagenes', 'archivos', 'comentarios', 'directorios', 'documentos', 'imagenes', 'licencias', 'mejoras', 'observaciones', 'recursos', 'subs'],
+			home:       ['h_temas', 'h_links', 'h_imagenes'],
+			help:       ['conversaciones', 'mensajes', 'hlp_pasos', 'temaf_ayudas', 'hlp_tutoriales'],
+			sidebar:    ['sb_listas', 'sb_elementos'],
+			data:       ['caracteristicas', 'caracterizaciones', 'columnas', 'datos', 'encabezados', 'etapas', 'lineas', 'opciones', 'tablas']
+		}
+	end
+
+	def scope_controller(controller)
+		if controllers_scope[:aplicacion].include?(controller)
+			'aplicacion'
+		elsif controllers_scope[:home].include?(controller)
+			'home'
+		elsif controllers_scope[:help].include?(controller)
+			'help'
+		elsif controllers_scope[:sidebar].include?(controller)
+			'sidebar'
+		elsif controllers_scope[:data].include?(controller)
+			'data'
+		else
+			nil
+		end
+	end
+
+	def partial?(controller, partial)
+		File.exist?("app/views/#{(scope_controller(controller).blank? ? '' : "#{scope_controller(controller)}/")}#{controller}/_#{partial}.html.erb")
+	end
+
+	def get_partial(controller, partial)
+		"#{(scope_controller(controller).blank? ? '' : "#{scope_controller(controller)}/")}#{controller}/#{partial}"
 	end
 
 	## ------------------------------------------------------- MENU
@@ -70,38 +113,30 @@ module ApplicationHelper
 		end
 	end
 
-	## ------------------------------------------------------- TABLA
+	## ------------------------------------------------------- SIDEBAR
 
-	def controllers_scope
-		{
-			help: ['conversaciones', 'mensajes', 'hlp_pasos', 'temaf_ayudas', 'hlp_tutoriales'],
-			data: ['caracteristicas', 'caracterizaciones', 'columnas', 'datos', 'encabezados', 'etapas', 'lineas', 'opciones', 'tablas'],
-			aplicacion: ['app_administradores', 'app_nominas', 'app_perfiles', 'app_observaciones', 'app_mejoras', 'archivos', 'comentarios', 'directorios', 'documentos', 'imagenes', 'licencias', 'mejoras', 'observaciones', 'recursos', 'subs'],
-			sidebar: ['sb_listas', 'sb_elementos']
-		}
+	def base_sidebar_controllers
+		[
+			'sb_listas', 'sb_elementos',
+			'app_recursos', 'app_administradores', 'app_nominas', 'app_perfiles', 'app_imagenes',
+			'h_portadas', 'h_temas', 'h_links', 'h_imagenes',
+			'hlp_tutoriales', 'hlp_pasos'
+		]
 	end
 
-	# valida el uso de alias en las tablas
-	def alias_tabla(controller)
-		if controllers_scope[:help].include?(controller) or controllers_scope[:data].include?(controller) or controllers_scope[:aplicacion].include?(controller) or controllers_scope[:sidebar].include?(controller)
-			controller
-		else
-			app_alias_tabla(controller)
-		end
+	def sidebar_controllers
+		base_sidebar_controllers.union(app_sidebar_controllers)
+	end
+
+	## ------------------------------------------------------- TABLA
+
+	# Obtiene los campos a desplegar en la tabla desde el objeto
+	def m_tabla_fields(objeto)
+		objeto.class::TABLA_FIELDS
 	end
 
 	def inline_form?(controller)
-		if controllers_scope[:help].include?(controller)
-			File.exist?("app/views/help/#{controller}/_inline_nuevo.html.erb")
-		elsif controllers_scope[:data].include?(controller)
-			File.exist?("app/views/data/#{controller}/_inline_nuevo.html.erb")
-		elsif controllers_scope[:aplicacion].include?(controller)
-			File.exist?("app/views/aplicacion/#{controller}/_inline_nuevo.html.erb")
-		elsif controllers_scope[:sidebar].include?(controller)
-			File.exist?("app/views/sidebar/#{controller}/_inline_nuevo.html.erb")
-		else
-			File.exist?("app/views/#{controller}/_inline_nuevo.html.erb")
-		end
+		partial?(app_alias_tabla(controller), 'inline_nuevo')
 	end
 
 	# Objtiene LINK DEL BOTON NEW
@@ -112,13 +147,8 @@ module ApplicationHelper
 			tipo_new = 'normal'
 		end
 		if tipo_new == 'normal'
-			(alias_tabla(controller_name) == controller or @objeto.blank?) ? "/#{controller}/new" : "/#{@objeto.class.name.tableize}/#{@objeto.id}/#{controller}/new"
+			(app_alias_tabla(controller_name) == controller or @objeto.blank?) ? "/#{controller}/new" : "/#{@objeto.class.name.tableize}/#{@objeto.id}/#{controller}/new"
 		end
-	end
-
-	# Obtiene los campos a desplegar en la tabla desde el objeto
-	def m_tabla_fields(objeto)
-		objeto.class::TABLA_FIELDS
 	end
 
 	# Obtiene los estados de un modelo usando el controlador
@@ -176,7 +206,6 @@ module ApplicationHelper
 	def link_x_btn(objeto, accion, objeto_ref)
 		ruta_raiz = "/#{objeto.class.name.tableize}/#{objeto.id}#{accion}"
 		ruta_objeto = (objeto_ref and @objeto.present?) ? "#{(!!accion.match(/\?+/) ? '&' : '?')}class_name=#{@objeto.class.name}&objeto_id=#{@objeto.id}" : ''
-#		"/#{objeto.class.name.tableize}/#{objeto.id}#{btn[1]}#{(!!btn[1].match(/\?+/) ? '&' : '?') if btn[2]}#{"class_name=#{@objeto.class.name}&objeto_id=#{@objeto.id if @objeto.present?}" if btn[2]}"
 		"#{ruta_raiz}#{ruta_objeto}"
 	end
 
@@ -198,16 +227,8 @@ module ApplicationHelper
 	end
 
 	def detail_partial(controller)
-		if controllers_scope[:help].include?(controller)
-			"help/#{controller}/detail"
-		elsif controllers_scope[:data].include?(controller)
-			"data/#{controller}/detail"
-		elsif controllers_scope[:aplicacion].include?(controller)
-			"aplicacion/#{controller}/detail"
-		elsif controllers_scope[:sidebar].include?(controller)
-			"sidebar/#{controller}/detail"
-		elsif File.exist?("app/views/#{controller}/_detail.html.erb")
-			"#{controller}/detail"
+		if partial?(controller, 'detail')
+			get_partial(controller, 'detail')
 		else
 			'0p/form/detail'
 		end
@@ -250,17 +271,12 @@ module ApplicationHelper
 	end
 
 	def status?(objeto)
-		if controllers_scope[:help].include?(controller)
-			File.exist?("app/views/help/#{controller}/_status.html.erb")
-		elsif controllers_scope[:data].include?(controller)
-			File.exist?("app/views/data/#{controller}/_status.html.erb")
-		elsif controllers_scope[:aplicacion].include?(controller)
-			File.exist?("app/views/aplicacion/#{controller}/_status.html.erb")
-		elsif controllers_scope[:sidebar].include?(controller)
-			File.exist?("app/views/sidebar/#{controller}/_status.html.erb")
-		else
-			File.exist?("app/views/#{controller}/_status.html.erb")
-		end
+		partial?(controller, 'status')
+#		if scope_controller(objeto.class.name.tableize).blank?
+#			File.exist?("app/views/#{objeto.class.name.tableize}/_status.html.erb")
+#		else
+#			File.exist?("app/views/#{scope_controller(objeto.class.name.tableize)}/#{objeto.class.name.tableize}/_status.html.erb")
+#		end
 	end
 
 	## ------------------------------------------------------- GENERAL

@@ -12,18 +12,15 @@ class AppPerfilesController < ApplicationController
 
   # GET /app_perfiles/1 or /app_perfiles/1.json
   def show
-    carga_sidebar('Administración', 'Perfiles')
   end
 
   # GET /app_perfiles/new
   def new
-    carga_sidebar('Administración', 'Perfiles')
     @objeto = AppPerfil.new
   end
 
   # GET /app_perfiles/1/edit
   def edit
-    carga_sidebar('Administración', 'Perfiles')
   end
 
   # POST /app_perfiles or /app_perfiles.json

@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  orden: 1
+  tema: MyString
+  imagen: MyString
+  credito_imagen: MyString
+  detalle: MyString
+  activo: false
+
+two:
+  orden: 1
+  tema: MyString
+  imagen: MyString
+  credito_imagen: MyString
+  detalle: MyString
+  activo: false

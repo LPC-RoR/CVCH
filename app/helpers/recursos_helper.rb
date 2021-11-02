@@ -1,24 +1,32 @@
 module RecursosHelper
 	## ------------------------------------------------------- GENERAL
 
+	def size_image
+		{
+			portada: nil,
+			tema: 'half',
+			foot: 'half'
+		}
+	end
+
 	def app_setup
 		{
 			nombre: 'CVCh',
-			home_link: 'http://www.cvch.cl'
+			home_link: 'http://www.cvch.cl',
+			title_size: 4
 		}
 	end
 
 	def portada_setup
 		{
-			size: nil,
-			clase: 'mx-auto d-block'
+			clase: img_class[:centrada]
 		}
 	end
 
 	def tema_home_setup
 		{
             size: 'half',
-            clase: 'mx-auto d-block',
+            clase: img_class[:centrada],
             titulo_size: 1,
             titulo_color: 'info',
             detalle_size: 6,
@@ -29,7 +37,7 @@ module RecursosHelper
 	def foot_setup
 		{
             size: 'half',
-            clase: 'mx-auto d-block'
+            clase: img_class[:centrada]
 		}
 	end
 
@@ -42,6 +50,13 @@ module RecursosHelper
 		}
 	end
 
+	## ------------------------------------------------------- SIDEBAR
+
+	def app_sidebar_controllers
+		[
+		]
+	end
+
 	## ------------------------------------------------------- TABLA | BTNS
 
 	def sortable_fields
@@ -50,10 +65,8 @@ module RecursosHelper
 		}
 	end
 
-	# En modelo.html.erb define el tipo de tabla con la que se despliegan las tablas
-	# <tr class="table-<%=tr_row(objeto)%>">
-	# ex 'tr_row'
-	def table_class(objeto)
+	# En modelo.html.erb define el tipo de fila de tabla
+	def table_row_type(objeto)
 		case objeto.class.name
 		when 'Publicacion'
 			if usuario_signed_in?
@@ -91,11 +104,13 @@ module RecursosHelper
 	def app_new_button_conditions(controller)
 		case controller
 		when 'publicaciones'
-			controller_name == 'contribuciones'
+			controller_name == 'contribuciones' and @tab == 'ingreso'
 		when 'areas'
 			controller_name == 'recursos'
 		when 'categorias'
 			controller_name == 'recursos'
+		when 'especies'
+			false
 		else
 			true
 		end

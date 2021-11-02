@@ -11,6 +11,17 @@ Rails.application.routes.draw do
     resources :app_observaciones
     resources :app_mejoras
 
+    resources :app_recursos do
+      collection do
+        match :ayuda, via: :get
+        match :home, via: :get
+        match :administracion, via: :get
+        match :procesos, via: :get
+      end
+    end
+
+    resources :app_imagenes
+    
     resources :administradores
     resources :perfiles
     resources :observaciones
@@ -22,11 +33,17 @@ Rails.application.routes.draw do
         match :ayuda, via: :get
         match :home, via: :get
         match :administracion, via: :get
-        match :archivos, via: :get
+        match :procesos, via: :get
       end
     end
   end
 
+  scope module: 'home' do
+    resources :h_imagenes
+    resources :h_links
+    resources :h_temas
+    end
+  
   scope module: 'sidebar' do
     resources :sb_elementos
     resources :sb_listas do
@@ -170,6 +187,6 @@ Rails.application.routes.draw do
 
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 
-  root 'aplicacion/recursos#home'
+  root 'aplicacion/app_recursos#home'
 
 end

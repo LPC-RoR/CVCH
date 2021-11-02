@@ -21,7 +21,7 @@
 
 <table class="table table-striped table-sm  thead-dark">
   <thead>
-   	<%= render partial: '0p/tabla/th', locals: {c: alias_tabla(c)} unless ['directorios', 'documentos', 'archivos', 'imagenes'].include?(c) %>
+   	<%= render partial: '0p/tabla/th', locals: {c: app_alias_tabla(c)} unless ['directorios', 'documentos', 'archivos', 'imagenes'].include?(c) %>
   </thead>
 
   <tbody>

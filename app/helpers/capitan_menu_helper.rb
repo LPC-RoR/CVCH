@@ -12,24 +12,24 @@ module CapitanMenuHelper
 	    ## Menu principal de la aplicación
 	    # [ 'Item del menú', 'link', 'tipo_item' ]
 	    [
-	        ['',               "/vistas/graficos",         'usuario', 'bar-chart-line'],
-	        ["Colecciones",    "/vistas",                  'anonimo', 'newspaper'],
-	        ["Escritorio",     "/vistas/escritorio",       'usuario', 'window-sidebar'],
-	        ["",               "/equipos",                 'usuario', 'people'],
-	        ["Contribuciones", "/contribuciones",          'usuario', 'file-earmark-arrow-up'],
-	        ['',               '/recursos/administracion', 'admin',   'person-rolodex'],
-	        ['',               "/especies",                'usuario', 'bug'],
-	        ["Revisiones",     "/revisiones",              'admin',   'file-check'],
-	        ["Cargas",         "/cargas",                  'admin',   'upload'],
-	        ["",               "/ind_estructuras",         'dog',     'binoculars'] 
+	        ['',               "/vistas/graficos",   'usuario', 'bar-chart-line'],
+	        ["Colecciones",    "/vistas",            'anonimo', 'newspaper'],
+	        ["Escritorio",     "/vistas/escritorio", 'usuario', 'window-sidebar'],
+	        ["",               "/equipos",           'usuario', 'people'],
+	        ["Contribuciones", "/contribuciones",    'usuario', 'file-earmark-arrow-up'],
+	        ['',               "/especies",          'usuario', 'bug'],
+	        ["Revisiones",     "/revisiones",        'admin',   'file-check'],
+	        ["Cargas",         "/cargas",            'admin',   'upload'],
+	        ["",               "/ind_estructuras",   'dog',     'binoculars'] 
 	    ]
 
 	end
 
 	def menu_base
 	    [
-	        ["Contenido",  "/tema_ayudas",       'admin', 'stack'],
-	        ["Procesos",   "/recursos/procesos", 'dog',   'radioactive']
+	        ['',           '/app_recursos/administracion', 'admin', 'person-rolodex'],
+	        ["Contenido",  "/tema_ayudas",                 'admin', 'stack'],
+	        ["Procesos",   "/app_recursos/procesos",       'dog',   'radioactive']
 	    ]
 	end
 

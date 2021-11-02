@@ -2,6 +2,7 @@ class Aplicacion::AppAdministradoresController < ApplicationController
   before_action :authenticate_usuario!
   before_action :inicia_sesion
   before_action :set_app_administrador, only: %i[ show edit update destroy ]
+  before_action :carga_solo_sidebar, only: %i[ show new edit create update ]
 
   include Sidebar
 
@@ -13,18 +14,15 @@ class Aplicacion::AppAdministradoresController < ApplicationController
 
   # GET /app_administradores/1 or /app_administradores/1.json
   def show
-    carga_sidebar('Administración', 'Administradores')
   end
 
   # GET /app_administradores/new
   def new
-    carga_sidebar('Administración', 'Administradores')
     @objeto = AppAdministrador.new
   end
 
   # GET /app_administradores/1/edit
   def edit
-    carga_sidebar('Administración', 'Administradores')
   end
 
   # POST /app_administradores or /app_administradores.json
@@ -69,12 +67,16 @@ class Aplicacion::AppAdministradoresController < ApplicationController
 
   private
     # Use callbacks to share common setup or constraints between actions.
+    def carga_solo_sidebar
+      carga_sidebar(nombre_sidebar(controller_name), nil)
+    end
+
     def set_app_administrador
       @objeto = AppAdministrador.find(params[:id])
     end
 
     def set_redireccion
-      @redireccion = '/recursos/administracion?t=Administradores'
+      @redireccion = '/app_recursos/administracion?t=Administradores'
     end
 
     # Only allow a list of trusted parameters through.

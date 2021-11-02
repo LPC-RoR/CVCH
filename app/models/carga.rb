@@ -52,7 +52,7 @@ class Carga < ApplicationRecord
 		
 	end
 
-	def d_archivo
+	def d_nombre
 		self.archivo.split('/').last
 	end
 end

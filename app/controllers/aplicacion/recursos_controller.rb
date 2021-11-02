@@ -28,10 +28,11 @@ class Aplicacion::RecursosController < ApplicationController
   end
 
   def administracion
-    # Trae sidebar desde concern 'sidebar.rb'
-
     carga_sidebar('Administración', params[:t])
-  
+  end
+
+  def procesos
+    redirect_to root_path
   end
 
   private

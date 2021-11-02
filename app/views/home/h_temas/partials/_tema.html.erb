@@ -1,0 +1,23 @@
+<dir class='row'>
+	
+	<dir class="col-md-<%=first_col%>">
+		<% if img_side == 'izq'%>
+			<%= render partial: '0p/imagenes/imagen', locals: {objeto: HTema.find_by(tema: nombre).imagenes.first ,field: 'imagen', size: size_image[:tema], img_class: img_class[:centrada]} %>
+		<% else %>
+			<h<%=tema_home_setup[:titulo_size]%> class="text-<%=tema_home_setup[:titulo_color]%>"><%= nombre %></h<%=tema_home_setup[:titulo_size]%>>
+			<h<%=tema_home_setup[:detalle_size]%> class='text-<%=tema_home_setup[:detalle_color]%>'>
+				<%= sanitize simple_format(HTema.find_by(tema: nombre).detalle) %>
+			</h<%=tema_home_setup[:detalle_size]%>>
+		<% end %>
+	</dir>
+	<dir class="col-md-<%=12-first_col%>">
+		<% if img_side == 'izq'%>
+			<h<%=tema_home_setup[:titulo_size]%> class="text-<%=tema_home_setup[:titulo_color]%>"><%= nombre %></h<%=tema_home_setup[:titulo_size]%>>
+			<h<%=tema_home_setup[:detalle_size]%> class='text-<%=tema_home_setup[:detalle_color]%>'>
+				<%= sanitize simple_format(HTema.find_by(tema: nombre).detalle) %>
+			</h<%=tema_home_setup[:detalle_size]%>>
+		<% else %>
+			<%= render partial: '0p/imagenes/imagen', locals: {objeto: HTema.find_by(tema: nombre).imagenes.first ,field: 'imagen', size: size_image[:tema], img_class: img_class[:centrada]} %>
+		<% end %>
+	</dir>
+</dir>

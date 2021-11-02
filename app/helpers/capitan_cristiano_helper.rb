@@ -12,6 +12,14 @@ module CapitanCristianoHelper
 			'Observación'
 		elsif ['AppMejora', 'app_mejoras'].include?(text)
 			'Mejora'
+		elsif ['AppImagen', 'app_imagenes'].include?(text)
+			'Imagen'
+		elsif ['HTema', 'h_temas'].include?(text)
+			'Tema'
+		elsif ['HLink', 'h_links'].include?(text)
+			'Enlace'
+		elsif ['HImagen', 'h_imagenes'].include?(text)
+			'Imagen'
 		elsif ['SbLista', 'sb_listas'].include?(text)
 			'Menú lateral'
 		elsif ['SbElemento', 'sb_elementos'].include?(text)
@@ -20,6 +28,8 @@ module CapitanCristianoHelper
 			'Tutorial'
 		elsif ['HlpPaso', 'hlp_pasos'].include?(text)
 			'Paso'
+		elsif ['created_at'].include?(text)
+			'Fecha'
 		else
 			cristiano_app(text, origen, destino)
 		end

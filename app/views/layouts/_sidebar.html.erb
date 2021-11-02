@@ -1,5 +1,3 @@
-<% if ['sb_listas', 'sb_elementos', 'hlp_tutoriales', 'hlp_pasos', 'recursos', 'app_administradores', 'app_nominas', 'app_perfiles'].include?(controller_name) and action_name != 'home' %>
-
 	<div class='row'>
 		<div class='col-md-4'>
 			<%= render partial: '0p/sidelist/sidelist', locals: {sb_list: @sb_elementos, name_list: @sb_name, sb_link: @sb_link } %>
@@ -8,7 +6,3 @@
 			<%= yield %>
 		</div>
 	</div>
-
-<% else %>
-	<%= yield %>
-<% end %>

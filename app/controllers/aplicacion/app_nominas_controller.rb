@@ -2,6 +2,7 @@ class Aplicacion::AppNominasController < ApplicationController
   before_action :authenticate_usuario!
   before_action :inicia_sesion
   before_action :set_app_nomina, only: %i[ show edit update destroy ]
+  before_action :carga_solo_sidebar, only: %i[ show new edit create update ]
 
   include Sidebar
 
@@ -68,12 +69,16 @@ class Aplicacion::AppNominasController < ApplicationController
 
   private
     # Use callbacks to share common setup or constraints between actions.
+    def carga_solo_sidebar
+      carga_sidebar(nombre_sidebar(controller_name), nil)
+    end
+
     def set_app_nomina
       @objeto = AppNomina.find(params[:id])
     end
 
     def set_redireccion
-      @redireccion = '/recursos/administracion?t=Nómina'
+      @redireccion = '/app_recursos/administracion?t=Nómina'
     end
 
     # Only allow a list of trusted parameters through.

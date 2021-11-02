@@ -18,7 +18,13 @@
       <% if File.exist?("app/views/layouts/_base_layout.html.erb") %>
         <%= render partial: 'layouts/base_layout' %>
       <% else %>
-        <%= yield %>
+
+        <% if sidebar_controllers.include?(controller_name) and action_name != 'home' %>
+            <%= render partial: 'layouts/sidebar' %>
+        <% else %>
+          <%= yield %>
+        <% end %>
+
       <% end %>
     </div>
     <!------------------------------------------->
