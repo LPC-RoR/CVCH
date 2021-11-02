@@ -1,10 +1,7 @@
 class HLink < ApplicationRecord
 
-	TIPOS = ['link', 'ayuda', 'path']
-
 	TABLA_FIELDS = [
-		['texto', 'show'],
-		['tipo', 'normal']
+		['texto', 'show']
 	]
 
 	def padre

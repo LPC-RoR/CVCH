@@ -71,11 +71,6 @@ class ApplicationController < ActionController::Base
 		end
 	end
 
-	# ************************************************************************** SIDEBAR
-#    def carga_solo_sidebar
-#      carga_sidebar(nombre_sidebar(controller_name), nil)
-#    end
-
 	# Este método se usa para construir un nombre de directorio a partir de un correo electrónico.
 	def archivo_usuario(email, params)
 		email.split('@').join('-').split('.').join('_')

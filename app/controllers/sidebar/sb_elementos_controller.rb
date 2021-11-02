@@ -66,10 +66,6 @@ class Sidebar::SbElementosController < ApplicationController
   end
 
   private
-    def carga_solo_sidebar
-      carga_sidebar(nombre_sidebar(controller_name), nil)
-    end
-
     # Use callbacks to share common setup or constraints between actions.
     def set_sb_elemento
       @objeto = SbElemento.find(params[:id])

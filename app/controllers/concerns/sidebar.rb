@@ -79,6 +79,11 @@ module Sidebar
 		end
 	end
 
+	# ************************************************************************** SIDEBAR
+	def carga_solo_sidebar
+      carga_sidebar(nombre_sidebar(controller_name), nil)
+    end
+
 	def nombre_sidebar(controller)
 		'Administración'
 	end

@@ -65,10 +65,6 @@ class Help::HlpTutorialesController < ApplicationController
   end
 
   private
-    def carga_solo_sidebar
-      carga_sidebar(nombre_sidebar(controller_name), nil)
-    end
-
     # Use callbacks to share common setup or constraints between actions.
     def set_hlp_tutorial
       @objeto = HlpTutorial.find(params[:id])

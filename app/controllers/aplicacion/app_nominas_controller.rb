@@ -69,10 +69,6 @@ class Aplicacion::AppNominasController < ApplicationController
 
   private
     # Use callbacks to share common setup or constraints between actions.
-    def carga_solo_sidebar
-      carga_sidebar(nombre_sidebar(controller_name), nil)
-    end
-
     def set_app_nomina
       @objeto = AppNomina.find(params[:id])
     end
