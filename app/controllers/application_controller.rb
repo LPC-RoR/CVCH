@@ -72,7 +72,7 @@ class ApplicationController < ActionController::Base
 			# Reparar perfiles si fuera necesario
 			if @perfil.present?
 				if ActiveRecord::Base.connection.table_exists? 'app_perfiles'
-					if @perfil.app_administrador_id.present? and @perfil.app_administrador.blank?
+					if @perfil.app_administrador.blank?
 						adm = AppAdministrador.find_by(email: @perfil.email)
 						if adm.present?
 							@perfil.app_administrador_id = adm.id
@@ -80,7 +80,7 @@ class ApplicationController < ActionController::Base
 						end
 					end
 				else
-					if @perfil.administrador_id.present? and @perfil.administrador.blank?
+					if @perfil.app_administrador.blank?
 						adm = Administrador.find_by(email: @perfil.email)
 						if adm.present?
 							@perfil.administrador_id = adm.id
