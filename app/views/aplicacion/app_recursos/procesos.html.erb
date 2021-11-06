@@ -1,9 +1,13 @@
 <% if @enrique_perfil.blank? %>
 	No hay Perfil
 <% else %>
-	Perfil
+	Perfil</br>
 	<%= @enrique_perfil.email %></br>
-	<%= @enrique_perfil.app_administrador_id %>
+	<%= @enrique_perfil.app_administrador_id %></br>
+	<%= @enrique_perfil.app_administrador %></br>
+	Check</br>
+	<%= @enrique_perfil.app_administrador_id.blank? %></br>
+	<%= @enrique_perfil.app_administrador.blank? %></br>
 <% end %>
 <% if @enrique_admin.blank? %>
 	No hay Administrador
