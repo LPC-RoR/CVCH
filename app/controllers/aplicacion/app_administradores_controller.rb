@@ -71,7 +71,7 @@ class Aplicacion::AppAdministradoresController < ApplicationController
     end
 
     def set_redireccion
-      @redireccion = '/app_recursos/administracion?t=Administradores'
+      @redireccion = "/app_recursos/administracion?id=#{get_elemento_id(controller_name, 'Administradores')}" 
     end
 
     # Only allow a list of trusted parameters through.

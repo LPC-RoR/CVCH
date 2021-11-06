@@ -76,7 +76,7 @@ class Home::HLinksController < ApplicationController
     end
 
     def set_redireccion
-      @redireccion = '/app_recursos/administracion?t=Enlaces'
+      @redireccion = "/app_recursos/administracion?id=#{get_elemento_id(controller_name, 'Enlaces')}" 
     end
 
     # Only allow a list of trusted parameters through.

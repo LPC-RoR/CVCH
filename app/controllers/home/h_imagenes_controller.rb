@@ -76,7 +76,7 @@ class Home::HImagenesController < ApplicationController
     end
 
     def set_redireccion
-      @redireccion = '/app_recursos/administracion?t=Imágenes'
+      @redireccion = "/app_recursos/administracion?id=#{get_elemento_id(controller_name, 'Imágenes')}" 
     end
 
     # Only allow a list of trusted parameters through.

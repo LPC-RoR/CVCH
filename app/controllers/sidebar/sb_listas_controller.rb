@@ -73,7 +73,7 @@ class Sidebar::SbListasController < ApplicationController
     end
 
     def set_redireccion
-      @redireccion = '/app_recursos/administracion?t=Menús Laterales'
+      @redireccion = "/app_recursos/administracion?id=#{get_elemento_id(controller_name, 'Menús Laterales')}" 
     end
 
     # Only allow a list of trusted parameters through.
