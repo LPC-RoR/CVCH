@@ -180,11 +180,12 @@ module IniciaAplicacion
 	end
 
 	def inicia_app
+		nombres = @perfil.carpetas.map {|car| car.carpeta}
 		if @perfil.carpetas.empty?
-			@perfil.carpetas.create(carpeta: 'Revisar')
-			@perfil.carpetas.create(carpeta: 'Excluidas')
-			@perfil.carpetas.create(carpeta: 'Postergadas')
-			@perfil.carpetas.create(carpeta: 'Revisadas')
+			@perfil.carpetas.create(carpeta: 'Revisar') unless nombres.include?('Revisar')
+			@perfil.carpetas.create(carpeta: 'Excluidas') unless nombres.include?('Excluidas')
+			@perfil.carpetas.create(carpeta: 'Postergadas') unless nombres.include?('Postergadas')
+			@perfil.carpetas.create(carpeta: 'Revisadas') unless nombres.include?('Revisadas')
 		end
 	end
 

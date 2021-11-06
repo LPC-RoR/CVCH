@@ -1,14 +1,4 @@
-class CarpetaUnicaValidator < ActiveModel::Validator
-  def validate(record)
-    if record.perfil.carpetas.map {|carpeta| carpeta.carpeta}.include?(record.carpeta) and not record.perfil.carpetas.map {|carpeta| carpeta.id}.include?(record.id)
-      record.errors[:base] << "Este nombre de Carpeta ya la ha usado"
-    end
-  end
-end
- 
 class Carpeta < ApplicationRecord
-
-  validates_with CarpetaUnicaValidator
 
 	# MARCA CARPETAS QUE NO SE MODIFICAN NI ELIMINAN
 	NOT_MODIFY = ['Revisar', 'Excluidas', 'Postergadas', 'Revisadas']
