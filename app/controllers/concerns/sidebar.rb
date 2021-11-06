@@ -69,10 +69,10 @@ module Sidebar
 		    	@coleccion = {}
 
 				if @controlador.classify.constantize.all.count < 26 or @elemento.despliegue == 'ulist'
-					@coleccion[@elemento.controlador] = @elemento.controlador.classify.constantize.all
+					@coleccion[@elemento.controlador] = @elemento.controlador.classify.constantize.all.order(:created_at)
 					@paginate = false
 				else
-					@coleccion[@elemento.controlador] = @elemento.controlador.classify.constantize.all.page(params[:page])
+					@coleccion[@elemento.controlador] = @elemento.controlador.classify.constantize.all.order(:created_at).page(params[:page])
 					@paginate = true
 				end
 
