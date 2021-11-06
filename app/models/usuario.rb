@@ -11,7 +11,7 @@ class Usuario < ApplicationRecord
 	]
 
 	def d_tipo_usuario
-		(Administrador.find_by(email: self.email).blank? ? 'usuario' : 'administrador')
+		(AppAdministrador.find_by(email: self.email).blank? ? 'usuario' : 'administrador')
 	end
 
 	def d_fecha_incorporacion

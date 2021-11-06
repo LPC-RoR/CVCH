@@ -1,18 +1,12 @@
 class Aplicacion::AppRecursosController < ApplicationController
-  before_action :authenticate_usuario!, only: :index
-  before_action :inicia_sesion
+  before_action :authenticate_usuario!, only: [:administracion, :procesos]
+  before_action :inicia_sesion, only: [:administracion, :procesos, :home]
 
   include Sidebar
 
   helper_method :sort_column, :sort_direction
 
   def index
-    @coleccion = {}
-    @coleccion['administradores'] = Administrador.all
-    @coleccion['areas'] = Area.all
-
-    @coleccion['mejoras'] = Mejora.all if session[:es_administrador]
-    @coleccion['usuarios'] = Usuario.all.order(created_at: :asc)
   end
 
   def home

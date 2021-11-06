@@ -44,14 +44,6 @@ class Carga < ApplicationRecord
 		self.n_procesados.blank? ? '[ sin procesar ]' : "[ #{self.n_procesados} : (P) #{self.n_publicadas} + (C) #{self.n_carga} + (F) #{self.n_formatos} + (D) #{self.n_duplicados} + (A) #{self.n_areas} ]"
 	end
 
-
-	def show_links
-		[
-			['Proceso', "/cargas/procesa_carga?carga_id=#{self.id}", self.estado == 'ingreso']
-		]
-		
-	end
-
 	def d_nombre
 		self.archivo.split('/').last
 	end

@@ -12,7 +12,7 @@ module IniciaAplicacion
 			# LISTA ADMINISTRACION
 			lista = SbLista.find_by(lista: 'Administración')
 			if lista.blank?
-				lista = SbLista.create(lista: 'Administración', acceso: 'admin', link: '/recursos/administracion')
+				lista = SbLista.create(lista: 'Administración', acceso: 'admin', link: '/app_recursos/administracion')
 			end
 
 			if ActiveRecord::Base.connection.table_exists? 'sb_elementos'

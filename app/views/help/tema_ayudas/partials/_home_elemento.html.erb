@@ -2,14 +2,14 @@
 	<div class='col-md-1'></div>
 	<div class='col-md-6'>
 		</br>
-		<h<%=tema_home_setup[:titulo_size]%> class="text-<%=tema_home_setup[:titulo_color]%>"><%= elem.tema_ayuda %></h<%=tema_home_setup[:titulo_size]%>>
-		<h<%=tema_home_setup[:detalle_size]%> class='text-<%=tema_home_setup[:detalle_color]%>'>
+		<h<%=font_size[:title_tema]%> class="text-<%=app_color[:title_tema]%>"><%= elem.tema_ayuda %></h<%=font_size[:title_tema]%>>
+		<h<%=font_size[:detalle_tema]%> class='text-<%=app_color[:detalle_tema]%>'>
 			<%= sanitize elem.d_detalle %>
-		</h<%=tema_home_setup[:detalle_size]%>>
+		</h<%=font_size[:detalle_tema]%>>
 	</div>
 	<div class='col-md-4'>
 		</br></br></br>
-		<%= render partial: '0p/imagenes/ilustracion', locals: {objeto: elem, class_image: tema_home_setup[:clase], size: size_image[:tema] } %>
+		<%= render partial: '0p/imagenes/ilustracion', locals: {objeto: elem, class_image: image_class[:image_tema], size: image_size[:tema] } %>
 
 		<%# unless elem.credito_foto.blank? %>
 			<!--small><p class='text-center'><i>Crédito Fotografía: <b><%#= sanitize elem.credito_foto %></b></i></p></small-->

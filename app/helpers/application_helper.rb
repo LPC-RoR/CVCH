@@ -4,7 +4,6 @@ module ApplicationHelper
 	def img_class 
 		{
 			centrada: 'mx-auto d-block'
-
 		}
 	end
 
@@ -26,10 +25,12 @@ module ApplicationHelper
 		['entire', 'half', 'quarter', 'thumb']
 	end
 
+	# DEPRECATED
 	def objeto_tema_ayuda(tipo)
 		TemaAyuda.where(tipo: tipo).any? ? TemaAyuda.where(tipo: tipo).first : nil
 	end
 
+	# DEPRECATED
 	def coleccion_tema_ayuda(tipo)
 		temas_ayuda_tipo = TemaAyuda.where(tipo: tipo)
 		if temas_ayuda_tipo.any?
@@ -48,6 +49,8 @@ module ApplicationHelper
 			home:       ['h_temas', 'h_links', 'h_imagenes'],
 			help:       ['conversaciones', 'mensajes', 'hlp_pasos', 'temaf_ayudas', 'hlp_tutoriales'],
 			sidebar:    ['sb_listas', 'sb_elementos'],
+			busqueda:   ['b_clave_facetas', 'b_claves', 'b_indice_facetas', 'b_indices', 'b_palabras', 'b_reglas'],
+			estados:    ['st_modelos', 'st_estados'],
 			data:       ['caracteristicas', 'caracterizaciones', 'columnas', 'datos', 'encabezados', 'etapas', 'lineas', 'opciones', 'tablas']
 		}
 	end
@@ -61,6 +64,10 @@ module ApplicationHelper
 			'help'
 		elsif controllers_scope[:sidebar].include?(controller)
 			'sidebar'
+		elsif controllers_scope[:busqueda].include?(controller)
+			'busqueda'
+		elsif controllers_scope[:estados].include?(controller)
+			'estados'
 		elsif controllers_scope[:data].include?(controller)
 			'data'
 		else
@@ -120,7 +127,8 @@ module ApplicationHelper
 			'sb_listas', 'sb_elementos',
 			'app_recursos', 'app_administradores', 'app_nominas', 'app_perfiles', 'app_imagenes',
 			'h_portadas', 'h_temas', 'h_links', 'h_imagenes',
-			'hlp_tutoriales', 'hlp_pasos'
+			'hlp_tutoriales', 'hlp_pasos',
+			'st_modelos', 'st_estados'
 		]
 	end
 
@@ -187,12 +195,13 @@ module ApplicationHelper
 			app_new_button_conditions(controller)
 		end
 	end
+	
 	def crud_conditions(objeto, btn)
 		if ['AppAdministrador', 'AppNomina'].include?(objeto.class.name)
 				session[:es_administrador]
 		elsif ['HlpTutorial', 'HlpPaso'].include?(objeto.class.name)
 				session[:es_administrador]
-		elsif ['AppPerfil'].include?(objeto.class.name)
+		elsif ['AppPerfil', 'Usuario'].include?(objeto.class.name)
 			false
 		elsif ['SbLista'].include?(objeto.class.name)
 			(usuario_signed_in? and session[:perfil_activo]['email'] == 'hugo.chinga.g@gmail.com') or (session[:es_administrador] and objeto.acceso != 'dog') or (objeto.acceso == 'usuario')

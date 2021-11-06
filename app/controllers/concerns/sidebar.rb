@@ -20,31 +20,7 @@ module Sidebar
 		end
 	end
 
-	def get_t(elementos, param_t)
-		if param_t.blank?
-			first_elemento(elementos).blank? ? nil : first_elemento(elementos).elemento
-		else
-			param_t
-		end
-	end
-
-	def get_controller(elementos, param_t)
-		if param_t.blank?
-			first_elemento(elementos).blank? ? nil : first_elemento(elementos).controlador
-		else
-			elementos.find_by(elemento: param_t).controlador
-		end
-	end
-
-	def get_display(elementos, param_t)
-		if param_t.blank?
-			first_elemento(elementos).blank? ? nil : first_elemento(elementos).despliegue
-		else
-			elementos.find_by(elemento: param_t).despliegue
-		end
-	end
-
-	def carga_sidebar(nombre, param_t)
+	def carga_sidebar_base(nombre, param_id)
 	    @sb_name = nombre
 
 	    lista = get_lista(nombre)
@@ -54,24 +30,49 @@ module Sidebar
 	    @sb_elementos = get_elementos(lista)
 
 	    unless ['new', 'edit', 'create', 'show'].include?(action_name)
-	    	@t = get_t(@sb_elementos, param_t)
-	    	@controlador = get_controller(@sb_elementos, @t)
-	    	@despliegue = get_display(@sb_elementos, @t)
+	    	@id = get_id(@sb_elementos, param_id)
+		    @elemento = SbElemento.find(@id)
 
-		    if @despliegue == 'show'
-	    		@objeto = @controlador.classify.constantize.first
-		    elsif @despliegue == 'ayuda'
-			    @objeto = HlpTutorial.find_by(clave: @controlador)
+	    	@controlador = get_controller(@sb_elementos, @id)
+	    end
+	end
+
+	def get_id(elementos, param_id)
+		if param_id.blank?
+			first_elemento(elementos).blank? ? nil : first_elemento(elementos).id
+		else
+			param_id
+		end
+	end
+
+	def get_controller(elementos, param_id)
+		if param_id.blank?
+			first_elemento(elementos).blank? ? nil : first_elemento(elementos).controlador
+		else
+			elementos.find(param_id).controlador
+		end
+	end
+
+	def carga_sidebar(nombre, param_id)
+
+		carga_sidebar_base(nombre, param_id)
+
+	    unless ['new', 'edit', 'create', 'show'].include?(action_name)
+
+		    if @elemento.despliegue == 'show'
+	    		@objeto = @elemento.controlador.classify.constantize.first
+		    elsif @elemento.despliegue == 'ayuda'
+			    @objeto = HlpTutorial.find_by(clave: @elemento.controlador)
 			    @coleccion = {}
 			    @coleccion['hlp_pasos'] = @objeto.hlp_pasos.order(:orden) unless @objeto.blank?
-		    elsif ['list', 'ulist'].include?(@despliegue)
+		    elsif ['list', 'ulist'].include?(@elemento.despliegue)
 		    	@coleccion = {}
 
-				if @controlador.classify.constantize.all.count < 26 or @despliegue == 'ulist'
-					@coleccion[@controlador] = @controlador.classify.constantize.all
+				if @controlador.classify.constantize.all.count < 26 or @elemento.despliegue == 'ulist'
+					@coleccion[@elemento.controlador] = @elemento.controlador.classify.constantize.all
 					@paginate = false
 				else
-					@coleccion[@controlador] = @controlador.classify.constantize.all.page(params[:page])
+					@coleccion[@elemento.controlador] = @elemento.controlador.classify.constantize.all.page(params[:page])
 					@paginate = true
 				end
 
@@ -85,6 +86,15 @@ module Sidebar
     end
 
 	def nombre_sidebar(controller)
-		'Administración'
+		case controller
+		when 'controlador'
+			'Nombre Sidebar'
+		else
+			'Administración'
+		end
+	end
+
+	def get_elemento_id(controlador, nombre_elemento)
+		SbElemento.where(controlador: controlador).find_by(elemento: nombre_elemento).id
 	end
 end

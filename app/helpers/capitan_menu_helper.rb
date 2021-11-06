@@ -8,9 +8,17 @@ module CapitanMenuHelper
 		}
 	end
 
+	def menu_base
+	    [
+	        ['',           '/app_recursos/administracion', 'admin', 'person-rolodex'],
+	        ["Contenido",  "/tema_ayudas",                 'admin', 'stack'],
+	        ["Procesos",   "/app_recursos/procesos",       'dog',   'radioactive']
+	    ]
+	end
+
 	def menu
 	    ## Menu principal de la aplicación
-	    # [ 'Item del menú', 'link', 'tipo_item' ]
+	    # [ 'Item del menú', 'link', 'accesso' ]
 	    [
 	        ['',               "/vistas/graficos",   'usuario', 'bar-chart-line'],
 	        ["Colecciones",    "/vistas",            'anonimo', 'newspaper'],
@@ -23,14 +31,6 @@ module CapitanMenuHelper
 	        ["",               "/ind_estructuras",   'dog',     'binoculars'] 
 	    ]
 
-	end
-
-	def menu_base
-	    [
-	        ['',           '/app_recursos/administracion', 'admin', 'person-rolodex'],
-	        ["Contenido",  "/tema_ayudas",                 'admin', 'stack'],
-	        ["Procesos",   "/app_recursos/procesos",       'dog',   'radioactive']
-	    ]
 	end
 
 	def dropdown_items(item)

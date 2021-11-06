@@ -34,28 +34,43 @@ class ApplicationController < ActionController::Base
 
 				if administrador.present?
 					if ActiveRecord::Base.connection.table_exists? 'app_perfiles'
+						@perfil = AppPerfil.create(email: current_usuario.email, app_administrador_id: administrador.id)
+					else 
+						@perfil = Perfil.create(email: current_usuario.email, administrador_id: administrador.id)
+					end
+				end
+
+				if @perfil.blank?
+					# Las aplicaciones con Capitan que NO tienen tabla 'nominas' se asume que tienen LIBRE REGISTRO
+					if ActiveRecord::Base.connection.table_exists? 'app_nominas'
+						nomina = AppNomina.find_by(email: current_usuario.email)
+					else
+						nomina = Nomina.find_by(email: current_usuario.email)
+					end
+
+					# Hay Aplicaciones que tienen libre registro de usuarios, otros no!
+					if nomina.present?
+						if ActiveRecord::Base.connection.table_exists? 'app_perfiles'
+							@perfil = AppPerfil.create(email: current_usuario.email)
+						else 
+							@perfil = Perfil.create(email: current_usuario.email)
+						end
+					end
+				end
+
+				if @perfil.blank? and app_setup[:libre_registro]
+					# LIBRE REGISTRO
+					if ActiveRecord::Base.connection.table_exists? 'app_perfiles'
 						@perfil = AppPerfil.create(email: current_usuario.email)
 					else 
 						@perfil = Perfil.create(email: current_usuario.email)
 					end
-					@perfil.save
 				end
 
-				# Las aplicaciones con Capitan que NO tienen tabla 'nominas' se asume que tienen LIBRE REGISTRO
-				if ActiveRecord::Base.connection.table_exists? 'nominas'
-					nomina = Nomina.find_by(email: current_usuario.email)
-					if nomina.present?
-						@perfil = (ActiveRecord::Base.connection.table_exists? 'app_perfiles' ? AppPerfil.create(email: current_usuario.email) : Perfil.create(email: current_usuario.email))
-					end
-				else
-					# LIBRE REGISTRO
-					@perfil = @perfil = (ActiveRecord::Base.connection.table_exists? 'app_perfiles' ? AppPerfil.create(email: current_usuario.email) : Perfil.create(email: current_usuario.email))
-				end
+			end
 
-				session[:hay_perfil]       = (@perfil.present? ? true : false)
-			else
-				session[:hay_perfil]       = true
-
+			if @perfil.present?
+				session[:hay_perfil] = true
 				session[:perfil_base]      = @perfil
 				session[:perfil_activo]    = @perfil
 				if ActiveRecord::Base.connection.table_exists? 'app_administradores'
@@ -65,8 +80,13 @@ class ApplicationController < ActionController::Base
 					session[:administrador]    = @perfil.administrador
 					session[:es_administrador] = @perfil.administrador.present?
 				end
-
 				inicia_app
+			else
+				session[:hay_perfil] = false
+				session[:perfil_base]      = nil
+				session[:perfil_activo]    = nil
+				session[:administrador]    = nil
+				session[:es_administrador] = false
 			end
 		end
 	end
