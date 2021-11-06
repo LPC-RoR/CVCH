@@ -26,7 +26,10 @@ class Aplicacion::AppRecursosController < ApplicationController
   end
 
   def procesos
-    redirect_to root_path
+    carga_sidebar('Administración', params[:id])
+    @enrique_perfil = AppPerfil.find_by(email: 'esilva@bio.puc.cl')
+    @enrique_admin = AppAdministrador.find_by(email: 'esilva@bio.puc.cl')
+#    redirect_to root_path
   end
 
   private
