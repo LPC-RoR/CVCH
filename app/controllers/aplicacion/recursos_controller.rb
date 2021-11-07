@@ -7,12 +7,6 @@ class Aplicacion::RecursosController < ApplicationController
   helper_method :sort_column, :sort_direction
 
 	def index
-		@coleccion = {}
-		@coleccion['administradores'] = Administrador.all
-		@coleccion['areas'] = Area.all
-
-    @coleccion['mejoras'] = Mejora.all if session[:es_administrador]
-    @coleccion['usuarios'] = Usuario.all.order(created_at: :asc)
 	end
 
 	def home

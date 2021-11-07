@@ -19,11 +19,7 @@ class CategoriasController < ApplicationController
 
   # GET /categorias/new
   def new
-    if ActiveRecord::Base.connection.table_exists? 'app_perfiles'
-      @activo = AppPerfil.find(session[:perfil_activo]['id'])
-    else
-      @activo = Perfil.find(session[:perfil_activo]['id'])
-    end
+    @activo = perfil_activo
     @objeto = @activo.aportes.new
   end
 
@@ -70,7 +66,7 @@ class CategoriasController < ApplicationController
 
     etiqueta = Etiqueta.where(publicacion_id: elemento.id).find_by(categoria_id: @objeto.id)
     unless etiqueta.blank?
-      etiqueta.asociado_por = session[:perfil_activo]['id']
+      etiqueta.asociado_por = perfil_activo_id
       etiqueta.save
     end
 

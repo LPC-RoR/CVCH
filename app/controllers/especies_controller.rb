@@ -93,7 +93,7 @@ class EspeciesController < ApplicationController
         publicacion.especies << especie
 
         etiqueta = Etiqueta.where(publicacion_id: publicacion.id).find_by(especie_id: especie.id)
-        etiqueta.asociado_por = session[:perfil_activo]['id']
+        etiqueta.asociado_por = perfil_activo_id
         etiqueta.save
       end
     end

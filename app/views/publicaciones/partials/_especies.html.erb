@@ -12,4 +12,4 @@
 	<% end  %>
 <% end  %>
 
-<%= render partial: '0p/list/action_list', locals: {nombre: 'Especies Etiquetadas', gly: 'card-checklist', clr: 'info', coleccion: @coleccion['especies'], field: 'especie', link: '/desasignar', gly_link: 'x-circle', base: true} %>
+<%= render partial: '0p/list/action_list', locals: {nombre: 'Especies Etiquetadas', gly: 'card-checklist', clr: 'info', coleccion: @coleccion['especies'], field: 'especie', link: '/desasignar', gly_link: 'x-circle', base: true, action: usuario_signed_in?} %>

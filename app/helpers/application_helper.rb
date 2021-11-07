@@ -101,22 +101,20 @@ module ApplicationHelper
 	end
 
 	def display_item_menu?(item, tipo_item)
-		# ITEMS de MENU sólo para USUARIOS REGISTRADOS
-		if session[:hay_perfil] == true
-			case tipo_item
-			when 'dog'
-				usuario_signed_in? and session[:perfil_activo]['email'] == 'hugo.chinga.g@gmail.com'
-			when 'admin'
-				(usuario_signed_in? and session[:es_administrador] == true)
-			when 'usuario'
-				usuario_signed_in? and display_item_app(item, tipo_item)
-			when 'excluir'
+		# SEGURIDADA PARA IEMS DE MENÚS
+		if perfil? == true
+			if ['dog', 'admin', 'anonimo'].include?(tipo_item)
+				(usuario_signed_in? and seguridad_desde(tipo_item))
+			elsif ['nomina', 'general'].include?(tipo_item)
+				(usuario_signed_in? and seguridad_desde(tipo_item) and display_item_app(item, tipo_item))
+			elsif tipo_item == 'excluir'
 				false
-			when 'anonimo'
-				true
 			end
+# DEPRECATED
+#			when 'usuario'
+#				usuario_signed_in? and display_item_app(item, tipo_item)
 		else
-			(tipo_item == 'anonimo' ? true : false)
+			tipo_item == 'anonimo'
 		end
 	end
 
@@ -183,30 +181,28 @@ module ApplicationHelper
 
 	## ------------------------------------------------------- TABLA | BTNS
 	def new_button_conditions(controller)
-		if ['app_administradores', 'app_nominas'].include?(controller)
-				session[:es_administrador]
-		elsif ['hlp_tutoriales', 'hlp_pasos'].include?(controller)
-				session[:es_administrador]
+		if ['app_administradores', 'app_nominas', 'hlp_tutoriales', 'hlp_pasos'].include?(controller)
+				seguridad_desde('admin')
 		elsif ['app_perfiles', 'usuarios', 'ind_palabras'].include?(controller)
 			false
-		elsif ['app_observaciones'].include?(controller)
-			objeto.perfil.id == session[:perfil_activo]['id']
+		elsif ['sb_listas'].include?(controller)
+				seguridad_desde('admin')
+		elsif ['sb_elementos'].include?(controller)
+				(@objeto.acceso == 'dog' ? dog? : seguridad_desde('admin'))
 		else
 			app_new_button_conditions(controller)
 		end
 	end
 	
 	def crud_conditions(objeto, btn)
-		if ['AppAdministrador', 'AppNomina'].include?(objeto.class.name)
-				session[:es_administrador]
-		elsif ['HlpTutorial', 'HlpPaso'].include?(objeto.class.name)
-				session[:es_administrador]
+		if ['AppAdministrador', 'AppNomina', 'HlpTutorial', 'HlpPaso'].include?(objeto.class.name)
+				seguridad_desde('admin')
 		elsif ['AppPerfil', 'Usuario'].include?(objeto.class.name)
 			false
-		elsif ['SbLista'].include?(objeto.class.name)
-			(usuario_signed_in? and session[:perfil_activo]['email'] == 'hugo.chinga.g@gmail.com') or (session[:es_administrador] and objeto.acceso != 'dog') or (objeto.acceso == 'usuario')
-		elsif ['SbElemento'].include?(objeto.class.name)
-			(usuario_signed_in? and session[:perfil_activo]['email'] == 'hugo.chinga.g@gmail.com') or (session[:es_administrador] and objeto.sb_lista.acceso != 'dog') or (objeto.sb_lista.acceso == 'usuario')
+		elsif ['SbLista', 'SbElemento'].include?(objeto.class.name)
+			(usuario_signed_in? and seguridad_desde(objeto.acceso))
+		elsif ['AppObservacion', 'AppMejora'].include?(objeto.class.name)
+			(usuario_signed_in? and objeto.perfil.id == current_usuario.id)
 		else
 			app_crud_conditions(objeto, btn)
 		end
@@ -308,7 +304,7 @@ module ApplicationHelper
 	## ------------------------------------------------------- PUBLICACION
 
 	def get_evaluacion_publicacion(publicacion, item)
-		@activo = Perfil.find(session[:perfil_activo]['id'])
+		@activo = perfil_activo
 		e = @activo.evaluaciones.find_by(aspecto: item, publicacion_id: publicacion.id)
 		e.blank? ? '[no evaluado]' : e.evaluacion
 	end

@@ -10,9 +10,9 @@ class CargasController < ApplicationController
   # GET /cargas.json
   def index
     if ActiveRecord::Base.connection.table_exists? 'app_perfiles'
-      @activo = AppPerfil.find(session[:perfil_activo]['id'])
+      @activo = AppPerfil.find(perfil_activo_id)
     else
-      @activo = Perfil.find(session[:perfil_activo]['id'])
+      @activo = Perfil.find(perfil_activo_id)
     end
 
     @coleccion = {}
@@ -20,7 +20,7 @@ class CargasController < ApplicationController
   end
 
   def sel_archivo
-    @activo = Perfil.find(session[:perfil_activo]['id'])
+    @activo = perfil_activo
     @archivos = Dir.glob("#{Rails.root}#{Configuracion::RUTA_ARCHIVOS_ADMIN}#{controller_name}/**/*") - @activo.cargas.map {|c| c.archivo}
   end
 
@@ -44,8 +44,7 @@ class CargasController < ApplicationController
 
   # GET /cargas/new
   def new         
-    @objeto  = Carga.new(estado: 'ingreso', app_perfil_id: session[:perfil_activo]['id'])
-
+    @objeto  = Carga.new(estado: 'ingreso', app_perfil_id: perfil_activo_id)
   end
 
   # GET /cargas/1/edit

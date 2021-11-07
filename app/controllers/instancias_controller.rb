@@ -35,7 +35,7 @@ class InstanciasController < ApplicationController
     publicacion = Publicacion.find(params[:publicacion_id])
 
     unless params[:instancia_nuevo][:instancia].blank? or params[:instancia_nuevo][:concepto_id].blank?
-      @activo = Perfil.find(session[:perfil_activo]['id'])
+      @activo = perfil_activo
 
       concepto = Concepto.find(params[:instancia_nuevo][:concepto_id])
       # generamos el SHA1 del texto ingresado strip & downcase
@@ -55,7 +55,7 @@ class InstanciasController < ApplicationController
         end
       end
       # 2.- Enrutar
-      if session[:es_administrador] or concepto.perfil.id == @activo.id
+      if admin? or concepto.perfil.id == @activo.id
         unless publicacion.instancias.ids.include?(instancia.id)
           publicacion.instancias << instancia
           ruta = Ruta.where(publicacion_id: publicacion.id).find_by(instancia_id: instancia.id)

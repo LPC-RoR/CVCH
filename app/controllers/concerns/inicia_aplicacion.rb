@@ -80,9 +80,9 @@ module IniciaAplicacion
 
 		if ActiveRecord::Base.connection.table_exists? 'app_administradores'
 			# DOG
-			dog = AppAdministrador.find_by(email: 'hugo.chinga.g@gmail.com')
+			dog = AppAdministrador.find_by(email: dog_email)
 			if dog.blank?
-				AppAdministrador.create(administrador: 'Hugo Chinga G.', email: 'hugo.chinga.g@gmail.com')
+				AppAdministrador.create(administrador: dog_name, email: dog_email)
 			end
 
 			if AppAdministrador.all.empty?

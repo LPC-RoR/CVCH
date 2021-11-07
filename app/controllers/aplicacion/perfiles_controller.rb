@@ -5,19 +5,11 @@ class Aplicacion::PerfilesController < ApplicationController
   # GET /perfiles
   # GET /perfiles.json
   def index
-    if session[:perfil_activo] == session[:perfil_base]
-      @activo = Perfil.find(session[:perfil_activo]['id'])
-      @coleccion = Perfil.where(id: @activo.equipos.map {|e| e.perfil.id})
-    else
-      @coleccion = Perfil.where(id: session[:perfil_base]['id'])
-    end
   end
 
   # GET /perfiles/1
   # GET /perfiles/1.json
   def show
-    session[:perfil_activo] = @objeto
-    redirect_to '/perfiles'
   end
 
   # GET /perfiles/new

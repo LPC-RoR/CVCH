@@ -20,12 +20,12 @@ module CapitanMenuHelper
 	    ## Menu principal de la aplicación
 	    # [ 'Item del menú', 'link', 'accesso' ]
 	    [
-	        ['',               "/vistas/graficos",   'usuario', 'bar-chart-line'],
+	        ['',               "/vistas/graficos",   'general', 'bar-chart-line'],
 	        ["Colecciones",    "/vistas",            'anonimo', 'newspaper'],
-	        ["Escritorio",     "/vistas/escritorio", 'usuario', 'window-sidebar'],
-	        ["",               "/equipos",           'usuario', 'people'],
-	        ["Contribuciones", "/contribuciones",    'usuario', 'file-earmark-arrow-up'],
-	        ['',               "/especies",          'usuario', 'bug'],
+	        ["Escritorio",     "/vistas/escritorio", 'general', 'window-sidebar'],
+	        ["",               "/equipos",           'general', 'people'],
+	        ["Contribuciones", "/contribuciones",    'general', 'file-earmark-arrow-up'],
+	        ['',               "/especies",          'general', 'bug'],
 	        ["Revisiones",     "/revisiones",        'admin',   'file-check'],
 	        ["Cargas",         "/cargas",            'admin',   'upload'],
 	        ["",               "/ind_estructuras",   'dog',     'binoculars'] 

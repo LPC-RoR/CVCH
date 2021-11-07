@@ -6,11 +6,7 @@ class Help::MensajesController < ApplicationController
   # GET /mensajes.json
   def index
 
-    if ActiveRecord::Base.connection.table_exists? 'app_perfiles'
-      @activo = AppPerfil.find(session[:perfil_activo]['id'])
-    else
-      @activo = Perfil.find(session[:perfil_activo]['id'])
-    end
+    @activo = perfil_activo
 
     @tabs = ['ingreso', 'enviados', 'recibidos', 'cerrados']
     if params[:html_options].blank?
@@ -23,7 +19,7 @@ class Help::MensajesController < ApplicationController
     @coleccion = {}
 
 
-    coleccion_base = session[:es_administrador] ? Mensaje.all : @activo.mensajes
+    coleccion_base = admin? ? Mensaje.all : @activo.mensajes
     encabezados = coleccion_base.where.not(tipo: 'respuesta')
 
     autenticados = Mensaje.where.not(perfil_id: nil)
@@ -32,7 +28,7 @@ class Help::MensajesController < ApplicationController
     ## INGRESO
     # En 'ingreso' deben estar MENSAJES Y RESPUESTAS sin enviar
     if @tab == 'ingreso'
-      if session[:es_administrador]
+      if admin?
         @coleccion[controller_name] = coleccion_base.where(id: ids_administrativos).where(estado: 'ingreso').order(fecha_envio: :desc)
       else
         @coleccion[controller_name] = coleccion_base.where(estado: @tab.singularize).order(fecha_envio: :desc)
@@ -51,7 +47,7 @@ class Help::MensajesController < ApplicationController
       ## ENVIADOS
       if @tab == 'enviados'
         # A un administrador se le muestran TODOS los mensajes que ha creado, sin importar el estado
-        if session[:es_administrador]
+        if admin?
           @coleccion[controller_name] = enviados.where(id: ids_administrativos).order(fecha_envio: :desc)
         # A un usuario, se le muestra todo lo creado que NO ha sido cerrado
         else
@@ -63,7 +59,7 @@ class Help::MensajesController < ApplicationController
         usuario_con_respuesta = Mensaje.where(id: ids_usuario_con_respuesta)
         ## ADMINISTRADOR
         # Los ENVIADOS POR USUARIOS SIN RESPUESTA + CON RESPUESTA CUYA ULTIMA RESPUESTA ES DEL USUARIO
-        if session[:es_administrador]
+        if admin?
           ids_usuario_con_respuesta_usuario = usuario_con_respuesta.map {|msg| msg.id if msg.children.order(fecha_envio: :desc).first.perfil.administrador.blank?}.compact
           ids_coleccion = (ids_usuario_sin_respuesta | ids_usuario_con_respuesta_usuario)
         ## USUARIO
@@ -87,8 +83,8 @@ class Help::MensajesController < ApplicationController
   # GET /mensajes/new
   def new
     if usuario_signed_in?
-      perfil_id = session[:perfil_activo]['id']
-      tipo      = session[:es_administrador] ? 'administrador' : 'usuario'
+      perfil_id = perfil_activo_id
+      tipo      = admin? ? 'administrador' : 'usuario'
       estado    = 'ingreso'
     else
       perfil_id = nil
@@ -106,8 +102,8 @@ class Help::MensajesController < ApplicationController
 
   def respuesta
     @padre = Mensaje.find(params[:padre_id])
-    perfil_id = session[:perfil_activo]['id']
-    tipo      = session[:es_administrador] ? 'administrador' : 'usuario'
+    perfil_id = perfil_activo_id
+    tipo      = admin? ? 'administrador' : 'usuario'
     estado    = 'enviado'
     mensaje = params[:mensaje_base][:mensaje]
     detalle = params[:mensaje_base][:detalle]

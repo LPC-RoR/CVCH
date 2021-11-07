@@ -6,22 +6,14 @@ class EquiposController < ApplicationController
   # GET /equipos
   # GET /equipos.json
   def index
-    if ActiveRecord::Base.connection.table_exists? 'app_perfiles'
-      @activo = AppPerfil.find(session[:perfil_activo]['id'])
-    else
-      @activo = Perfil.find(session[:perfil_activo]['id'])
-    end
+    @activo = perfil_activo
   end
 
   # GET /equipos/1
   # GET /equipos/1.json
   def show
     session[:equipo_id] = @objeto.id
-    if ActiveRecord::Base.connection.table_exists? 'app_perfiles'
-      @activo = AppPerfil.find(session[:perfil_activo]['id'])
-    else
-      @activo = Perfil.find(session[:perfil_activo]['id'])
-    end
+    @activo = perfil_activo
 
     if params[:html_options].blank?
       @tab = 'carpetas'
@@ -47,13 +39,9 @@ class EquiposController < ApplicationController
 
   def nuevo
     unless params[:nuevo_equipo][:equipo].blank?
-      if ActiveRecord::Base.connection.table_exists? 'app_perfiles'
-        activo = AppPerfil.find(session[:perfil_activo]['id'])
-      else
-        activo = Perfil.find(session[:perfil_activo]['id'])
-      end
+      activo = perfil_activo
 
-      texto_sha1 = session[:perfil_activo]['email']+params[:nuevo_equipo][:equipo]
+      texto_sha1 = perfil_activo.email+params[:nuevo_equipo][:equipo]
       sha1 = Digest::SHA1.hexdigest(texto_sha1)
       equipo = activo.equipos.create(equipo: params[:nuevo_equipo][:equipo], sha1: sha1)
 
@@ -64,11 +52,7 @@ class EquiposController < ApplicationController
 
   def participa
     unless params[:participa_equipo][:equipo].blank?
-      if ActiveRecord::Base.connection.table_exists? 'app_perfiles'
-        activo = AppPerfil.find(session[:perfil_activo]['id'])
-      else
-        activo = Perfil.find(session[:perfil_activo]['id'])
-      end
+      activo = perfil_activo
 
       sha1 = params[:participa_equipo][:equipo]
       equipo = Equipo.find_by(sha1: sha1)
@@ -137,7 +121,7 @@ class EquiposController < ApplicationController
   end
 
   def elimina_equipo
-    @activo = Perfil.find(session[:perfil_activo]['id'])
+    @activo = perfil_activo
     @objeto.delete
     redirect_to @objeto
   end

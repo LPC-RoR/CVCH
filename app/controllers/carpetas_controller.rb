@@ -7,7 +7,7 @@ class CarpetasController < ApplicationController
   # GET /carpetas
   # GET /carpetas.json
   def index
-    @activo = Perfil.find(session[:perfil_activo]['id'])
+    @activo = perfil_activo
 
     @coleccion = {}
     @coleccion['carpetas'] =  @activo.carpetas
@@ -22,13 +22,13 @@ class CarpetasController < ApplicationController
 
   # GET /carpetas/new
   def new
-    @activo = Perfil.find(session[:perfil_activo]['id'])
+    @activo = perfil_activo
     @objeto = @activo.carpetas.new
   end
 
   def nuevo
     publicacion = Publicacion.find(params[:objeto_id])
-    activo = Perfil.find(session[:perfil_activo]['id'])
+    activo = perfil_activo
     unless params[:nueva_carpeta][:carpeta].blank?
       activo.carpetas.create(carpeta: params[:nueva_carpeta][:carpeta])
     end
@@ -73,11 +73,7 @@ class CarpetasController < ApplicationController
   end
 
   def asigna
-    if ActiveRecord::Base.connection.table_exists? 'app_perfiles'
-      activo = AppPerfil.find(session[:perfil_activo]['id'])
-    else
-      activo = Perfil.find(session[:perfil_activo]['id'])
-    end
+    activo = perfil_activo
 
     elemento = params[:class_name].constantize.find(params[:objeto_id])
 

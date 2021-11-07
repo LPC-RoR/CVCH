@@ -10,7 +10,7 @@
     <% end %>
 
     <% if usuario_signed_in? %>
-      <% if session[:es_administrador] %>
+      <% if admin? %>
         <div class="dropdown-divider"></div>
         <% unless @temas_admin.empty? %>
           <% @temas_admin.each do |tema| %>

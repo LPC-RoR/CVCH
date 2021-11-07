@@ -7,11 +7,7 @@ class ContribucionesController < ApplicationController
   # GET /contribuciones
   # GET /contribuciones.json
   def index
-    if ActiveRecord::Base.connection.table_exists? 'app_perfiles'
-      @activo = AppPerfil.find(session[:perfil_activo]['id'])
-    else
-      @activo = Perfil.find(session[:perfil_activo]['id'])
-    end
+    @activo = perfil_activo
 
     init_tab(['ingreso', 'contribucion', 'publicada'], params)
     @options = { 'tab' => @tab }

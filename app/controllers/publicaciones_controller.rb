@@ -28,7 +28,7 @@ class PublicacionesController < ApplicationController
   # GET /publicaciones/1.json
   def show
     c_tab = [
-      ['Áreas', (usuario_signed_in? and session[:es_administrador])],
+      ['Áreas', (usuario_signed_in? and admin?)],
       ['Carpetas', (usuario_signed_in? and @objeto.estado == 'publicada')],
       ['Categorías', (@objeto.estado == 'publicada')],
       ['Especies', (@objeto.estado == 'publicada')]
@@ -40,12 +40,7 @@ class PublicacionesController < ApplicationController
 
     if usuario_signed_in?
 
-      if ActiveRecord::Base.connection.table_exists? 'app_perfiles'
-        @activo = AppPerfil.find(session[:perfil_activo]['id'])
-      else
-        @activo = Perfil.find(session[:perfil_activo]['id'])
-      end
-
+      @activo = perfil_activo
 
       # ********************** CARPETAS *****************************
       if @objeto.estado == 'publicada'
@@ -79,7 +74,7 @@ class PublicacionesController < ApplicationController
         @coleccion['carpetas'] = @objeto.carpetas
 
       end
-      if session[:es_administrador]
+      if admin?
 
         @areas_seleccion = Area.find(Area.all.ids - @objeto.areas.ids)
 
@@ -114,11 +109,7 @@ class PublicacionesController < ApplicationController
 
   # GET /publicaciones/new
   def new
-    if ActiveRecord::Base.connection.table_exists? 'app_perfiles'
-      @activo = AppPerfil.find(session[:perfil_activo]['id'])
-    else
-      @activo = Perfil.find(session[:perfil_activo]['id'])
-    end
+    @activo = perfil_activo
     @objeto = @activo.contribuciones.new(origen: 'ingreso', estado: 'ingreso')
   end
 
@@ -165,7 +156,7 @@ class PublicacionesController < ApplicationController
   end
 
   def cambia_evaluacion
-    @activo = Perfil.find(session[:perfil_activo]['id'])
+    @activo = perfil_activo
 #    @objeto = Publicacion.find(params[:publicacion_id])
 
     @evaluacion = @objeto.evaluaciones.find_by(aspecto: params[:item], perfil_id: @activo.id)

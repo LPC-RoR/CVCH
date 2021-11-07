@@ -36,11 +36,7 @@ class VistasController < ApplicationController
   end
 
   def escritorio
-    if ActiveRecord::Base.connection.table_exists? 'app_perfiles'
-      @activo = AppPerfil.find(session[:perfil_activo]['id'])
-    else
-      @activo = Perfil.find(session[:perfil_activo]['id'])
-    end
+    @activo = perfil_activo
     @list_selector = @activo.carpetas.all.map {|c| [c.carpeta, c.publicaciones.count]}
 
     @tabs = ['Publicaciones', 'Citas']

@@ -66,12 +66,7 @@ module CapitanRecursosHelper
 		case objeto.class.name
 		when 'Publicacion'
 			if usuario_signed_in?
-				if ActiveRecord::Base.connection.table_exists? 'app_perfiles'
-					activo = AppPerfil.find(session[:perfil_activo]['id'])
-				else
-					activo = Perfil.find(session[:perfil_activo]['id'])
-				end
-				(objeto.carpetas.ids & activo.carpetas.ids).empty? ? 'default' : 'dark'
+				(objeto.carpetas.ids & perfil_activo.carpetas.ids).empty? ? 'default' : 'dark'
 			else
 				'default'
 			end
@@ -119,29 +114,20 @@ module CapitanRecursosHelper
 		when 'Carpeta'
 			(not Carpeta::NOT_MODIFY.include?(objeto.carpeta)) and controller_name == 'vistas'
 		when 'Area'
-			(not Area::NOT_MODIFY.include?(objeto.area)) and
-			controller_name == 'recursos' and
-			((session[:es_administrador]) or (session[:perfil_activo]['email'] == 'hugo.chinga.g@gmail.com'))
-#			((not Area::NOT_MODIFY.include?(objeto.area)) and controller_name == 'rutas' and ((session[:es_administrador]) or (session[:perfil_activo]['email'] == 'hugo.chinga.g@gmail.com')))
+			(not Area::NOT_MODIFY.include?(objeto.area)) and controller_name == 'recursos' and seguridad_desde('admin')
 		when 'Instancia'
 			false
 		when 'Ruta'
 			false
 		when 'Propuesta'
 			false
-		when 'Observacion'
-			usuario_signed_in? ? (objeto.owner_id == session[:perfil_activo]['id'] or session[:es_administrador]) : false
-		when 'Mejora'
-			usuario_signed_in? ? (objeto.owner_id == session[:perfil_activo]['id'] or session[:es_administrador]) : false
-		when 'Usuario'
-			false
 		when 'Categoria'
-			usuario_signed_in? and objeto.perfil_id == session[:perfil_activo]['id'] or session[:es_administrador] and controller_name == 'recursos'
+			usuario_signed_in? and objeto.perfil_id == perfil_activo_id or admin? and controller_name == 'recursos'
 		when 'Especie'
 			false
 		else
 			if ['TemaAyuda', 'Tutorial', 'Paso'].include?(objeto.class.name)
-				(usuario_signed_in? ? session[:es_administrador] : false)
+				(usuario_signed_in? ? admin? : false)
 			elsif ['IndClave', 'IndExpresion', 'IndIndice', 'IndPalabra'].include?(objeto.class.name)
 				false
 			else
@@ -163,7 +149,7 @@ module CapitanRecursosHelper
 		when 'Clasificacion'
 			objeto.clasificacion != btn
 		when 'Carpeta'
-			['publicaciones', 'equipos'].include?(controller_name) and not Carpeta::NOT_MODIFY.include?(objeto.carpeta) and objeto.perfil.id == session[:perfil_activo]['id'].to_i
+			['publicaciones', 'equipos'].include?(controller_name) and not Carpeta::NOT_MODIFY.include?(objeto.carpeta) and objeto.perfil.id == perfil_activo_id
 		when 'Area'
 			controller_name == 'publicaciones'
 		when 'Ruta'
@@ -173,18 +159,18 @@ module CapitanRecursosHelper
 		when 'Categoria'
 			if controller_name == 'publicaciones' and usuario_signed_in?
 				etiqueta = Etiqueta.where(publicacion_id: @objeto.id).find_by(categoria_id: objeto.id)
-				mi_categoria = objeto.perfil.id == session[:perfil_activo]['id']
-				mi_asignacion = etiqueta.asociado_por == session[:perfil_activo]['id']
+				mi_categoria = objeto.perfil.id == perfil_activo_id
+				mi_asignacion = etiqueta.asociado_por == perfil_activo_id
 				etiqueta_revisada = etiqueta.revisado.blank? ? false : (etiqueta.revisado)
 				asignacion_administrativa = Perfil.find(etiqueta.asociado_por).administrador.present?
 
 				case btn
 				when 'Desasignar'
-					session[:es_administrador] or mi_categoria or mi_asignacion
+					admin? or mi_categoria or mi_asignacion
 				when 'Aceptar'
-					(session[:es_administrador] or mi_categoria) and (not (mi_asignacion or asignacion_administrativa)) and (not etiqueta_revisada)
+					(admin? or mi_categoria) and (not (mi_asignacion or asignacion_administrativa)) and (not etiqueta_revisada)
 				when 'Rechazar'
-					(session[:es_administrador] or mi_categoria) and (not (mi_asignacion or asignacion_administrativa)) and (etiqueta_revisada)
+					(admin? or mi_categoria) and (not (mi_asignacion or asignacion_administrativa)) and (etiqueta_revisada)
 				end
 			else
 				false
@@ -192,17 +178,17 @@ module CapitanRecursosHelper
 		when 'Especie'
 			if controller_name == 'publicaciones' and usuario_signed_in?
 				etiqueta = Etiqueta.where(publicacion_id: @objeto.id).find_by(especie_id: objeto.id)
-				mi_asignacion = etiqueta.asociado_por == session[:perfil_activo]['id']
+				mi_asignacion = etiqueta.asociado_por == perfil_activo_id
 				etiqueta_revisada = etiqueta.revisado.blank? ? false : (etiqueta.revisado)
 				asignacion_administrativa = Perfil.find(etiqueta.asociado_por).administrador.present?
 
 				case btn
 				when 'Desasignar'
-					session[:es_administrador] or mi_asignacion
+					admin? or mi_asignacion
 				when 'Aceptar'
-					session[:es_administrador] and (not (mi_asignacion or asignacion_administrativa)) and (not etiqueta_revisada)
+					admin? and (not (mi_asignacion or asignacion_administrativa)) and (not etiqueta_revisada)
 				when 'Rechazar'
-					session[:es_administrador] and (not (mi_asignacion or asignacion_administrativa)) and (etiqueta_revisada)
+					admin? and (not (mi_asignacion or asignacion_administrativa)) and (etiqueta_revisada)
 				end
 			else
 				false

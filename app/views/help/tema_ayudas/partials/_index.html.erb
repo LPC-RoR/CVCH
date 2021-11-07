@@ -45,6 +45,6 @@
 
 <!-- Btn_nuevo manual -->
 </br></br>
-<% if  session[:es_administrador] %>
+<% if admin? %>
 	<%= render partial: '0p/general/btn_turbolink', locals: {texto: "Tema Ayuda", gly: 'plus-circle', link: get_new_link('tema_ayudas')+"?tipo=#{@tab}", clr: color('tema_ayudas'), delete: false} %>
 <% end %>

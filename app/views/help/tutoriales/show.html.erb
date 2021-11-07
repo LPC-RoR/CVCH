@@ -17,7 +17,7 @@
 			</table>
 		<% end %>
 
-		<%= render partial: '0p/general/btn_turbolink', locals: {texto: "Paso", gly: 'plus-circle', link: get_new_link('pasos'), clr: color('pasos'), delete: false} if session[:es_administrador] %>
+		<%= render partial: '0p/general/btn_turbolink', locals: {texto: "Paso", gly: 'plus-circle', link: get_new_link('pasos'), clr: color('pasos'), delete: false} if admin? %>
 
 	</div>
 	<div class='col-md-2'>

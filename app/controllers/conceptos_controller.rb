@@ -6,7 +6,7 @@ class ConceptosController < ApplicationController
   # GET /conceptos
   # GET /conceptos.json
   def index
-    @activo = Perfil.find(session[:perfil_activo]['id'])
+    @activo = perfil_activo
     if params[:html_options].blank?
       @tab = @activo.administrador.present? ? 'plataforma' : 'propios'
     else
@@ -41,7 +41,7 @@ class ConceptosController < ApplicationController
 
   # GET /conceptos/new
   def new
-    @activo = Perfil.find(session[:perfil_activo]['id'])
+    @activo = perfil_activo
     @objeto = @activo.conceptos.new
   end
 

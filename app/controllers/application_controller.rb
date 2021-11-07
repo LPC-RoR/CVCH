@@ -2,22 +2,22 @@ class ApplicationController < ActionController::Base
 
 	include IniciaAplicacion
 
+	helper_method :dog?, :admin?, :nomina?, :general?, :anonimo?, :seguridad_desde, :dog_email, :dog_name, :perfil?, :perfil_activo, :perfil_activo_id
+
 	def inicia_sesion
-		if usuario_signed_in? and session[:perfil_base].blank?
+		if usuario_signed_in? and perfil_activo.blank?
 			# Perro furioso
 
 			set_tablas_base
-			
+
 			if ActiveRecord::Base.connection.table_exists? 'app_administradores'
-				@dog = AppAdministrador.find_by(email: 'hugo.chinga.g@gmail.com')
-				@dog = AppAdministrador.create(administrador: 'Hugo Chinga G.', email: 'hugo.chinga.g@gmail.com') if @dog.blank?
+				@dog = AppAdministrador.find_by(email: dog_email)
+				@dog = AppAdministrador.create(administrador: dog_name, email: dog_email) if @dog.blank?
 			else
-				@dog = Administrador.find_by(email: 'hugo.chinga.g@gmail.com')
-				@dog = Administrador.create(administrador: 'Hugo Chinga G.', email: 'hugo.chinga.g@gmail.com') if @dog.blank?
+				@dog = Administrador.find_by(email: dog_email)
+				@dog = Administrador.create(administrador: dog_name, email: dog_email) if @dog.blank?
 			end
 
-			# En este minuto SIMULA que viene de la autenticacion con un usuario.email == 'hugo.chinga.g@gmail.com'
-			# 1.- Verifica si Hay Perfil para ese correo
 			if ActiveRecord::Base.connection.table_exists? 'app_administradores'
 				@perfil = AppPerfil.find_by(email: current_usuario.email)
 			else
@@ -90,25 +90,8 @@ class ApplicationController < ActionController::Base
 				end
 			end
 
-			if @perfil.present?
-				session[:hay_perfil] = true
-				session[:perfil_base]      = @perfil
-				session[:perfil_activo]    = @perfil
-				if ActiveRecord::Base.connection.table_exists? 'app_administradores'
-					session[:administrador]    = @perfil.app_administrador
-					session[:es_administrador] = @perfil.app_administrador.present?
-				else
-					session[:administrador]    = @perfil.administrador
-					session[:es_administrador] = @perfil.administrador.present?
-				end
-				inicia_app
-			else
-				session[:hay_perfil] = false
-				session[:perfil_base]      = nil
-				session[:perfil_activo]    = nil
-				session[:administrador]    = nil
-				session[:es_administrador] = false
-			end
+			inicia_app if @perfil.present?
+
 		end
 	end
 
@@ -124,6 +107,69 @@ class ApplicationController < ActionController::Base
 		  @tab = @tabs[0]
 		else
 		  @tab = params[:html_options][:tab].blank? ? @tabs[0] : params[:html_options][:tab]
+		end
+	end
+
+	def dog_name
+		'Hugo Chinga G.'
+	end
+
+	def dog_email
+		'hugo.chinga.g@gmail.com'
+	end
+
+	def perfil?
+		if ActiveRecord::Base.connection.table_exists? 'app_perfiles'
+			usuario_signed_in? ? AppPerfil.find_by(email: current_usuario.email).present? : false
+		else
+			usuario_signed_in? ? Perfil.find_by(email: current_usuario.email).present? : false
+		end
+	end
+
+	def perfil_activo
+		if ActiveRecord::Base.connection.table_exists? 'app_perfiles'
+			usuario_signed_in? ? AppPerfil.find_by(email: current_usuario.email) : nil
+		else
+			usuario_signed_in? ? Perfil.find_by(email: current_usuario.email) : nil
+		end
+	end
+
+	def perfil_activo_id
+		usuario_signed_in? ? (perfil_activo.blank? ? nil : perfil_activo.id) : nil
+	end
+
+	def dog?
+		usuario_signed_in? ? (current_usuario.email == dog_email) : false
+	end
+
+	def admin?
+		usuario_signed_in? ? AppAdministrador.find_by(email: current_usuario.email).present? : false
+	end
+
+	def nomina?
+		usuario_signed_in? ? AppNomina.find_by(email: current_usuario.email).present? : false
+	end
+
+	def general?
+		not admin? and not nomina?
+	end
+
+	def anonimo?
+		not usuario_signed_in?
+	end
+
+	def seguridad_desde(tipo_usuario)
+		case tipo_usuario
+		when 'dog'
+			dog?
+		when 'admin'
+			dog? or admin?
+		when 'nomina'
+			dog? or admin? or nomina?
+		when 'general'
+			dog? or admin? or nomina? or general?
+		when 'anonimo'
+			true
 		end
 	end
 
