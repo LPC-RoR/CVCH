@@ -179,6 +179,10 @@ module IniciaAplicacion
 
 	end
 
+	def libre_registro
+		true
+	end
+
 	def inicia_app
 		nombres = @perfil.carpetas.map {|car| car.carpeta}
 		if @perfil.carpetas.empty?

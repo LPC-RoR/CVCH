@@ -54,7 +54,7 @@ class ApplicationController < ActionController::Base
 					end
 				end
 
-				if @perfil.blank? and app_setup[:libre_registro]
+				if @perfil.blank? and libre_registro
 					# LIBRE REGISTRO
 					if ActiveRecord::Base.connection.table_exists? 'app_perfiles'
 						@perfil = AppPerfil.create(email: current_usuario.email)
