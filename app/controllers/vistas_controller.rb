@@ -74,7 +74,8 @@ class VistasController < ApplicationController
       'Junio'      => 63,
       'Julio'      => 65,
       'Agosto'     => 73,
-      'Septiembre' => 89
+      'Septiembre' => 89,
+      'octubre'    => 91
     }
 
     @busquedas = {
@@ -84,7 +85,8 @@ class VistasController < ApplicationController
       'Junio'      => 146,
       'Julio'      => 378,
       'Agosto'     => 422,
-      'Septiembre' => 699
+      'Septiembre' => 699,
+      'octubre'    => 896
     }
 
   end

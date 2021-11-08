@@ -304,8 +304,7 @@ module ApplicationHelper
 	## ------------------------------------------------------- PUBLICACION
 
 	def get_evaluacion_publicacion(publicacion, item)
-		@activo = perfil_activo
-		e = @activo.evaluaciones.find_by(aspecto: item, publicacion_id: publicacion.id)
+		e = perfil_activo.evaluaciones.find_by(aspecto: item, publicacion_id: publicacion.id)
 		e.blank? ? '[no evaluado]' : e.evaluacion
 	end
 

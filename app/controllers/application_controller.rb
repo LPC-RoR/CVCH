@@ -18,11 +18,7 @@ class ApplicationController < ActionController::Base
 				@dog = Administrador.create(administrador: dog_name, email: dog_email) if @dog.blank?
 			end
 
-			if ActiveRecord::Base.connection.table_exists? 'app_administradores'
-				@perfil = AppPerfil.find_by(email: current_usuario.email)
-			else
-				@perfil = Perfil.find_by(email: current_usuario.email)
-			end
+			@perfil = perfil_activo
 
 			if @perfil.blank?
 				# TODAS las aplicaciones en Capitan tienen una tabla 'administradores'

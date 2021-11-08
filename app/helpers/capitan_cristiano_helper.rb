@@ -28,6 +28,10 @@ module CapitanCristianoHelper
 			'Tutorial'
 		elsif ['HlpPaso', 'hlp_pasos'].include?(text)
 			'Paso'
+		elsif ['st_modelo', 'StModelo', 'st_modelos'].include?(text)
+			'Modelo'
+		elsif ['st_estado', 'StEstado', 'st_estados'].include?(text)
+			'Estado'
 		elsif ['created_at'].include?(text)
 			'Fecha'
 		else

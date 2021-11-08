@@ -18,7 +18,6 @@ class Aplicacion::AppRecursosController < ApplicationController
 
   def ayuda
     carga_sidebar('Ayuda', params[:id])
-#    carga_tutorial(@sb_elementos, @t)
   end
 
   def administracion
