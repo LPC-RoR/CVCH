@@ -1,23 +1,34 @@
 class Aplicacion::AppRecursosController < ApplicationController
-  before_action :authenticate_usuario!, only: [:administracion, :procesos, :bandeja]
-  before_action :inicia_sesion, only: [:administracion, :procesos, :home]
+  before_action :authenticate_usuario!, only: :index
+  before_action :inicia_sesion
 
   include Sidebar
 
   helper_method :sort_column, :sort_direction
 
   def index
+    @coleccion = {}
+    @coleccion['administradores'] = Administrador.all
+    @coleccion['areas'] = Area.all
+
+    @coleccion['mejoras'] = Mejora.all if session[:es_administrador]
+    @coleccion['usuarios'] = Usuario.all.order(created_at: :asc)
   end
 
   def home
+    @coleccion = {}
+    @coleccion['tema_ayudas'] = TemaAyuda.where(tipo: 'inicio').where(activo: true).order(:orden)
+    ultimos_ids = Publicacion.where(estado: 'publicada').order(created_at: :asc).last(10).map {|pub| pub.id}
+    @coleccion['publicaciones'] = Publicacion.where(id: ultimos_ids).order(sort_column + " " + sort_direction)
   end
 
   def ayuda
-    carga_sidebar('Ayuda', params[:id])
+    carga_sidebar('Ayuda', params[:t])
+#    carga_tutorial(@sb_elementos, @t)
   end
 
   def administracion
-    carga_sidebar('Administración', params[:id])
+    carga_sidebar('Administración', params[:t])
   end
 
   def procesos
