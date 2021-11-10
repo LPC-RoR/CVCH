@@ -45,7 +45,7 @@ module ApplicationHelper
 
 	def controllers_scope
 		{
-			aplicacion: ['app_administradores', 'app_nominas', 'app_perfiles', 'app_observaciones', 'app_mejoras', 'app_imagenes', 'archivos', 'comentarios', 'directorios', 'documentos', 'imagenes', 'licencias', 'mejoras', 'observaciones', 'recursos', 'subs'],
+			aplicacion: ['app_administradores', 'app_nominas', 'app_perfiles', 'app_observaciones', 'app_mejoras', 'app_imagenes', 'app_contactos', 'archivos', 'comentarios', 'directorios', 'documentos', 'imagenes', 'licencias', 'mejoras', 'observaciones', 'recursos', 'subs'],
 			home:       ['h_temas', 'h_links', 'h_imagenes'],
 			help:       ['conversaciones', 'mensajes', 'hlp_pasos', 'temaf_ayudas', 'hlp_tutoriales'],
 			sidebar:    ['sb_listas', 'sb_elementos'],
@@ -183,7 +183,7 @@ module ApplicationHelper
 	def new_button_conditions(controller)
 		if ['app_administradores', 'app_nominas', 'hlp_tutoriales', 'hlp_pasos'].include?(controller)
 				seguridad_desde('admin')
-		elsif ['app_perfiles', 'usuarios', 'ind_palabras'].include?(controller)
+		elsif ['app_perfiles', 'usuarios', 'ind_palabras', 'app_contactos'].include?(controller)
 			false
 		elsif ['sb_listas'].include?(controller)
 				seguridad_desde('admin')
@@ -277,11 +277,6 @@ module ApplicationHelper
 
 	def status?(objeto)
 		partial?(controller, 'status')
-#		if scope_controller(objeto.class.name.tableize).blank?
-#			File.exist?("app/views/#{objeto.class.name.tableize}/_status.html.erb")
-#		else
-#			File.exist?("app/views/#{scope_controller(objeto.class.name.tableize)}/#{objeto.class.name.tableize}/_status.html.erb")
-#		end
 	end
 
 	## ------------------------------------------------------- GENERAL

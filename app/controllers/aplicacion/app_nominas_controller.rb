@@ -14,6 +14,7 @@ class Aplicacion::AppNominasController < ApplicationController
   # GET /app_nominas/1 or /app_nominas/1.json
   def show
     carga_sidebar('Administración', 'Nómina')
+    @modelos_disponibles = StModelo.where(st_modelo: (StModelo.all.map {|st_mod| st_mod.st_modelo} - @objeto.st_perfil_modelos.map {|st_mod| st_mod.st_perfil_modelo}))
   end
 
   # GET /app_nominas/new

@@ -5,7 +5,6 @@ module CapitanRecursosHelper
 		{
 			nombre: 'CVCh',
 			home_link: 'http://www.cvch.cl',
-			libre_registro: true,
 			logo_navbar: 'logo_navbar.gif'
 		}
 	end
@@ -45,11 +44,16 @@ module CapitanRecursosHelper
 		}
 	end
 
-	## ------------------------------------------------------- SIDEBAR
+	## ------------------------------------------------------- LAYOUTS CONTROLLERS
 
 	def app_sidebar_controllers
 		[
 		]
+	end
+
+	def app_bandeja_controllers
+		[]
+#		StModelo.all.order(:st_modelo).map {|st_modelo| st_modelo.st_modelo.tableize}
 	end
 
 	## ------------------------------------------------------- TABLA | BTNS
@@ -134,10 +138,6 @@ module CapitanRecursosHelper
 				true
 			end
 		end
-	end
-
-	def estados_conditions(objeto)
-		false
 	end
 
 	def x_conditions(objeto, btn)

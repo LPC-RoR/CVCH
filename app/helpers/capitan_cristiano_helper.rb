@@ -14,6 +14,8 @@ module CapitanCristianoHelper
 			'Mejora'
 		elsif ['AppImagen', 'app_imagenes'].include?(text)
 			'Imagen'
+		elsif ['AppContacto', 'app_contactos'].include?(text)
+			'Contacto'
 		elsif ['HTema', 'h_temas'].include?(text)
 			'Tema'
 		elsif ['HLink', 'h_links'].include?(text)

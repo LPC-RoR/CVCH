@@ -1,5 +1,5 @@
 class Aplicacion::AppRecursosController < ApplicationController
-  before_action :authenticate_usuario!, only: [:administracion, :procesos]
+  before_action :authenticate_usuario!, only: [:administracion, :procesos, :bandeja]
   before_action :inicia_sesion, only: [:administracion, :procesos, :home]
 
   include Sidebar
@@ -10,10 +10,6 @@ class Aplicacion::AppRecursosController < ApplicationController
   end
 
   def home
-    @coleccion = {}
-    @coleccion['tema_ayudas'] = TemaAyuda.where(tipo: 'inicio').where(activo: true).order(:orden)
-    ultimos_ids = Publicacion.where(estado: 'publicada').order(created_at: :asc).last(10).map {|pub| pub.id}
-    @coleccion['publicaciones'] = Publicacion.where(id: ultimos_ids).order(sort_column + " " + sort_direction)
   end
 
   def ayuda
@@ -25,10 +21,7 @@ class Aplicacion::AppRecursosController < ApplicationController
   end
 
   def procesos
-    carga_sidebar('Administración', params[:id])
-    @enrique_perfil = AppPerfil.find_by(email: 'esilva@bio.puc.cl')
-    @enrique_admin = AppAdministrador.find_by(email: 'esilva@bio.puc.cl')
-#    redirect_to root_path
+    redirect_to root_path
   end
 
   private

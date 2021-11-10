@@ -1,9 +1,7 @@
-class AppPerfilesController < ApplicationController
+class Aplicacion::AppPerfilesController < ApplicationController
   before_action :authenticate_usuario!
   before_action :inicia_sesion
   before_action :set_app_perfil, only: %i[ show edit update destroy desvincular ]
-
-  include Sidebar
 
   # GET /app_perfiles or /app_perfiles.json
   def index

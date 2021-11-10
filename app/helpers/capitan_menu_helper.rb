@@ -18,7 +18,7 @@ module CapitanMenuHelper
 
 	def menu
 	    ## Menu principal de la aplicación
-	    # [ 'Item del menú', 'link', 'accesso' ]
+	    # [ 'Item del menú', 'link', 'accesso', 'gly' ]
 	    [
 	        ['',               "/vistas/graficos",   'general', 'bar-chart-line'],
 	        ["Colecciones",    "/vistas",            'anonimo', 'newspaper'],

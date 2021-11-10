@@ -19,7 +19,9 @@
         <%= render partial: 'layouts/base_layout' %>
       <% else %>
 
-        <% if sidebar_controllers.include?(controller_name) and action_name != 'home' %>
+        <% if controller_name == 'st_bandejas' or app_bandeja_controllers.include?(controller_name) %>
+            <%= render partial: 'layouts/bandejas' %>
+        <% elsif sidebar_controllers.include?(controller_name) and action_name != 'home' %>
             <%= render partial: 'layouts/sidebar' %>
         <% else %>
           <%= yield %>
