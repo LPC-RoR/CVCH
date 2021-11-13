@@ -34,7 +34,7 @@ class Aplicacion::AppRecursosController < ApplicationController
   def procesos
     carga_sidebar('Administración', params[:t])
     @coleccion = {}
-    @coleccion['publicaciones'] = Publicacion.all.order(created_at: :desc).page(params[:page])
+    @coleccion['publicaciones'] = Publicacion.all.order(updated_at: :desc).page(params[:page])
     @paginate = true
 #    redirect_to root_path
   end
