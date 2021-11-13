@@ -32,7 +32,11 @@ class Aplicacion::AppRecursosController < ApplicationController
   end
 
   def procesos
-    redirect_to root_path
+    carga_sidebar('Administración', params[:t])
+    @coleccion = {}
+    @coleccion['publicaciones'] = Publicacion.all.order(created_at: :desc).page(params[:page])
+    @paginate = true
+#    redirect_to root_path
   end
 
   private

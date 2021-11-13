@@ -25,6 +25,11 @@ module ApplicationHelper
 		['entire', 'half', 'quarter', 'thumb']
 	end
 
+	def foot?
+		h_imagen = HImagen.find_by(nombre: 'Foot')
+		h_imagen.blank? ? false : (h_imagen.imagenes.empty? ? false : h_imagen.imagenes.first.present?)
+	end
+
 	# DEPRECATED
 	def objeto_tema_ayuda(tipo)
 		TemaAyuda.where(tipo: tipo).any? ? TemaAyuda.where(tipo: tipo).first : nil
