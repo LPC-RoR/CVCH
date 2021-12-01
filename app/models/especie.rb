@@ -3,7 +3,8 @@ class Especie < ApplicationRecord
 	#-------------------------------------------------------------  TABLA
 	TABLA_FIELDS = [
 		['d_especie',  'show'], 
-		['d_pubs', 'normal']
+		['d_pubs', 'valor'],
+		['d_areas', 'valor']
 	]
 
  	FORM_FIELDS = [
@@ -18,6 +19,10 @@ class Especie < ApplicationRecord
 
 	def d_pubs
 		self.publicaciones.count
+	end
+
+	def d_areas
+		self.areas.count
 	end
 
 	def d_especie
