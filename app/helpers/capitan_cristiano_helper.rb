@@ -16,6 +16,16 @@ module CapitanCristianoHelper
 			'Imagen'
 		elsif ['AppContacto', 'app_contactos'].include?(text)
 			'Contacto'
+		elsif ['AppMensaje', 'app_mensajes'].include?(text)
+			'Mensaje'
+		elsif ['AppDirectorio', 'app_directorios'].include?(text)
+			'Directorio'
+		elsif ['AppDocumento', 'app_documentos'].include?(text)
+			'Documento'
+		elsif ['AppArchivo', 'app_archivos'].include?(text)
+			'Archivo'
+		elsif ['AppEnlace', 'app_enlaces'].include?(text)
+			'Enlace'
 		elsif ['HTema', 'h_temas'].include?(text)
 			'Tema'
 		elsif ['HLink', 'h_links'].include?(text)

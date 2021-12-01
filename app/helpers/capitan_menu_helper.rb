@@ -4,7 +4,8 @@ module CapitanMenuHelper
 		{
 			recursos: false,
 			contacto: true,
-			ayuda: true
+			ayuda: true,
+			enlaces: false
 		}
 	end
 

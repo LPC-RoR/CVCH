@@ -17,6 +17,17 @@ module ApplicationHelper
 		end
 	end
 
+	def table_types_base
+		{
+			simple: '',
+			striped: 'table-striped',
+			bordered: 'table-bordered',
+			borderless: 'table-borderless',
+			hover: 'table-hover',
+			small: 'table-small'
+		}
+	end
+
 	def colors
 		['primary', 'secondary', 'success', 'danger', 'warning', 'info', 'light', 'dark', 'muted', 'white']
 	end
@@ -50,7 +61,7 @@ module ApplicationHelper
 
 	def controllers_scope
 		{
-			aplicacion: ['app_administradores', 'app_nominas', 'app_perfiles', 'app_observaciones', 'app_mejoras', 'app_imagenes', 'app_contactos', 'archivos', 'comentarios', 'directorios', 'documentos', 'imagenes', 'licencias', 'mejoras', 'observaciones', 'recursos', 'subs'],
+			aplicacion: ['app_administradores', 'app_nominas', 'app_perfiles', 'app_observaciones', 'app_mejoras', 'app_imagenes', 'app_contactos', 'app_mensajes', 'app_repos', 'app_directorios', 'app_documentos', 'app_archivos', 'app_enlaces', 'archivos', 'comentarios', 'directorios', 'documentos', 'imagenes', 'licencias', 'mejoras', 'observaciones', 'recursos', 'subs'],
 			home:       ['h_temas', 'h_links', 'h_imagenes'],
 			help:       ['conversaciones', 'mensajes', 'hlp_pasos', 'temaf_ayudas', 'hlp_tutoriales'],
 			sidebar:    ['sb_listas', 'sb_elementos'],
@@ -76,7 +87,7 @@ module ApplicationHelper
 		elsif controllers_scope[:data].include?(controller)
 			'data'
 		else
-			nil
+			app_scope_controller(controller)
 		end
 	end
 
@@ -123,7 +134,15 @@ module ApplicationHelper
 		end
 	end
 
-	## ------------------------------------------------------- SIDEBAR
+	def enlaces_generales
+		AppEnlace.where(owner_id: nil).order(:descripcion)
+	end
+
+	def enlaces_perfil
+		AppEnlace.where(owner_class: 'AppPerfil', owner_id: perfil_activo.id).order(:descripcion)
+	end
+
+	## ------------------------------------------------------- SIDEBAR + BANDEJA
 
 	def base_sidebar_controllers
 		[
@@ -139,7 +158,28 @@ module ApplicationHelper
 		base_sidebar_controllers.union(app_sidebar_controllers)
 	end
 
+	def base_bandeja_controllers
+#		StModelo.all.order(:st_modelo).map {|st_modelo| st_modelo.st_modelo.tableize}
+		[]
+	end
+
+	def bandeja_controllers
+		base_bandeja_controllers.union(app_bandeja_controllers)
+	end
+
+	def primer_estado(controller)
+		StModelo.find_by(st_modelo: controller.classify).primer_estado.st_estado
+	end
+
 	## ------------------------------------------------------- TABLA
+
+	def table_types(controller)
+		if ['app_directorios', 'app_documentos', 'app_archivos'].include?(controller)
+			table_types_base[:borderless]
+		else
+			table_types_base[:striped]
+		end
+	end
 
 	# Obtiene los campos a desplegar en la tabla desde el objeto
 	def m_tabla_fields(objeto)
@@ -162,13 +202,6 @@ module ApplicationHelper
 		end
 	end
 
-	# Obtiene los estados de un modelo usando el controlador
-	# "-tabla.html.erb"
-	def c_estados(controller)
-#		dejamos con comentario para eliminar completamente el uso de config/application.rb
-#		Rails.configuration.x.tables.exceptions[controller][:estados]
-	end
-
 	def sortable?(controller, field)
 		if sortable_fields[controller].present?
 			sortable_fields[controller].include?(field) ? true : false
@@ -185,15 +218,22 @@ module ApplicationHelper
 	end
 
 	## ------------------------------------------------------- TABLA | BTNS
+
 	def new_button_conditions(controller)
 		if ['app_administradores', 'app_nominas', 'hlp_tutoriales', 'hlp_pasos'].include?(controller)
 				seguridad_desde('admin')
-		elsif ['app_perfiles', 'usuarios', 'ind_palabras', 'app_contactos'].include?(controller)
+		elsif ['app_perfiles', 'usuarios', 'ind_palabras', 'app_contactos', 'app_directorios', 'app_documentos', 'app_archivos', 'app_enlaces'].include?(controller)
 			false
+		elsif ['app_mensajes'].include?(controller)
+			action_name == 'index' and @e == 'ingreso'
 		elsif ['sb_listas'].include?(controller)
 				seguridad_desde('admin')
 		elsif ['sb_elementos'].include?(controller)
 				(@objeto.acceso == 'dog' ? dog? : seguridad_desde('admin'))
+		elsif ['st_modelos'].include?(controller)
+				dog?
+		elsif ['st_estados'].include?(controller)
+				seguridad_desde('admin')
 		else
 			app_new_button_conditions(controller)
 		end
@@ -202,10 +242,14 @@ module ApplicationHelper
 	def crud_conditions(objeto, btn)
 		if ['AppAdministrador', 'AppNomina', 'HlpTutorial', 'HlpPaso'].include?(objeto.class.name)
 				seguridad_desde('admin')
-		elsif ['AppPerfil', 'Usuario'].include?(objeto.class.name)
+		elsif ['AppPerfil', 'Usuario', 'AppMensaje' ].include?(objeto.class.name)
 			false
 		elsif ['SbLista', 'SbElemento'].include?(objeto.class.name)
 			(usuario_signed_in? and seguridad_desde(objeto.acceso))
+		elsif ['st_modelos'].include?(controller)
+				dog?
+		elsif ['st_estados'].include?(controller)
+				seguridad_desde('admin')
 		elsif ['AppObservacion', 'AppMejora'].include?(objeto.class.name)
 			(usuario_signed_in? and objeto.perfil.id == current_usuario.id)
 		else

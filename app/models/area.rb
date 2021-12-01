@@ -17,6 +17,9 @@ class Area < ApplicationRecord
 	has_many :clasificaciones
 	has_many :papers, through: :clasificaciones, foreign_key: 'paper_id', class_name: 'Publicacion'
 
+	has_many :esp_areas
+	has_many :especies, through: :esp_areas
+
 	validates :area, presence: true
 	validates :area, uniqueness: true
 

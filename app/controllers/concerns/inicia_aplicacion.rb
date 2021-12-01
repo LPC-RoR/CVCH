@@ -9,6 +9,7 @@ module IniciaAplicacion
 		# SB_LISTAS
 
 		if ActiveRecord::Base.connection.table_exists? 'sb_listas'
+
 			# LISTA ADMINISTRACION
 			lista = SbLista.find_by(lista: 'Administración')
 			if lista.blank?
@@ -184,12 +185,12 @@ module IniciaAplicacion
 	end
 
 	def inicia_app
-		nombres = @perfil.carpetas.map {|car| car.carpeta}
-		if @perfil.carpetas.empty?
-			@perfil.carpetas.create(carpeta: 'Revisar') unless nombres.include?('Revisar')
-			@perfil.carpetas.create(carpeta: 'Excluidas') unless nombres.include?('Excluidas')
-			@perfil.carpetas.create(carpeta: 'Postergadas') unless nombres.include?('Postergadas')
-			@perfil.carpetas.create(carpeta: 'Revisadas') unless nombres.include?('Revisadas')
+		nombres = perfil_activo.carpetas.map {|car| car.carpeta}
+		if perfil_activo.carpetas.empty?
+			perfil_activo.carpetas.create(carpeta: 'Revisar') unless nombres.include?('Revisar')
+			perfil_activo.carpetas.create(carpeta: 'Excluidas') unless nombres.include?('Excluidas')
+			perfil_activo.carpetas.create(carpeta: 'Postergadas') unless nombres.include?('Postergadas')
+			perfil_activo.carpetas.create(carpeta: 'Revisadas') unless nombres.include?('Revisadas')
 		end
 	end
 

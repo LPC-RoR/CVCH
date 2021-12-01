@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Especie:</strong>
+  <%= @esp_area.especie_id %>
+</p>
+
+<p>
+  <strong>Area:</strong>
+  <%= @esp_area.area_id %>
+</p>
+
+<%= link_to 'Edit', edit_esp_area_path(@esp_area) %> |
+<%= link_to 'Back', esp_areas_path %>

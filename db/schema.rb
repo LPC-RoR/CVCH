@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_11_02_145306) do
+ActiveRecord::Schema.define(version: 2021_11_30_150932) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -59,6 +59,32 @@ ActiveRecord::Schema.define(version: 2021_11_02_145306) do
     t.index ["estado"], name: "index_app_mejoras_on_estado"
     t.index ["owner_class"], name: "index_app_mejoras_on_owner_class"
     t.index ["owner_id"], name: "index_app_mejoras_on_owner_id"
+  end
+
+  create_table "app_mensajes", force: :cascade do |t|
+    t.string "mensaje"
+    t.string "tipo"
+    t.string "estado"
+    t.string "email"
+    t.datetime "fecha_envio"
+    t.text "detalle"
+    t.integer "app_perfil_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["app_perfil_id"], name: "index_app_mensajes_on_app_perfil_id"
+    t.index ["email"], name: "index_app_mensajes_on_email"
+    t.index ["estado"], name: "index_app_mensajes_on_estado"
+    t.index ["fecha_envio"], name: "index_app_mensajes_on_fecha_envio"
+    t.index ["tipo"], name: "index_app_mensajes_on_tipo"
+  end
+
+  create_table "app_msg_msgs", force: :cascade do |t|
+    t.integer "parent_id"
+    t.integer "child_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["child_id"], name: "index_app_msg_msgs_on_child_id"
+    t.index ["parent_id"], name: "index_app_msg_msgs_on_parent_id"
   end
 
   create_table "app_nominas", force: :cascade do |t|
@@ -215,6 +241,15 @@ ActiveRecord::Schema.define(version: 2021_11_02_145306) do
     t.index ["app_administrador_id"], name: "index_equipos_on_app_administrador_id"
     t.index ["equipo"], name: "index_equipos_on_equipo"
     t.index ["sha1"], name: "index_equipos_on_sha1"
+  end
+
+  create_table "esp_areas", force: :cascade do |t|
+    t.integer "especie_id"
+    t.integer "area_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["area_id"], name: "index_esp_areas_on_area_id"
+    t.index ["especie_id"], name: "index_esp_areas_on_especie_id"
   end
 
   create_table "especies", force: :cascade do |t|

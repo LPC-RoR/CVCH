@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  resources :esp_areas
   resources :per_equipos
   # SCOPE APLICACION
   scope module: 'aplicacion' do
@@ -22,6 +23,9 @@ Rails.application.routes.draw do
 
     resources :app_imagenes
     
+    resources :app_msg_msgs
+    resources :app_mensajes
+
     resources :administradores
     resources :perfiles
     resources :observaciones

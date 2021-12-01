@@ -21,7 +21,11 @@
 		</br>
 
 		<div class="actions">
-		<%= form.submit "#{ action_name == 'new' ? 'Crear' : 'Modificar'} #{cristiano(@objeto.class.name, 'class', 'singular')}" %>
+		<%#= form.submit "#{ action_name == 'new' ? 'Crear' : 'Modificar'} #{cristiano(@objeto.class.name, 'class', 'singular')}" %>
+		<%= button_tag(type: 'submit', class: "btn btn-#{color(:app)}") do %>
+			<i class="bi bi-save2"></i>
+			<%= "#{ action_name == 'new' ? 'Crear' : 'Modificar'} #{cristiano(@objeto.class.name, 'class', 'singular')}" %>
+		<% end %>
 		</div>
 	<% end %>
 </div>

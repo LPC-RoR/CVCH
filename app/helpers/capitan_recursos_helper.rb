@@ -56,6 +56,22 @@ module CapitanRecursosHelper
 #		StModelo.all.order(:st_modelo).map {|st_modelo| st_modelo.st_modelo.tableize}
 	end
 
+	## ------------------------------------------------------- SCOPES & PARTIALS
+
+	def app_controllers_scope
+		{
+			busqueda: ['ind_estructuras', 'ind_palabras']
+		}
+	end
+
+	def app_scope_controller(controller)
+		if app_controllers_scope[:busqueda].include?(controller)
+			'busqueda'
+		else
+			nil
+		end
+	end
+
 	## ------------------------------------------------------- TABLA | BTNS
 
 	def sortable_fields
@@ -142,100 +158,21 @@ module CapitanRecursosHelper
 
 	def x_conditions(objeto, btn)
 		case objeto.class.name
-		when 'Carga'
-			objeto.estado == 'ingreso'
-		when 'Instancia'
-			controller_name == 'publicaciones'
-		when 'Clasificacion'
-			objeto.clasificacion != btn
-		when 'Carpeta'
-			['publicaciones', 'equipos'].include?(controller_name) and not Carpeta::NOT_MODIFY.include?(objeto.carpeta) and objeto.perfil.id == perfil_activo_id
-		when 'Area'
-			controller_name == 'publicaciones'
 		when 'Ruta'
 			@activo.administrador.present? or objeto.perfil.id == @activo.id
 		when 'Propuesta'
 			@activo.administrador.present? or objeto.perfil.id == @activo.id
-		when 'Categoria'
-			if controller_name == 'publicaciones' and usuario_signed_in?
-				etiqueta = Etiqueta.where(publicacion_id: @objeto.id).find_by(categoria_id: objeto.id)
-				mi_categoria = objeto.perfil.id == perfil_activo_id
-				mi_asignacion = etiqueta.asociado_por == perfil_activo_id
-				etiqueta_revisada = etiqueta.revisado.blank? ? false : (etiqueta.revisado)
-				asignacion_administrativa = Perfil.find(etiqueta.asociado_por).administrador.present?
-
-				case btn
-				when 'Desasignar'
-					admin? or mi_categoria or mi_asignacion
-				when 'Aceptar'
-					(admin? or mi_categoria) and (not (mi_asignacion or asignacion_administrativa)) and (not etiqueta_revisada)
-				when 'Rechazar'
-					(admin? or mi_categoria) and (not (mi_asignacion or asignacion_administrativa)) and (etiqueta_revisada)
-				end
-			else
-				false
-			end
-		when 'Especie'
-			if controller_name == 'publicaciones' and usuario_signed_in?
-				etiqueta = Etiqueta.where(publicacion_id: @objeto.id).find_by(especie_id: objeto.id)
-				mi_asignacion = etiqueta.asociado_por == perfil_activo_id
-				etiqueta_revisada = etiqueta.revisado.blank? ? false : (etiqueta.revisado)
-				asignacion_administrativa = Perfil.find(etiqueta.asociado_por).administrador.present?
-
-				case btn
-				when 'Desasignar'
-					admin? or mi_asignacion
-				when 'Aceptar'
-					admin? and (not (mi_asignacion or asignacion_administrativa)) and (not etiqueta_revisada)
-				when 'Rechazar'
-					admin? and (not (mi_asignacion or asignacion_administrativa)) and (etiqueta_revisada)
-				end
-			else
-				false
-			end
-		when 'IndEstructura'
-			true
 		else
-			if ['IndEstructura', 'IndPalabra'].include?(objeto.class.name)
-				true
-			else
-				false
-			end
+			false
 		end
 	end
 
 	def x_btns(objeto)
 		case objeto.class.name
-		when 'Carpeta'
-			[['Desasignar', '/desasignar', true]]
-		when 'Carga'
-			[['Proceso', '/procesa_carga', false]]
-		when 'Area'
-			[['Desasignar', '/desasignar', true]]
-		when 'Equipo'
-			[['Eliminar', '/elimina_equipo', true]]
-        when 'Instancia'
-        	[['Eliminar', '/elimina_instancia', true]]
         when 'Ruta'
         	[['Eliminar', '/elimina_ruta', true]]
         when 'Propuesta'
         	[['Eliminar', '/elimina_propuesta', true]]
-        when 'Categoria'
-        	[
-                ['Desasignar', '/desasignar', true],
-                ['Aceptar',    '/aceptar',    true],
-                ['Rechazar',   '/rechazar',   true]
-        	]
-        when 'Especie'
-        	[
-                ['Desasignar', '/desasignar', true],
-                ['Aceptar',    '/aceptar',    true],
-                ['Rechazar',   '/rechazar',   true]
-        	]
-        when 'IndEstructura'
-        	[['Proceso', '/procesa_estructura', false]]
-        when 'IndPalabra'
-        	[['Excluir', '/excluir', true]]
         else
         	[]
 		end		

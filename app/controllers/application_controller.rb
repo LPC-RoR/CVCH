@@ -5,11 +5,12 @@ class ApplicationController < ActionController::Base
 	helper_method :dog?, :admin?, :nomina?, :general?, :anonimo?, :seguridad_desde, :dog_email, :dog_name, :perfil?, :perfil_activo, :perfil_activo_id
 
 	def inicia_sesion
+
+		set_tablas_base if dog?
+
 		if usuario_signed_in? and perfil_activo.blank?
+
 			# Perro furioso
-
-			set_tablas_base
-
 			if ActiveRecord::Base.connection.table_exists? 'app_administradores'
 				@dog = AppAdministrador.find_by(email: dog_email)
 				@dog = AppAdministrador.create(administrador: dog_name, email: dog_email) if @dog.blank?
@@ -86,9 +87,10 @@ class ApplicationController < ActionController::Base
 				end
 			end
 
-			inicia_app if @perfil.present?
-
 		end
+
+		inicia_app if perfil_activo.present?
+
 	end
 
 	# Este método se usa para construir un nombre de directorio a partir de un correo electrónico.
@@ -155,18 +157,25 @@ class ApplicationController < ActionController::Base
 	end
 
 	def seguridad_desde(tipo_usuario)
-		case tipo_usuario
-		when 'dog'
-			dog?
-		when 'admin'
+		if tipo_usuario.blank?
 			dog? or admin?
-		when 'nomina'
-			dog? or admin? or nomina?
-		when 'general'
-			dog? or admin? or nomina? or general?
-		when 'anonimo'
-			true
+		else
+			case tipo_usuario
+			when 'dog'
+				dog?
+			when 'admin'
+				dog? or admin?
+			when 'nomina'
+				dog? or admin? or nomina?
+			when 'general'
+				dog? or admin? or nomina? or general?
+			when 'anonimo'
+				true
+			end
 		end
 	end
 
+	def number? string
+	  true if Float(string) rescue false
+	end
 end

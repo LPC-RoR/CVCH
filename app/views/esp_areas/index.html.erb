@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Esp Areas</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Especie</th>
+      <th>Area</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @esp_areas.each do |esp_area| %>
+      <tr>
+        <td><%= esp_area.especie_id %></td>
+        <td><%= esp_area.area_id %></td>
+        <td><%= link_to 'Show', esp_area %></td>
+        <td><%= link_to 'Edit', edit_esp_area_path(esp_area) %></td>
+        <td><%= link_to 'Destroy', esp_area, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Esp Area', new_esp_area_path %>

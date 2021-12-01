@@ -11,28 +11,43 @@ class VistasController < ApplicationController
   # GET /vistas
   # GET /vistas.json
   def index
+
+    init_tab(['Áreas', 'Categorías'], params[:tab])
+
     # Lista del SELECTOR de ÁREAS
-    @list_selector = Area.all.map {|a| [a.area, a.papers.where(estado: 'publicada').count]}
+    @list_selector = Area.all.map {|a| [a.area, a.papers.where(estado: 'publicada').count]} if @tab == 'Áreas'
+    @list_selector = Categoria.all.map {|c| [c.categoria, c.publicaciones.where(estado: 'publicada').count]} if @tab == 'Categorías'
 
     if params[:html_options].blank?
+      # NO pongo la opción 'Categorías porque SIEMPRE será Áreas'
       @area = session[:area].blank? ? Area.first : Area.find_by(area: session[:area])
     else
-      @area = Area.find_by(area: params[:html_options]['sel'])
+      if @list_selector.map {|elem| elem[0]}.include?(params[:html_options]['sel'])
+        # @tab NO ha cambiado
+        @area = Area.find_by(area: params[:html_options]['sel']) if @tab == 'Áreas'
+        @categoria = Categoria.find_by(categoria: params[:html_options]['sel']) if @tab == 'Categorías'
+      else
+        @area = session[:area].blank? ? Area.first : Area.find_by(area: session[:area]) if (@tab == 'Áreas')
+        @categoria = Categoria.first if (@tab == 'Categorías')
+      end
     end
 
     # selector activo
-    @sel = @area.area
+    @sel = (@tab == 'Áreas' ? @area.area : @categoria.categoria)
     # opciones para los links
-    @options = {'sel' => @sel}
+    @options = {'sel' => @sel, 'tab' => @tab}
 
     @coleccion = {}
 
     if params[:search].blank?
-      @coleccion['publicaciones'] = @area.papers.where(estado: 'publicada').order(sort_column + " " + sort_direction).page(params[:page])
+      @coleccion['publicaciones'] = @area.papers.where(estado: 'publicada').order(sort_column + " " + sort_direction).page(params[:page]) if @tab == 'Áreas'
+      @coleccion['publicaciones'] = @categoria.publicaciones.where(estado: 'publicada').order(sort_column + " " + sort_direction).page(params[:page]) if @tab == 'Categorías'
     else
       @coleccion['publicaciones'] = busqueda_publicaciones(params[:search], 'Publicacion').order(sort_column + " " + sort_direction).page(params[:page])
     end
+    
     @paginate = true
+
   end
 
   def escritorio

@@ -64,7 +64,12 @@ class AreasController < ApplicationController
     elemento = params[:class_name].constantize.find(params[:objeto_id])
     elemento.areas << @objeto
 
-    redirect_to "/publicaciones/#{elemento.id}?html_options[tab]=Áreas"
+    case elemento.class.name
+    when 'Publicacion'
+      redirect_to "/publicaciones/#{elemento.id}?html_options[tab]=Áreas"
+    when 'Especie'
+      redirect_to elemento
+    end
   end
 
   # DELETE /areas/1
@@ -80,9 +85,15 @@ class AreasController < ApplicationController
 
   def desasignar
     elemento = params[:class_name].constantize.find(params[:objeto_id])
-    @objeto.papers.delete(elemento)
 
-    redirect_to elemento
+    case elemento.class.name
+    when 'Publicacion'
+      @objeto.papers.delete(elemento)
+      redirect_to "/publicaciones/#{elemento.id}?html_options[tab]=Áreas"
+    when 'Especie'
+      elemento.areas.delete(@objeto)
+      redirect_to elemento
+    end
   end
 
   private
