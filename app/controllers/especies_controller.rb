@@ -8,14 +8,14 @@ class EspeciesController < ApplicationController
   # GET /especies.json
   def index
     @stat = {}
-    Especie.all.each do |esp|
-      if @stat[esp.publicaciones.count.to_s].present?
-        @stat[esp.publicaciones.count.to_s] += 1
-      else
-        @stat[esp.publicaciones.count.to_s] = 1
-      end
-    end
-    puts @stat
+#    Especie.all.each do |esp|
+#      if @stat[esp.publicaciones.count.to_s].present?
+#        @stat[esp.publicaciones.count.to_s] += 1
+#      else
+#        @stat[esp.publicaciones.count.to_s] = 1
+#      end
+#    end
+ 
 #    @muchas_ids = Especie.all.map {|esp| esp.id if esp.publicaciones.count > 9}.compact
 #    @pocas_ids = Especie.all.map {|esp| esp.id if esp.publicaciones.count < 10}.compact
 
