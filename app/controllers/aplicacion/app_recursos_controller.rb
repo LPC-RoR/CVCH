@@ -28,7 +28,7 @@ class Aplicacion::AppRecursosController < ApplicationController
   end
 
   def administracion
-    carga_sidebar('Administración', params[:t])
+    carga_sidebar('Administración', params[:id])
   end
 
   def procesos
