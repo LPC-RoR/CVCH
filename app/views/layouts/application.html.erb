@@ -13,6 +13,7 @@
   <body>
     <!--            NAVBAR                     -->
     <%= render partial: '0p/navbar/navbar' %>
+    <%= image_tag 'home.png' if action_name == 'home' %>
     <!--            CONTENIDO + MENU DERECHA   -->
     <div class="container-fluid">
       <% if File.exist?("app/views/layouts/_base_layout.html.erb") %>

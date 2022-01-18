@@ -1,22 +1,23 @@
-<%= render partial: 'home/h_imagenes/partials/imagen', locals: {nombre: 'Portada', size: image_size[:portada]} %>
 <%#= render partial: 'home/h_imagenes/partials/imagen', locals: {nombre: 'Foot', size: image_size[:foot]} %>
 
 <%#= render partial: 'help/tema_ayudas/partials/portada' %>
-
+<hr>
 <b>
 <h4 class='text-primary text-center'>Agradecimientos a: Proyecto ANID PIA/BASAL FB0002</h4>
 <%#= image_tag 'Proyecto ID.jpg', class: "mx-auto d-block" %>
 <h5 class='text-primary text-center'>SILVA-ARANGUIZ E, J CHINGA & H CHINGA (2021) <i>Repositorio Citas Bibliográficas Vertebrados Chilenos</i> http://cvch.cl</h5>
 </b>
-<h4 class='text-primary text-center'>Fecha Lanzamiento : 01 de Marzo, 2021</h4>
+<h5 class='text-primary text-center'>Fecha Lanzamiento : 01 de Marzo, 2021</h5>
 
 
 
 
-<%#= render partial: 'home/h_temas/partials/tema', locals: {nombre: 'Muestra de un tema cualquiera', first_col: 4, img_side: 'izq'} %>
-<%#= render partial: 'home/h_temas/partials/tema', locals: {nombre: 'Muestra de un tema cualquiera', first_col: 4, img_side: 'der'} %>
+<%= render partial: 'home/h_temas/partials/tema', locals: {nombre: 'CVCh', first_col: 8, img_side: 'der'} %>
+<%= render partial: 'home/h_temas/partials/tema', locals: {nombre: 'Comunidad', first_col: 4, img_side: 'izq'} %>
+<%= render partial: 'home/h_temas/partials/tema', locals: {nombre: 'Categorias', first_col: 8, img_side: 'der'} %>
+<%= render partial: 'home/h_temas/partials/tema', locals: {nombre: 'Especies', first_col: 4, img_side: 'izq'} %>
 
-<%#= render partial: 'home/h_links/partials/link', locals: {texto: 'Prueba'} %>
+<%#= render partial: 'home/h_links/partials/link', locals: {texto: 'Especies'} %>
 
 
 
