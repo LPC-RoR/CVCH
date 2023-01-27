@@ -12,7 +12,7 @@
 				<%= render partial: 'publicaciones/partials/carpetas' if @tab == 'Carpetas' %>
 			<% end %>
 		<% end %>
-		<% if (@objeto.estado == 'publicada' and admin?) %>
+		<% if (@objeto.estado == 'publicada' and usuario_signed_in?) %>
 			<%= render partial: 'publicaciones/partials/categorias' if @tab == 'Categorías' %>
 			<%= render partial: 'publicaciones/partials/especies' if @tab == 'Especies' %>
 		<% end %>
