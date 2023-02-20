@@ -115,9 +115,9 @@ module CapitanRecursosHelper
 		when 'publicaciones'
 			controller_name == 'contribuciones' and @tab == 'ingreso'
 		when 'areas'
-			controller_name == 'recursos'
+			controller_name == 'app_recursos' and dog?
 		when 'categorias'
-			controller_name == 'recursos'
+			controller_name == 'app_recursos' and dog?
 		when 'especies'
 			false
 		else
