@@ -142,7 +142,7 @@ module CapitanRecursosHelper
 		when 'Propuesta'
 			false
 		when 'Categoria'
-			usuario_signed_in? and objeto.perfil_id == perfil_activo_id or admin? and controller_name == 'recursos'
+			(usuario_signed_in? and objeto.perfil_id == perfil_activo_id) or (admin? and controller_name == 'app_recursos')
 		when 'Especie'
 			false
 		else

@@ -4,6 +4,9 @@ class CategoriasController < ApplicationController
   before_action :set_categoria, only: [:show, :edit, :update, :destroy, :asigna, :desasignar, :aceptar, :rechazar]
 
   helper_method :sort_column, :sort_direction
+
+  include Sidebar
+
   # GET /categorias
   # GET /categorias.json
   def index
@@ -130,7 +133,7 @@ class CategoriasController < ApplicationController
     end
 
     def set_redireccion
-      @redireccion = '/recursos/administracion?t=Categorías'
+      @redireccion = "/app_recursos/administracion?id=#{get_elemento_id(controller_name, 'Categorias')}" 
     end
 
     # Only allow a list of trusted parameters through.
