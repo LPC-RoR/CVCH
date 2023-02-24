@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_11_30_150932) do
+ActiveRecord::Schema.define(version: 2023_02_24_184815) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -284,6 +284,22 @@ ActiveRecord::Schema.define(version: 2021_11_30_150932) do
     t.index ["publicacion_id"], name: "index_evaluaciones_on_publicacion_id"
   end
 
+  create_table "filo_ele_eles", force: :cascade do |t|
+    t.integer "parent_id"
+    t.integer "child_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["child_id"], name: "index_filo_ele_eles_on_child_id"
+    t.index ["parent_id"], name: "index_filo_ele_eles_on_parent_id"
+  end
+
+  create_table "filo_elementos", force: :cascade do |t|
+    t.string "filo_elemento"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["filo_elemento"], name: "index_filo_elementos_on_filo_elemento"
+  end
+
   create_table "h_imagenes", force: :cascade do |t|
     t.string "nombre"
     t.datetime "created_at", null: false
@@ -428,10 +444,12 @@ ActiveRecord::Schema.define(version: 2021_11_30_150932) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "ind_estructura_id"
+    t.integer "ind_sinonimo_id"
     t.index ["ind_clave_id"], name: "index_ind_palabras_on_ind_clave_id"
     t.index ["ind_estructura_id"], name: "index_ind_palabras_on_ind_estructura_id"
     t.index ["ind_lenguaje_id"], name: "index_ind_palabras_on_ind_lenguaje_id"
     t.index ["ind_palabra"], name: "index_ind_palabras_on_ind_palabra"
+    t.index ["ind_sinonimo_id"], name: "index_ind_palabras_on_ind_sinonimo_id"
   end
 
   create_table "ind_redacciones", force: :cascade do |t|
@@ -441,6 +459,23 @@ ActiveRecord::Schema.define(version: 2021_11_30_150932) do
     t.datetime "updated_at", null: false
     t.index ["ind_expresion_id"], name: "index_ind_redacciones_on_ind_expresion_id"
     t.index ["ind_palabra_id"], name: "index_ind_redacciones_on_ind_palabra_id"
+  end
+
+  create_table "ind_sets", force: :cascade do |t|
+    t.string "ind_set"
+    t.string "tipo"
+    t.text "set"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["ind_set"], name: "index_ind_sets_on_ind_set"
+    t.index ["tipo"], name: "index_ind_sets_on_tipo"
+  end
+
+  create_table "ind_sinonimos", force: :cascade do |t|
+    t.string "ind_sinonimo"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["ind_sinonimo"], name: "index_ind_sinonimos_on_ind_sinonimo"
   end
 
   create_table "instancias", force: :cascade do |t|

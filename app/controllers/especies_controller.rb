@@ -19,8 +19,11 @@ class EspeciesController < ApplicationController
 #    @muchas_ids = Especie.all.map {|esp| esp.id if esp.publicaciones.count > 9}.compact
 #    @pocas_ids = Especie.all.map {|esp| esp.id if esp.publicaciones.count < 10}.compact
 
+    @filo_elemento = params[:especie].blank? ? FiloElemento.first : FiloElemento.find_by(filo_elemento: params[:especie])
+
     @coleccion = {}
     @coleccion['especies'] = Especie.all.order(:especie).page(params[:page])
+    @coleccion['filo_elementos'] = (@filo_elemento.blank? ? FiloElemento.where(false).page(params[:page]) :  @filo_elemento.children).page(params[:page])
     @paginate = true
   end
 

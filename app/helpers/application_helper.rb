@@ -65,7 +65,7 @@ module ApplicationHelper
 			home:       ['h_temas', 'h_links', 'h_imagenes'],
 			help:       ['conversaciones', 'mensajes', 'hlp_pasos', 'temaf_ayudas', 'hlp_tutoriales'],
 			sidebar:    ['sb_listas', 'sb_elementos'],
-			busqueda:   ['b_clave_facetas', 'b_claves', 'b_indice_facetas', 'b_indices', 'b_palabras', 'b_reglas'],
+			busqueda:   ['ind_clave_facetas', 'ind_claves', 'ind_indice_facetas', 'ind_indices', 'ind_palabras', 'ind_reglas', 'ind_sets'],
 			estados:    ['st_modelos', 'st_estados'],
 			data:       ['caracteristicas', 'caracterizaciones', 'columnas', 'datos', 'encabezados', 'etapas', 'lineas', 'opciones', 'tablas']
 		}

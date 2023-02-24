@@ -1,1 +1,8 @@
-<%= render partial: '0p/tabla/solo_tabla', locals: {c: controller_name, a: 'index'} %>
+<div class='row'>
+	<div class=col-md-6>
+		<%= render partial: '0p/tabla/solo_tabla', locals: {c: 'ind_estructuras', a: 'index'} %>
+	</div>
+	<div class=col-md-6>
+		<%= render partial: '0p/tabla/solo_tabla', locals: {c: 'ind_sets', a: 'index'} %>
+	</div>
+</div>

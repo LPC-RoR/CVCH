@@ -1,5 +1,11 @@
 Rails.application.routes.draw do
 
+  resources :filo_ele_eles
+  resources :filo_elementos do
+    match :nuevo, via: :post, on: :collection
+    match :elimina, via: :get, on: :collection
+  end
+  resources :ind_sinonimos
   resources :esp_areas
   resources :per_equipos
   # SCOPE APLICACION
@@ -78,19 +84,27 @@ Rails.application.routes.draw do
   end
 
   scope module: 'busqueda' do
-    resources :ind_indices
-    resources :ind_bases
-    resources :ind_direcciones
-    resources :ind_claves
-    resources :ind_palabras
-    resources :ind_lenguajes
-    resources :ind_redacciones
-    resources :ind_expresiones
-    resources :ind_modelos
+    # Estructura de búsqueda
     resources :ind_estructuras do
       resources :ind_modelos
       match :procesa_estructura, via: :get, on: :member
     end
+    # Modelos asociados a una estructura, se pueden indexar muchos modelos es un mismo índice.
+    resources :ind_modelos
+
+    # El buscador opera según estos valores
+    resources :ind_palabras
+    resources :ind_claves
+    resources :ind_indices
+
+    ## GRAMATICA del buscados
+    resources :ind_sets
+
+    resources :ind_bases
+    resources :ind_direcciones
+    resources :ind_lenguajes
+    resources :ind_redacciones
+    resources :ind_expresiones
   end
 
   resources :etiquetas

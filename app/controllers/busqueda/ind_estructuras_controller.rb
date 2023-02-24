@@ -9,6 +9,8 @@ class Busqueda::IndEstructurasController < ApplicationController
   def index
     @coleccion = {}
     @coleccion['ind_estructuras'] = IndEstructura.all.order(:ind_estructura)
+
+    @coleccion['ind_sets']= IndSet.all.order(:tipo)
   end
 
   # GET /ind_estructuras/1

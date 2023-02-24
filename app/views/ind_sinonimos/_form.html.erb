@@ -1,0 +1,22 @@
+<%= form_with(model: ind_sinonimo, local: true) do |form| %>
+  <% if ind_sinonimo.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(ind_sinonimo.errors.count, "error") %> prohibited this ind_sinonimo from being saved:</h2>
+
+      <ul>
+      <% ind_sinonimo.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :ind_sinonimo %>
+    <%= form.text_field :ind_sinonimo %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

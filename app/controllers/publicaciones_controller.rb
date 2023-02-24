@@ -31,7 +31,8 @@ class PublicacionesController < ApplicationController
       ['Áreas', (usuario_signed_in? and admin?)],
       ['Carpetas', (usuario_signed_in? and @objeto.estado == 'publicada')],
       ['Categorías', (@objeto.estado == 'publicada')],
-      ['Especies', (@objeto.estado == 'publicada')]
+      ['Especies', (@objeto.estado == 'publicada')],
+      ['Índices', (@objeto.estado == 'publicada')]
     ]
     init_tab(c_tab, params)
     @options = { 'tab' => @tab }

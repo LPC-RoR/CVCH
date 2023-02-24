@@ -1,2 +1,0 @@
-module TutorialesHelper
-end

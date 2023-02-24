@@ -1,8 +1,8 @@
 class IndPalabra < ApplicationRecord
 
-	E_ESPANOL = ['a', 'al', 'así', 'alla', 'con', 'de', 'del', 'don', 'doña', 'el', 'en', 'la', 'las', 'le', 'les', 'los', 'más', 'no', 'o', 'para', 'que', 'qué', 'se', 'sic', 'su', 'sus', 'un', 'una', 'vs', 'y', '&']
-	E_INGLES = ['an', 'at', 'as', 'are', 'and', 'any', 'be', 'but', 'by', 'in', 'et', 'for', 'from', 'in', 'into', 'is', 'it', 'its', 'not', 'of', 'on', 'or', 'that', 'the', 'these', 'there', 'their', 'they', 'this', 'to', 'very', 'we', 'where', 'when', 'with']
-	NUMBERS = ['i', 'ii', 'iii', 'iv', 'v', 'vi', 'vii', 'viii', 'ix', 'x', 'xi', 'x', 'xi', 'xii', 'xiii', 'xiv', 'xv', 'xvi', 'xvii', 'xviii', 'xix', 'xx']
+#	E_ESPANOL = ['a', 'al', 'así', 'alla', 'con', 'de', 'del', 'don', 'doña', 'el', 'en', 'la', 'las', 'le', 'les', 'los', 'más', 'no', 'o', 'para', 'que', 'qué', 'se', 'sic', 'su', 'sus', 'un', 'una', 'vs', 'y', '&']
+#	E_INGLES = ['an', 'at', 'as', 'are', 'and', 'any', 'be', 'but', 'by', 'in', 'et', 'for', 'from', 'in', 'into', 'is', 'it', 'its', 'not', 'of', 'on', 'or', 'that', 'the', 'these', 'there', 'their', 'they', 'this', 'to', 'very', 'we', 'where', 'when', 'with']
+#	NUMBERS = ['i', 'ii', 'iii', 'iv', 'v', 'vi', 'vii', 'viii', 'ix', 'x', 'xi', 'x', 'xi', 'xii', 'xiii', 'xiv', 'xv', 'xvi', 'xvii', 'xviii', 'xix', 'xx']
 	EXCEPTIONS = ['abstract', 'pp']
 
 	TABLA_FIELDS = [
@@ -13,6 +13,8 @@ class IndPalabra < ApplicationRecord
 	belongs_to :ind_lenguaje, optional: true
 	belongs_to :ind_clave
 	belongs_to :ind_estructura
+
+	belongs_to :ind_sinonimo, optional: true
 
 	has_many :ind_redacciones
 	has_many :ind_expresiones, through: :ind_redacciones

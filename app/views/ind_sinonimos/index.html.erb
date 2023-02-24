@@ -1,0 +1,27 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Ind Sinonimos</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Ind sinonimo</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @ind_sinonimos.each do |ind_sinonimo| %>
+      <tr>
+        <td><%= ind_sinonimo.ind_sinonimo %></td>
+        <td><%= link_to 'Show', ind_sinonimo %></td>
+        <td><%= link_to 'Edit', edit_ind_sinonimo_path(ind_sinonimo) %></td>
+        <td><%= link_to 'Destroy', ind_sinonimo, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Ind Sinonimo', new_ind_sinonimo_path %>

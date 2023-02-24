@@ -1,7 +1,7 @@
 <%= render partial: 'publicaciones/partials/header' %>
 <hr>
 <div class='row'>
-	<div class='col-md-4'>
+	<div class='col-md-5'>
 		<%= render partial: '0p/tabs/tabs', locals: {tabs: @tabs, tag: 'tab', active: @tab} %>
 
 		<% if usuario_signed_in? %>
@@ -15,10 +15,11 @@
 		<% if (@objeto.estado == 'publicada' and usuario_signed_in?) %>
 			<%= render partial: 'publicaciones/partials/categorias' if @tab == 'Categorías' %>
 			<%= render partial: 'publicaciones/partials/especies' if @tab == 'Especies' %>
+			<%= render partial: 'publicaciones/partials/indices' if @tab == 'Índices' %>
 		<% end %>
 		<%= render partial: 'publicaciones/partials/evaluacion' %>
 	</div>
-	<div class='col-md-8'>
+	<div class='col-md-7'>
 		<%= render partial: 'publicaciones/partials/links' %>
 		<hr>
 		<%= render partial: 'publicaciones/partials/cita' %>
