@@ -5,6 +5,7 @@ Rails.application.routes.draw do
     match :nuevo, via: :post, on: :collection
     match :asigna_especie, via: :post, on: :collection
     match :elimina, via: :get, on: :collection
+    match :elimina_base, via: :get, on: :collection
   end
   resources :ind_sinonimos
   resources :esp_areas

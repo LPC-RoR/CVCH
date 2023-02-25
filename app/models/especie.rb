@@ -2,7 +2,8 @@ class Especie < ApplicationRecord
 
 	#-------------------------------------------------------------  TABLA
 	TABLA_FIELDS = [
-		['d_especie',  'show'], 
+		['d_especie',  'show'],
+		['d_elemento', 'normal'],
 		['d_pubs', 'valor'],
 		['d_areas', 'valor']
 	]
@@ -29,5 +30,9 @@ class Especie < ApplicationRecord
 
 	def d_especie
 		self.especie.capitalize
+	end
+
+	def d_elemento
+		self.filo_elemento.blank? ? '-' : self.filo_elemento.filo_elemento
 	end
 end

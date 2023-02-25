@@ -102,6 +102,12 @@ class FiloElementosController < ApplicationController
     redirect_to "/especies?especie=#{padre.filo_elemento unless padre.blank?}"
   end
 
+  def elimina_base
+    FiloElemento.delete_all
+
+    redirect_to "/especies"
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_redireccion
