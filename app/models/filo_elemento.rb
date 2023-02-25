@@ -4,4 +4,6 @@ class FiloElemento < ApplicationRecord
 
 	has_one  :parent, :through => :parent_relation
 	has_many :children, :through => :child_relations, :source => :child
+
+	has_many :especies
 end

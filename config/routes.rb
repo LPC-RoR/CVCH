@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   resources :filo_ele_eles
   resources :filo_elementos do
     match :nuevo, via: :post, on: :collection
+    match :asigna_especie, via: :post, on: :collection
     match :elimina, via: :get, on: :collection
   end
   resources :ind_sinonimos
@@ -151,6 +152,7 @@ Rails.application.routes.draw do
     match :desasignar, via: :get, on: :member
     match :aceptar, via: :get, on: :member
     match :rechazar, via: :get, on: :member
+    match :libera_especie, via: :get, on: :collection
   end
   resources :evaluaciones
   resources :idiomas do 

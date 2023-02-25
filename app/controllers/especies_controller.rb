@@ -7,18 +7,6 @@ class EspeciesController < ApplicationController
   # GET /especies
   # GET /especies.json
   def index
-    @stat = {}
-#    Especie.all.each do |esp|
-#      if @stat[esp.publicaciones.count.to_s].present?
-#        @stat[esp.publicaciones.count.to_s] += 1
-#      else
-#        @stat[esp.publicaciones.count.to_s] = 1
-#      end
-#    end
- 
-#    @muchas_ids = Especie.all.map {|esp| esp.id if esp.publicaciones.count > 9}.compact
-#    @pocas_ids = Especie.all.map {|esp| esp.id if esp.publicaciones.count < 10}.compact
-
     @filo_elemento = params[:especie].blank? ? FiloElemento.first : FiloElemento.find_by(filo_elemento: params[:especie])
 
     @coleccion = {}
@@ -120,6 +108,15 @@ class EspeciesController < ApplicationController
     @objeto.delete if @objeto.send(params[:class_name].tableize).empty?
 
     redirect_to "/publicaciones/#{elemento.id}?html_options[tab]=Especies"
+  end
+
+  def libera_especie
+    especie = Especie.find(params[:objeto_id])
+    padre = especie.filo_elemento
+    especie.filo_elemento_id = nil
+    especie.save
+
+    redirect_to "/especies?especie=#{padre.filo_elemento unless padre.blank?}"
   end
 
   def aceptar

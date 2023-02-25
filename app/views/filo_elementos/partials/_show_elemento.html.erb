@@ -13,6 +13,7 @@
 	<% end %>
 </ul>
 
+<!-- FORM INGRESO FILO ELEMENTOS -->
 <%= form_for :nuevo_elemento, url: "/filo_elementos/nuevo?class_name=#{elemento.class.name unless elemento.blank?}&objeto_id=#{elemento.id unless elemento.blank?}" do |form| %>
 	<div class='form-inline'>
 		<%= form.text_field(:filo_elemento, size: 35, class: 'form-control' ) %>
@@ -22,3 +23,25 @@
 		</button>
 	</div>
 <% end  %>
+
+</br>
+<h6>Etiquetas</h6>
+
+<ul>
+	<% unless elemento.blank? %>
+		<% elemento.especies.each do |esp| %>
+			<li><%= esp.especie %><%= link_to '<i class="bi bi-trash"></i>'.html_safe, "/especies/libera_especie?objeto_id=#{esp.id}" %></li>
+		<% end %>
+	<% end %>
+</ul>
+<!-- FORM ASOCIACION DE ESPECIES -->
+<%= form_for :asigna_especie, url: "/filo_elementos/asigna_especie?class_name=#{elemento.class.name unless elemento.blank?}&objeto_id=#{elemento.id unless elemento.blank?}" do |form| %>
+	<div class='form-inline'>
+		<%= form.text_field(:especie, size: 35, class: 'form-control' ) %>
+		<button type="submit" class="btn btn-info">
+		  <i class="bi bi-plus-circle icon-white"></i>
+		  <i class="bi bi-node-plus icon-white"></i>
+		</button>
+	</div>
+<% end  %>
+

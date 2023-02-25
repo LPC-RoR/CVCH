@@ -33,6 +33,17 @@ class FiloElementosController < ApplicationController
     redirect_to "/especies?especie=#{padre.filo_elemento unless padre.blank?}"
   end
 
+  def asigna_especie
+    padre = params[:class_name].blank? ? nil : params[:class_name].constantize.find(params[:objeto_id])
+    unless params[:asigna_especie][:especie].blank?
+      nombre_especie = params[:asigna_especie][:especie]
+      especie = Especie.find_by(especie: nombre_especie.downcase)
+      padre.especies << especie unless especie.blank?
+    end
+
+    redirect_to "/especies?especie=#{padre.filo_elemento unless padre.blank?}"
+  end
+
   # GET /filo_elementos/1/edit
   def edit
   end

@@ -11,6 +11,8 @@ class Especie < ApplicationRecord
 		['especie',           'entry']
 	]
 
+	belongs_to :filo_elemento, optional: true
+
 	has_many :etiquetas
 	has_many :publicaciones, through: :etiquetas
 
