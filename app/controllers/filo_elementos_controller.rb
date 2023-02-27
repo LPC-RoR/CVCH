@@ -37,10 +37,12 @@ class FiloElementosController < ApplicationController
     padre = params[:class_name].blank? ? nil : params[:class_name].constantize.find(params[:objeto_id])
     unless params[:asigna_especie][:especie].blank?
       nombre_especie = params[:asigna_especie][:especie]
-      especies = Especie.where(especie: nombre_especie.downcase)
-      unless especies.empty?
-        especies.each do |esp|
-          padre.especies << esp
+      [nombre_especie.downcase, nombre_especie].uniq.each do |nombre|
+        especies = Especie.where(especie: nombre)
+        unless especies.empty?
+          especies.each do |esp|
+            padre.especies << esp
+          end
         end
       end
     end
