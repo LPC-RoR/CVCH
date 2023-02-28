@@ -1,10 +1,13 @@
 <% unless @padres.empty? %>
-	<% @padres.reverse().each do |padre|
+	<% @padres.reverse().each do |padre| %>
 		<small><%= link_to padre.filo_elemento, "/especies?especie=#{padre.filo_elemento}" unless padre.blank? %></small>
-		<h5><%= elemento.filo_elemento %></h5><%= link_to '<i class="bi bi-trash"></i>'.html_safe, "/filo_elementos/elimina_base" if FiloElemento.all.count == 1 %>
 	<% end %>
 <% else %>
 	<h6>Sin elemento padre</h6>
+<% end %>
+
+<% unless elemento.blank? %>
+	<h5><%= elemento.filo_elemento %></h5><%= link_to '<i class="bi bi-trash"></i>'.html_safe, "/filo_elementos/elimina_base" if FiloElemento.all.count == 1 %>
 <% end %>
 
 <ul>

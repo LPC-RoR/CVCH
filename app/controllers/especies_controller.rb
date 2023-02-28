@@ -11,12 +11,12 @@ class EspeciesController < ApplicationController
 
     @padres = [@filo_elemento.parent]
     ultimo = @filo_elemento.parent
-#    unless ultimo.blank?
-      while ultimo.parent.present?
+    unless ultimo.blank?
+      while ultimo.parent.present? do
         @padres << ultimo.parent
         ultimo = ultimo.parent
       end
-#    end
+    end
 
     @coleccion = {}
     esp_ids = Especie.all.map {|esp| esp.id if esp.filo_elemento_id.blank?}.compact
