@@ -1,6 +1,49 @@
 module ProcesaEstructura
 	extend ActiveSupport::Concern
 
+
+
+	def letra?(car)
+	  car.match?(/[[:alpha:]]/)
+	end
+
+	def digito?(car)
+	  car.match?(/[[:digit:]]/)
+	end
+
+	def lexer(campo)
+		llaves = []
+		palabra = ''
+		tipo = nil
+		caracteres = campo.split('')
+		caracteres.each do |car|
+			if letra?(car)
+				palabra += car
+				tipo = 'alpha'
+			elsif digito?(car)
+				palabra += car
+				tipo = 'number' if tipo.blank?
+			elsif car == ' '
+				unless tipo.blank?
+					llaves << palabra
+					palabra = ''
+					tipo = nil
+				end
+			else
+				unless tipo.blank?
+					llaves << palabra
+					palabra = ''
+					tipo = nil
+				end
+			end
+		end
+		
+		llaves << palabra unless palabra.blank?
+		llaves
+	end
+
+
+
 	# Todos estos métodos administran el proceso de búsqueda, utilizando índices y la estructura de búsqueda
 
 	def procesa_campos_busqueda(estructura, objeto, campo)
@@ -24,7 +67,7 @@ module ProcesaEstructura
 						palabra = estructura.ind_palabras.create(ind_palabra: pal, ind_clave_id: clave.id)
 					end
 
-					expresion.ind_palabras << palabra unless expresion.blank?
+#					expresion.ind_palabras << palabra unless expresion.blank?
 
 					if clave.ind_indices.where(class_name: objeto.class.name).where(objeto_id: objeto.id).empty?
 						clave.ind_indices.create(ind_estructura_id: estructura.id, class_name: objeto.class.name, objeto_id: objeto.id)

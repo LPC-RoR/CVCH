@@ -9,6 +9,15 @@ class EspeciesController < ApplicationController
   def index
     @filo_elemento = params[:especie].blank? ? FiloElemento.first : FiloElemento.find_by(filo_elemento: params[:especie])
 
+    @padres = [@filo_elemento.parent]
+    ultimo = @filo_elemento.parent
+#    unless ultimo.blank?
+      while ultimo.parent.present?
+        @padres << ultimo.parent
+        ultimo = ultimo.parent
+      end
+#    end
+
     @coleccion = {}
     esp_ids = Especie.all.map {|esp| esp.id if esp.filo_elemento_id.blank?}.compact
     @coleccion['especies'] = Especie.where(id: esp_ids).order(:especie).page(params[:page])

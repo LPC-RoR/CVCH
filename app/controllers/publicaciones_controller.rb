@@ -111,10 +111,6 @@ class PublicacionesController < ApplicationController
   # GET /publicaciones/new
   def new
     @activo = perfil_activo
-    puts "****************************************** new"
-    puts @activo.class.name
-    puts @activo.email
-    puts @activo.contribuciones.empty?
     @objeto = @activo.contribuciones.new(origen: 'ingreso', estado: 'ingreso')
   end
 
