@@ -16,12 +16,15 @@ module ProcesaEstructura
 	end
 
 	def unidades?(str)
+		g = str.match(/^\d*g$/).blank?
 		s = str.match(/^\d*s$/).blank?
+		m = str.match(/^\d*m$/).blank?
+		mm = str.match(/^\d*mm$/).blank?
 		km = str.match(/^\d*km$/).blank?
 		no = str.match(/^\d*°$/).blank?
 		cm = str.match(/^\d*cm$/).blank?
 		m2 = str.match(/^\d*m2$/).blank?
-		(s and km and no and cm and m2) ? false : true
+		(g and s and m and mm and km and no and cm and m2) ? false : true
 	end
 
 	def lexer(campo)
