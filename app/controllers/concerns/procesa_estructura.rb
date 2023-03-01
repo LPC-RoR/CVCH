@@ -12,7 +12,7 @@ module ProcesaEstructura
 	end
 
 	def numero?(str)
-		str.split('').map {|car| car.match?(/[[:digit:]]/)}
+		not str.split('').map {|car| car.match?(/[[:digit:]]/)}.include?(false)
 	end
 
 	def lexer(campo)
