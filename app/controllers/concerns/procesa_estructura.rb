@@ -16,11 +16,11 @@ module ProcesaEstructura
 	end
 
 	def unidades?(str)
-		s  = not "345100s".match(/^\d*s$/).blank?
-		km = not "345100s".match(/^\d*km$/).blank?
-		no = not "345100s".match(/^\d*°$/).blank?
-		cm = not "345100s".match(/^\d*cm$/).blank?
-		m2 = not "345100s".match(/^\d*m2$/).blank?
+		s = not ("345100s".match(/^\d*s$/).blank?)
+		km = not ("345100s".match(/^\d*km$/).blank?)
+		no = not ("345100s".match(/^\d*°$/).blank?)
+		cm = not ("345100s".match(/^\d*cm$/).blank?)
+		m2 = not ("345100s".match(/^\d*m2$/).blank?)
 		s or km or no or cm or m2
 	end
 
