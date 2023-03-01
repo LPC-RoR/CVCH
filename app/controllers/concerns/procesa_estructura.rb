@@ -16,13 +16,12 @@ module ProcesaEstructura
 	end
 
 	def unidades?(str)
-#		s = not str.match(/^\d*s$/).blank?
-#		km = not str.match(/^\d*km$/).blank?
-#		no = not str.match(/^\d*°$/).blank?
-#		cm = not str.match(/^\d*cm$/).blank?
-#		m2 = not str.match(/^\d*m2$/).blank?
-#		s or km or no or cm or m2x
-		false
+		s = str.match(/^\d*s$/).blank?
+		km = str.match(/^\d*km$/).blank?
+		no = str.match(/^\d*°$/).blank?
+		cm = str.match(/^\d*cm$/).blank?
+		m2 = str.match(/^\d*m2$/).blank?
+		(s and km and no and cm and m2) ? false : true
 	end
 
 	def lexer(campo)
