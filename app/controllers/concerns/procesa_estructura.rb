@@ -21,10 +21,12 @@ module ProcesaEstructura
 		m = str.match(/^\d*m$/).blank?
 		mm = str.match(/^\d*mm$/).blank?
 		km = str.match(/^\d*km$/).blank?
-		no = str.match(/^\d*°$/).blank?
+		no = str.match(/^\d*º$/).blank?
 		cm = str.match(/^\d*cm$/).blank?
 		m2 = str.match(/^\d*m2$/).blank?
-		(g and s and m and mm and km and no and cm and m2) ? false : true
+		th = str.match(/^\d*th$/).blank?
+		min = str.match(/^\d*min$/).blank?
+		(g and s and m and mm and km and no and cm and m2 and th and min) ? false : true
 	end
 
 	def lexer(campo)
