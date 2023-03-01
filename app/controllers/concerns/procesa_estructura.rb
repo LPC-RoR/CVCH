@@ -15,6 +15,15 @@ module ProcesaEstructura
 		not str.split('').map {|car| car.match?(/[[:digit:]]/)}.include?(false)
 	end
 
+	def unidades?(str)
+		s  = not "345100s".match(/^\d*s$/).blank?
+		km = not "345100s".match(/^\d*km$/).blank?
+		no = not "345100s".match(/^\d*°$/).blank?
+		cm = not "345100s".match(/^\d*cm$/).blank?
+		m2 = not "345100s".match(/^\d*m2$/).blank?
+		s or km or no or cm or m2
+	end
+
 	def lexer(campo)
 		llaves = []
 		palabra = ''
@@ -94,7 +103,7 @@ module ProcesaEstructura
 		numeros = IndSet.find_by(ind_set: 'exc_numeros').set.split(' ').include?(palabra)
 		excepciones = IndSet.find_by(ind_set: 'exc_app').set.split(' ').include?(palabra)
 
-		espanol or ingles or numeros or excepciones or numero?(palabra)
+		espanol or ingles or numeros or excepciones or numero?(palabra) or unidades?(palabra)
 	end
 
 	# Metodo que procesa la búsqueda de
