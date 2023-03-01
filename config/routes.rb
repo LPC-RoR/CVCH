@@ -95,7 +95,9 @@ Rails.application.routes.draw do
     resources :ind_modelos
 
     # El buscador opera según estos valores
-    resources :ind_palabras
+    resources :ind_palabras do
+      match :reprocesar, via: :get, on: :member
+    end
     resources :ind_claves
     resources :ind_indices
 

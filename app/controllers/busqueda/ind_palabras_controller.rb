@@ -1,6 +1,8 @@
 class Busqueda::IndPalabrasController < ApplicationController
   before_action :inicia_sesion
-  before_action :set_ind_palabra, only: [:show, :edit, :update, :destroy, :excluir]
+  before_action :set_ind_palabra, only: [:show, :edit, :update, :destroy, :excluir, :reprocesar]
+
+  include ProcesaEstructura
 
   # GET /ind_palabras
   # GET /ind_palabras.json
@@ -53,6 +55,23 @@ class Busqueda::IndPalabrasController < ApplicationController
         format.json { render json: @objeto.errors, status: :unprocessable_entity }
       end
     end
+  end
+
+  def reprocesar
+    estructura = @objeto.ind_estructura
+    @objeto.ind_clave.ind_indices.each do |indice|
+      if indice.class_name == 'Publicacion'
+        publicacion = indice.class_name.constantize.find(indice.objeto_id)
+        desindexa_registro(publicacion)
+        indexa_registro(publicacion)
+      end
+      if @objeto.ind_clave.ind_indices.empty?
+        @objeto.ind_clave.delete
+        @objeto.delete
+      end
+    end
+
+    redirect_to estructura
   end
 
   # DELETE /ind_palabras/1

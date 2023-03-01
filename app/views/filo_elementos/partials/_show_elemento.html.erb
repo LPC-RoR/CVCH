@@ -13,7 +13,7 @@
 <ul>
 	<% unless elemento.blank? %>
 		<% elemento.children.each do |child| %>
-			<li><%= link_to "#{child.filo_elemento} [#{child.claves}]", "/especies?especie=#{child.filo_elemento}" %><%= link_to '<i class="bi bi-trash"></i>'.html_safe, "/filo_elementos/elimina?objeto_id=#{child.id}" if child.children.empty? %></li>
+			<li><%= link_to "#{child.filo_elemento} [#{child.claves}]", "/especies?especie=#{child.filo_elemento}" %><%= link_to '<i class="bi bi-trash"></i>'.html_safe, "/filo_elementos/elimina?objeto_id=#{child.id}" if child.children.empty? and child.especies.empty? %></li>
 		<% end %>
 	<% end %>
 </ul>

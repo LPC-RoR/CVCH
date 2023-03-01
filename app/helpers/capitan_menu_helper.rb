@@ -2,10 +2,8 @@ module CapitanMenuHelper
 
 	def optional_menu_item
 		{
-			recursos: false,
 			contacto: true,
 			ayuda: true,
-			enlaces: false
 		}
 	end
 
@@ -34,16 +32,11 @@ module CapitanMenuHelper
 
 	end
 
-	def dropdown_items(item)
+	def dd_items(item)
 		case item
 		when 'Investigación'
 			[
 #				['Líneas de Investigación', root_path],
-#				['Investigadores Centro', root_path],
-#				['Actividades Científicas Organizadas', root_path],
-#				['Publicaciones', root_path],
-#				['Propiedad Intelectual', root_path],
-#				['Presentaciones Congresos', root_path],
 #				['Premios y Honores', root_path]
 			]
 		end

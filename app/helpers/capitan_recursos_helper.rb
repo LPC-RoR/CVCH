@@ -47,8 +47,7 @@ module CapitanRecursosHelper
 	## ------------------------------------------------------- LAYOUTS CONTROLLERS
 
 	def app_sidebar_controllers
-		[
-		]
+		[]
 	end
 
 	def app_bandeja_controllers
