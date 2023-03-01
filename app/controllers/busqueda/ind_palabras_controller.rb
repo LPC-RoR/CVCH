@@ -65,10 +65,10 @@ class Busqueda::IndPalabrasController < ApplicationController
         desindexa_registro(publicacion)
         indexa_registro(publicacion)
       end
-      if @objeto.ind_clave.ind_indices.empty?
-        @objeto.ind_clave.delete
-        @objeto.delete
-      end
+    end
+    if @objeto.ind_clave.ind_indices.empty?
+      @objeto.ind_clave.delete
+      @objeto.delete
     end
 
     redirect_to estructura

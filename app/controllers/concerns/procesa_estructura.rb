@@ -11,6 +11,10 @@ module ProcesaEstructura
 	  car.match?(/[[:digit:]]/)
 	end
 
+	def numero?(str)
+		str.split('').map {|car| car.match?(/[[:digit:]]/)}
+	end
+
 	def lexer(campo)
 		llaves = []
 		palabra = ''
@@ -90,7 +94,7 @@ module ProcesaEstructura
 		numeros = IndSet.find_by(ind_set: 'exc_numeros').set.split(' ').include?(palabra)
 		excepciones = IndSet.find_by(ind_set: 'exc_app').set.split(' ').include?(palabra)
 
-		espanol or ingles or numeros or excepciones
+		espanol or ingles or numeros or excepciones or numero?(palabra)
 	end
 
 	# Metodo que procesa la búsqueda de
