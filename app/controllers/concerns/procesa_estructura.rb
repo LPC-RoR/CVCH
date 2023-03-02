@@ -16,17 +16,13 @@ module ProcesaEstructura
 	end
 
 	def unidades?(str)
-		g = str.match(/^\d*g$/).blank?
-		s = str.match(/^\d*s$/).blank?
-		m = str.match(/^\d*m$/).blank?
-		mm = str.match(/^\d*mm$/).blank?
-		km = str.match(/^\d*km$/).blank?
-		no = str.match(/^\d*º$/).blank?
-		cm = str.match(/^\d*cm$/).blank?
-		m2 = str.match(/^\d*m2$/).blank?
-		th = str.match(/^\d*th$/).blank?
-		min = str.match(/^\d*min$/).blank?
-		(g and s and m and mm and km and no and cm and m2 and th and min) ? false : true
+		set = IndSet.find_by(ind_set: 'unidades')
+		unidades = set.set.split(' ')
+		blank = true
+		unidades.each do |unidad|
+			blank = blank and str.match("/^\d*#{unidad}$/").blank?
+		end
+		blank ? false : true
 	end
 
 	def lexer(campo)
