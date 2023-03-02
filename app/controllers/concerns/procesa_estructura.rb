@@ -20,7 +20,8 @@ module ProcesaEstructura
 		unidades = set.set.split(' ')
 		blank = true
 		unidades.each do |unidad|
-			blank = blank and str.match("/^\d*#{unidad}$/").blank?
+			no_coincidencia = str.match(/^\d*#{unidad}$/).blank?
+			blank = (blank and no_coincidencia)
 		end
 		blank ? false : true
 	end
@@ -97,6 +98,8 @@ module ProcesaEstructura
 	end
 
 	def exception(palabra)
+		puts "********************************************* unidades"
+		puts unidades?('100h')
 		# se resuelven las excepciones por idioma
 		# En versión nueva estaas se encuentran en IndSet
 		espanol = IndSet.find_by(ind_set: 'exc_español').set.split(' ').include?(palabra)
