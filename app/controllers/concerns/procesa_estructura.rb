@@ -80,7 +80,7 @@ module ProcesaEstructura
 	def p_indice(estructura, objeto, o_palabra)
 		o_indice = o_palabra.ind_indices.find_by(class_name: objeto.class.name, objeto_id: objeto.id)
 		o_indice = o_palabra.ind_indices.create(class_name: objeto.class.name, objeto_id: objeto.id) if o_indice.blank?
-		estructura.ind_indices << o_indice unless estructura.ind_indices.ids.include?(o_indice.id)
+#		estructura.ind_indices << o_indice unless estructura.ind_indices.ids.include?(o_indice.id)
 		o_indice
 	end
 
