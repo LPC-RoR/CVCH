@@ -57,35 +57,70 @@ module ProcesaEstructura
 		llaves
 	end
 
+	def p_palabra(estructura, expresion, palabra)
+		o_palabra = estructura.ind_palabras.find_by(ind_palabra: palabra.strip)
+		o_palabra = estructura.ind_palabras.create(ind_palabra: palabra.strip) if o_palabra.blank?
+		expresion.ind_palabras << o_palabra unless expresion.ind_palabras.ids.include?(o_palabra.id)
+		o_palabra
+	end
 
 
 	# Todos estos métodos administran el proceso de búsqueda, utilizando índices y la estructura de búsqueda
+	def extrae_ideas(texto)
+		reemplazos = { '.' => '|', '¿' => '|', '?' => '|', '¡' => '|', '!' => '|' }
+		ideas_marcadas = texto.gsub(Regexp.union(reemplazos.keys), reemplazos)
+		ideas_marcadas.split('|')
+	end
+
+	def p_idea( estructura, idea)
+		o_idea = estructura.ind_ideas.find_by(ind_idea: idea.strip)
+		o_idea = estructura.ind_ideas.create(ind_idea: idea.strip) if o_idea.blank?
+		o_idea
+	end
+
+	def extrae_expresiones(texto)
+		reemplazos = { ',' => '|', ';' => '|', ':' => '|', '(' => '|', ')' => '|', '[' => '|', ']' => '|', '{' => '|', '}' => '|' }
+		exp_marcadas = texto.gsub(Regexp.union(reemplazos.keys), reemplazos)
+		exp_marcadas.split('|')
+	end
+
+	def p_expresion(estructura, idea, expresion)
+		o_expresion = estructura.ind_expresiones.find_by(ind_expresion: expresion.strip)
+		o_expresion = estructura.ind_expresiones.create(ind_expresion: expresion.strip) if o_expresion.blank?
+		idea.ind_expresiones << o_expresion unless idea.ind_expresiones.ids.include?(o_expresion.id)
+		o_expresion
+	end
+
+	def p_indice(estructura, objeto, o_palabra)
+		o_indice = o_palabra.ind_indices.find_by(class_name: objeto.class.name, objeto_id: objeto.id)
+		o_indice = o_palabra.ind_indices.create(class_name: objeto.class.name, objeto_id: objeto.id) if o_indice.blank?
+		estructura.ind_indices << o_indice unless estructura.ind_indices.ids.include?(o_indice.id)
+		o_indice
+	end
 
 	def procesa_campos_busqueda(estructura, objeto, campo)
-		campo_base = objeto.send(campo)
+		# primero que nad recupera el valor del campo
+		texto_base = objeto.send(campo)
+		# texto base : en minusculas y no tiene saltos de línea
+		texto = texto_base.blank? ? nil : objeto.send(campo).downcase.gsub(/\n/, ' ')
 
-		unless campo_base.blank?
+		unless texto.blank?
+			# 1.- procesa IDEAS
+			ideas = extrae_ideas(texto)
+			ideas.each do |idea|
+				o_idea = p_idea(estructura, idea)
 
-			palabras = lexer(campo_base.downcase.gsub(/\n/, ' '))
+				expresiones = extrae_expresiones(idea)
+				expresiones.each do |expresion|
+					o_expresion = p_expresion(estructura, o_idea, expresion)
 
-			palabras.each do |pal|
-				unless excluye_palabra(pal)
-					# en esta versión NO usaremos ind_clave para acceder a los índices
+					palabras = lexer(expresion)
+					palabras.each do |palabra|
+						unless excluye_palabra(palabra)
+							o_palabra = p_palabra(estructura, o_expresion, palabra)
 
-					clave = estructura.ind_claves.find_by(ind_clave: pal)
-					if clave.blank?
-						clave = estructura.ind_claves.create(ind_clave: pal)
-					end
-
-					palabra = estructura.ind_palabras.find_by(ind_palabra: pal)
-					if palabra.blank?
-						palabra = estructura.ind_palabras.create(ind_palabra: pal, ind_clave_id: clave.id)
-					end
-
-#					expresion.ind_palabras << palabra unless expresion.blank?
-
-					if clave.ind_indices.where(class_name: objeto.class.name).where(objeto_id: objeto.id).empty?
-						clave.ind_indices.create(ind_estructura_id: estructura.id, class_name: objeto.class.name, objeto_id: objeto.id)
+							o_indice = p_indice(estructura, objeto, o_palabra)
+						end
 					end
 				end
 			end
@@ -98,9 +133,7 @@ module ProcesaEstructura
 	end
 
 	def exception(palabra)
-		puts "********************************************* unidades"
-		puts unidades?('100h')
-		# se resuelven las excepciones por idioma
+		# se resuelven l'as excepciones por idioma
 		# En versión nueva estaas se encuentran en IndSet
 		espanol = IndSet.find_by(ind_set: 'exc_español').set.split(' ').include?(palabra)
 		ingles = IndSet.find_by(ind_set: 'exc_ingles').set.split(' ').include?(palabra)
@@ -123,21 +156,20 @@ module ProcesaEstructura
 
 			# ind_palabra es la donde se accede al índice inverso
 			ind_palabra = IndPalabra.find_by(ind_palabra: palabra.strip.downcase)
-			if excluye_palabra(palabra) or ind_palabra.blank?
-				# si la palabra debe ser excluida, o no se encuentra dentro de las palabras indexdas, no retorna instancias.
-				modelo_ids = []
-			else
+			unless excluye_palabra(palabra) or ind_palabra.blank?
 				# si la palabra está en la estructura, pregunta por la clave
 				# si la clave existe, retorna la coolecciń de índices
 				# si no retorna una csolección vacía
 				modelo_ids = ind_palabra.ind_clave.present? ? modelo_ids.union(ind_palabra.ind_clave.ind_indices.where(class_name: modelo).map {|ii| ii.objeto_id}) : []
+				modelo_ids = modelo_ids.union(ind_palabra.ind_indices.ids)
 			end
 		end
 		# Finalmente obtiene la colección de 
-		publicaciones = modelo.constantize.where(id: modelo_ids)
+		publicaciones = modelo.constantize.where(id: modelo_ids.uniq)
 		publicaciones
 	end
 
+	# esta función funcionaa si hay una única estructura de de búsqueda
 	def indexa_registro(objeto)
 		modelos_proceso = IndModelo.where(ind_modelo: objeto.class.name)
 
@@ -149,8 +181,9 @@ module ProcesaEstructura
 		end
 	end
 
+	# esta función funcionaa si hay una única estructura de de búsqueda
 	def desindexa_registro(objeto)
-		indices = IndIndice.where(class_name: objeto.class.name).where(objeto_id: objeto.id)
+		indices = IndIndice.where(class_name: objeto.class.name, objeto_id: objeto.id)
 		indices.delete_all
 	end
 

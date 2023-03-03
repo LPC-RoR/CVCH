@@ -8,6 +8,7 @@ class IndEstructura < ApplicationRecord
 	]
 
 	has_many :ind_modelos
+	has_many :ind_ideas
 	has_many :ind_palabras
 	has_many :ind_expresiones
 	has_many :ind_claves

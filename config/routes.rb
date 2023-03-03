@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  resources :ind_exp_pales
   resources :filo_ele_eles
   resources :filo_elementos do
     match :nuevo, via: :post, on: :collection
@@ -91,6 +92,10 @@ Rails.application.routes.draw do
       resources :ind_modelos
       match :procesa_estructura, via: :get, on: :member
     end
+    # Las ideas del buscador son los textos separados por punto ('.')
+    resources :ind_ideas
+    # has_many_through Ideas Expresiones
+    resources :ind_ide_exps
     # Modelos asociados a una estructura, se pueden indexar muchos modelos es un mismo índice.
     resources :ind_modelos
 

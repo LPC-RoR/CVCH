@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Ind Ideas</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Ind estructura</th>
+      <th>Ind idea</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @ind_ideas.each do |ind_idea| %>
+      <tr>
+        <td><%= ind_idea.ind_estructura_id %></td>
+        <td><%= ind_idea.ind_idea %></td>
+        <td><%= link_to 'Show', ind_idea %></td>
+        <td><%= link_to 'Edit', edit_ind_idea_path(ind_idea) %></td>
+        <td><%= link_to 'Destroy', ind_idea, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Ind Idea', new_ind_idea_path %>

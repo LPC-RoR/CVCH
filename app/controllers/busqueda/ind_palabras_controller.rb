@@ -15,7 +15,9 @@ class Busqueda::IndPalabrasController < ApplicationController
   def show
     @coleccion = {}
     @coleccion['ind_expresiones'] = @objeto.ind_expresiones.order(:ind_expresion)
-    @coleccion['ind_indices'] = (@objeto.ind_clave.present? ? @objeto.ind_clave.ind_indices : [])
+    indices_ids = (@objeto.ind_clave.present? ? @objeto.ind_clave.ind_indices.ids : [])
+    indices_ids = indices_ids.union(@objeto.ind_indices.ids).uniq
+    @coleccion['ind_indices'] = IndIndice.where(id: indices_ids)
   end
 
   # GET /ind_palabras/new
@@ -59,14 +61,20 @@ class Busqueda::IndPalabrasController < ApplicationController
 
   def reprocesar
     estructura = @objeto.ind_estructura
-    @objeto.ind_clave.ind_indices.each do |indice|
-      if indice.class_name == 'Publicacion'
-        publicacion = indice.class_name.constantize.find(indice.objeto_id)
-        desindexa_registro(publicacion)
-        indexa_registro(publicacion)
-      end
+    coleccion_ids = @objeto.ind_clave.blank? ? [] : @objeto.ind_clave.ind_indices.where(class_name: 'Publicacion').ids
+
+    ids = coleccion_ids.union(@objeto.ind_indices.ids)
+    indices = IndIndice.where(id: ids.uniq)
+
+    indices.each do |indice|
+      publicacion = indice.class_name.constantize.find(indice.objeto_id)
+      desindexa_registro(publicacion)
+      indexa_registro(publicacion)
     end
-    if @objeto.ind_clave.ind_indices.empty?
+
+    n_indices = @objeto.ind_clave.blank? ? @objeto.ind_indices.count : @objeto.ind_clave.ind_indices.count + @objeto.ind_indices.count
+
+    if n_indices == 0
       @objeto.ind_clave.delete
       @objeto.delete
     end

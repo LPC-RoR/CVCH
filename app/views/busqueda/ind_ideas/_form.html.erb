@@ -1,0 +1,27 @@
+<%= form_with(model: ind_idea, local: true) do |form| %>
+  <% if ind_idea.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(ind_idea.errors.count, "error") %> prohibited this ind_idea from being saved:</h2>
+
+      <ul>
+      <% ind_idea.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :ind_estructura_id %>
+    <%= form.number_field :ind_estructura_id %>
+  </div>
+
+  <div class="field">
+    <%= form.label :ind_idea %>
+    <%= form.text_field :ind_idea %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

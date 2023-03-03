@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_02_24_232700) do
+ActiveRecord::Schema.define(version: 2023_03_02_200851) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -402,12 +402,39 @@ ActiveRecord::Schema.define(version: 2023_02_24_232700) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "ind_exp_pales", force: :cascade do |t|
+    t.integer "ind_expresion_id"
+    t.integer "ind_palabra_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["ind_expresion_id"], name: "index_ind_exp_pales_on_ind_expresion_id"
+    t.index ["ind_palabra_id"], name: "index_ind_exp_pales_on_ind_palabra_id"
+  end
+
   create_table "ind_expresiones", force: :cascade do |t|
     t.string "ind_expresion"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "ind_estructura_id"
     t.index ["ind_estructura_id"], name: "index_ind_expresiones_on_ind_estructura_id"
+  end
+
+  create_table "ind_ide_exps", force: :cascade do |t|
+    t.integer "ind_idea_id"
+    t.integer "ind_expresion_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["ind_expresion_id"], name: "index_ind_ide_exps_on_ind_expresion_id"
+    t.index ["ind_idea_id"], name: "index_ind_ide_exps_on_ind_idea_id"
+  end
+
+  create_table "ind_ideas", force: :cascade do |t|
+    t.integer "ind_estructura_id"
+    t.string "ind_idea"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["ind_estructura_id"], name: "index_ind_ideas_on_ind_estructura_id"
+    t.index ["ind_idea"], name: "index_ind_ideas_on_ind_idea"
   end
 
   create_table "ind_indices", force: :cascade do |t|
@@ -417,9 +444,11 @@ ActiveRecord::Schema.define(version: 2023_02_24_232700) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "ind_estructura_id"
+    t.integer "ind_palabra_id"
     t.index ["class_name"], name: "index_ind_indices_on_class_name"
     t.index ["ind_clave_id"], name: "index_ind_indices_on_ind_clave_id"
     t.index ["ind_estructura_id"], name: "index_ind_indices_on_ind_estructura_id"
+    t.index ["ind_palabra_id"], name: "index_ind_indices_on_ind_palabra_id"
     t.index ["objeto_id"], name: "index_ind_indices_on_objeto_id"
   end
 

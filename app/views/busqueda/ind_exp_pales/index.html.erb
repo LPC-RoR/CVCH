@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Ind Exp Pales</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Ind expresion</th>
+      <th>Ind palabra</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @ind_exp_pales.each do |ind_exp_pal| %>
+      <tr>
+        <td><%= ind_exp_pal.ind_expresion_id %></td>
+        <td><%= ind_exp_pal.ind_palabra_id %></td>
+        <td><%= link_to 'Show', ind_exp_pal %></td>
+        <td><%= link_to 'Edit', edit_ind_exp_pal_path(ind_exp_pal) %></td>
+        <td><%= link_to 'Destroy', ind_exp_pal, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Ind Exp Pal', new_ind_exp_pal_path %>

@@ -1,0 +1,27 @@
+<%= form_with(model: ind_exp_pal, local: true) do |form| %>
+  <% if ind_exp_pal.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(ind_exp_pal.errors.count, "error") %> prohibited this ind_exp_pal from being saved:</h2>
+
+      <ul>
+      <% ind_exp_pal.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :ind_expresion_id %>
+    <%= form.number_field :ind_expresion_id %>
+  </div>
+
+  <div class="field">
+    <%= form.label :ind_palabra_id %>
+    <%= form.number_field :ind_palabra_id %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

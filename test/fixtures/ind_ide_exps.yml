@@ -1,0 +1,9 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  ind_idea_id: 1
+  ind_expresion_id: 1
+
+two:
+  ind_idea_id: 1
+  ind_expresion_id: 1

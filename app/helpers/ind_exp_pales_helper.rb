@@ -1,0 +1,2 @@
+module IndExpPalesHelper
+end

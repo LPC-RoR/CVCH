@@ -11,20 +11,25 @@ class IndPalabra < ApplicationRecord
 	]
 
 	belongs_to :ind_lenguaje, optional: true
-	belongs_to :ind_clave
+	belongs_to :ind_clave, optional: true
 	belongs_to :ind_estructura
 
 	belongs_to :ind_sinonimo, optional: true
 
-	has_many :ind_redacciones
-	has_many :ind_expresiones, through: :ind_redacciones
+	has_many :ind_exp_pales
+	has_many :ind_expresiones, through: :ind_exp_pales
+
+	has_many :ind_indices
+
+#	DEPRECATED
+#	has_many :ind_redacciones
+#	has_many :ind_expresiones, through: :ind_redacciones
 
 	has_many :origen_relations, :foreign_key => "destino_id", :class_name => "IndDireccion"
 	has_many :destino_relations, :foreign_key => "origen_id", :class_name => "IndDireccion"
 
 	has_many :origenes, :through => :origen_relations, :source => :origen
 	has_many :destinos, :through => :destino_relations, :source => :destino
-
 
 	has_one  :clave_relation, :foreign_key => "ind_palabra_id", :class_name => "IndBase"
 	has_many :ind_palabras_relations, :foreign_key => "clave_id", :class_name => "IndBase"
@@ -37,7 +42,7 @@ class IndPalabra < ApplicationRecord
 	end
 
 	def d_indices
-		self.ind_clave.present? ? self.ind_clave.ind_indices.count : 0
+		self.ind_clave.present? ? "#{self.ind_clave.ind_indices.count}:#{self.ind_indices.count}" : "0:#{self.ind_indices.count}"
 	end
 
 end
