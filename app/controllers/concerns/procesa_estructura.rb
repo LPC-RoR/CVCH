@@ -79,7 +79,7 @@ module ProcesaEstructura
 	end
 
 	def extrae_expresiones(texto)
-		reemplazos = { ',' => '|', ';' => '|', ':' => '|', '(' => '|', ')' => '|', '[' => '|', ']' => '|', '{' => '|', '}' => '|' }
+		reemplazos = { ',' => '|', ';' => '|', ':' => '|', '(' => '|', ')' => '|', '[' => '|', ']' => '|', '{' => '|', '}' => '|', 'º' => '|' }
 		exp_marcadas = texto.gsub(Regexp.union(reemplazos.keys), reemplazos)
 		exp_marcadas.split('|')
 	end

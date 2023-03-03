@@ -17,6 +17,8 @@ class Busqueda::IndPalabrasController < ApplicationController
     @coleccion['ind_expresiones'] = @objeto.ind_expresiones.order(:ind_expresion)
     indices_ids = (@objeto.ind_clave.present? ? @objeto.ind_clave.ind_indices.ids : [])
     indices_ids = indices_ids.union(@objeto.ind_indices.ids).uniq
+    indices = IndIndice.where(id: indices_ids)
+    @coleccion['publicaciones'] = Publicacion.where(id: indices.map {|i| i.objeto_id})
     @coleccion['ind_indices'] = IndIndice.where(id: indices_ids)
   end
 
