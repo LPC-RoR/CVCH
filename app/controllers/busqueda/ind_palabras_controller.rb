@@ -77,7 +77,7 @@ class Busqueda::IndPalabrasController < ApplicationController
     n_indices = @objeto.ind_clave.blank? ? @objeto.ind_indices.count : @objeto.ind_clave.ind_indices.count + @objeto.ind_indices.count
 
     if n_indices == 0
-      @objeto.ind_clave.delete
+      @objeto.ind_clave.delete unless @objeto.ind_clave.blank?
       @objeto.delete
     end
 
