@@ -57,10 +57,9 @@ module ProcesaEstructura
 		llaves
 	end
 
-	def p_palabra(estructura, expresion, palabra)
+	def p_palabra(estructura, palabra)
 		o_palabra = estructura.ind_palabras.find_by(ind_palabra: palabra.strip)
 		o_palabra = estructura.ind_palabras.create(ind_palabra: palabra.strip) if o_palabra.blank?
-		expresion.ind_palabras << o_palabra unless expresion.ind_palabras.ids.include?(o_palabra.id)
 		o_palabra
 	end
 
@@ -76,12 +75,6 @@ module ProcesaEstructura
 		reemplazos = { ',' => '|', ';' => '|', ':' => '|', '(' => '|', ')' => '|', '[' => '|', ']' => '|', '{' => '|', '}' => '|', 'º' => '|' }
 		exp_marcadas = texto.gsub(Regexp.union(reemplazos.keys), reemplazos)
 		exp_marcadas.split('|')
-	end
-
-	def p_expresion(estructura, expresion)
-		o_expresion = estructura.ind_expresiones.find_by(ind_expresion: expresion.strip)
-		o_expresion = estructura.ind_expresiones.create(ind_expresion: expresion.strip) if o_expresion.blank?
-		o_expresion
 	end
 
 	def p_indice(estructura, objeto, o_palabra)
@@ -103,12 +96,10 @@ module ProcesaEstructura
 			ideas.each do |idea|
 				expresiones = extrae_expresiones(idea)
 				expresiones.each do |expresion|
-					o_expresion = p_expresion(estructura, expresion)
-
 					palabras = lexer(expresion)
 					palabras.each do |palabra|
 						unless excluye_palabra(palabra)
-							o_palabra = p_palabra(estructura, o_expresion, palabra)
+							o_palabra = p_palabra(estructura, palabra)
 
 							o_indice = p_indice(estructura, objeto, o_palabra)
 						end
