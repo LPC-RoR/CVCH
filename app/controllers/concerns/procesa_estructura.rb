@@ -72,22 +72,15 @@ module ProcesaEstructura
 		ideas_marcadas.split('|')
 	end
 
-	def p_idea( estructura, idea)
-		o_idea = estructura.ind_ideas.find_by(ind_idea: idea.strip)
-		o_idea = estructura.ind_ideas.create(ind_idea: idea.strip) if o_idea.blank?
-		o_idea
-	end
-
 	def extrae_expresiones(texto)
 		reemplazos = { ',' => '|', ';' => '|', ':' => '|', '(' => '|', ')' => '|', '[' => '|', ']' => '|', '{' => '|', '}' => '|', 'º' => '|' }
 		exp_marcadas = texto.gsub(Regexp.union(reemplazos.keys), reemplazos)
 		exp_marcadas.split('|')
 	end
 
-	def p_expresion(estructura, idea, expresion)
+	def p_expresion(estructura, expresion)
 		o_expresion = estructura.ind_expresiones.find_by(ind_expresion: expresion.strip)
 		o_expresion = estructura.ind_expresiones.create(ind_expresion: expresion.strip) if o_expresion.blank?
-		idea.ind_expresiones << o_expresion unless idea.ind_expresiones.ids.include?(o_expresion.id)
 		o_expresion
 	end
 
@@ -108,11 +101,9 @@ module ProcesaEstructura
 			# 1.- procesa IDEAS
 			ideas = extrae_ideas(texto)
 			ideas.each do |idea|
-				o_idea = p_idea(estructura, idea)
-
 				expresiones = extrae_expresiones(idea)
 				expresiones.each do |expresion|
-					o_expresion = p_expresion(estructura, o_idea, expresion)
+					o_expresion = p_expresion(estructura, expresion)
 
 					palabras = lexer(expresion)
 					palabras.each do |palabra|
