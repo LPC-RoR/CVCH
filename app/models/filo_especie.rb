@@ -1,4 +1,6 @@
 class FiloEspecie < ApplicationRecord
+	belongs_to :filo_elemento
+
 	has_one  :parent_relation, :foreign_key => "child_id", :class_name => "FiloEspEsp"
 	has_many :child_relations, :foreign_key => "parent_id", :class_name => "FiloEspEsp"
 
