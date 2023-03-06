@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_03_06_133010) do
+ActiveRecord::Schema.define(version: 2023_03_06_143410) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -257,8 +257,10 @@ ActiveRecord::Schema.define(version: 2023_03_06_133010) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "filo_elemento_id"
+    t.integer "filo_especie_id"
     t.index ["especie"], name: "index_especies_on_especie"
     t.index ["filo_elemento_id"], name: "index_especies_on_filo_elemento_id"
+    t.index ["filo_especie_id"], name: "index_especies_on_filo_especie_id"
   end
 
   create_table "etiquetas", force: :cascade do |t|
