@@ -3,7 +3,7 @@ class Especie < ApplicationRecord
 	#-------------------------------------------------------------  TABLA
 	TABLA_FIELDS = [
 		['d_especie',  'show'],
-		['d_especie', 'normal'],
+		['d_especie_ref', 'normal'],
 		['d_pubs', 'valor'],
 		['d_areas', 'valor']
 	]
@@ -32,7 +32,7 @@ class Especie < ApplicationRecord
 		self.especie.capitalize
 	end
 
-	def d_especie
+	def d_especie_ref
 		self.filo_especie.blank? ? '-' : self.filo_especie.filo_especie
 	end
 end
