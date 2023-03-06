@@ -7,21 +7,48 @@ class EspeciesController < ApplicationController
   # GET /especies
   # GET /especies.json
   def index
-    @filo_elemento = params[:especie].blank? ? FiloElemento.first : FiloElemento.find_by(filo_elemento: params[:especie])
+    @filo_especie = params[:especie].blank? ? nil : FiloEspecie.find_by(filo_especie: params[:especie])
+    if @filo_especie.blank?
+      @especies_padres = []
+      ultima_especie = nil
+    else
+      @especies_padres = [@filo_especie.parent]
+      ultima_especie = @filo_especie.parent
+      unless ultima_especie.blank?
+        while ultima_especie.parent.present? do
+          @especies_padres << ultima_especie.parent
+          ultima_especie = ultima_especie.parent
+        end
+      end
+      @elemento_padre = @filo_especie.filo_elemento.present? ? @filo_especie.filo_elemento : @especies_padres[0].filo_elemento
+    end
 
-    @padres = @filo_elemento.blank? ? [] : [@filo_elemento.parent]
-    ultimo = @filo_elemento.blank? ? nil : @filo_elemento.parent
-    unless ultimo.blank?
-      while ultimo.parent.present? do
-        @padres << ultimo.parent
-        ultimo = ultimo.parent
+    if params[:elemento].blank? and params[:especie].blank?
+      @filo_elemento = FiloElemento.first
+    elsif params[:elemento].blank?
+      @filo_elemento = nil
+    else
+      @filo_elemento = FiloElemento.find_by(filo_elemento: params[:elemento])
+    end 
+
+    if @filo_elemento.blank?
+      @elementos_padres = []
+      ultimo_elemento = nil
+    else
+      @elementos_padres = [@filo_elemento.parent]
+      ultimo_elemento = @filo_elemento.parent
+      unless ultimo_elemento.blank?
+        while ultimo_elemento.parent.present? do
+          @padres << ultimo_elemento.parent
+          ultimo_elemento = ultimo_elemento.parent
+        end
       end
     end
 
     @coleccion = {}
     esp_ids = Especie.all.map {|esp| esp.id if esp.filo_especie_id.blank?}.compact
     @coleccion['especies'] = Especie.where(id: esp_ids).order(:especie).page(params[:page])
-    @coleccion['filo_elementos'] = (@filo_elemento.blank? ? FiloElemento.where(false).page(params[:page]) :  @filo_elemento.children).page(params[:page])
+    @coleccion['filo_elementos'] = (@filo_elemento.blank? ? FiloElemento.where(false).page(params[:page]) :  @filo_elemento.children.page(params[:page]))
     @paginate = true
   end
 

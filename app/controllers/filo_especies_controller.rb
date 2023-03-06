@@ -17,6 +17,32 @@ class FiloEspeciesController < ApplicationController
     @filo_especie = FiloEspecie.new
   end
 
+  def nuevo
+    padre = params[:class_name].blank? ? nil : params[:class_name].constantize.find(params[:objeto_id])
+    unless params[:nueva_especie][:filo_especie].blank?
+      textos = params[:nueva_especie][:filo_especie].split('|')
+      tex_espe = textos[0]
+      tex_ncom = textos.count == 2 ? textos[1] : nil
+      especie = FiloEspecie.create(filo_especie: tex_espe.capitalize, nombre_comun: tex_ncom)
+      padre.filo_especies << especie unless padre.blank?
+    end
+
+    redirect_to "/especies?elemento=#{padre.filo_elemento unless padre.blank?}"
+  end
+
+  def nuevo_child
+    padre = params[:class_name].blank? ? nil : params[:class_name].constantize.find(params[:objeto_id])
+    unless params[:nueva_especie_child][:filo_especie].blank?
+      textos = params[:nueva_especie_child][:filo_especie].split('|')
+      tex_espe = textos[0]
+      tex_ncom = textos.count == 2 ? textos[1] : nil
+      especie = FiloEspecie.create(filo_especie: tex_espe.capitalize, nombre_comun: tex_ncom)
+      padre.children << especie unless padre.blank?
+    end
+
+    redirect_to "/especies?especie=#{padre.filo_especie unless padre.blank?}"
+  end
+
   # GET /filo_especies/1/edit
   def edit
   end
@@ -58,6 +84,23 @@ class FiloEspeciesController < ApplicationController
     respond_to do |format|
       format.html { redirect_to filo_especies_url, notice: 'Filo especie was successfully destroyed.' }
       format.json { head :no_content }
+    end
+  end
+
+  def elimina
+    @objeto = FiloEspecie.find(params[:objeto_id])
+
+    if @objeto.padre.class.name == 'FiloEspecie'
+      padre = @objeto.parent 
+      padre.children.delete(@objeto)
+    end
+
+    @objeto.delete
+
+    if @objeto.padre.class.name == 'FiloEspecie'
+      redirect_to "/especies?especie=#{@objeto.padre.filo_especie}"
+    else
+      redirect_to "/especies?elemento=#{@objeto.padre.filo_elemento}"
     end
   end
 

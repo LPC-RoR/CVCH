@@ -1,78 +1,109 @@
 <!-- PADRES -->
-<% unless @padres.empty? %>
-	<% @padres.reverse().each do |padre| %>
-		<small><%= link_to padre.filo_elemento, "/especies?especie=#{padre.filo_elemento}" unless padre.blank? %></small>
+<% unless @elementos_padres.empty? %>
+	<% @elementos_padres.reverse().each do |padre| %>
+		<small><%= link_to padre.filo_elemento, "/especies?elemento=#{padre.filo_elemento}" unless padre.blank? %></small>
 	<% end %>
-<% else %>
-	<h6>Sin elemento padre</h6>
 <% end %>
 
-<!-- ELEMENTO -->
+<small><%= link_to @elemento_padre.filo_elemento, "/especies?elemento=#{@elemento_padre.filo_elemento}" unless especie.blank? %></small>
+
+<% unless @especies_padres.empty? %>
+	<% @especies_padres.reverse().each do |padre| %>
+		<small><%= link_to padre.filo_especie, "/especies?especie=#{padre.filo_especie}" unless padre.blank? %></small>
+	<% end %>
+<% end %>
+
+<!-- DISPLAY ELEMENTO -->
 <% unless elemento.blank? %>
+	<!-- ELEMENTO -->
 	<h5><i class="bi bi-diagram-2"></i><%= "#{elemento.filo_elemento} [#{elemento.n_hijos}] " %><%=  elemento.descripcion unless elemento.descripcion.blank? %><%= link_to '<i class="bi bi-trash"></i>'.html_safe, "/filo_elementos/elimina_base" if FiloElemento.all.count == 1 %></h5>
+	<!-- ELEMENTO : CHILDREN -->
+	<ul>
+		<% unless elemento.blank? %>
+			<% elemento.children.each do |child| %>
+				<li><small><i class="bi bi-diagram-2"></i><%= link_to "#{child.filo_elemento} [#{child.n_especies}] ", "/especies?elemento=#{child.filo_elemento}" %><%=  child.descripcion unless child.descripcion.blank? %><%= link_to '<i class="bi bi-trash"></i>'.html_safe, "/filo_elementos/elimina?objeto_id=#{child.id}" if child.n_hijos == 0 %></small></li>
+			<% end %>
+		<% end %>
+	</ul>
+
+	<!-- FORM INGRESO FILO ELEMENTOS CHILDS -->
+	<%= form_for :nuevo_elemento, url: "/filo_elementos/nuevo?class_name=#{elemento.class.name unless elemento.blank?}&objeto_id=#{elemento.id unless elemento.blank?}" do |form| %>
+		<div class='form-inline'>
+			<%= form.text_field(:filo_elemento, size: 35, class: 'form-control' ) %>
+			<button type="submit" class="btn btn-info">
+			  <i class="bi bi-plus-circle icon-white"></i>
+			  <i class="bi bi-diagram-2 icon-white"></i>
+			</button>
+		</div>
+	<% end  %>
+
+	</br>
+	<!-- ESPECIES -->
+	<h6>Especies</h6>
+	<ul>
+		<% unless elemento.blank? %>
+			<% elemento.filo_especies.each do |f_esp| %>
+				<li><i class="bi bi-bug"></i><%= link_to "#{f_esp.filo_especie} [#{f_esp.n_especies}] ", "/especies?especie=#{f_esp.filo_especie}" %><%= f_esp.nombre_comun %><%= link_to '<i class="bi bi-trash"></i>'.html_safe, "/filo_especies/elimina?objeto_id=#{f_esp.id}" if f_esp.children.empty? and f_esp.especies.empty? %></li>
+			<% end %>
+		<% end %>
+	</ul>
+
+	<!-- FORM INGRESO FILO ELEMENTOS ESPECIES -->
+	<%= form_for :nueva_especie, url: "/filo_especies/nuevo?class_name=#{elemento.class.name unless elemento.blank?}&objeto_id=#{elemento.id unless elemento.blank?}" do |form| %>
+		<div class='form-inline'>
+			<%= form.text_field(:filo_especie, size: 35, class: 'form-control' ) %>
+			<button type="submit" class="btn btn-info">
+			  <i class="bi bi-plus-circle icon-white"></i>
+			  <i class="bi bi-bug icon-white"></i>
+			</button>
+		</div>
+	<% end  %>
+
 <% end %>
 
-<!-- CHILDS -->
-<ul>
-	<% unless elemento.blank? %>
-		<% elemento.children.each do |child| %>
-			<li><small><i class="bi bi-diagram-2"></i><%= link_to "#{child.filo_elemento} [#{child.n_especies}] ", "/especies?especie=#{child.filo_elemento}" %><%=  child.descripcion unless child.descripcion.blank? %><%= link_to '<i class="bi bi-trash"></i>'.html_safe, "/filo_elementos/elimina?objeto_id=#{child.id}" if child.n_hijos == 0 %></small></li>
+<!-- DISPLAY ESPECIE -->
+<% unless especie.blank? %>
+	<!-- Despliegue de ESPECIE -->
+	<h5><i class="bi bi-bug"></i><%= "#{especie.filo_especie} [#{especie.n_hijos}] " %><%=  especie.nombre_comun unless especie.nombre_comun.blank? %></h5>
+	<!-- ESPECIE : CHILDREN -->
+	<ul>
+		<% unless especie.blank? %>
+			<% especie.children.each do |child| %>
+				<li><small><i class="bi bi-bug"></i><%= link_to "#{child.filo_especie} [#{child.n_especies}] ", "/especies?especie=#{child.filo_especie}" %><%=  child.nombre_comun unless child.nombre_comun.blank? %><%= link_to '<i class="bi bi-trash"></i>'.html_safe, "/filo_especies/elimina?objeto_id=#{child.id}" if child.n_hijos == 0 %></small></li>
+			<% end %>
 		<% end %>
-	<% end %>
-</ul>
+	</ul>
 
-<!-- FORM INGRESO FILO ELEMENTOS CHILDS -->
-<%= form_for :nuevo_elemento, url: "/filo_elementos/nuevo?class_name=#{elemento.class.name unless elemento.blank?}&objeto_id=#{elemento.id unless elemento.blank?}" do |form| %>
-	<div class='form-inline'>
-		<%= form.text_field(:filo_elemento, size: 35, class: 'form-control' ) %>
-		<button type="submit" class="btn btn-info">
-		  <i class="bi bi-plus-circle icon-white"></i>
-		  <i class="bi bi-diagram-2 icon-white"></i>
-		</button>
-	</div>
-<% end  %>
+	<!-- FORM INGRESO FILO ELEMENTOS CHILDS -->
+	<%= form_for :nueva_especie_child, url: "/filo_especies/nuevo_child?class_name=#{especie.class.name unless especie.blank?}&objeto_id=#{especie.id unless especie.blank?}" do |form| %>
+		<div class='form-inline'>
+			<%= form.text_field(:filo_especie, size: 35, class: 'form-control' ) %>
+			<button type="submit" class="btn btn-info">
+			  <i class="bi bi-plus-circle icon-white"></i>
+			  <i class="bi bi-bug icon-white"></i>
+			</button>
+		</div>
+	<% end  %>
 
-</br>
-<h6>Especies</h6>
+	</br>
+	<h6>Etiquetas</h6>
 
-<!-- ESPECIES -->
-<ul>
-	<% unless elemento.blank? %>
-		<% elemento.filo_especies.each do |f_esp| %>
-			<li><i class="bi bi-diagram-2"></i><%= link_to "#{f_esp.filo_especie} [#{f_esp.n_hijos}]", "/especies?especie=#{f_esp.filo_especie}" %><%= link_to '<i class="bi bi-trash"></i>'.html_safe, "/filo_esspecies/elimina?objeto_id=#{f_esp.id}" if f_esp.children.empty? and f_esp.especies.empty? %></li>
+	<ul>
+		<% unless elemento.blank? %>
+			<% elemento.filo_especies.each do |esp| %>
+				<li><i class="bi bi-bug"></i><%= esp.filo_especie %><%= link_to '<i class="bi bi-trash"></i>'.html_safe, "/especies/libera_especie?objeto_id=#{esp.id}" %></li>
+			<% end %>
 		<% end %>
-	<% end %>
-</ul>
+	</ul>
+	<!-- FORM ASOCIACION DE ESPECIES -->
+	<%= form_for :asigna_especie, url: "/filo_elementos/asigna_especie?class_name=#{elemento.class.name unless elemento.blank?}&objeto_id=#{elemento.id unless elemento.blank?}" do |form| %>
+		<div class='form-inline'>
+			<%= form.text_field(:especie, size: 35, class: 'form-control' ) %>
+			<button type="submit" class="btn btn-info">
+			  <i class="bi bi-plus-circle icon-white"></i>
+			  <i class="bi bi-node-plus icon-white"></i>
+			</button>
+		</div>
+	<% end  %>
 
-<!-- FORM INGRESO FILO ELEMENTOS CHILDS -->
-<%= form_for :nueva_especie, url: "/filo_especies/nuevo?class_name=#{elemento.class.name unless elemento.blank?}&objeto_id=#{elemento.id unless elemento.blank?}" do |form| %>
-	<div class='form-inline'>
-		<%= form.text_field(:filo_elemento, size: 35, class: 'form-control' ) %>
-		<button type="submit" class="btn btn-info">
-		  <i class="bi bi-plus-circle icon-white"></i>
-		  <i class="bi bi-bug icon-white"></i>
-		</button>
-	</div>
-<% end  %>
-
-</br>
-<h6>Etiquetas</h6>
-
-<ul>
-	<% unless elemento.blank? %>
-		<%# elemento.especies.each do |esp| %>
-			<li><%#= esp.especie %><%#= link_to '<i class="bi bi-trash"></i>'.html_safe, "/especies/libera_especie?objeto_id=#{esp.id}" %></li>
-		<%# end %>
-	<% end %>
-</ul>
-<!-- FORM ASOCIACION DE ESPECIES -->
-<%= form_for :asigna_especie, url: "/filo_elementos/asigna_especie?class_name=#{elemento.class.name unless elemento.blank?}&objeto_id=#{elemento.id unless elemento.blank?}" do |form| %>
-	<div class='form-inline'>
-		<%= form.text_field(:especie, size: 35, class: 'form-control' ) %>
-		<button type="submit" class="btn btn-info">
-		  <i class="bi bi-plus-circle icon-white"></i>
-		  <i class="bi bi-node-plus icon-white"></i>
-		</button>
-	</div>
-<% end  %>
-
+<% end %>

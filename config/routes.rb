@@ -1,7 +1,11 @@
 Rails.application.routes.draw do
 
   resources :filo_esp_esps
-  resources :filo_especies
+  resources :filo_especies do
+    match :nuevo, via: :post, on: :collection
+    match :nuevo_child, via: :post, on: :collection
+    match :elimina, via: :get, on: :collection
+  end
   resources :ind_exp_pales
   resources :filo_ele_eles
   resources :filo_elementos do

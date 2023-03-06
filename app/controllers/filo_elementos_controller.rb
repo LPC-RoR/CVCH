@@ -33,7 +33,7 @@ class FiloElementosController < ApplicationController
       padre.children << elemento unless padre.blank?
     end
 
-    redirect_to "/especies?especie=#{padre.filo_elemento unless padre.blank?}"
+    redirect_to "/especies?elemento=#{padre.filo_elemento unless padre.blank?}"
   end
 
   def asigna_especie
@@ -108,7 +108,7 @@ class FiloElementosController < ApplicationController
 
     @objeto.delete
 
-    redirect_to "/especies?especie=#{padre.filo_elemento unless padre.blank?}"
+    redirect_to "/especies?elemento=#{padre.filo_elemento unless padre.blank?}"
   end
 
   def elimina_base
