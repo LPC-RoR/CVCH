@@ -1,0 +1,31 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Filo Especies</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Filo especie</th>
+      <th>Nombre comun</th>
+      <th>Iucn</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @filo_especies.each do |filo_especie| %>
+      <tr>
+        <td><%= filo_especie.filo_especie %></td>
+        <td><%= filo_especie.nombre_comun %></td>
+        <td><%= filo_especie.iucn %></td>
+        <td><%= link_to 'Show', filo_especie %></td>
+        <td><%= link_to 'Edit', edit_filo_especie_path(filo_especie) %></td>
+        <td><%= link_to 'Destroy', filo_especie, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Filo Especie', new_filo_especie_path %>

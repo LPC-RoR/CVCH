@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_03_02_200851) do
+ActiveRecord::Schema.define(version: 2023_03_06_133010) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -300,6 +300,28 @@ ActiveRecord::Schema.define(version: 2023_03_02_200851) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["filo_elemento"], name: "index_filo_elementos_on_filo_elemento"
+  end
+
+  create_table "filo_esp_esps", force: :cascade do |t|
+    t.integer "parent_id"
+    t.integer "child_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["child_id"], name: "index_filo_esp_esps_on_child_id"
+    t.index ["parent_id"], name: "index_filo_esp_esps_on_parent_id"
+  end
+
+  create_table "filo_especies", force: :cascade do |t|
+    t.string "filo_especie"
+    t.string "nombre_comun"
+    t.string "iucn"
+    t.integer "filo_elemento_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "especie_id"
+    t.index ["especie_id"], name: "index_filo_especies_on_especie_id"
+    t.index ["filo_elemento_id"], name: "index_filo_especies_on_filo_elemento_id"
+    t.index ["filo_especie"], name: "index_filo_especies_on_filo_especie"
   end
 
   create_table "h_imagenes", force: :cascade do |t|

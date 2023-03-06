@@ -5,11 +5,15 @@ class FiloElemento < ApplicationRecord
 	has_one  :parent, :through => :parent_relation
 	has_many :children, :through => :child_relations, :source => :child
 
-	has_many :especies
+	has_many :filo_especies
 
-	def claves
-		claves_hijos = self.children.map {|child| child.claves}.sum
-		claves = self.especies.count
-		claves + claves_hijos
+	def n_hijos
+		self.children.count + self.filo_especies.count
+	end
+
+	def n_especies
+		especies = self.filo_especies.count
+		especies_hijos = self.children.map {|child| child.n_especies}.sum
+		especies + especies_hijos
 	end
 end

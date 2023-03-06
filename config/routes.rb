@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+  resources :filo_esp_esps
+  resources :filo_especies
   resources :ind_exp_pales
   resources :filo_ele_eles
   resources :filo_elementos do

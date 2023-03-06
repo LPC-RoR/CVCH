@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  filo_especie: MyString
+  nombre_comun: MyString
+  iucn: MyString
+
+two:
+  filo_especie: MyString
+  nombre_comun: MyString
+  iucn: MyString
