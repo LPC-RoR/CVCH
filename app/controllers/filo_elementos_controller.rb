@@ -29,7 +29,7 @@ class FiloElementosController < ApplicationController
       textos = params[:nuevo_elemento][:filo_elemento].split('|')
       tex_elem = textos[0]
       tex_desc = textos.count == 2 ? textos[1] : nil
-      elemento = FiloElemento.create(filo_elemento: tex_elem, descripcion: tex_desc)
+      elemento = FiloElemento.create(filo_elemento: tex_elem.capitalize, descripcion: tex_desc)
       padre.children << elemento unless padre.blank?
     end
 
