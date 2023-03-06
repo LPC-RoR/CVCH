@@ -2,7 +2,6 @@ module ProcesaEstructura
 	extend ActiveSupport::Concern
 
 
-
 	def letra?(car)
 	  car.match?(/[[:alpha:]]/)
 	end

@@ -56,4 +56,12 @@ module BuscadorHelper
 		texto_final
 	end
 
+	def field_analysis(objeto, field, word)
+		unless objeto.send(field).blank?
+			objeto.send(field).gsub(/#{word}/i, "<b>[#{word}]</b>").html_safe 
+		else
+			'Campo no encontrado'
+		end
+	end
+
 end
