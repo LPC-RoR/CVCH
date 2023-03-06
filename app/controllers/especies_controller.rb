@@ -9,8 +9,8 @@ class EspeciesController < ApplicationController
   def index
     @filo_elemento = params[:especie].blank? ? FiloElemento.first : FiloElemento.find_by(filo_elemento: params[:especie])
 
-    @padres = [@filo_elemento.parent]
-    ultimo = @filo_elemento.parent
+    @padres = @filo_elemento.blank? ? [] : [@filo_elemento.parent]
+    ultimo = @filo_elemento.blank? ? nil : @filo_elemento.parent
     unless ultimo.blank?
       while ultimo.parent.present? do
         @padres << ultimo.parent

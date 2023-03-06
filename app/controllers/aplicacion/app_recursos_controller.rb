@@ -32,45 +32,10 @@ class Aplicacion::AppRecursosController < ApplicationController
   end
 
   def procesos
-    indices_proceso = Publicacion.all.map {|pub| pub.id if pub.areas.count == 1}.compact
-    publicaciones = Publicacion.where(id: indices_proceso)
-    publicaciones.each do |pub|
-    end
+    FiloElemento.delete_all
+    FiloEleEle.delete_all
 
-    Especie.all.each do |esp|
-      if esp.areas.empty?
-        indices_pubs = esp.publicaciones.ids
-        indices_proceso = indices_proceso & indices_pubs
-        unless indices_proceso.empty?
-          publicaciones = Publicacion.where(id: indices_proceso)
-          pub_tally = publicaciones.map {|pub| pub.areas.first.id}.tally
-          clave = nil
-          valor = nil
-          pub_tally.keys.each do |key|
-            if clave.blank?
-              clave = key
-              valor = pub_tally[key]
-            else
-              if pub_tally[key] > valor
-                clave = key
-                valor = pub_tally[key]
-              end
-            end
-          end
-          unless clave.blank?
-            area = Area.find(clave)
-            esp.areas << area unless area.blank?
-          end
-        end
-      end
-    end
-
-
-    carga_sidebar('Administración', params[:t])
-    @coleccion = {}
-    @coleccion['publicaciones'] = Publicacion.all.order(updated_at: :desc).page(params[:page])
-    @paginate = true
-#    redirect_to root_path
+    redirect_to root_path
   end
 
   private
