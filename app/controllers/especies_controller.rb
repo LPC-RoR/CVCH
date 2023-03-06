@@ -39,7 +39,7 @@ class EspeciesController < ApplicationController
       ultimo_elemento = @filo_elemento.parent
       unless ultimo_elemento.blank?
         while ultimo_elemento.parent.present? do
-          @padres << ultimo_elemento.parent
+          @elementos_padres << ultimo_elemento.parent
           ultimo_elemento = ultimo_elemento.parent
         end
       end
