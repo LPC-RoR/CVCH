@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_03_06_143410) do
+ActiveRecord::Schema.define(version: 2023_03_06_151629) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -301,6 +301,7 @@ ActiveRecord::Schema.define(version: 2023_03_06_143410) do
     t.string "filo_elemento"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "descripcion"
     t.index ["filo_elemento"], name: "index_filo_elementos_on_filo_elemento"
   end
 

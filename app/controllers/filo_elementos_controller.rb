@@ -26,7 +26,10 @@ class FiloElementosController < ApplicationController
   def nuevo
     padre = params[:class_name].blank? ? nil : params[:class_name].constantize.find(params[:objeto_id])
     unless params[:nuevo_elemento][:filo_elemento].blank?
-      elemento = FiloElemento.create(filo_elemento: params[:nuevo_elemento][:filo_elemento])
+      textos = params[:nuevo_elemento][:filo_elemento].split('|')
+      tex_elem = textos[0]
+      tex_desc = textos.count == 2 ? textos[1] : nil
+      elemento = FiloElemento.create(filo_elemento: tex_elem, descripcion: tex_desc)
       padre.children << elemento unless padre.blank?
     end
 
@@ -122,6 +125,6 @@ class FiloElementosController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def filo_elemento_params
-      params.require(:filo_elemento).permit(:filo_elemento)
+      params.require(:filo_elemento).permit(:filo_elemento, :descripcion)
     end
 end
