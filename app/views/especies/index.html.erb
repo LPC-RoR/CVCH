@@ -4,7 +4,7 @@
 		<%= render partial: 'filo_elementos/partials/show_elemento', locals: {elemento: @filo_elemento, especie: @filo_especie} %>
 
 		</br>
-		<%= render partial: 'filo_elementos/partials/show_filo', locals: {base: @elemento_base} %>
+		<%= render partial: 'filo_elementos/partials/show_tree', locals: {base: @elemento_base} %>
 	</div>
 	<div class='col-md-4'>
 		<%= render partial: '0p/general/icon_text', locals: {text: 'Orden de Especies', gly: 'bug', clr: 'info'} %>
