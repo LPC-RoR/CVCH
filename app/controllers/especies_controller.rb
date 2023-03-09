@@ -46,7 +46,7 @@ class EspeciesController < ApplicationController
     end
 
     @elemento_base = FiloElemento.first
-    @elementos_base = FiloElemento.where(filo_orden: nil)
+    @elementos_base = FiloElemento.where(filo_orden_id: nil).page(params[:page])
 
     @coleccion = {}
     esp_ids = Especie.all.map {|esp| esp.id if esp.filo_especie_id.blank?}.compact
