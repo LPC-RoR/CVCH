@@ -2,7 +2,7 @@
 	<% unless elemento.children.empty? %>
 		<% elemento.children.each do |hijo| %>
 			<tr>
-				<td><small><%= "#{hijo.filo_orden.blank? ? '' : ("[]" * (hijo.filo_orden.orden.to_i-1))}[#{hijo.filo_orden.filo_orden}]#{hijo.filo_elemento}" %></small></td>
+				<td><small><%= "#{hijo.filo_orden.blank? ? '' : ("[]" * (hijo.filo_orden.orden.to_i-1))}[#{hijo.filo_orden.filo_orden unless hijo.filo_orden.blank?}] - #{hijo.filo_elemento}" %></small></td>
 				<td><%= render partial: '0p/tabla/btns', locals: {a: 'index', objeto: hijo} %></td>
 			</tr>
 			<% unless hijo.children.empty? %>
