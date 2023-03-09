@@ -1,0 +1,16 @@
+<table class='table-borderless'>
+	<tbody>
+		<tr>
+			<td><small><%= base.filo_elemento %></small></td>
+			<td><small><%= base.descripcion %></small></td>
+			<td><%= render partial: '0p/tabla/btns', locals: {a: 'index', objeto: base} %></td>
+		</tr>
+		<% base.children.each do |hijo| %>
+			<tr>
+				<td><small><%= "#{hijo.filo_orden.blank? ? '' : ('-' * hijo.filo_orden.orden.to_i)}#{hijo.filo_elemento}" %></small></td>
+				<td><small><%= hijo.descripcion %></small></td>
+				<td><%= render partial: '0p/tabla/btns', locals: {a: 'index', objeto: hijo} %></td>
+			</tr>
+		<% end %>
+	</tbody>
+</table>

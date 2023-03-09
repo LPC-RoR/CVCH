@@ -1,0 +1,14 @@
+<div class='row'>
+	<div class='col-md-4'>
+		<small><%= form.label 'Orden' %></small></br>
+		<%= form.select :filo_orden_id, FiloOrden.all.collect { |orden| [orden.filo_orden, orden.id] }, include_blank: true %>
+	</div>
+	<div class='col-md-4'>
+		<small><%= form.label 'Elemento' %></small></br>
+		<%= form.text_field(:filo_elemento, class: 'form-control') %>
+	</div>
+	<div class='col-md-4'>
+		<small><%= form.label 'Descripción' %></small></br>
+		<%= form.text_field(:descripcion, class: 'form-control') %>
+	</div>
+</div>

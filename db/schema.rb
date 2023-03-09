@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_03_06_151629) do
+ActiveRecord::Schema.define(version: 2023_03_09_162719) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -302,7 +302,9 @@ ActiveRecord::Schema.define(version: 2023_03_06_151629) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "descripcion"
+    t.integer "filo_orden_id"
     t.index ["filo_elemento"], name: "index_filo_elementos_on_filo_elemento"
+    t.index ["filo_orden_id"], name: "index_filo_elementos_on_filo_orden_id"
   end
 
   create_table "filo_esp_esps", force: :cascade do |t|
@@ -325,6 +327,14 @@ ActiveRecord::Schema.define(version: 2023_03_06_151629) do
     t.index ["especie_id"], name: "index_filo_especies_on_especie_id"
     t.index ["filo_elemento_id"], name: "index_filo_especies_on_filo_elemento_id"
     t.index ["filo_especie"], name: "index_filo_especies_on_filo_especie"
+  end
+
+  create_table "filo_ordenes", force: :cascade do |t|
+    t.integer "orden"
+    t.string "filo_orden"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["filo_orden"], name: "index_filo_ordenes_on_filo_orden"
   end
 
   create_table "h_imagenes", force: :cascade do |t|

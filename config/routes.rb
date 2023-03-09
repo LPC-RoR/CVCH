@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  resources :filo_ordenes
   resources :filo_esp_esps
   resources :filo_especies do
     match :nuevo, via: :post, on: :collection

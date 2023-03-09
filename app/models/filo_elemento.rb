@@ -1,4 +1,12 @@
 class FiloElemento < ApplicationRecord
+
+	TABLA_FIELDS = [
+		['filo_elemento',  'normal'],
+		['descripcion', 'normal']
+	]
+
+	belongs_to :filo_orden, optional: true
+
 	has_one  :parent_relation, :foreign_key => "child_id", :class_name => "FiloEleEle"
 	has_many :child_relations, :foreign_key => "parent_id", :class_name => "FiloEleEle"
 
