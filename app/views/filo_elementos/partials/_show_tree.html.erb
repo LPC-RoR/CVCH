@@ -2,7 +2,6 @@
 	<tbody>
 		<tr>
 			<td><small><%= @elemento_base.filo_elemento %></small></td>
-			<td><small>{<%= @elemento_base.n_especies %>}</small></td>
 			<td><%= render partial: '0p/tabla/btns', locals: {a: 'index', objeto: @elemento_base} %></td>
 		</tr>
 		<%= render partial: 'filo_elementos/partials/show_nivel', locals: {elemento: @elemento_base} unless @elemento_base.children.empty? %>
