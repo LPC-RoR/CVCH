@@ -25,6 +25,7 @@
 			<% end %>
 		<% end %>
 	</ul>
+<% end %>
 
 	<!-- FORM INGRESO FILO ELEMENTOS CHILDS -->
 	<%= form_for :nuevo_elemento, url: "/filo_elementos/nuevo?class_name=#{elemento.class.name unless elemento.blank?}&objeto_id=#{elemento.id unless elemento.blank?}" do |form| %>
@@ -38,6 +39,8 @@
 	<% end  %>
 
 	</br>
+
+<% unless elemento.blank? %>	
 	<!-- ESPECIES -->
 	<h6>Especies</h6>
 	<ul>
@@ -58,7 +61,6 @@
 			</button>
 		</div>
 	<% end  %>
-
 <% end %>
 
 <!-- DISPLAY ESPECIE -->
