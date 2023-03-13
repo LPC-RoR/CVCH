@@ -3,7 +3,7 @@
 </br>
 <div class='row'>
 	<div class='col-md-3'>
-		<small><%= render partial: '0p/tabs/tabs', locals: {tabs: @tabs, tag: 'tab', active: @tab } %></small>
+		<%= render partial: '0p/tabs/tabs', locals: {tabs: @tabs, tag: 'tab', active: @tab } %>
 
 		<%= render partial: '0p/list/selector', locals: {titulo: 'Áreas', list: @list_selector, sel: @sel, options: @options} if params[:search].blank? %>
 	</div>
