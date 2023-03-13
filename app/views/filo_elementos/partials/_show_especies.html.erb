@@ -5,8 +5,10 @@
 	</tr>
 	<% unless especie.children.empty? %>
 		<% especie.children.each do |subespecie| %>
+		<tr>
 			<td><small><%= "#{("- " * 25)}[SubEspecie] - #{subespecie.filo_especie}" %></small></td>
 			<% if controller_name == 'especies' %><td><%= render partial: '0p/tabla/btns', locals: {a: 'index', objeto: subespecie} %></td><% end %>
+		</tr>
 		<% end %>
 	<% end %>
 <% end %>
