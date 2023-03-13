@@ -3,12 +3,21 @@
 </br>
 <div class='row'>
 	<div class='col-md-3'>
-		<%= render partial: '0p/tabs/tabs', locals: {tabs: @tabs, tag: 'tab', active: @tab } %>
+		<%#= render partial: '0p/tabs/tabs', locals: {tabs: @tabs[:menu], tag: 'menu', active: @options[:menu] } %>
+		<%= render partial: '0p/tabs/tabs', locals: {tabs: @tabs[:menu], options: @options, tag: :menu, active: @options[:menu] } %>
 
-		<%= render partial: '0p/list/selector', locals: {titulo: 'Áreas', list: @list_selector, sel: @sel, options: @options} if params[:search].blank? %>
+		<%= render partial: '0p/list/selector', locals: {titulo: 'Áreas', list: @list_selector, token: (@options[:menu] == 'Áreas' ? :area : :categoria), options: @options} if params[:search].blank? %>
 	</div>
 	<div class='col-md-9'>
-		<%= render partial: '0p/search/form', locals: {path: vistas_path} %>
-		<%= render partial: '0p/tabla/solo_tabla', locals: {c: 'publicaciones', a: 'index'} %>
+		<%= render partial: '0p/tabs/tabs', locals: {tabs: @tabs[:areas], options: @options, tag: :areas, active: @options[:areas] } if @options[:menu] == 'Áreas' %>
+
+		<% if  @options[:menu] == 'Categorías' or @options[:areas] == 'Publicaciones' %>
+			<%= render partial: '0p/search/form', locals: {path: vistas_path} %>
+			<%= render partial: '0p/tabla/solo_tabla', locals: {c: 'publicaciones', a: 'index'} %>
+		<% else %>
+			<% @area.filo_elementos.order(:filo_elemento).each do |elemento| %>
+				<%= render partial: 'filo_elementos/partials/show_tree', locals: {base: elemento} %>
+			<% end %>
+		<% end %>
 	</div>
 </div>

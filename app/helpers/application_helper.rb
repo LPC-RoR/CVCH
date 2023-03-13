@@ -330,7 +330,7 @@ module ApplicationHelper
 
 	## ------------------------------------------------------- GENERAL
 
-	# Manejode options para selectors múltiples
+	# Manejode options para selectors múltiples (VERSION PARA MULTI TABS SIN CAMBIOS)
 	def get_html_opts(options, label, value)
 		opts = options.clone
 		opts[label] = value

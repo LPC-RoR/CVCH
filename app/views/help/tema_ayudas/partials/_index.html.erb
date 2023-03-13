@@ -1,6 +1,6 @@
 <%= render partial: '0p/general/titulo', locals: {c: 'tema_ayudas', a: nil, titulo: "Temas Inicio | #{@tab}", size: '5', bg_color: 'bg-'+color('tema_ayudas')} %>
 
-<%= render partial: '0p/tabs/tabs', locals: {tabs: @tabs, tag: 'tab', active: @tab} %>
+<%= render partial: '0p/tabs/tabs', locals: {tabs: @tabs[:menu], options: @options, tag: :menu, active: @options[:menu]} %>
 
 <% unless @coleccion['tema_ayudas'].empty? %>
 	<table class="table table-sm  thead-dark">
@@ -9,7 +9,7 @@
 
 				<tr><td><%= (['tema', 'admin'].include?(ta.tipo) ? (link_to ta.tema_ayuda, ta) : ta.tema_ayuda) %></td><td><%= render partial: '0p/tabla/btns', locals: {a: 'index', objeto: ta} %></td></tr>
 
-				<% if ['tema', 'admin'].include?(@tab) %>
+				<% if ['tema', 'admin'].include?(@options[:menu]) %>
 
 					<%= render partial: 'help/tema_ayudas/partials/tema_ayuda', locals: {ta: ta} %>
 
@@ -17,7 +17,7 @@
 
 					<tr>
 					<td colspan="3">
-						<% case @tab %>
+						<% case @options[:menu] %>
 						<% when 'portada' %>
 
 							<%= render partial: 'help/tema_ayudas/partials/elem_portada', locals: {elem: ta} %>

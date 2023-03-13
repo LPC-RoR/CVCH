@@ -5,14 +5,20 @@ class Help::TemaAyudasController < ApplicationController
   # GET /tema_ayudas
   # GET /tema_ayudas.json
   def index
-    @tabs = TemaAyuda::TIPO
 
-    if params[:html_options].blank?
-      @tab = @tabs[0]
-    else
-      @tab = params[:html_options]['tab'].blank? ? @tabs[0] : params[:html_options]['tab']
+    @options = {}
+    # INICIALIZA TABS
+    @tabs = {
+      menu: TemaAyuda::TIPO
+    }
+
+    @tabs.keys.each do |key|
+      if params[:html_options].blank?
+        @options[key] = @tabs[key][0]
+      else
+        @options[key] = params[:html_options][key.to_s].blank? ? @tabs[key][0] : params[:html_options][key.to_s]
+      end
     end
-    @options = {'tab' => @tab}
 
     @coleccion = {}
     @coleccion['tema_ayudas'] = TemaAyuda.where(tipo: @tab).order(:orden)
