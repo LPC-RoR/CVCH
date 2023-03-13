@@ -1,5 +1,5 @@
 class FiloElementosController < ApplicationController
-  before_action :set_filo_elemento, only: [:show, :edit, :update, :destroy]
+  before_action :set_filo_elemento, only: [:show, :edit, :update, :destroy, :libera_area]
 
   # GET /filo_elementos
   # GET /filo_elementos.json
@@ -51,6 +51,25 @@ class FiloElementosController < ApplicationController
     end
 
     redirect_to "/especies?especie=#{padre.filo_elemento unless padre.blank?}"
+  end
+
+  def asigna_area
+    area = params[:class_name].constantize.find(params[:objeto_id])
+    unless params[:asigna_area][:nombre_elemento].blank?
+      elemento = FiloElemento.find_by(filo_elemento: params[:asigna_area][:nombre_elemento])
+      area.filo_elementos << elemento
+    end
+    
+    redirect_to area
+  end
+
+  def libera_area
+    area = params[:class_name].constantize.find(params[:objeto_id])
+    
+    @objeto.area_id = nil
+    @objeto.save
+    
+    redirect_to area
   end
 
   # GET /filo_elementos/1/edit

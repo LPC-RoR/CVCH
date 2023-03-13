@@ -12,11 +12,12 @@ class VistasController < ApplicationController
   # GET /vistas.json
   def index
 
-    init_tab(['Áreas', 'Categorías'], params[:tab])
+    init_tab(['Áreas', 'Categorías', 'Especies'], params[:tab])
 
     # Lista del SELECTOR de ÁREAS
     @list_selector = Area.all.map {|a| [a.area, a.papers.where(estado: 'publicada').count]} if @tab == 'Áreas'
     @list_selector = Categoria.all.map {|c| [c.categoria, c.publicaciones.where(estado: 'publicada').count]} if @tab == 'Categorías'
+#    @list_selector = Area.all.map {|a| [a.area, a.papers.where(estado: 'publicada').count]} if @tab == 'Areas'
 
     if params[:html_options].blank?
       # NO pongo la opción 'Categorías porque SIEMPRE será Áreas'

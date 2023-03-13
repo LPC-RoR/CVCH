@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_03_09_162719) do
+ActiveRecord::Schema.define(version: 2023_03_13_140814) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -303,6 +303,8 @@ ActiveRecord::Schema.define(version: 2023_03_09_162719) do
     t.datetime "updated_at", null: false
     t.string "descripcion"
     t.integer "filo_orden_id"
+    t.integer "area_id"
+    t.index ["area_id"], name: "index_filo_elementos_on_area_id"
     t.index ["filo_elemento"], name: "index_filo_elementos_on_filo_elemento"
     t.index ["filo_orden_id"], name: "index_filo_elementos_on_filo_orden_id"
   end

@@ -14,6 +14,8 @@ Rails.application.routes.draw do
     match :asigna_especie, via: :post, on: :collection
     match :elimina, via: :get, on: :collection
     match :elimina_base, via: :get, on: :collection
+    match :asigna_area, via: :post, on: :collection
+    match :libera_area, via: :get, on: :member
   end
   resources :ind_sinonimos
   resources :esp_areas
@@ -127,6 +129,7 @@ Rails.application.routes.draw do
   resources :suscripciones
   resources :relaciones
   resources :areas do 
+    resources :filo_elementos
     match :asigna, via: :get, on: :member
     match :desasignar, via: :get, on: :member
   end

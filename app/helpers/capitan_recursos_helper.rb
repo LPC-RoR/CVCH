@@ -119,6 +119,8 @@ module CapitanRecursosHelper
 			controller_name == 'app_recursos' and dog?
 		when 'especies'
 			false
+		when 'filo_elementos'
+			controller_name == 'especies'
 		else
 			true
 		end
@@ -144,6 +146,8 @@ module CapitanRecursosHelper
 			(usuario_signed_in? and objeto.perfil_id == perfil_activo_id) or (admin? and controller_name == 'app_recursos')
 		when 'Especie'
 			false
+		when 'FiloElemento'
+			controller_name == 'especies'
 		else
 			if ['TemaAyuda', 'Tutorial', 'Paso'].include?(objeto.class.name)
 				(usuario_signed_in? ? admin? : false)

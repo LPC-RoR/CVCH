@@ -1,2 +1,21 @@
 <%= render partial: 'areas/header' %>
-<%= render partial: '0p/tabla/solo_tabla', locals: {c: 'publicaciones', a: 'index'} %>
+<div class='row'>
+	<div class='col-md-4'>
+		<%= render partial: '0p/tabla/solo_tabla', locals: {c: 'filo_elementos', a: 'index'} %>
+
+		<!-- FORM INGRESO FILO ELEMENTOS A ÁREA -->
+		<%= form_for :asigna_area, url: "/filo_elementos/asigna_area?class_name=#{@objeto.class.name}&objeto_id=#{@objeto.id}" do |form| %>
+			<div class='form-inline'>
+				<%= form.text_field(:nombre_elemento, size: 35, class: 'form-control' ) %>
+				<button type="submit" class="btn btn-info">
+				  <i class="bi bi-plus-circle icon-white"></i>
+				  <i class="bi bi-diagram-2 icon-white"></i>
+				</button>
+			</div>
+		<% end  %>
+
+	</div>
+	<div class='col-md-6'>
+		<%= render partial: '0p/tabla/solo_tabla', locals: {c: 'publicaciones', a: 'index'} %>
+	</div>
+</div>

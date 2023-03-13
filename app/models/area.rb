@@ -11,6 +11,8 @@ class Area < ApplicationRecord
 		['area',           'entry']
 	]
 
+
+	has_many :filo_elementos
 	
 	has_many :cargas
 
