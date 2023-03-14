@@ -1,12 +1,12 @@
 <% elemento.filo_especies.each do |especie| %>
 	<tr>
-		<td><small><i class="bi bi-bug"></i><%= "#{("- " * 20)}[Especie] - #{especie.filo_especie} (#{especie.children.count}|#{especie.especies.count})" %></small></td>
+		<td><small><i class="bi bi-bug"></i><%= link_to "#{("- " * 20)}[Especie] - #{especie.filo_especie} (#{especie.children.count}|#{especie.especies.count})", especie %></small></td>
 		<% if controller_name == 'especies' %><td><%= render partial: '0p/tabla/btns', locals: {a: 'index', objeto: especie} %></td><% end %>
 	</tr>
 	<% unless especie.children.empty? %>
 		<% especie.children.each do |subespecie| %>
 		<tr>
-			<td><small><i class="bi bi-bug"></i><%= "#{("- " * 25)}[SubEspecie] - #{subespecie.filo_especie} (|#{subespecie.especies.count})" %></small></td>
+			<td><small><i class="bi bi-bug"></i><%= link_to "#{("- " * 25)}[SubEspecie] - #{subespecie.filo_especie} (|#{subespecie.especies.count})", subespecie %></small></td>
 			<% if controller_name == 'especies' %><td><%= render partial: '0p/tabla/btns', locals: {a: 'index', objeto: subespecie} %></td><% end %>
 		</tr>
 		<% end %>

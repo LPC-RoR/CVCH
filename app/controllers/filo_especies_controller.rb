@@ -1,20 +1,24 @@
 class FiloEspeciesController < ApplicationController
   before_action :set_filo_especie, only: [:show, :edit, :update, :destroy]
 
+  helper_method :sort_column, :sort_direction
+
   # GET /filo_especies
   # GET /filo_especies.json
   def index
-    @filo_especies = FiloEspecie.all
+    @coleccion = FiloEspecie.all
   end
 
   # GET /filo_especies/1
   # GET /filo_especies/1.json
   def show
+    @coleccion = {}
+    @coleccion['publicaciones'] = Publicacion.where(id: @objeto.especies.map {|ind| ind.objeto_id}).order(sort_column + " " + sort_direction).page(params[:page])
   end
 
   # GET /filo_especies/new
   def new
-    @filo_especie = FiloEspecie.new
+    @objeto = FiloEspecie.new
   end
 
   def nuevo
@@ -50,15 +54,15 @@ class FiloEspeciesController < ApplicationController
   # POST /filo_especies
   # POST /filo_especies.json
   def create
-    @filo_especie = FiloEspecie.new(filo_especie_params)
+    @objeto = FiloEspecie.new(filo_especie_params)
 
     respond_to do |format|
-      if @filo_especie.save
-        format.html { redirect_to @filo_especie, notice: 'Filo especie was successfully created.' }
-        format.json { render :show, status: :created, location: @filo_especie }
+      if @objeto.save
+        format.html { redirect_to @objeto, notice: 'Filo especie was successfully created.' }
+        format.json { render :show, status: :created, location: @objeto }
       else
         format.html { render :new }
-        format.json { render json: @filo_especie.errors, status: :unprocessable_entity }
+        format.json { render json: @objeto.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -67,12 +71,12 @@ class FiloEspeciesController < ApplicationController
   # PATCH/PUT /filo_especies/1.json
   def update
     respond_to do |format|
-      if @filo_especie.update(filo_especie_params)
-        format.html { redirect_to @filo_especie, notice: 'Filo especie was successfully updated.' }
-        format.json { render :show, status: :ok, location: @filo_especie }
+      if @objeto.update(filo_especie_params)
+        format.html { redirect_to @objeto, notice: 'Filo especie was successfully updated.' }
+        format.json { render :show, status: :ok, location: @objeto }
       else
         format.html { render :edit }
-        format.json { render json: @filo_especie.errors, status: :unprocessable_entity }
+        format.json { render json: @objeto.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -80,7 +84,7 @@ class FiloEspeciesController < ApplicationController
   # DELETE /filo_especies/1
   # DELETE /filo_especies/1.json
   def destroy
-    @filo_especie.destroy
+    @objeto.destroy
     respond_to do |format|
       format.html { redirect_to filo_especies_url, notice: 'Filo especie was successfully destroyed.' }
       format.json { head :no_content }
@@ -105,9 +109,18 @@ class FiloEspeciesController < ApplicationController
   end
 
   private
+
+    def sort_column
+      Publicacion.column_names.include?(params[:sort]) ? params[:sort] : "Author"
+    end
+    
+    def sort_direction
+      %w[asc desc].include?(params[:direction]) ? params[:direction] : "asc"
+    end
+
     # Use callbacks to share common setup or constraints between actions.
     def set_filo_especie
-      @filo_especie = FiloEspecie.find(params[:id])
+      @objeto = FiloEspecie.find(params[:id])
     end
 
     # Only allow a list of trusted parameters through.
