@@ -27,14 +27,24 @@ class PublicacionesController < ApplicationController
   # GET /publicaciones/1
   # GET /publicaciones/1.json
   def show
-    c_tab = [
-      ['Áreas', (usuario_signed_in? and admin?)],
-      ['Carpetas', (usuario_signed_in? and @objeto.estado == 'publicada')],
-      ['Categorías', (@objeto.estado == 'publicada')],
-      ['Especies', (@objeto.estado == 'publicada')],
-    ]
-    init_tab(c_tab, params)
-    @options = { 'tab' => @tab }
+
+    @options = {}
+    @tabs = {
+      menu: [
+        ['Áreas', (usuario_signed_in? and admin?)], 
+        ['Carpetas', (usuario_signed_in? and @objeto.estado == 'publicada')],
+        ['Categorías', (@objeto.estado == 'publicada')],
+        ['Especies', (@objeto.estado == 'publicada')]
+      ]
+    }
+
+    @tabs.keys.each do |key|
+      if params[:html_options].blank?
+        @options[key] = @tabs[key][0][0]
+      else
+        @options[key] = params[:html_options][key.to_s].blank? ? @tabs[key][0][0] : params[:html_options][key.to_s]
+      end
+    end
 
     @coleccion = {}
 

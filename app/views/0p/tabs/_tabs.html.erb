@@ -14,7 +14,13 @@
           <li class="nav-item">
             <!-- Construye el TAB y destaca el que está activo -->
             <!--%= link_to t, "#{link_tabs}#{t}", class: "nav-link #{(t == active ? 'active' : '')}" %-->
-            <%= link_to t, {controller: controller_name, action: action_name, html_options: get_html_opts(options, tag, t)}, class: "nav-link #{(t == active ? 'active' : '')}" %>
+            <% if t.class.name == 'String' %>
+              <%= link_to t, {controller: controller_name, action: action_name, html_options: get_html_opts(options, tag, t)}, class: "nav-link #{(t == active ? 'active' : '')}" %>
+            <% else %>
+              <% if t[1] %>
+                <%= link_to t[0], {controller: controller_name, action: action_name, html_options: get_html_opts(options, tag, t[0])}, class: "nav-link #{(t[0] == active ? 'active' : '')}" %>
+              <% end %>
+            <% end %>
           </li>
 
         <% end %>
