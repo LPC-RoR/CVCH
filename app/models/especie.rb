@@ -36,7 +36,4 @@ class Especie < ApplicationRecord
 		self.filo_especie.blank? ? '-' : self.filo_especie.filo_especie
 	end
 
-	def publicaciones_ids
-		self.publicaciones.ids
-	end
 end

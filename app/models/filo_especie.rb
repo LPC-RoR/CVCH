@@ -24,7 +24,8 @@ class FiloEspecie < ApplicationRecord
 	def publicaciones_ids
 		pub_ids = []
 		self.especies.each do |esp|
-			pub_ids = pub_ids.union(esp.publicaciones_ids)
+			pub_ids = pub_ids.union(esp.publicaciones.ids)
 		end
+		pub_ids
 	end
 end
