@@ -21,7 +21,8 @@ class FiloElemento < ApplicationRecord
 
 	def n_especies
 		especies = self.filo_especies.count
+		subespecies = self.filo_especies.map {|fe| fe.children.count }.sum
 		especies_hijos = self.children.map {|child| child.n_especies}.sum
-		especies + especies_hijos
+		especies + subespecies + especies_hijos
 	end
 end

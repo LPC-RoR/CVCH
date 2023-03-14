@@ -16,7 +16,7 @@
 <!-- DISPLAY ELEMENTO -->
 <% unless elemento.blank? %>
 	<!-- ELEMENTO -->
-	<h5><i class="bi bi-diagram-2"></i><%= "#{elemento.filo_elemento} [#{elemento.n_hijos}] " %><%=  elemento.descripcion unless elemento.descripcion.blank? %><%= link_to '<i class="bi bi-trash"></i>'.html_safe, "/filo_elementos/elimina_base" if FiloElemento.all.count == 1 %></h5>
+	<h5><i class="bi bi-diagram-2"></i><%= "#{elemento.filo_elemento} (#{elemento.n_especies}) " %><%=  elemento.descripcion unless elemento.descripcion.blank? %><%= link_to '<i class="bi bi-trash"></i>'.html_safe, "/filo_elementos/elimina_base" if FiloElemento.all.count == 1 %></h5>
 	<!-- ELEMENTO : CHILDREN -->
 	<ul>
 		<% unless elemento.blank? %>
