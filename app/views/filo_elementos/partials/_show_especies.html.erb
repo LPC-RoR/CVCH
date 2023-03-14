@@ -3,9 +3,9 @@
 		<td>
 			<small><i class="bi bi-bug"></i>
 				<% if especie.especies.count == 0 %>
-					<%= "#{("- " * 20)}[Especie] - #{especie.filo_especie} (#{especie.children.count}" %>
+					<%= "#{("- " * 20)}[Especie] - #{especie.filo_especie}" %>
 				<% else %>
-					<%= link_to "#{("- " * 20)}[Especie] - #{especie.filo_especie} (#{especie.children.count}|#{especie.especies.count})", especie %>
+					<%= link_to "#{("- " * 20)}[Especie] - #{especie.filo_especie}", especie %>
 				<% end %>
 			</small>
 		</td>
@@ -19,7 +19,7 @@
 					<% if subespecie.especies.count == 0 %>
 						<%= "#{("- " * 25)}[SubEspecie] - #{subespecie.filo_especie}" %>
 					<% else %>
-						<%= link_to "#{("- " * 25)}[SubEspecie] - #{subespecie.filo_especie} (|#{subespecie.especies.count})", subespecie %>
+						<%= link_to "#{("- " * 25)}[SubEspecie] - #{subespecie.filo_especie}", subespecie %>
 					<% end %>
 				</small>
 			</td>
