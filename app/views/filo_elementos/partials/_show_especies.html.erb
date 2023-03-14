@@ -15,7 +15,7 @@
 		<% especie.children.each do |subespecie| %>
 		<tr>
 			<td>
-				<small><i class="bi bi-bug"></i>
+				<small>
 					<% if subespecie.especies.count == 0 %>
 						<%= "#{("- " * 25)}[SubEspecie] - " %><i class="bi bi-bug"></i><%= " #{subespecie.filo_especie}" %>
 					<% else %>
