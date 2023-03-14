@@ -1,11 +1,11 @@
 <% elemento.filo_especies.each do |especie| %>
 	<tr>
 		<td>
-			<small><i class="bi bi-bug"></i>
+			<small>
 				<% if especie.especies.count == 0 %>
-					<%= "#{("- " * 20)}[Especie] - #{especie.filo_especie}" %>
+					<%= "#{("- " * 20)}[Especie] - " %><i class="bi bi-bug"></i><%= " #{especie.filo_especie}" %>
 				<% else %>
-					<%= link_to "#{("- " * 20)}[Especie] - #{especie.filo_especie}", especie %>
+					<%= "#{("- " * 20)}[Especie] - " %><i class="bi bi-bug"></i><%= link_to " #{especie.filo_especie}", especie %>
 				<% end %>
 			</small>
 		</td>
