@@ -17,9 +17,9 @@
 			<td>
 				<small><i class="bi bi-bug"></i>
 					<% if subespecie.especies.count == 0 %>
-						<%= "#{("- " * 25)}[SubEspecie] - #{subespecie.filo_especie}" %>
+						<%= "#{("- " * 25)}[SubEspecie] - " %><i class="bi bi-bug"></i><%= " #{subespecie.filo_especie}" %>
 					<% else %>
-						<%= link_to "#{("- " * 25)}[SubEspecie] - #{subespecie.filo_especie}", subespecie %>
+						<%= "#{("- " * 25)}[SubEspecie] - " %><i class="bi bi-bug"></i><%= link_to " #{subespecie.filo_especie}", subespecie %>
 					<% end %>
 				</small>
 			</td>
