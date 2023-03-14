@@ -35,4 +35,8 @@ class Especie < ApplicationRecord
 	def d_especie_ref
 		self.filo_especie.blank? ? '-' : self.filo_especie.filo_especie
 	end
+
+	def publicaciones_ids
+		self.ind_indices.map {|ind| ind.objeto_id}
+	end
 end

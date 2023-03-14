@@ -13,7 +13,7 @@ class FiloEspeciesController < ApplicationController
   # GET /filo_especies/1.json
   def show
     @coleccion = {}
-    @coleccion['publicaciones'] = Publicacion.where(id: @objeto.especies.map {|ind| ind.objeto_id}).order(sort_column + " " + sort_direction).page(params[:page])
+    @coleccion['publicaciones'] = Publicacion.where(id: @objeto.publicaciones_ids).order(sort_column + " " + sort_direction).page(params[:page])
   end
 
   # GET /filo_especies/new

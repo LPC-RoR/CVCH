@@ -20,4 +20,11 @@ class FiloEspecie < ApplicationRecord
 	def padre
 		self.filo_elemento.blank? ? self.parent : self.filo_elemento
 	end
+
+	def publicaciones_ids
+		pub_ids = []
+		self.especies.each do |esp|
+			pub_ids = pub_ids.union(esp.publicaciones_ids)
+		end
+	end
 end
