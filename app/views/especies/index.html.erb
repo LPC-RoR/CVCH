@@ -1,17 +1,21 @@
-<div class='row'>
-	<div class='col-md-6'>
-		<%= render partial: '0p/general/icon_text', locals: {text: 'Árbol de Especies', gly: 'bug', clr: 'info'} %>
-		<%= render partial: 'filo_elementos/partials/show_elemento', locals: {elemento: @filo_elemento, especie: @filo_especie} %>
+<%= render partial: '0p/tabs/tabs', locals: {tabs: @tabs[:menu], options: @options, tag: :menu, active: @options[:menu] } %>
+</br>
+<% if @options[:menu] == 'Estructura' %>
+	<%= render partial: '0p/general/icon_text', locals: {text: 'Árbol de Especies', gly: 'bug', clr: 'info'} %>
+	<%= render partial: 'filo_elementos/partials/show_elemento', locals: {elemento: @filo_elemento, especie: @filo_especie} %>
 
-		</br>
-		<%= render partial: 'filo_elementos/partials/show_tree', locals: {base: @elemento_base} %>
+	</br>
+	<%= render partial: 'filo_elementos/partials/show_tree', locals: {base: @elemento_base} %>
+<% else %>
+	<div class='row'>
+		<div class='col-md-3'>
+			<%= render partial: '0p/general/icon_text', locals: {text: 'Orden de Especies', gly: 'bug', clr: 'info'} %>
+			<%= render partial: '0p/tabla/solo_tabla', locals: {c: 'filo_ordenes', a: 'index'} %>
+		</div>
+		<div class='col-md-9'>
+			<%= render partial: '0p/general/icon_text', locals: {text: 'Especies', gly: 'bug', clr: 'info'} %>
+			<%= render partial: '0p/tabla/solo_tabla', locals: {c: 'especies', a: 'index'} %>
+		</div>
 	</div>
-	<div class='col-md-3'>
-		<%= render partial: '0p/general/icon_text', locals: {text: 'Orden de Especies', gly: 'bug', clr: 'info'} %>
-		<%= render partial: '0p/tabla/solo_tabla', locals: {c: 'filo_ordenes', a: 'index'} %>
-	</div>
-	<div class='col-md-3'>
-		<%= render partial: '0p/general/icon_text', locals: {text: 'Especies', gly: 'bug', clr: 'info'} %>
-		<%= render partial: '0p/tabla/solo_tabla', locals: {c: 'especies', a: 'index'} %>
-	</div>
-</div>
+<% end %>
+

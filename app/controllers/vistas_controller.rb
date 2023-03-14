@@ -97,17 +97,6 @@ class VistasController < ApplicationController
 
     @carpeta = @activo.carpetas.find_by(carpeta: @options[:carpetas])
 
-#    if params[:html_options].blank?
-#      @carpeta = @activo.carpetas.first
-#      @tab = 'Publicaciones'
-#    else
-#      @carpeta = params[:html_options]['sel'].blank? ? @activo.carpetas.first : @activo.carpetas.find_by(carpeta: params[:html_options]['sel'])
-#      @tab = params[:html_options]['tab'].blank? ? 'Publicaciones' : params[:html_options]['tab']
-#    end
-
-#    @sel = @carpeta.carpeta
-#    @options = {'sel' => @sel, 'tab' => @tab}
-
     @coleccion = {}
     @coleccion['publicaciones'] = @carpeta.publicaciones.order(sort_column + " " + sort_direction).page(params[:page]) if @tab == 'Publicaciones'
     @coleccion['citas']  = @carpeta.publicaciones.order(:author)

@@ -24,7 +24,7 @@ module CapitanMenuHelper
 	        ["Escritorio",     "/vistas/escritorio", 'general', 'window-sidebar'],
 	        ["",               "/equipos",           'general', 'people'],
 	        ["Contribuciones", "/contribuciones",    'general', 'file-earmark-arrow-up'],
-	        ['',               "/especies",          'general', 'bug'],
+	        ['',               "/especies",          'admin',   'bug'],
 	        ["Revisiones",     "/revisiones",        'admin',   'file-check'],
 	        ["Cargas",         "/cargas",            'admin',   'upload'],
 	        ["",               "/ind_estructuras",   'dog',     'binoculars'] 
