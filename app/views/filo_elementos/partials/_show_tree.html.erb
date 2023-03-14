@@ -2,22 +2,12 @@
 	<table class='table-borderless'>
 		<tbody>
 			<tr>
-				<td><small><%= "#{base.filo_elemento} (#{base.n_especies})" %></small></td>
+				<td><small><b><i class="bi bi-diagram-2"></i><%= "#{base.filo_elemento} (#{base.n_especies})" %></b></small></td>
 				<% if controller_name == 'especies' %>
 					<td><%= render partial: '0p/tabla/btns', locals: {a: 'index', objeto: base} %></td>
 				<% end %>
 			</tr>
 			<%= render partial: 'filo_elementos/partials/show_nivel', locals: {elemento: base} unless base.children.empty? %>
-
-			<%# @elementos_base.each do |e_base| %>
-				<!--tr>
-					<td><small><%#= e_base.filo_elemento %></small></td>
-					<td><small><%#= e_base.descripcion %></small></td>
-
-					<%# if dog? %><td><%#= render partial: '0p/tabla/btns', locals: {a: 'index', objeto: e_base} %></td><%# end %>
-				</tr-->
-				<%#= render partial: 'filo_elementos/partials/show_nivel', locals: {elemento: e_base} unless e_base.children.empty? %>
-			<%# end %>
 		</tbody>
 	</table>
 <% end %>
