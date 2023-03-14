@@ -37,6 +37,6 @@ class Especie < ApplicationRecord
 	end
 
 	def publicaciones_ids
-		self.ind_indices.map {|ind| ind.objeto_id}
+		self.publicaciones.ids
 	end
 end
