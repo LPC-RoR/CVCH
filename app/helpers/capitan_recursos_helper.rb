@@ -112,7 +112,7 @@ module CapitanRecursosHelper
 	def app_new_button_conditions(controller)
 		case controller
 		when 'publicaciones'
-			controller_name == 'contribuciones' and @tab == 'ingreso'
+			controller_name == 'contribuciones' and @options[:menu] == 'ingreso'
 		when 'areas'
 			controller_name == 'app_recursos' and dog?
 		when 'categorias'

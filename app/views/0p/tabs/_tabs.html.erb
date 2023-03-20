@@ -4,7 +4,6 @@
 <% if tabs.count == 1 %>
   <%= render partial: '0p/general/icon_text', locals: {text: tabs[0], gly: 'arrow-right', clr: app_color[:app]} %>
 <% else %>
-  <div class="container-fluid">
     <ul class="nav nav-tabs">
 
       <!-- TABS -->
@@ -27,5 +26,4 @@
       <% end %>
 
     </ul> 
-  </div>
 <% end %>
