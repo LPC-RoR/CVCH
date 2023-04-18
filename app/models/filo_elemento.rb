@@ -1,7 +1,8 @@
 class FiloElemento < ApplicationRecord
 
 	TABLA_FIELDS = [
-		'filo_elemento'
+		'filo_elemento',
+		'nombre_padre'
 	]
 
 	belongs_to :filo_orden, optional: true
@@ -24,5 +25,9 @@ class FiloElemento < ApplicationRecord
 		subespecies = self.filo_especies.map {|fe| fe.children.count }.sum
 		especies_hijos = self.children.map {|child| child.n_especies}.sum
 		especies + subespecies + especies_hijos
+	end
+
+	def nombre_padre
+		self.parent.blank? ? '-' : self.parent.filo_elemento
 	end
 end
