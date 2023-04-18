@@ -7,16 +7,16 @@
 		<% if usuario_signed_in? %>
 			<% if admin? %>
 				<%= render partial: 'publicaciones/partials/areas' if @options[:menu] == 'Áreas' %>
+				<%= render partial: 'publicaciones/partials/categorias' if @options[:menu] == 'Categorías' %>
 			<% end %>
 			<% if @objeto.estado == 'publicada' %>
 				<%= render partial: 'publicaciones/partials/carpetas' if @options[:menu] == 'Carpetas' %>
 			<% end %>
+		<% else %>
+			<% if (@objeto.estado == 'publicada') %>
+				<%= render partial: 'publicaciones/partials/especies' if @options[:menu] == 'Especies' %>
+			<% end %>
 		<% end %>
-		<% if (@objeto.estado == 'publicada' and usuario_signed_in?) %>
-			<%= render partial: 'publicaciones/partials/categorias' if @options[:menu] == 'Categorías' %>
-			<%= render partial: 'publicaciones/partials/especies' if @options[:menu] == 'Especies' %>
-		<% end %>
-		<%= render partial: 'publicaciones/partials/evaluacion' %>
 	</div>
 	<div class='col-md-6'>
 		<%= render partial: 'publicaciones/partials/links' %>

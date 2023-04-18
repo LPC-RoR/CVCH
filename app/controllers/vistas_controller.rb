@@ -16,7 +16,7 @@ class VistasController < ApplicationController
       areas: Area.all.order(:area),
       categorias: Categoria.all.order(:categoria),
     }
-    @sel_table[:carpetas] = perfil_activo.carpetas.order(:carpeta) if usuario_signed_in?
+    @sel_table[:carpetas] = perfil_activo.carpetas.order(:carpeta) unless perfil_activo.blank?
 
     @sel_table_list = []
     @sel_table.keys.each do |key_table|

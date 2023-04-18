@@ -29,25 +29,8 @@ class PublicacionesController < ApplicationController
   # GET /publicaciones/1.json
   def show
 
-    init_tab({menu: [['Áreas', (usuario_signed_in? and admin?)], ['Carpetas', (usuario_signed_in? and @objeto.estado == 'publicada')],['Categorías', (@objeto.estado == 'publicada')], ['Especies', (@objeto.estado == 'publicada')]]}, true)
-
-#    @options = {}
-#    @tabs = {
-#      menu: [
-#        ['Áreas', (usuario_signed_in? and admin?)], 
-#        ['Carpetas', (usuario_signed_in? and @objeto.estado == 'publicada')],
-#        ['Categorías', (@objeto.estado == 'publicada')],
-#        ['Especies', (@objeto.estado == 'publicada')]
-#      ]
-#    }
-
-#    @tabs.keys.each do |key|
-#      if params[:html_options].blank?
-#        @options[key] = @tabs[key][0][0]
-#      else
-#        @options[key] = params[:html_options][key.to_s].blank? ? @tabs[key][0][0] : params[:html_options][key.to_s]
-#      end
-#    end
+    init_tab({menu: [['Áreas', (usuario_signed_in? and admin?)], ['Categorías', (usuario_signed_in? and admin?)], ['Carpetas', (usuario_signed_in? and @objeto.estado == 'publicada')], ['Especies', (@objeto.estado == 'publicada')]]}, true)
+    @options[:menu] = 'Especies' unless usuario_signed_in?
 
     @coleccion = {}
 
@@ -57,52 +40,33 @@ class PublicacionesController < ApplicationController
 
       # ********************** CARPETAS *****************************
       if @objeto.estado == 'publicada'
-
-        ## AMBOS
-        @ids_carpetas_base = @activo.carpetas.map {|c| c.id if Carpeta::NOT_MODIFY.include?(c.carpeta)}.compact
-        @ids_carpetas_tema = @activo.carpetas.map {|c| c.id unless Carpeta::NOT_MODIFY.include?(c.carpeta)}.compact
-
-        # ids de las carpetas del @activo
-        ids_activo = @ids_carpetas_base | @ids_carpetas_tema
-
-        # ids de la publicación que son del perfil
-        ids_publicacion = @objeto.carpetas.ids & ids_activo
-
-        @id_carpeta_revisadas  = @activo.carpetas.find_by(carpeta: 'Revisadas').id
-
-        ids_todas = @ids_carpetas_base | @ids_carpetas_tema
-
-        if ids_publicacion.empty?
-          ids_seleccion = @ids_carpetas_base
-        elsif (ids_publicacion.include?(@id_carpeta_revisadas) and ((ids_publicacion & @ids_carpetas_tema).empty?))
-          ids_seleccion = ids_todas - [@id_carpeta_revisadas]
-        elsif (@ids_carpetas_tema & ids_publicacion).any?
-          ids_seleccion = @ids_carpetas_tema - ids_publicacion
-        else
-          ids_seleccion = @ids_carpetas_base - (@ids_carpetas_base & ids_publicacion)
+        if @options[:menu] == 'Carpetas'
+          @coleccion_usuario = @activo.carpetas.order(:carpeta)
+          @coleccion_publicacion = @objeto.carpetas
+        elsif @options[:menu] == 'Áreas'
+          @coleccion_usuario = Area.all.order(:area)
+          @coleccion_publicacion = @objeto.areas
+        elsif @options[:menu] == 'Categorías'
+          @coleccion_usuario = Categoria.all.order(:categoria)
+          @coleccion_publicacion = @objeto.categorias
         end
-
-        @carpetas_seleccion = Carpeta.find(ids_seleccion)
-
-        @coleccion['carpetas'] = @objeto.carpetas
-
-      end
-      if admin?
-
-        @areas_seleccion = Area.find(Area.all.ids - @objeto.areas.ids)
-
-        @coleccion['areas'] = @objeto.areas
-
       end
 
-      @coleccion['rutas'] = @objeto.rutas.order(:created_at)
-      @coleccion['propuestas'] = @objeto.propuestas.order(:created_at)
+#      @coleccion['rutas'] = @objeto.rutas.order(:created_at)
+#      @coleccion['propuestas'] = @objeto.propuestas.order(:created_at)
 
     end
-    @categorias_seleccion = Categoria.where(id: Categoria.all.ids - @objeto.categorias.ids).order(:categoria)
-    @coleccion['categorias'] = @objeto.categorias.order(:created_at)
 
-    @coleccion['especies'] = @objeto.especies.order(:created_at)
+    # ÁREA PÚBLICA ******************************************************************************************
+      # Las especies puedes ser vistas por un usuario anónimo
+      if @options[:menu] == 'Especies'
+        @coleccion_publicacion = @objeto.especies
+      end
+
+#    @categorias_seleccion = Categoria.where(id: Categoria.all.ids - @objeto.categorias.ids).order(:categoria)
+#    @coleccion['categorias'] = @objeto.categorias.order(:created_at)
+
+#    @coleccion['especies'] = @objeto.especies.order(:created_at)
 
     # ********************** DUPLICADOS *****************************
 

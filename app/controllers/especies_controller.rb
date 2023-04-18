@@ -157,7 +157,7 @@ class EspeciesController < ApplicationController
       end
     end
 
-    redirect_to "/publicaciones/#{publicacion.id}?html_options[tab]=Especies"
+    redirect_to "/publicaciones/#{publicacion.id}?html_options[menu]=Especies"
   end
 
   def desasignar
@@ -165,7 +165,7 @@ class EspeciesController < ApplicationController
     elemento.especies.delete(@objeto)
     @objeto.delete if @objeto.send(params[:class_name].tableize).empty?
 
-    redirect_to "/publicaciones/#{elemento.id}?html_options[tab]=Especies"
+    redirect_to "/publicaciones/#{elemento.id}?html_options[menu]=Especies"
   end
 
   def libera_especie

@@ -1,7 +1,6 @@
 class Carpeta < ApplicationRecord
 
-	# MARCA CARPETAS QUE NO SE MODIFICAN NI ELIMINAN
-	NOT_MODIFY = ['Revisar', 'Excluidas', 'Postergadas', 'Revisadas']
+	NOT_MODIFY = ['Excluidas', 'Pstergadas', 'Revisadas', 'Revisar']
 
 	TABLA_FIELDS = [
 		['carpeta', 'show'], 

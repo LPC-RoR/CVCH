@@ -76,24 +76,10 @@ class CarpetasController < ApplicationController
     activo = perfil_activo
 
     elemento = params[:class_name].constantize.find(params[:objeto_id])
-
-    if params[:class_name] == 'Publicacion'
-      ids_carpetas_base = activo.carpetas.map {|c| c.id if Carpeta::NOT_MODIFY.include?(c.carpeta)}.compact
-      ids_carpetas_tema = activo.carpetas.map {|c| c.id unless Carpeta::NOT_MODIFY.include?(c.carpeta)}.compact
-      ids_activo = (ids_carpetas_base | ids_carpetas_tema)
-      ids_publicacion = elemento.carpetas.ids & ids_activo
-
-      if ids_carpetas_base.include?(@objeto.id)
-        elemento.carpetas.each do |cpta|
-          elemento.carpetas.delete(cpta)
-        end
-      end
-    end
-
     elemento.carpetas << @objeto
 
     if params[:class_name] == 'Publicacion'
-      redirect_to "/publicaciones/#{elemento.id}?html_options[tab]=Carpetas"
+      redirect_to "/publicaciones/#{elemento.id}?html_options[menu]=Carpetas"
     elsif
       redirect_to elemento
     end
@@ -115,7 +101,7 @@ class CarpetasController < ApplicationController
     @objeto.send(params[:class_name].tableize).delete(elemento)
 
     if params[:class_name] == 'Publicacion'
-      redirect_to "/publicaciones/#{elemento.id}?html_options[tab]=Carpetas"
+      redirect_to "/publicaciones/#{elemento.id}?html_options[menu]=Carpetas"
     elsif
       redirect_to elemento
     end

@@ -74,7 +74,7 @@ class CategoriasController < ApplicationController
       etiqueta.save
     end
 
-    redirect_to "/publicaciones/#{elemento.id}?html_options[tab]=Categorías"
+    redirect_to "/publicaciones/#{elemento.id}?html_options[menu]=Categorías"
   end
 
   def aceptar
@@ -93,7 +93,7 @@ class CategoriasController < ApplicationController
     elemento = params[:class_name].constantize.find(params[:objeto_id])
     elemento.categorias.delete(@objeto)
 
-    redirect_to "/publicaciones/#{elemento.id}?html_options[tab]=Categorías"
+    redirect_to "/publicaciones/#{elemento.id}?html_options[menu]=Categorías"
   end
 
   def rechazar
