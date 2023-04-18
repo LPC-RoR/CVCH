@@ -12,10 +12,10 @@ class Carga < ApplicationRecord
 
 	# ------------------------------------- TABLA ------------------------------------------
 	TABLA_FIELDS = [
-		['archivo_carga', 'url'], 
-		['status',     'normal'],
-		['nota',       'normal'],
-		['estado',     'normal']
+#		'u#archivo_carga', 
+		'status',
+		'nota',
+		'estado'
 	]
 
  	FORM_FIELDS = [

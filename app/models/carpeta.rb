@@ -12,7 +12,7 @@ class Carpeta < ApplicationRecord
 		['perfil_id',     'hidden']
 	]
 
-	belongs_to :perfil, optional: true
+#	belongs_to :perfil, optional: true
 	belongs_to :app_perfil, optional: true
 
 	has_many :clasificaciones
@@ -25,6 +25,10 @@ class Carpeta < ApplicationRecord
 
 	def btns_control
 		not NOT_MODIFY.include?(self.carpeta)
+	end
+
+	def sel_table		
+		self.publicaciones
 	end
 end
 

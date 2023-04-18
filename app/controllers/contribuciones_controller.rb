@@ -9,25 +9,11 @@ class ContribucionesController < ApplicationController
   def index
     @activo = perfil_activo
 
-    @options = {}
-    # INICIALIZA TABS
-    @tabs = {
-      menu: ['ingreso', 'contribucion', 'publicada']
-    }
+    init_tab( { menu: ['ingreso', 'contribucion', 'publicada'] }, true )
 
-    @tabs.keys.each do |key|
-      if params[:html_options].blank?
-        @options[key] = @tabs[key][0]
-      else
-        @options[key] = params[:html_options][key.to_s].blank? ? @tabs[key][0] : params[:html_options][key.to_s]
-      end
-    end
-
-#    init_tab(['ingreso', 'contribucion', 'publicada'], params)
-#    @options = { 'tab' => @tab }
-
-    @coleccion = {}
-    @coleccion['publicaciones'] = @activo.contribuciones.where(estado: @tab).order(sort_column + " " + sort_direction).page(params[:page])
+    init_tabla('publicaciones', @activo.contribuciones.where(estado: @tab).order(sort_column + " " + sort_direction), true)
+#    @coleccion = {}
+#    @coleccion['publicaciones'] = @activo.contribuciones.where(estado: @tab).order(sort_column + " " + sort_direction).page(params[:page])
   end
 
   # GET /contribuciones/1

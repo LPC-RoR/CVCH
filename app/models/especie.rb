@@ -2,10 +2,10 @@ class Especie < ApplicationRecord
 
 	#-------------------------------------------------------------  TABLA
 	TABLA_FIELDS = [
-		['d_especie',  'show'],
-		['d_especie_ref', 'normal'],
-		['d_pubs', 'valor'],
-		['d_areas', 'valor']
+		's#d_especie',
+		'd_especie_ref',
+		'd_pubs',
+		'd_areas'
 	]
 
  	FORM_FIELDS = [

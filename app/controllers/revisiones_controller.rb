@@ -9,53 +9,9 @@ class RevisionesController < ApplicationController
   # GET /revisiones.json
   def index
 
-    @options = {}
-    # INICILIZA SELECTOR
-    @sels = {
-      area: Area.all.map {|a| a.area},
-    }
+    init_tab({menu: ['Cargas', 'Contribuciones', 'Formatos', 'Duplicados', 'Papelera']}, true)
 
-    @sels.keys.each do |key|
-      if params[:html_options].blank?
-        @options[key] = @sels[key][0]
-      else
-        @options[key] = params[:html_options][key.to_s].blank? ? @sels[key][0] : params[:html_options][key.to_s]
-      end
-    end
-
-    # INICIALIZA TABS
-    @tabs = {
-      menu: ['Cargas', 'Contribuciones', 'Formatos', 'Duplicados', 'Papelera']
-    }
-
-    @tabs.keys.each do |key|
-      if params[:html_options].blank?
-        @options[key] = @tabs[key][0]
-      else
-        @options[key] = params[:html_options][key.to_s].blank? ? @tabs[key][0] : params[:html_options][key.to_s]
-      end
-    end
-
-    @area = Area.find_by(area: @options[:area])
-
-#    init_tab(['Cargas', 'Contribuciones', 'Formatos', 'Duplicados', 'Papelera'], params)
-#    if params[:html_options].blank?
-#      @area = session[:area].blank? ? Area.first : Area.find_by(area: session[:area])
-#    else
-#      @area = Area.find_by(area: params[:html_options]['sel'])
-#      session[:area] = @area.area if session[:area] != @area.area
-#    end
-
-    # Lista de 'selectors'
-    @list_selector = Area.all.map {|a| [a.area, a.papers.where(estado: @options[:menu].singularize.downcase).count]}
-
-    # selector activo
-#    @sel = @area.area
-    # opciones para los links
-#    @options = {'sel' => @sel ,'tab' => @tab}
-
-    @coleccion = {}
-    @coleccion['publicaciones'] = (@options[:menu] == 'Contribuciones' ? Publicacion.where(estado: 'contribucion').order(sort_column + " " + sort_direction).page(params[:page]) : @area.papers.where(estado: @options[:menu].singularize.downcase).order(sort_column + " " + sort_direction).page(params[:page]))
+    init_tabla('publicaciones', (@options[:menu] == 'Contribuciones' ? Publicacion.where(estado: 'contribucion').order(sort_column + " " + sort_direction) : Publicacion.where(estado: @options[:menu].singularize.downcase).order(sort_column + " " + sort_direction)), true)
 
   end
 

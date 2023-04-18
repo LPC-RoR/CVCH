@@ -1,8 +1,8 @@
 class FiloOrden < ApplicationRecord
 
 	TABLA_FIELDS = [
-		['orden',  'normal'],
-		['filo_orden', 'normal']
+		'orden',
+		'filo_orden'
 	]
 
 	has_many :filo_elementos

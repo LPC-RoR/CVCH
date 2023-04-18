@@ -3,21 +3,32 @@
 </br>
 <div class='row'>
 	<div class='col-md-3'>
-		<%#= render partial: '0p/tabs/tabs', locals: {tabs: @tabs[:menu], tag: 'menu', active: @options[:menu] } %>
-		<%= render partial: '0p/tabs/tabs', locals: {tabs: @tabs[:menu], options: @options, tag: :menu, active: @options[:menu] } %>
-
-		<%= render partial: '0p/list/selector', locals: {titulo: 'Áreas', list: @list_selector, token: (@options[:menu] == 'Áreas' ? :area : :categoria), options: @options} if params[:search].blank? %>
+		<%= render partial: 'publicaciones/partials/sel_table' %>
 	</div>
 	<div class='col-md-9'>
-		<%= render partial: '0p/tabs/tabs', locals: {tabs: @tabs[:areas], options: @options, tag: :areas, active: @options[:areas] } if @options[:menu] == 'Áreas' %>
+		<%= render partial: '0p/tabs/tabs', locals: {tabs: @tabs, options: @options, token: :menu } if @modelo != 'Categoria' and params[:search].blank? %>
 
-		<% if  @options[:menu] == 'Categorías' or @options[:areas] == 'Publicaciones' %>
-			<%= render partial: '0p/search/form', locals: {path: vistas_path} %>
-			<%= render partial: '0p/tabla/solo_tabla', locals: {c: 'publicaciones', a: 'index'} %>
-		<% else %>
-			<% @area.filo_elementos.order(:filo_elemento).each do |elemento| %>
+		<% if @options[:menu] == 'Especies' %>
+			<% @objeto.filo_elementos.order(:filo_elemento).each do |elemento| %>
 				<%= render partial: 'filo_elementos/partials/show_tree', locals: {base: elemento} %>
 			<% end %>
+		<% elsif @options[:menu] == 'Citas' %>
+			<% unless @coleccion['citas'].blank? %>
+			<div class='row'>
+				<div class='col-md-1'>
+				</div>
+				<div class='col-md-10'>
+					<% @coleccion['citas'].each do |cita| %>
+						<p><small><%= sanitize cita.m_quote %></small></p>
+					<% end %>
+				</div>
+				<div class='col-md-1'>
+				</div>
+			</div>
+			<% end %>
+		<% else %>
+			<%= render partial: '0p/search/form', locals: {path: vistas_path} %>
+			<%= render partial: '0p/tabla/solo_tabla', locals: {c: 'publicaciones', a: 'index'} %>
 		<% end %>
 	</div>
 </div>

@@ -3,7 +3,7 @@ class SbElemento < ApplicationRecord
 	belongs_to :sb_lista
 
 	TIPOS = ['item', 'list']
-	ACCESOS = ['usuario', 'admin', 'anonimo', 'dog']
+	ACCESOS = ['nomina', 'admin', 'anonimo', 'dog']
 	DESPLIEGUES = ['show', 'list', 'ayuda', 'ulist']
 
 	DISPLAY_FIELDS = [
@@ -17,11 +17,13 @@ class SbElemento < ApplicationRecord
 	]
 
 	TABLA_FIELDS = [
-		['orden',      'normal'],
-		['nivel',      'normal'],
-		['elemento',   'show'],
-		['tipo',       'normal'],
-		['despliegue', 'normal']
+		'orden',
+		'nivel',
+		'elemento',
+		'tipo',
+		'despliegue'
 	]
+
+    validates_presence_of :tipo, :elemento
 
 end

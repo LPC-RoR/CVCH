@@ -79,30 +79,25 @@ module ProcesaEstructura
 	def p_indice(estructura, objeto, o_palabra)
 		o_indice = o_palabra.ind_indices.find_by(class_name: objeto.class.name, objeto_id: objeto.id)
 		o_indice = o_palabra.ind_indices.create(class_name: objeto.class.name, objeto_id: objeto.id) if o_indice.blank?
-#		estructura.ind_indices << o_indice unless estructura.ind_indices.ids.include?(o_indice.id)
-		o_indice
+			o_indice
+	end
+
+	def palabras_texto(str)
+		str.gsub(/[\.,;\:\(\)¿\?¡!\[\]\{\}°º]/, ' ').split(' ').map {|word| word.strip}
 	end
 
 	def procesa_campos_busqueda(estructura, objeto, campo)
-		# primero que nad recupera el valor del campo
-		texto_base = objeto.send(campo)
+		# primero que nada recupera el valor del campo
+		texto_campo = objeto.send(campo)
 		# texto base : en minusculas y no tiene saltos de línea
-		texto = texto_base.blank? ? nil : objeto.send(campo).downcase.gsub(/\n/, ' ')
+		palabras = texto_campo.blank? ? nil : palabras_texto(texto_campo)
 
 		unless texto.blank?
-			# 1.- procesa IDEAS
-			ideas = extrae_ideas(texto)
-			ideas.each do |idea|
-				expresiones = extrae_expresiones(idea)
-				expresiones.each do |expresion|
-					palabras = lexer(expresion)
-					palabras.each do |palabra|
-						unless excluye_palabra(palabra)
-							o_palabra = p_palabra(estructura, palabra)
+			palabras.each do |palabra|
+				unless excluye_palabra(palabra)
+					o_palabra = p_palabra(estructura, palabra)
 
-							o_indice = p_indice(estructura, objeto, o_palabra)
-						end
-					end
+					o_indice = p_indice(estructura, objeto, o_palabra)
 				end
 			end
 		end
@@ -139,7 +134,7 @@ module ProcesaEstructura
 			ind_palabra = IndPalabra.find_by(ind_palabra: palabra.strip.downcase)
 			unless excluye_palabra(palabra) or ind_palabra.blank?
 				# si la palabra está en la estructura, pregunta por la clave
-				# si la clave existe, retorna la coolecciń de índices
+				# si la clave existe, retorna la colección de índices
 				# si no retorna una csolección vacía
 				modelo_ids = ind_palabra.ind_clave.present? ? modelo_ids.union(ind_palabra.ind_clave.ind_indices.where(class_name: modelo).map {|ii| ii.objeto_id}) : []
 				modelo_ids = modelo_ids.union(ind_palabra.ind_indices.ids)

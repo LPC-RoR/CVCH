@@ -14,10 +14,8 @@ class AreasController < ApplicationController
   # GET /areas/1
   # GET /areas/1.json
   def show
-    @coleccion = {}
-    @coleccion['publicaciones'] = @objeto.papers.where(estado: 'publicada').order(sort_column + " " + sort_direction).page(params[:page])
-    @coleccion['filo_elementos'] = @objeto.filo_elementos.order(:filo_elemento).page(params[:page])
-    @paginate = true
+    init_tabla('publicaciones', @objeto.papers.where(estado: 'publicada').order(sort_column + " " + sort_direction), true)
+    add_tabla('filo_elementos', @objeto.filo_elementos.order(:filo_elemento), false)
   end
 
   # GET /areas/new

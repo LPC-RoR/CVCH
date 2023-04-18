@@ -1,7 +1,7 @@
 class FiloElemento < ApplicationRecord
 
 	TABLA_FIELDS = [
-		['filo_elemento',  'normal']
+		'filo_elemento'
 	]
 
 	belongs_to :filo_orden, optional: true

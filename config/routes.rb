@@ -210,7 +210,6 @@ Rails.application.routes.draw do
     resources :publicaciones
   end
   resources :vistas do
-    match :escritorio, via: :get, on: :collection
     match :graficos, via: :get, on: :collection
   end
 

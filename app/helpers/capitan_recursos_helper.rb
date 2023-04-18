@@ -73,6 +73,25 @@ module CapitanRecursosHelper
 
 	## ------------------------------------------------------- TABLA | BTNS
 
+	def icon_fields(campo, objeto)
+		if objeto.class.name == 'Registro'
+			if campo == 'fecha'
+				case objeto.tipo
+				when 'Informe'
+				"bi bi-file-earmark-check"
+				when 'Documento'+
+				"bi bi-file-earmark-pdf"
+				when 'Llamada telefónica'
+				"bi bi-telephone"
+				when 'Mail'
+				"bi bi-envelope-at"
+				when 'Reporte'
+				"bi bi-file-earmark-ruled"
+				end
+			end
+		end
+	end
+
 	def sortable_fields
 		{
 			'publicaciones' => ['author', 'title', 'doc_type', 'year']

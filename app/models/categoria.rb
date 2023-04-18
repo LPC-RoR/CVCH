@@ -2,8 +2,8 @@ class Categoria < ApplicationRecord
 
 	#-------------------------------------------------------------  TABLA
 	TABLA_FIELDS = [
-		['categoria',         'show'], 
-		['d_publicaciones', 'normal'] 
+		's#categoria',
+		'd_publicaciones'
 	]
 
  	FORM_FIELDS = [
@@ -22,5 +22,9 @@ class Categoria < ApplicationRecord
 
 	def d_publicaciones
 		self.publicaciones.count
+	end
+
+	def sel_table
+		self.publicaciones.where(estado: 'publicada')
 	end
 end

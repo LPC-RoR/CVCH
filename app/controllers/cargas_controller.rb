@@ -9,14 +9,11 @@ class CargasController < ApplicationController
   # GET /cargas
   # GET /cargas.json
   def index
-    if ActiveRecord::Base.connection.table_exists? 'app_perfiles'
-      @activo = AppPerfil.find(perfil_activo_id)
-    else
-      @activo = Perfil.find(perfil_activo_id)
-    end
+    @activo = AppPerfil.find(perfil_activo_id)
 
-    @coleccion = {}
-    @coleccion['cargas'] = @activo.cargas
+    init_tabla('cargas', @activo.cargas, false)
+#    @coleccion = {}
+#    @coleccion['cargas'] = @activo.cargas
   end
 
   def sel_archivo

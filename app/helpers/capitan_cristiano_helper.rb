@@ -1,82 +1,67 @@
 module CapitanCristianoHelper
 
-	## ------------------------------------------------------- CRISTIANO BASE
-	def cristiano(text, origen, destino)
-		if ['AppAdministrador', 'app_administradores'].include?(text)
-			'Administrador'
-		elsif ['AppNomina', 'app_nominas'].include?(text)
-			'Nómina'
-		elsif ['AppPerfil', 'app_perfiles'].include?(text)
-			'Perfil'
-		elsif ['AppObservacion', 'app_observaciones'].include?(text)
-			'Observación'
-		elsif ['AppMejora', 'app_mejoras'].include?(text)
-			'Mejora'
-		elsif ['AppImagen', 'app_imagenes'].include?(text)
-			'Imagen'
-		elsif ['AppContacto', 'app_contactos'].include?(text)
-			'Contacto'
-		elsif ['AppMensaje', 'app_mensajes'].include?(text)
-			'Mensaje'
-		elsif ['AppDirectorio', 'app_directorios'].include?(text)
-			'Directorio'
-		elsif ['AppDocumento', 'app_documentos'].include?(text)
-			'Documento'
-		elsif ['AppArchivo', 'app_archivos'].include?(text)
-			'Archivo'
-		elsif ['AppEnlace', 'app_enlaces'].include?(text)
-			'Enlace'
-		elsif ['HTema', 'h_temas'].include?(text)
-			'Tema'
-		elsif ['HLink', 'h_links'].include?(text)
-			'Enlace'
-		elsif ['HImagen', 'h_imagenes'].include?(text)
-			'Imagen'
-		elsif ['SbLista', 'sb_listas'].include?(text)
-			'Menú lateral'
-		elsif ['SbElemento', 'sb_elementos'].include?(text)
-			'Elemento menú lateral'
-		elsif ['HlpTutorial', 'hlp_tutoriales'].include?(text)
-			'Tutorial'
-		elsif ['HlpPaso', 'hlp_pasos'].include?(text)
-			'Paso'
-		elsif ['st_modelo', 'StModelo', 'st_modelos'].include?(text)
-			'Modelo'
-		elsif ['st_estado', 'StEstado', 'st_estados'].include?(text)
-			'Estado'
-		elsif ['created_at'].include?(text)
-			'Fecha'
+	def m_excepciones
+		{
+			'TarUfSistema' => 'Uf del sistema',
+			'SbLista' => 'Menú lateral',
+			'SbElemento' => 'Elemento del menú lateral',
+			'TarHora' => 'Tarifa en Horas'
+		}
+	end
+
+	def f_excepciones 
+		{
+			'created_at' => 'fecha'
+		}
+	end
+
+	def correcciones 
+		{
+			'cuantia' => 'cuantía',
+			'nomina' => 'nómina',
+			'observacion' => 'observación',
+			'formula' => 'fórmula',
+			'consultoria' => 'consultoría',
+			'codigo' => 'código',
+			'descripcion' => 'descripción',
+			'facturacion' => 'facturación'
+		}
+	end
+
+	def scopes
+		/^tar_|^app_|^h_|^st_/
+	end
+
+	def c_to_name(controller)
+		if m_excepciones.keys.include?(controller.classify)
+			# Manejo de excepciones
+			m_excepciones[controller.classify]
 		else
-			cristiano_app(text, origen, destino)
+			# Manejo de scopes
+			text = controller.match(scopes) ? controller.gsub(scopes, '') : controller
+			# corrige acentos
+			text.humanize.split.map {|word| corrige(word.downcase)}.join(' ').capitalize
 		end
 	end
 
-	def cristiano_app(text, origen, destino)
-		if ['doc_type'].include?(text)
-			'Type'
+	def m_to_name(modelo)
+		if m_excepciones.keys.include?(modelo)
+			m_excepciones[modelo]
 		else
-			case origen
-			when 'field'
-				case destino
-				when 'singular'
-					text.humanize
-				when 'plural'
-				end
-			when 'class'
-				case destino
-				when 'singular'
-					text.tableize.humanize.singularize
-				when 'plural'
-				end
-			when 'controller'
-				case destino
-				when 'singular'
-					text.humanize.singularize
-				when 'plural'
-				end
-			else
-				text
-			end
+			c_to_name(modelo.tableize)
+		end
+	end
+
+	def corrige(word)
+		correcciones.keys.include?(word) ? correcciones[word] : word
+	end
+
+	def corrige_campo(field)
+		if f_excepciones.keys.include?(field)		
+			f_excepciones[field]
+		else
+			text = field.match(scopes) ? field.gsub(scopes, '') : field
+			text.humanize.split.map {|word| corrige(word.downcase)}.join(' ').capitalize
 		end
 	end
 

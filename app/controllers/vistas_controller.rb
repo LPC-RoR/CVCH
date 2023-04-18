@@ -12,96 +12,46 @@ class VistasController < ApplicationController
   # GET /vistas.json
   def index
 
-    @options = {}
-    # INICILIZA SELECTOR
-    @sels = {
-      area: Area.all.map {|a| a.area},
-      categoria: Categoria.all.map {|c| c.categoria}
+    @sel_table = {
+      areas: Area.all.order(:area),
+      categorias: Categoria.all.order(:categoria),
+      carpetas: perfil_activo.carpetas.order(:carpeta)
     }
 
-    @sels.keys.each do |key|
-      if params[:html_options].blank?
-        @options[key] = @sels[key][0]
-      else
-        @options[key] = params[:html_options][key.to_s].blank? ? @sels[key][0] : params[:html_options][key.to_s]
+    @sel_table_list = []
+    @sel_table.keys.each do |key_table|
+      @sel_table_list << ['tabla', @sel_table[key_table].first.class.name]
+      @sel_table[key_table].each do |elemento|
+        @sel_table_list << ['elemento', elemento.class.name, elemento.send(elemento.class.name.downcase), elemento.sel_table.count]
       end
     end
 
-    # INICIALIZA TABS
-    @tabs = {
-      menu: ['Áreas', 'Categorías'],
-      areas: ['Publicaciones', 'Especies']
-    }
+    if params[:html_options].blank?
+      @objeto = @sel_table[:areas].first
+    elsif params[:html_options][:modelo] == 'Area'
+      @objeto = params[:html_options][:modelo].constantize.find_by(area: params[:html_options][:elemento])
+    elsif params[:html_options][:modelo] == 'Categoria'
+      @objeto = params[:html_options][:modelo].constantize.find_by(categoria: params[:html_options][:elemento])
+    elsif params[:html_options][:modelo] == 'Carpeta'
+      @objeto = params[:html_options][:modelo].constantize.find_by(carpeta: params[:html_options][:elemento])
+    end      
+    @modelo = @objeto.class.name
+    @elemento = @objeto.send(@objeto.class.name.downcase)
 
-    @tabs.keys.each do |key|
-      if params[:html_options].blank?
-        @options[key] = @tabs[key][0]
-      else
-        @options[key] = params[:html_options][key.to_s].blank? ? @tabs[key][0] : params[:html_options][key.to_s]
-      end
-    end
-
-    if @options[:menu] == 'Áreas'
-      @list_selector = Area.all.map {|a| [a.area, a.papers.where(estado: 'publicada').count]}
-
-      @area = Area.find_by(area: @options[:area])
-    elsif @options[:menu] == 'Categorías'
-      @list_selector = Categoria.all.map {|c| [c.categoria, c.publicaciones.where(estado: 'publicada').count]}
-
-      @categoria = Categoria.find_by(categoria: @options[:categoria])
-    end
-
-      @coleccion = {}
+    # no lo puse al comienzo porque necesita el valor de @modelo
+    init_tab( { menu: [['Publicaciones', true], ['Especies', @modelo == 'Area'], ['Citas', @modelo == 'Carpeta']] }, true )
+    @options[:modelo] = @modelo
+    @options[:elemento] = @elemento
 
     if params[:search].blank?
-      @coleccion['publicaciones'] = @area.papers.where(estado: 'publicada').order(sort_column + " " + sort_direction).page(params[:page]) if @options[:menu] == 'Áreas'
-      @coleccion['publicaciones'] = @categoria.publicaciones.where(estado: 'publicada').order(sort_column + " " + sort_direction).page(params[:page]) if @options[:menu] == 'Categorías'
+      init_tabla('publicaciones', @objeto.sel_table.order(sort_column + " " + sort_direction), true) if @modelo == 'Area'
+      init_tabla('publicaciones', @objeto.sel_table.order(sort_column + " " + sort_direction), true) if @modelo == 'Categoria'
+      init_tabla('publicaciones', @objeto.sel_table.order(sort_column + " " + sort_direction), true) if @modelo == 'Carpeta'
+      init_tabla('citas', @objeto.publicaciones.order(:author), false) if @options[:menu] == 'Citas'
     else
-      @coleccion['publicaciones'] = busqueda_publicaciones(params[:search], 'Publicacion').order(sort_column + " " + sort_direction).page(params[:page])
+      init_tabla('publicaciones', busqueda_publicaciones(params[:search], 'Publicacion').order(sort_column + " " + sort_direction), true)
     end
 
-    @paginate = true
-
-  end
-
-  def escritorio
-    @activo = perfil_activo
-    @list_selector = @activo.carpetas.all.map {|c| [c.carpeta, c.publicaciones.count]}
-
-    @options = {}
-    # INICILIZA SELECTOR
-    @sels = {
-      carpetas: @activo.carpetas.all.map {|c| c.carpeta}
-    }
-
-    @sels.keys.each do |key|
-      if params[:html_options].blank?
-        @options[key] = @sels[key][0]
-      else
-        @options[key] = params[:html_options][key.to_s].blank? ? @sels[key][0] : params[:html_options][key.to_s]
-      end
-    end
-
-    # INICIALIZA TABS
-    @tabs = {
-      menu: ['Publicaciones', 'Citas']
-    }
-
-    @tabs.keys.each do |key|
-      if params[:html_options].blank?
-        @options[key] = @tabs[key][0]
-      else
-        @options[key] = params[:html_options][key.to_s].blank? ? @tabs[key][0] : params[:html_options][key.to_s]
-      end
-    end
-
-    @carpeta = @activo.carpetas.find_by(carpeta: @options[:carpetas])
-
-    @coleccion = {}
-    @coleccion['publicaciones'] = @carpeta.publicaciones.order(sort_column + " " + sort_direction).page(params[:page]) if @tab == 'Publicaciones'
-    @coleccion['citas']  = @carpeta.publicaciones.order(:author)
-
-    @coleccion['carpetas'] = @activo.carpetas
   end
 
   def graficos

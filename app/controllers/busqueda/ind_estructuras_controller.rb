@@ -7,19 +7,22 @@ class Busqueda::IndEstructurasController < ApplicationController
   # GET /ind_estructuras
   # GET /ind_estructuras.json
   def index
-    @coleccion = {}
-    @coleccion['ind_estructuras'] = IndEstructura.all.order(:ind_estructura)
+    init_tabla('ind_estructuras', IndEstructura.all.order(:ind_estructura), false)
+    add_tabla('ind_sets', IndSet.all.order(:tipo), false)
+#    @coleccion = {}
+#    @coleccion['ind_estructuras'] = IndEstructura.all.order(:ind_estructura)
 
-    @coleccion['ind_sets']= IndSet.all.order(:tipo)
+#    @coleccion['ind_sets']= IndSet.all.order(:tipo)
   end
 
   # GET /ind_estructuras/1
   # GET /ind_estructuras/1.json
   def show
-    @coleccion = {}
-    @coleccion['ind_modelos'] = @objeto.ind_modelos.order(:ind_modelos)
-    @coleccion['ind_palabras'] = @objeto.ind_palabras.order(:ind_palabra).page(params[:page])
-#    @coleccion['ind_expresiones'] = @objeto.ind_expresiones.order(:ind_expresion)
+    init_tabla('ind_modelos', @objeto.ind_modelos.order(:ind_modelos), false)
+    add_tabla('ind_palabras', @objeto.ind_palabras.order(:ind_palabra), true)
+#    @coleccion = {}
+#    @coleccion['ind_modelos'] = @objeto.ind_modelos.order(:ind_modelos)
+#    @coleccion['ind_palabras'] = @objeto.ind_palabras.order(:ind_palabra).page(params[:page])
   end
 
   # GET /ind_estructuras/new

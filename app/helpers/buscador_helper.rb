@@ -8,37 +8,6 @@ module BuscadorHelper
 	  car.match?(/[[:digit:]]/)
 	end
 
-	def lexer(campo)
-		llaves = []
-		palabra = ''
-		tipo = nil
-		caracteres = campo.split('')
-		caracteres.each do |car|
-			if letra?(car)
-				palabra += car
-				tipo = 'alpha'
-			elsif digito?(car)
-				palabra += car
-				tipo = 'number' if tipo.blank?
-			elsif car == ' '
-				unless tipo.blank?
-					llaves << palabra
-					palabra = ''
-					tipo = nil
-				end
-			else
-				unless tipo.blank?
-					llaves << palabra
-					palabra = ''
-					tipo = nil
-				end
-			end
-		end
-		
-		llaves << palabra unless palabra.blank?
-		llaves
-	end
-
 	# Este método muestra que campos están indexados
 	def show_indice(campo)
 		palabras = campo.blank? ? [] : lexer(campo)

@@ -8,20 +8,13 @@ class EspeciesController < ApplicationController
   # GET /especies.json
   def index
 
-    @options = {}
+    init_tab({menu: ['Estructura', 'Niveles de la estructura y Epecies no reconocidas']}, true)
+
 
     # INICIALIZA TABS
-    @tabs = {
-      menu: ['Estructura', 'Niveles de la estructura y Epecies no reconocidas']
-    }
-
-    @tabs.keys.each do |key|
-      if params[:html_options].blank?
-        @options[key] = @tabs[key][0]
-      else
-        @options[key] = params[:html_options][key.to_s].blank? ? @tabs[key][0] : params[:html_options][key.to_s]
-      end
-    end
+#    @tabs = {
+#      menu: ['Estructura', 'Niveles de la estructura y Epecies no reconocidas']
+#    }
 
     if @options[:menu] == 'Estructura'
       @filo_especie = params[:especie].blank? ? nil : FiloEspecie.find_by(filo_especie: params[:especie])
@@ -67,10 +60,13 @@ class EspeciesController < ApplicationController
     else
       @coleccion = {}
       esp_ids = Especie.all.map {|esp| esp.id if esp.filo_especie_id.blank?}.compact
-      @coleccion['especies'] = Especie.where(id: esp_ids).order(:especie).page(params[:page])
-      @coleccion['filo_elementos'] = (@filo_elemento.blank? ? FiloElemento.where(false).page(params[:page]) :  @filo_elemento.children.page(params[:page]))
-      @coleccion['filo_ordenes'] = FiloOrden.all.order(:orden).page(params[:page])
-      @paginate = true
+      init_tabla('especies', Especie.where(id: esp_ids).order(:especie), true)
+      add_tabla('filo_elementos', (@filo_elemento.blank? ? FiloElemento.where(false) :  @filo_elemento.children), false)
+      add_tabla('filo_ordenes', FiloOrden.all.order(:orden), false)
+#      @coleccion['especies'] = Especie.where(id: esp_ids).order(:especie).page(params[:page])
+#      @coleccion['filo_elementos'] = (@filo_elemento.blank? ? FiloElemento.where(false).page(params[:page]) :  @filo_elemento.children.page(params[:page]))
+#      @coleccion['filo_ordenes'] = FiloOrden.all.order(:orden).page(params[:page])
+#      @paginate = true
     end
 
   end
@@ -85,8 +81,9 @@ class EspeciesController < ApplicationController
     end
     @options = {'tab' => @tab}
 
-    @coleccion = {}
-    @coleccion['publicaciones'] = @objeto.publicaciones.where(estado: 'publicada').order(sort_column + " " + sort_direction).page(params[:page])
+    init_tabla('publicaciones', @objeto.publicaciones.where(estado: 'publicada').order(sort_column + " " + sort_direction), true)
+#    @coleccion = {}
+#    @coleccion['publicaciones'] = @objeto.publicaciones.where(estado: 'publicada').order(sort_column + " " + sort_direction).page(params[:page])
 
     #aqui tengo que acceder a la lista de áreas disponibles para una especie
     areas_seleccion = []
@@ -96,7 +93,8 @@ class EspeciesController < ApplicationController
 
     @areas_seleccion = Area.find(Area.all.ids - @objeto.areas.ids)
 
-    @coleccion['areas'] = @objeto.areas
+    add_tabla('areas', @objeto.areas, false)
+#    @coleccion['areas'] = @objeto.areas
   end
 
   # GET /especies/new

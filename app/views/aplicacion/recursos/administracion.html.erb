@@ -1,6 +1,0 @@
-<% if @despliegue == 'show' %>
-	<%= render partial: "#{@controlador}/show" %>
-<% elsif ['list', 'ulist'].include?(@despliegue) %>
-	<h4><%= render partial: '0p/general/icon_text', locals: {gly: 'easel3-fill', text: @t, clr: app_color[:app]} %></h4>
-	<%= render partial: '0p/tabla/solo_tabla', locals: {c: @controlador, a: 'index'} %>
-<% end %>

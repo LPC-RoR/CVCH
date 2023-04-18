@@ -91,14 +91,6 @@ module ApplicationHelper
 		end
 	end
 
-	def partial?(controller, partial)
-		File.exist?("app/views/#{(scope_controller(controller).blank? ? '' : "#{scope_controller(controller)}/")}#{controller}/_#{partial}.html.erb")
-	end
-
-	def get_partial(controller, partial)
-		"#{(scope_controller(controller).blank? ? '' : "#{scope_controller(controller)}/")}#{controller}/#{partial}"
-	end
-
 	## ------------------------------------------------------- MENU
 
 	def nomenu_controllers
@@ -168,7 +160,12 @@ module ApplicationHelper
 	end
 
 	def primer_estado(controller)
-		StModelo.find_by(st_modelo: controller.classify).primer_estado.st_estado
+		st_modelo = StModelo.find_by(st_modelo: controller.classify)
+		st_modelo.blank? ? nil : st_modelo.primer_estado.st_estado
+	end
+
+	def count_modelo_estado(modelo, estado)0
+		modelo.constantize.where(estado: estado).count == 0 ? '' : "(#{modelo.constantize.where(estado: estado).count})"
 	end
 
 	## ------------------------------------------------------- TABLA
@@ -257,6 +254,10 @@ module ApplicationHelper
 		end
 	end
 
+	# Link de un x_btn del modelo de una tabla
+	# objeto : objeto del detalle de la tabla
+	# accion : url al que hay que sumarle los parámetros}
+	# objeto_ref : true => se incluyen parámetros de @objeto
 	def link_x_btn(objeto, accion, objeto_ref)
 		ruta_raiz = "/#{objeto.class.name.tableize}/#{objeto.id}#{accion}"
 		ruta_objeto = (objeto_ref and @objeto.present?) ? "#{(!!accion.match(/\?+/) ? '&' : '?')}class_name=#{@objeto.class.name}&objeto_id=#{@objeto.id}" : ''
@@ -271,6 +272,25 @@ module ApplicationHelper
 	end
 
 	## ------------------------------------------------------- FORM
+	# Este helper pergunta si hay un partial con un nombre particular en el directorio del controlador
+	def partial?(controller, partial)
+		File.exist?("app/views/#{(scope_controller(controller).blank? ? '' : "#{scope_controller(controller)}/")}#{controller}/_#{partial}.html.erb")
+	end
+
+	def get_partial(controller, partial)
+		"#{(scope_controller(controller).blank? ? '' : "#{scope_controller(controller)}/")}#{controller}/#{partial}"
+	end
+
+	# Este helper encuentra el partial que se debe desplegar como form
+	# originalmente todos llegaban a _form
+	# ahora pregunta si hay un partial llamado _datail en el directorio de las vistas del modelo
+	def detail_partial(controller)
+		if partial?(controller, 'detail')
+			get_partial(controller, 'detail')
+		else
+			'0p/form/detail'
+		end
+	end
 
 	def url_params(parametros)
 		params_options = "n_params=#{parametros.length}"
@@ -280,32 +300,56 @@ module ApplicationHelper
 		params_options
 	end
 
-	def detail_partial(controller)
-		if partial?(controller, 'detail')
-			get_partial(controller, 'detail')
-		else
-			'0p/form/detail'
-		end
-	end
-
 	## -------------------------------------------------------- TABLA & SHOW
 
+	# obtiene el nombre del campo puro desde la descripción de TABLA_FIELDS
+	def get_field_name(label)
+		label.split(':').last.split('#').last
+	end
+
 	# Obtiene el campo para despleagar en una TABLA
+	# Acepta los sigueintes labels:
+	# 1.- archivo:campo : archivo es un campo has_one o belongs_to y campo es el nombre del campo de esa relación
+	# 2.- campo : campo es el campo del objeto
+	# 3.- i#campo : es un campo que va antecedido de un ícono
 	# Resuelve BT_FIELDS y d_<campo> si es necesario 
 	def get_field(label, objeto)
+		#Debe resolver archivo:k*#campo
+		# [archivo, archivo, campo]
 
-		success = true
-		label.split(':').each do |field_name|
-			if success
-				if objeto.class::column_names.include?(label) or objeto.class.instance_methods(false).include?(label.to_sym)
-					objeto = objeto.send(field_name)
-				else
-					success = false
-				end
-			end
+		# Variables de la función
+		v = label.split(':')               # vector de palabras en label
+		archivos = v.slice(0, v.length-1)  # vector que tienen todos los archivos
+		nombre = v.last                    # nombre del campo
+
+		# se avanza por los archivos hasta el último
+		archivo = objeto
+		archivos.each do |arch|
+			archivo = archivo.send(arch)
 		end
 
-		success ? objeto : 'Objeto NO Encontrado'
+		v_nombre = nombre.split('#')
+		campo = v_nombre.last
+		prefijos = v_nombre - [v_nombre.last]
+
+		unless archivo.send(campo).blank?
+			if ['DateTime', 'Time'].include?(archivo.send(campo).class.name)
+				texto_campo = l_fecha(archivo.send(campo))
+			elsif prefijos.include?('uf') 
+				texto_campo = number_to_currency(archivo.send(campo), unit: 'UF', precision: 2, format: '%u %n')
+			elsif prefijos.include?('$')
+				texto_campo = number_to_currency(archivo.send(campo), precision: 0, unit: '$', format: '%u %n')
+			elsif prefijos.include?('$2')
+				texto_campo = number_to_currency(archivo.send(campo), precision: 2, unit: '$', format: '%u %n')
+			elsif prefijos.include?('m')
+				texto_campo = number_to_currency(archivo.send(campo), precision: "#{archivo.send('moneda') == 'Pesos' ? '0' : '2'}}".to_i, unit: "#{archivo.send('moneda') == 'Pesos' ? '$' : 'UF'}", format: '%u %n')
+			else
+				texto_campo = archivo.send(campo)
+			end
+			[texto_campo, prefijos, archivo.send(campo).class.name]
+		else
+			nil
+		end
 
 	end
 
@@ -343,6 +387,11 @@ module ApplicationHelper
 	    badge = content_tag :span, badge_value, class: 'badge badge-primary badge-pill'
 	    text = raw "#{text} #{badge}" if badge_value
 	    return text
+	end
+
+	## ------------------------------------------------------- GENERAL
+	def perfiles_operativos
+		AppNomina.all.map {|nomina| nomina.nombre}.union(AppAdministrador.all.map {|admin| admin.administrador unless admin.email == 'hugo.chinga.g@gmail.com'}.compact)
 	end
 
 	## ------------------------------------------------------- PUBLICACION

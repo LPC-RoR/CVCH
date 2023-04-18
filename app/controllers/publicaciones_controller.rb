@@ -16,6 +16,7 @@ class PublicacionesController < ApplicationController
   # GET /publicaciones
   # GET /publicaciones.json
   def index
+    #no sé si se usa !!!!!!
     @tab = params[:tab].blank? ? 'Revisar' : params[:tab]
     @carpeta = Carpeta.find_by(carpeta: @tab)
     if @carpeta.blank?
@@ -28,23 +29,25 @@ class PublicacionesController < ApplicationController
   # GET /publicaciones/1.json
   def show
 
-    @options = {}
-    @tabs = {
-      menu: [
-        ['Áreas', (usuario_signed_in? and admin?)], 
-        ['Carpetas', (usuario_signed_in? and @objeto.estado == 'publicada')],
-        ['Categorías', (@objeto.estado == 'publicada')],
-        ['Especies', (@objeto.estado == 'publicada')]
-      ]
-    }
+    init_tab({menu: [['Áreas', (usuario_signed_in? and admin?)], ['Carpetas', (usuario_signed_in? and @objeto.estado == 'publicada')],['Categorías', (@objeto.estado == 'publicada')], ['Especies', (@objeto.estado == 'publicada')]]}, true)
 
-    @tabs.keys.each do |key|
-      if params[:html_options].blank?
-        @options[key] = @tabs[key][0][0]
-      else
-        @options[key] = params[:html_options][key.to_s].blank? ? @tabs[key][0][0] : params[:html_options][key.to_s]
-      end
-    end
+#    @options = {}
+#    @tabs = {
+#      menu: [
+#        ['Áreas', (usuario_signed_in? and admin?)], 
+#        ['Carpetas', (usuario_signed_in? and @objeto.estado == 'publicada')],
+#        ['Categorías', (@objeto.estado == 'publicada')],
+#        ['Especies', (@objeto.estado == 'publicada')]
+#      ]
+#    }
+
+#    @tabs.keys.each do |key|
+#      if params[:html_options].blank?
+#        @options[key] = @tabs[key][0][0]
+#      else
+#        @options[key] = params[:html_options][key.to_s].blank? ? @tabs[key][0][0] : params[:html_options][key.to_s]
+#      end
+#    end
 
     @coleccion = {}
 

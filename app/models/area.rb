@@ -4,7 +4,7 @@ class Area < ApplicationRecord
 
 	#-------------------------------------------------------------  TABLA
 	TABLA_FIELDS = [
-		['area', 'show'], 
+		's#area'
 	]
 
  	FORM_FIELDS = [
@@ -31,6 +31,10 @@ class Area < ApplicationRecord
 			bug_ids << pub.especies.ids
 		end
 		bug_ids.uniq
+	end
+
+	def sel_table
+		self.papers.where(estado: 'publicada')
 	end
 
 end

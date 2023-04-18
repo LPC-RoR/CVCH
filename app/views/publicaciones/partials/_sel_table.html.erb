@@ -1,0 +1,22 @@
+<% @sel_table_list.each do |elemento| %>
+	<% if elemento[0] == 'tabla' %>
+		<% unless elemento[1] == @sel_table_list[0][1] %>
+			<hr>
+		<% end %>
+		<h6><%= render partial: '0p/general/icon_text', locals: {gly: 'file-earmark-check', text: elemento[1].tableize.capitalize, clr: app_color[:app]} %></h6>
+	<% else %>
+		<small>
+			<div class='row'>
+				<div class="col-md-1"></div>
+				<div class="col-md-9">
+					<% if @modelo == elemento[1] and @elemento == elemento[2] %>
+						<b class='text-muted'><%= elemento[2] %></b>
+					<% else %>
+						<%= link_to elemento[2], "vistas?html_options[modelo]=#{elemento[1]}&html_options[elemento]=#{elemento[2]}" %>
+					<% end %>
+				</div>
+				<div class="col-md-1"><div style="display: flex; justify-content: flex-end"><b class='text-muted'><%= elemento[3] == 0 ? '-' : elemento[3] %></b></div></div>
+			</div>
+		</small>
+	<% end %>
+<% end %>
