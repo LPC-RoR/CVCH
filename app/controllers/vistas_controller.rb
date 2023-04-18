@@ -15,8 +15,8 @@ class VistasController < ApplicationController
     @sel_table = {
       areas: Area.all.order(:area),
       categorias: Categoria.all.order(:categoria),
-      carpetas: perfil_activo.carpetas.order(:carpeta)
     }
+    @sel_table[:carpetas] = perfil_activo.carpetas.order(:carpeta) if usuario_signed_in?
 
     @sel_table_list = []
     @sel_table.keys.each do |key_table|
