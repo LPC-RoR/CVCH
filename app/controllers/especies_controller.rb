@@ -10,12 +10,6 @@ class EspeciesController < ApplicationController
 
     init_tab({menu: ['Estructura', 'Niveles de la estructura y Epecies no reconocidas']}, true)
 
-
-    # INICIALIZA TABS
-#    @tabs = {
-#      menu: ['Estructura', 'Niveles de la estructura y Epecies no reconocidas']
-#    }
-
     if @options[:menu] == 'Estructura'
       @filo_especie = params[:especie].blank? ? nil : FiloEspecie.find_by(filo_especie: params[:especie])
       if @filo_especie.blank?
@@ -57,6 +51,9 @@ class EspeciesController < ApplicationController
 
       @elemento_base = FiloElemento.first
       @elementos_base = FiloElemento.where(filo_orden_id: nil).page(params[:page])
+
+      init_tabla('filo_elementos', FiloElemento.all.order(:filo_elemento), true)
+      add_tabla('filo_especies', FiloEspecie.all.order(:filo_especie), true)
     else
       @coleccion = {}
       esp_ids = Especie.all.map {|esp| esp.id if esp.filo_especie_id.blank?}.compact

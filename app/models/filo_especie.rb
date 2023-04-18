@@ -1,4 +1,9 @@
 class FiloEspecie < ApplicationRecord
+
+	TABLA_FIELDS = [
+		'filo_especie'
+	]
+
 	belongs_to :filo_elemento, optional: true
 
 	has_one  :parent_relation, :foreign_key => "child_id", :class_name => "FiloEspEsp"
