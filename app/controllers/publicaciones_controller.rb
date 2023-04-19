@@ -43,7 +43,9 @@ class PublicacionesController < ApplicationController
         if @options[:menu] == 'Carpetas'
           @coleccion_usuario = @activo.carpetas.order(:carpeta)
           @coleccion_publicacion = @objeto.carpetas
-        elsif @options[:menu] == 'Áreas'
+        end
+      else
+        if @options[:menu] == 'Áreas'
           @coleccion_usuario = Area.all.order(:area)
           @coleccion_publicacion = @objeto.areas
         elsif @options[:menu] == 'Categorías'
@@ -52,9 +54,6 @@ class PublicacionesController < ApplicationController
         end
       end
 
-#      @coleccion['rutas'] = @objeto.rutas.order(:created_at)
-#      @coleccion['propuestas'] = @objeto.propuestas.order(:created_at)
-
     end
 
     # ÁREA PÚBLICA ******************************************************************************************
@@ -62,11 +61,6 @@ class PublicacionesController < ApplicationController
       if @options[:menu] == 'Especies'
         @coleccion_publicacion = @objeto.especies
       end
-
-#    @categorias_seleccion = Categoria.where(id: Categoria.all.ids - @objeto.categorias.ids).order(:categoria)
-#    @coleccion['categorias'] = @objeto.categorias.order(:created_at)
-
-#    @coleccion['especies'] = @objeto.especies.order(:created_at)
 
     # ********************** DUPLICADOS *****************************
 
