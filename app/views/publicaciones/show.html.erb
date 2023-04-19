@@ -12,10 +12,9 @@
 			<% if @objeto.estado == 'publicada' %>
 				<%= render partial: 'publicaciones/partials/carpetas' if @options[:menu] == 'Carpetas' %>
 			<% end %>
-		<% else %>
-			<% if (@objeto.estado == 'publicada') %>
-				<%= render partial: 'publicaciones/partials/especies' if @options[:menu] == 'Especies' %>
-			<% end %>
+		<% end %>
+		<% if (@objeto.estado == 'publicada') %>
+			<%= render partial: 'publicaciones/partials/especies' if @options[:menu] == 'Especies' %>
 		<% end %>
 	</div>
 	<div class='col-md-6'>
