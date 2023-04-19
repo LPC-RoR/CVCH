@@ -12,10 +12,9 @@ class FiloEspeciesController < ApplicationController
   # GET /filo_especies/1
   # GET /filo_especies/1.json
   def show
-    init_tabla('publicaciones', Publicacion.where(id: @objeto.publicaciones_ids).order(sort_column + " " + sort_direction), true)
-    add_tabla('filo_especies', @objeto.children, false )
-#    @coleccion = {}
-#    @coleccion['publicaciones'] = Publicacion.where(id: @objeto.publicaciones_ids).order(sort_column + " " + sort_direction).page(params[:page])
+#    init_tabla('publicaciones', Publicacion.where(id: @objeto.publicaciones_ids).order(sort_column + " " + sort_direction), true)
+    init_tabla('filo_especies', @objeto.children, false )
+    add_tabla('especies', @objeto.especies, false)
   end
 
   # GET /filo_especies/new

@@ -141,7 +141,7 @@ module CapitanRecursosHelper
 		when 'filo_elementos'
 			controller_name == 'especies'
 		when 'filo_especies'
-			controller_name == 'filo_elementos'
+			controller_name == 'filo_elementos' and FiloElemento.all.empty?
 		else
 			true
 		end

@@ -1,5 +1,5 @@
 <%= render partial: '0p/tabs/tabs', locals: { tabs: @tabs, options: @options, token: :menu } %>
-</br>
+
 <% if @options[:menu] == 'Estructura' %>
 	<div class='row'>
 		<!--div class='col-md-4'-->
@@ -24,7 +24,7 @@
 			<%= render partial: '0p/tabla/solo_tabla', locals: {c: 'filo_ordenes', a: 'index'} %>
 		</div>
 		<div class='col-md-9'>
-			<%= render partial: '0p/general/icon_text', locals: {text: 'Especies', gly: 'bug', clr: 'info'} %>
+			<%= render partial: '0p/general/icon_text', locals: {text: 'Etiquetas de especies no asociadas', gly: 'tag', clr: 'info'} %>
 			<%= render partial: '0p/tabla/solo_tabla', locals: {c: 'especies', a: 'index'} %>
 		</div>
 	</div>
