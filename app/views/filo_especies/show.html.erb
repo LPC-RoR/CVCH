@@ -2,37 +2,51 @@
 <small>Padre: <%= @objeto.padre.class.name %> <%= link_to @objeto.padre.send(@objeto.padre.class.name.tableize.singularize), @objeto.padre unless @objeto.padre.blank? %></small></br>
 
 <% if admin? %>
-<div class='row'>
-	<div class='col-md-6'>
-		<% if @objeto.padre.class.name == 'FiloElemento' %>
-			<%= render partial: '0p/general/icon_text', locals: {text: 'Sub Especies', gly: 'bug', clr: 'info'} %>
-			<%= render partial: '0p/tabla/solo_tabla', locals: {c: 'filo_especies', a: 'index'} %>
+	<div class='row'>
+		<div class='col-md-6'>
+			<% if @objeto.padre.class.name == 'FiloElemento' %>
+				<%= render partial: '0p/general/icon_text', locals: {text: 'Sub Especies', gly: 'bug', clr: 'info'} %>
+				<%= render partial: '0p/tabla/solo_tabla', locals: {c: 'filo_especies', a: 'index'} %>
 
-			<!-- FORMULARIO PARA NUEVA SUB ESPECIE -->
-			<small><b class='text-info'>Nueva sub especie</b></small>
-			<%= form_for :nueva_subespecie, url: "/filo_especies/nueva_subespecie?objeto_id=#{@objeto.id}" do |form| %>
+				<!-- FORMULARIO PARA NUEVA SUB ESPECIE -->
+				<small><b class='text-info'>Nueva sub especie</b></small>
+				<%= form_for :nueva_subespecie, url: "/filo_especies/nueva_subespecie?objeto_id=#{@objeto.id}" do |form| %>
 
-			<%= render partial: '0p/form_fields/label', locals: { form: form, label: 'Especie', v: true } %>
-			<%= render partial: '0p/form_fields/text', locals: { form: form, token: :filo_especie } %>
-			<%= render partial: '0p/form_fields/label', locals: { form: form, label: 'Nombre Común', v: false } %>
-			<%= render partial: '0p/form_fields/text', locals: { form: form, token: :nombre_comun } %>
+				<%= render partial: '0p/form_fields/label', locals: { form: form, label: 'Especie', v: true } %>
+				<%= render partial: '0p/form_fields/text', locals: { form: form, token: :filo_especie } %>
+				<%= render partial: '0p/form_fields/label', locals: { form: form, label: 'Nombre Común', v: false } %>
+				<%= render partial: '0p/form_fields/text', locals: { form: form, token: :nombre_comun } %>
 
-			<%= render partial: '0p/form_fields/label', locals: { form: form, label: 'IUCN', v: false } %>
-			<%= render partial: '0p/form_fields/text', locals: { form: form, token: :iucn } %>
-			</br>
-				<button type="submit" class="btn btn-info">
-				  <i class="bi bi-plus-circle icon-white"></i>
-				  <i class="bi bi-bug"></i>
-				</button>
+				<%= render partial: '0p/form_fields/label', locals: { form: form, label: 'IUCN', v: false } %>
+				<%= render partial: '0p/form_fields/text', locals: { form: form, token: :iucn } %>
+				</br>
+					<button type="submit" class="btn btn-info">
+					  <i class="bi bi-plus-circle icon-white"></i>
+					  <i class="bi bi-bug"></i>
+					</button>
+				<% end  %>
 			<% end  %>
-		<% end  %>
 
+		</div>
+		<div class='col-md-6'>
+			<%= render partial: '0p/general/icon_text', locals: {text: 'Etiquetas de especies asociadas', gly: 'tag', clr: 'info'} %>
+			<%= render partial: '0p/tabla/solo_tabla', locals: {c: 'especies', a: 'index'} %>
+
+			<small>Asociar etiqueta:</small></br>
+			<!-- FORMULARIO ASOCIAR ETIQUETA -->
+			<%= form_for :asocia_etiqueta, url: "/filo_especies/asocia_etiqueta?objeto_id=#{@objeto.id}" do |form| %>
+				<div class='form-inline'>
+					<%= form.text_field(:etiqueta, size: 35, class: 'form-control' ) %>
+					<button type="submit" class="btn btn-info">
+					  <i class="bi bi-plus-circle icon-white"></i>
+					  <i class="bi bi-tag"></i>
+					</button>
+				</div>
+			<% end  %>
+
+		</div>
 	</div>
-	<div class='col-md-6'>
-		<%= render partial: '0p/general/icon_text', locals: {text: 'Etiquetas de especies asociadas', gly: 'tag', clr: 'info'} %>
-		<%= render partial: '0p/tabla/solo_tabla', locals: {c: 'especies', a: 'index'} %>
-	</div>
-</div>
+	<hr>
 <% end %>
 
 <%= render partial: '0p/general/icon_text', locals: {text: 'Publicaciones', gly: 'bug', clr: 'info'} %>

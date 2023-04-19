@@ -97,6 +97,16 @@ class FiloEspeciesController < ApplicationController
     redirect_to filo_especie
   end
 
+  def asocia_etiqueta
+    filo_especie = FiloEspecie.find(params[:objeto_id])
+    unless params[:asocia_etiqueta][:etiqueta].blank?
+      etiqueta = Especie.find_by(especie: params[:asocia_etiqueta][:etiqueta])
+      filo_especie.especies << etiqueta unless etiqueta.blank?
+    end
+
+    redirect_to filo_especie
+  end
+
   # DELETE /filo_especies/1
   # DELETE /filo_especies/1.json
   def destroy

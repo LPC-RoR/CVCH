@@ -8,6 +8,7 @@ Rails.application.routes.draw do
     match :elimina, via: :get, on: :collection
     # nueva implementacion, verificar anteriores
     match :nueva_subespecie, via: :post, on: :collection
+    match :asocia_etiqueta, via: :post, on: :collection
   end
   resources :ind_exp_pales
   resources :filo_ele_eles
@@ -176,7 +177,7 @@ Rails.application.routes.draw do
     match :desasignar, via: :get, on: :member
     match :aceptar, via: :get, on: :member
     match :rechazar, via: :get, on: :member
-    match :libera_especie, via: :get, on: :collection
+    match :libera_especie, via: :get, on: :member
   end
   resources :evaluaciones
   resources :idiomas do 

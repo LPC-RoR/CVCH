@@ -1,7 +1,7 @@
 class EspeciesController < ApplicationController
 #  before_action :authenticate_usuario!
 #  before_action :inicia_sesion
-  before_action :set_especie, only: [:show, :edit, :update, :destroy, :desasignar, :aceptar, :rechazar]
+  before_action :set_especie, only: [:show, :edit, :update, :destroy, :desasignar, :aceptar, :rechazar, :libera_especie]
 
   helper_method :sort_column, :sort_direction
   # GET /especies
@@ -166,12 +166,12 @@ class EspeciesController < ApplicationController
   end
 
   def libera_especie
-    especie = Especie.find(params[:objeto_id])
-    padre = especie.filo_elemento
-    especie.filo_elemento_id = nil
-    especie.save
+    filo_especie = FiloEspecie.find(params[:objeto_id])
+    unless filo_especie.blank?
+      filo_especie.especies.delete(@objeto)
+    end
 
-    redirect_to "/especies?especie=#{padre.filo_elemento unless padre.blank?}"
+    redirect_to filo_especie
   end
 
   def aceptar
