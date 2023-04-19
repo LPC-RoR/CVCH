@@ -1,2 +1,34 @@
-<h4><i class="bi bi-bug"></i><%= @objeto.filo_especie %></h4>
-<%= render partial: '0p/tabla/solo_tabla', locals: {a: 'index', c: 'publicaciones'} %>
+<h5><i class="bi bi-bug"></i><%= @objeto.filo_especie %></h5>
+<small>Padre: <%= @objeto.padre.class.name %> <%= link_to @objeto.padre.send(@objeto.padre.class.name.tableize.singularize), @objeto.padre %></small></br>
+
+<div class='row'>
+	<div class='col-md-6'>
+		<% if @objeto.padre.class.name == 'FiloElemento' %>
+			<%= render partial: '0p/general/icon_text', locals: {text: 'Sub Especies', gly: 'bug', clr: 'info'} %>
+			<%= render partial: '0p/tabla/solo_tabla', locals: {c: 'filo_especies', a: 'index'} %>
+
+			<!-- FORMULARIO PARA NUEVA SUB ESPECIE -->
+			<small><b class='text-info'>Nueva sub especie</b></small>
+			<%= form_for :nueva_subespecie, url: "/filo_especies/nueva_subespecie?objeto_id=#{@objeto.id}" do |form| %>
+
+			<%= render partial: '0p/form_fields/label', locals: { form: form, label: 'Especie', v: true } %>
+			<%= render partial: '0p/form_fields/text', locals: { form: form, token: :filo_especie } %>
+			<%= render partial: '0p/form_fields/label', locals: { form: form, label: 'Nombre Común', v: false } %>
+			<%= render partial: '0p/form_fields/text', locals: { form: form, token: :nombre_comun } %>
+
+			<%= render partial: '0p/form_fields/label', locals: { form: form, label: 'IUCN', v: false } %>
+			<%= render partial: '0p/form_fields/text', locals: { form: form, token: :iucn } %>
+			</br>
+				<button type="submit" class="btn btn-info">
+				  <i class="bi bi-plus-circle icon-white"></i>
+				  <i class="bi bi-bug"></i>
+				</button>
+			<% end  %>
+		<% end  %>
+
+	</div>
+	<div class='col-md-6'>
+		<%= render partial: '0p/general/icon_text', locals: {text: 'Publicaciones', gly: 'bug', clr: 'info'} %>
+		<%= render partial: '0p/tabla/solo_tabla', locals: {c: 'publicaciones', a: 'index'} %>
+	</div>
+</div>

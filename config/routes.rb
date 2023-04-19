@@ -6,10 +6,13 @@ Rails.application.routes.draw do
     match :nuevo, via: :post, on: :collection
     match :nuevo_child, via: :post, on: :collection
     match :elimina, via: :get, on: :collection
+    # nueva implementacion, verificar anteriores
+    match :nueva_subespecie, via: :post, on: :collection
   end
   resources :ind_exp_pales
   resources :filo_ele_eles
   resources :filo_elementos do
+    resources :filo_especies
     match :nuevo, via: :post, on: :collection
     match :asigna_especie, via: :post, on: :collection
     match :elimina, via: :get, on: :collection

@@ -140,6 +140,8 @@ module CapitanRecursosHelper
 			false
 		when 'filo_elementos'
 			controller_name == 'especies'
+		when 'filo_especies'
+			controller_name == 'filo_elementos'
 		else
 			true
 		end

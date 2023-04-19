@@ -12,13 +12,15 @@ class FiloEspeciesController < ApplicationController
   # GET /filo_especies/1
   # GET /filo_especies/1.json
   def show
-    @coleccion = {}
-    @coleccion['publicaciones'] = Publicacion.where(id: @objeto.publicaciones_ids).order(sort_column + " " + sort_direction).page(params[:page])
+    init_tabla('publicaciones', Publicacion.where(id: @objeto.publicaciones_ids).order(sort_column + " " + sort_direction), true)
+    add_tabla('filo_especies', @objeto.children, false )
+#    @coleccion = {}
+#    @coleccion['publicaciones'] = Publicacion.where(id: @objeto.publicaciones_ids).order(sort_column + " " + sort_direction).page(params[:page])
   end
 
   # GET /filo_especies/new
   def new
-    @objeto = FiloEspecie.new
+    @objeto = FiloEspecie.new(filo_elemento_id: params[:filo_elemento_id])
   end
 
   def nuevo
@@ -58,7 +60,8 @@ class FiloEspeciesController < ApplicationController
 
     respond_to do |format|
       if @objeto.save
-        format.html { redirect_to @objeto, notice: 'Filo especie was successfully created.' }
+        set_redireccion
+        format.html { redirect_to @redireccion, notice: 'Filo especie was successfully created.' }
         format.json { render :show, status: :created, location: @objeto }
       else
         format.html { render :new }
@@ -72,7 +75,8 @@ class FiloEspeciesController < ApplicationController
   def update
     respond_to do |format|
       if @objeto.update(filo_especie_params)
-        format.html { redirect_to @objeto, notice: 'Filo especie was successfully updated.' }
+        set_redireccion
+        format.html { redirect_to @redireccion, notice: 'Filo especie was successfully updated.' }
         format.json { render :show, status: :ok, location: @objeto }
       else
         format.html { render :edit }
@@ -81,12 +85,26 @@ class FiloEspeciesController < ApplicationController
     end
   end
 
+  def nueva_subespecie
+    filo_especie = FiloEspecie.find(params[:objeto_id])
+    unless params[:nueva_subespecie][:filo_especie].blank?
+      check_filo_especie = FiloEspecie.find_by(filo_especie: params[:nueva_subespecie][:filo_especie])
+      if check_filo_especie.blank?
+        nueva = FiloEspecie.create(filo_especie: params[:nueva_subespecie][:filo_especie], nombre_comun: params[:nueva_subespecie][:nombre_comun], iucn: params[:nueva_subespecie][:iucn])
+        filo_especie.children << nueva
+      end
+    end
+    
+    redirect_to filo_especie
+  end
+
   # DELETE /filo_especies/1
   # DELETE /filo_especies/1.json
   def destroy
     @objeto.destroy
+    set_redireccion
     respond_to do |format|
-      format.html { redirect_to filo_especies_url, notice: 'Filo especie was successfully destroyed.' }
+      format.html { redirect_to @redireccion, notice: 'Filo especie was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
@@ -123,8 +141,14 @@ class FiloEspeciesController < ApplicationController
       @objeto = FiloEspecie.find(params[:id])
     end
 
+    def set_redireccion
+      puts "****************************************** set_redireccion"
+      puts @objeto.filo_elemento_id
+      @redireccion = @objeto.padre
+    end
+
     # Only allow a list of trusted parameters through.
     def filo_especie_params
-      params.require(:filo_especie).permit(:filo_especie, :nombre_comun, :iucn)
+      params.require(:filo_especie).permit(:filo_especie, :nombre_comun, :iucn, :filo_elemento_id)
     end
 end

@@ -112,7 +112,7 @@ class FiloElementosController < ApplicationController
 
   def cambio_padre
     filo_elemento = FiloElemento.find(params[:objeto_id])
-    unless params[:cambio_padre][:nuevo_padre].blank
+    unless params[:cambio_padre][:nuevo_padre].blank?
       nuevo_padre = FiloElemento.find_by(filo_elemento: params[:cambio_padre][:nuevo_padre])
       unless nuevo_padre.blank?
         padre = filo_elemento.parent
@@ -126,7 +126,16 @@ class FiloElementosController < ApplicationController
   end
 
   def nuevo_hijo
+    filo_elemento = FiloElemento.find(params[:objeto_id])
+    unless (params[:nuevo_hijo][:filo_orden_id].blank? or params[:nuevo_hijo][:filo_elemento].blank?)
+      check_filo_elemento = FiloElemento.find_by(filo_elemento: params[:nuevo_hijo][:filo_elemento])
+      if check_filo_elemento.blank?
+        nuevo = FiloElemento.create(filo_orden_id: params[:nuevo_hijo][:filo_orden_id], filo_elemento: params[:nuevo_hijo][:filo_elemento], descripcion: params[:nuevo_hijo][:descripcion], area_id: params[:nuevo_hijo][:area_id])
+        filo_elemento.children << nuevo
+      end
+    end
     
+    redirect_to filo_elemento
   end
 
   # DELETE /filo_elementos/1
