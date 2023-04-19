@@ -30,4 +30,8 @@ class FiloElemento < ApplicationRecord
 	def nombre_padre
 		self.parent.blank? ? '-' : self.parent.filo_elemento
 	end
+
+	def n_indent
+		self.filo_orden.blank? ? 0 : self.filo_orden.orden.to_i
+	end
 end

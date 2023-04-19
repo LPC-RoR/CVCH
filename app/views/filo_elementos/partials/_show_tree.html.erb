@@ -8,6 +8,7 @@
 				<% end %>
 			</tr>
 			<%= render partial: 'filo_elementos/partials/show_nivel', locals: {elemento: base} unless base.children.empty? %>
+			<%= render partial: 'filo_elementos/partials/show_especies', locals: {elemento: base} unless base.filo_especies.empty? %>
 		</tbody>
 	</table>
 <% end %>
