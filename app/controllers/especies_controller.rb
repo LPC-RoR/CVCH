@@ -8,62 +8,18 @@ class EspeciesController < ApplicationController
   # GET /especies.json
   def index
 
-    init_tab({menu: ['Estructura', 'Niveles de la estructura y Epecies no reconocidas']}, true)
+    init_tab({menu: ['Especies y etiquetas', 'Estructura']}, true)
 
     if @options[:menu] == 'Estructura'
-#      @filo_especie = params[:especie].blank? ? nil : FiloEspecie.find_by(filo_especie: params[:especie])
-#      if @filo_especie.blank?
-#        @especies_padres = []
-#        ultima_especie = nil
-#      else
-#        @especies_padres = [@filo_especie.parent]
-#        ultima_especie = @filo_especie.parent
-#        unless ultima_especie.blank?
-#          while ultima_especie.parent.present? do
-#            @especies_padres << ultima_especie.parent
-#            ultima_especie = ultima_especie.parent
-#          end
-#        end
-#        @elemento_padre = @filo_especie.filo_elemento.present? ? @filo_especie.filo_elemento : @especies_padres[0].filo_elemento
-#      end
-
-#      if params[:elemento].blank? and params[:especie].blank?
-#        @filo_elemento = FiloElemento.first
-#      elsif params[:elemento].blank?
-#        @filo_elemento = nil
-#      else
-#        @filo_elemento = FiloElemento.find_by(filo_elemento: params[:elemento])
-#      end 
-
-#      if @filo_elemento.blank?
-#        @elementos_padres = []
-#        ultimo_elemento = nil
-#      else
-#        @elementos_padres = [@filo_elemento.parent]
-#        ultimo_elemento = @filo_elemento.parent
-#        unless ultimo_elemento.blank?
-#          while ultimo_elemento.parent.present? do
-#            @elementos_padres << ultimo_elemento.parent
-#            ultimo_elemento = ultimo_elemento.parent
-#          end
-#        end
-#      end
-
-#      @elemento_base = FiloElemento.first
-#      @elementos_base = FiloElemento.where(filo_orden_id: nil).page(params[:page])
 
       init_tabla('filo_elementos', FiloElemento.all.order(:filo_elemento), true)
-      add_tabla('filo_especies', FiloEspecie.all.order(:filo_especie), true)
+      add_tabla('filo_ordenes', FiloOrden.all.order(:orden), false)
     else
       @coleccion = {}
       esp_ids = Especie.all.map {|esp| esp.id if esp.filo_especie_id.blank?}.compact
       init_tabla('especies', Especie.where(id: esp_ids).order(:especie), true)
-      add_tabla('filo_elementos', (@filo_elemento.blank? ? FiloElemento.where(false) :  @filo_elemento.children), false)
-      add_tabla('filo_ordenes', FiloOrden.all.order(:orden), false)
-#      @coleccion['especies'] = Especie.where(id: esp_ids).order(:especie).page(params[:page])
-#      @coleccion['filo_elementos'] = (@filo_elemento.blank? ? FiloElemento.where(false).page(params[:page]) :  @filo_elemento.children.page(params[:page]))
-#      @coleccion['filo_ordenes'] = FiloOrden.all.order(:orden).page(params[:page])
-#      @paginate = true
+#      add_tabla('filo_elementos', (@filo_elemento.blank? ? FiloElemento.where(false) :  @filo_elemento.children), false)
+      add_tabla('filo_especies', FiloEspecie.all.order(:filo_especie), true)
     end
 
   end

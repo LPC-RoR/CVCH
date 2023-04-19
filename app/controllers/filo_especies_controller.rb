@@ -100,7 +100,7 @@ class FiloEspeciesController < ApplicationController
   def asocia_etiqueta
     filo_especie = FiloEspecie.find(params[:objeto_id])
     unless params[:asocia_etiqueta][:etiqueta].blank?
-      etiqueta = Especie.find_by(especie: params[:asocia_etiqueta][:etiqueta])
+      etiqueta = params[:asocia_etiqueta][:etiqueta].match(/^\d+$/) ? Especie.find(params[:asocia_etiqueta][:etiqueta].to_i) : Especie.find_by(especie: params[:asocia_etiqueta][:etiqueta])
       filo_especie.especies << etiqueta unless etiqueta.blank?
     end
 
