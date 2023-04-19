@@ -1,11 +1,11 @@
 class FiloElemento < ApplicationRecord
 
 	TABLA_FIELDS = [
-		'filo_elemento',
+		's#filo_elemento',
 		'nombre_padre'
 	]
 
-	belongs_to :filo_orden, optional: true
+	belongs_to :filo_orden
 	belongs_to :area, optional: true
 
 	has_one  :parent_relation, :foreign_key => "child_id", :class_name => "FiloEleEle"
@@ -15,6 +15,8 @@ class FiloElemento < ApplicationRecord
 	has_many :children, :through => :child_relations, :source => :child
 
 	has_many :filo_especies
+
+	validates :filo_elemento, presence: true
 
 	def n_hijos
 		self.children.count + self.filo_especies.count

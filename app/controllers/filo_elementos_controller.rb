@@ -10,11 +10,13 @@ class FiloElementosController < ApplicationController
   # GET /filo_elementos/1
   # GET /filo_elementos/1.json
   def show
+    init_tabla('filo_elementos', @objeto.children, false)
+    add_tabla('filo_especies', @objeto.filo_especies, false)
   end
 
   # GET /filo_elementos/new
   def new
-    if params[:class_name] == 'nil' or params[:objeto_id] == 'nil'
+    if params[:class_name] == 'nil' or params[:objeto_id] == 'nil' or params[:class_name].blank? or params[:objeto_id].blank?
       @objeto = FiloElemento.new
     else
       @padre = params[:class_name].constantize.find(params[:objeto_id])
@@ -106,6 +108,25 @@ class FiloElementosController < ApplicationController
         format.json { render json: @objeto.errors, status: :unprocessable_entity }
       end
     end
+  end
+
+  def cambio_padre
+    filo_elemento = FiloElemento.find(params[:objeto_id])
+    unless params[:cambio_padre][:nuevo_padre].blank
+      nuevo_padre = FiloElemento.find_by(filo_elemento: params[:cambio_padre][:nuevo_padre])
+      unless nuevo_padre.blank?
+        padre = filo_elemento.parent
+        padre.children.delete(filo_elemento) unless padre.blank?
+
+        nuevo_padre.children << filo_elemento
+      end
+    end
+
+    redirect_to filo_elemento
+  end
+
+  def nuevo_hijo
+    
   end
 
   # DELETE /filo_elementos/1

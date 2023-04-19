@@ -166,7 +166,7 @@ module CapitanRecursosHelper
 		when 'Especie'
 			false
 		when 'FiloElemento'
-			controller_name == 'especies'
+			['especies', 'filo_elementos'].include?(controller_name)
 		else
 			if ['TemaAyuda', 'Tutorial', 'Paso'].include?(objeto.class.name)
 				(usuario_signed_in? ? admin? : false)

@@ -16,6 +16,9 @@ Rails.application.routes.draw do
     match :elimina_base, via: :get, on: :collection
     match :asigna_area, via: :post, on: :collection
     match :libera_area, via: :get, on: :member
+    # última implementación, revisar anteriores
+    match :cambio_padre, via: :post, on: :collection
+    match :nuevo_hijo, via: :post, on: :collection
   end
   resources :ind_sinonimos
   resources :esp_areas
