@@ -44,14 +44,14 @@ class PublicacionesController < ApplicationController
           @coleccion_usuario = @activo.carpetas.order(:carpeta)
           @coleccion_publicacion = @objeto.carpetas
         end
-      else
-        if @options[:menu] == 'Áreas'
-          @coleccion_usuario = Area.all.order(:area)
-          @coleccion_publicacion = @objeto.areas
-        elsif @options[:menu] == 'Categorías'
-          @coleccion_usuario = Categoria.all.order(:categoria)
-          @coleccion_publicacion = @objeto.categorias
-        end
+      end
+
+      if @options[:menu] == 'Áreas'
+        @coleccion_usuario = Area.all.order(:area)
+        @coleccion_publicacion = @objeto.areas
+      elsif @options[:menu] == 'Categorías'
+        @coleccion_usuario = Categoria.all.order(:categoria)
+        @coleccion_publicacion = @objeto.categorias
       end
 
     end
