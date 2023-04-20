@@ -16,8 +16,13 @@ class CarpetasController < ApplicationController
   # GET /carpetas/1
   # GET /carpetas/1.json
   def show
-    @coleccion = {}
-    @coleccion['publicaciones'] = @objeto.publicaciones.order(sort_column + " " + sort_direction).page(params[:page])
+    if (@objeto.app_perfil.email == perfil_activo.email and @objeto.sha1.blank?)
+      @objeto.sha1 = Digest::SHA1.hexdigest("#{perfil_activo} #{@objeto.carpeta}")
+      @objeto.save
+    end
+    init_tabla('publicaciones', @objeto.publicaciones.order(sort_column + " " + sort_direction), true)
+#    @coleccion = {}
+#    @coleccion['publicaciones'] = @objeto.publicaciones.order(sort_column + " " + sort_direction).page(params[:page])
   end
 
   # GET /carpetas/new
@@ -70,6 +75,15 @@ class CarpetasController < ApplicationController
         format.json { render json: @objeto.errors, status: :unprocessable_entity }
       end
     end
+  end
+
+  def compartir_carpeta
+    unless params[:compartir_carpeta][:clave].blank?
+      carpeta = Carpeta.find_by(sha1: params[:compartir_carpeta][:clave])
+      perfil_activo.compartidas << carpeta unless (carpeta.blank? or carpeta.app_perfil.email == perfil_activo.email)
+    end
+
+    redirect_to vistas_path
   end
 
   def asigna

@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  resources :per_cares
   resources :filo_ordenes
   resources :filo_esp_esps
   resources :filo_especies do
@@ -151,6 +152,8 @@ Rails.application.routes.draw do
     match :seleccion, via: :get, on: :collection
     match :asigna, via: :get, on: :member
     match :desasignar, via: :get, on: :member
+    # nueva version, revisar lo anterior
+    match :compartir_carpeta, via: :post, on: :collection
   end
   resources :clasificaciones
   resources :categorias do

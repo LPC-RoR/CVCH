@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_03_13_140814) do
+ActiveRecord::Schema.define(version: 2023_04_20_005513) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -172,9 +172,11 @@ ActiveRecord::Schema.define(version: 2023_03_13_140814) do
     t.datetime "updated_at", null: false
     t.integer "perfil_id"
     t.integer "app_perfil_id"
+    t.string "sha1"
     t.index ["app_perfil_id"], name: "index_carpetas_on_app_perfil_id"
     t.index ["carpeta"], name: "index_carpetas_on_carpeta"
     t.index ["perfil_id"], name: "index_carpetas_on_perfil_id"
+    t.index ["sha1"], name: "index_carpetas_on_sha1"
   end
 
   create_table "categorias", force: :cascade do |t|
@@ -626,6 +628,15 @@ ActiveRecord::Schema.define(version: 2023_03_13_140814) do
     t.datetime "updated_at", null: false
     t.index ["orden"], name: "index_pasos_on_orden"
     t.index ["tutorial_id"], name: "index_pasos_on_tutorial_id"
+  end
+
+  create_table "per_cares", force: :cascade do |t|
+    t.integer "app_perfil_id"
+    t.integer "carpeta_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["app_perfil_id"], name: "index_per_cares_on_app_perfil_id"
+    t.index ["carpeta_id"], name: "index_per_cares_on_carpeta_id"
   end
 
   create_table "per_equipos", force: :cascade do |t|

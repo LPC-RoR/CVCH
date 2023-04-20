@@ -52,6 +52,9 @@ class VistasController < ApplicationController
       init_tabla('publicaciones', busqueda_publicaciones(params[:search], 'Publicacion').order(sort_column + " " + sort_direction), true)
     end
 
+    # Carpetas compartidas
+    @carpetas_compartidas = perfil_activo.compartidas
+
   end
 
   def graficos

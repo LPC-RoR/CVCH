@@ -23,7 +23,7 @@ module CapitanMenuHelper
 	        ["Colecciones",    "/vistas",            'anonimo', 'newspaper'],
 	        ["",               "/equipos",           'general', 'people'],
 	        ["Contribuciones", "/contribuciones",    'general', 'file-earmark-arrow-up'],
-	        ['',               "/especies",          'admin',   'bug'],
+	        ['Especies',       "/especies",          'admin',   'bug'],
 	        ["Revisiones",     "/revisiones",        'admin',   'file-check'],
 	        ["Cargas",         "/cargas",            'admin',   'upload'],
 	        ["",               "/ind_estructuras",   'dog',     'binoculars'] 

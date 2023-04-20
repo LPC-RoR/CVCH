@@ -22,6 +22,9 @@ class AppPerfil < ApplicationRecord
 	has_many :per_equipos
 	has_many :participaciones, through: :per_equipos, source: :equipo
 
+	has_many :per_cares
+	has_many :compartidas, through: :per_cares, source: :carpeta
+
 #	def app_enlaces
 #		AppEnlace.where(owner_class: 'AppPerfil', owner_id: self.id)
 #	end

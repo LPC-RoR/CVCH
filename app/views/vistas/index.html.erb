@@ -1,6 +1,22 @@
 <div class='row'>
 	<div class='col-md-3'>
 		<%= render partial: 'publicaciones/partials/sel_table' %>
+
+		<hr>
+
+		<h6><%= render partial: '0p/general/icon_text', locals: {gly: 'folder', text: 'Carpetas compartidas', clr: app_color[:app]} %></h6>
+		<% if usuario_signed_in? %>
+			<i class='text-muted'><small>+ Carpeta compartida (clave)</small></i>
+			<%= form_for :compartir_carpeta, url: "/carpetas/compartir_carpeta" do |form| %>
+				<div class='form-inline'>
+					<%= form.text_field(:clave, class: 'form-control' ) %>
+					<button type="submit" class="btn btn-info">
+					  <i class="bi bi-plus-circle icon-white"></i>
+					  <i class="bi bi-folder icon-white"></i>
+					</button>
+				</div>
+			<% end  %>
+		<% end %>
 	</div>
 	<div class='col-md-9'>
 		<%= render partial: '0p/tabs/tabs', locals: {tabs: @tabs, options: @options, token: :menu } if @modelo != 'Categoria' and params[:search].blank? %>

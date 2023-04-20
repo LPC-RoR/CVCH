@@ -16,7 +16,9 @@
 		<div class='col-md-10'>
 			<small>
 			<% if @coleccion_publicacion.ids.include?(objeto.id) %><b class='text-info'><i class="bi bi-check2-all"></i><% else %><i class='text-muted'><% end %>
-				<%= objeto.send(objeto.class.name.downcase)  %>
+
+				<%= link_to objeto.send(objeto.class.name.downcase), objeto  %>
+
 			<% if @coleccion_publicacion.ids.include?(objeto.id) %></b><% else %></i><% end %>
 			</small>
 		</div>

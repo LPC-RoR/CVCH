@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Per Cares</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>App perfil</th>
+      <th>Carpeta</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @per_cares.each do |per_car| %>
+      <tr>
+        <td><%= per_car.app_perfil_id %></td>
+        <td><%= per_car.carpeta_id %></td>
+        <td><%= link_to 'Show', per_car %></td>
+        <td><%= link_to 'Edit', edit_per_car_path(per_car) %></td>
+        <td><%= link_to 'Destroy', per_car, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Per Car', new_per_car_path %>

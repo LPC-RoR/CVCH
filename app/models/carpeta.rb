@@ -20,6 +20,9 @@ class Carpeta < ApplicationRecord
 	has_many :herencias
 	has_many :equipos, through: :herencias
 
+	has_many :per_cares
+	has_many :app_perfiles, through: :per_cares
+
 	validates :carpeta, presence: true
 
 	def btns_control
@@ -29,5 +32,5 @@ class Carpeta < ApplicationRecord
 	def sel_table		
 		self.publicaciones
 	end
-end
 
+end
