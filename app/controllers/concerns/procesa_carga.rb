@@ -227,16 +227,20 @@ module ProcesaCarga
 			last_author = nil
 			prev_authors = [cita.author]
 		end
-		prev_authors.each_with_index  do |val, index|
+		autores = cita.author.gsub(/&/, ',').split(',')
+		autores.each_with_index  do |val, index|
 			# Encontramos un caso donde sólo se usa el apellido
-			if val.split(' ').length == 1
+			case val.split(' ')
+			when 0
+			when 1
 				author_with_format = val.strip
-			else
+			when 2
 				author_with_format = (index == 0 ? (val.split(' ')[1]+' '+val.split(' ')[0]) : val.strip)
+			else
+				val.strip
 			end
 			authors << author_with_format
 		end
-		authors << last_author unless last_author.blank?
 
 		authors.each do |aut|
 			inv = Investigador.find_by(investigador: aut)

@@ -27,4 +27,5 @@ class Categoria < ApplicationRecord
 	def sel_table
 		self.publicaciones.where(estado: 'publicada')
 	end
+
 end

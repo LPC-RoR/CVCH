@@ -3,19 +3,23 @@
 		<% unless elemento[1] == @sel_table_list[0][1] %>
 			<hr>
 		<% end %>
-		<h6><%= render partial: '0p/general/icon_text', locals: {gly: 'file-earmark-check', text: elemento[1].tableize.capitalize, clr: app_color[:app]} %></h6>
+		<h6><%= render partial: '0p/general/icon_text', locals: {gly: "#{elemento[2].blank? ? 'file-earmark-check' : elemento[2]}", text: elemento[1], clr: app_color[:app]} %></h6>
 	<% else %>
+		<!-- [0:'elemento', 1:clase, 2:id, 3:campo, 4:estado, 5:count] -->
 		<small>
 			<div class='row'>
 				<div class="col-md-1"></div>
 				<div class="col-md-9">
-					<% if @modelo == elemento[1] and @elemento == elemento[2] %>
-						<b class='text-muted'><%= elemento[2] %></b>
+					<% if elemento[4] == 'compartida' %>
+						<i class="bi bi-share"></i>
+					<% end %>
+					<% if @modelo == elemento[1] and @id == elemento[2] %>
+						<b class='text-muted'><%= elemento[3] %></b>
 					<% else %>
-						<%= link_to elemento[2], "vistas?html_options[modelo]=#{elemento[1]}&html_options[elemento]=#{elemento[2]}" %>
+						<%= link_to elemento[3], "vistas?html_options[modelo]=#{elemento[1]}&html_options[id]=#{elemento[2]}" %>
 					<% end %>
 				</div>
-				<div class="col-md-1"><div style="display: flex; justify-content: flex-end"><b class='text-muted'><%= elemento[3] == 0 ? '-' : elemento[3] %></b></div></div>
+				<div class="col-md-1"><div style="display: flex; justify-content: flex-end"><b class='text-muted'><%= elemento[5] == 0 ? '-' : elemento[5] %></b></div></div>
 			</div>
 		</small>
 	<% end %>

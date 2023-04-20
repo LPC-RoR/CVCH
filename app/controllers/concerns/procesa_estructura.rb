@@ -92,7 +92,7 @@ module ProcesaEstructura
 		# texto base : en minusculas y no tiene saltos de línea
 		palabras = texto_campo.blank? ? nil : palabras_texto(texto_campo)
 
-		unless texto.blank?
+		unless texto_campo.blank?
 			palabras.each do |palabra|
 				unless excluye_palabra(palabra)
 					o_palabra = p_palabra(estructura, palabra)

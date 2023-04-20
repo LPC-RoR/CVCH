@@ -12,36 +12,36 @@ class VistasController < ApplicationController
   # GET /vistas.json
   def index
 
+    # @sel_table[key] : [tabla, display?, icon]
     @sel_table = {
-      areas: Area.all.order(:area),
-      categorias: Categoria.all.order(:categoria),
+      areas: [Area.all.order(:area), true, nil],
+      categorias: [Categoria.all.order(:categoria), true, nil],
+      carpetas: [perfil_activo.carpetas.order(:carpeta) + perfil_activo.compartidas.order(:carpeta), perfil_activo.present?, 'folder']
     }
-    @sel_table[:carpetas] = perfil_activo.carpetas.order(:carpeta) unless perfil_activo.blank?
 
     @sel_table_list = []
     @sel_table.keys.each do |key_table|
-      @sel_table_list << ['tabla', @sel_table[key_table].first.class.name]
-      @sel_table[key_table].each do |elemento|
-        @sel_table_list << ['elemento', elemento.class.name, elemento.send(elemento.class.name.downcase), elemento.sel_table.count]
+      if @sel_table[key_table][1]
+        @sel_table_list << ['tabla', key_table.to_s.split('_').join(' ').capitalize, @sel_table[key_table][2]]
+        @sel_table[key_table][0].each do |elemento|
+          # [0:'elemento', 1:clase, 2:id, 3:campo, 4:estado, 5:count]
+          @sel_table_list << ['elemento', elemento.class.name, elemento.id, sel_campo(elemento), sel_estado(elemento), elemento.sel_table.count]
+        end
       end
     end
 
     if params[:html_options].blank?
-      @objeto = @sel_table[:areas].first
-    elsif params[:html_options][:modelo] == 'Area'
-      @objeto = params[:html_options][:modelo].constantize.find_by(area: params[:html_options][:elemento])
-    elsif params[:html_options][:modelo] == 'Categoria'
-      @objeto = params[:html_options][:modelo].constantize.find_by(categoria: params[:html_options][:elemento])
-    elsif params[:html_options][:modelo] == 'Carpeta'
-      @objeto = params[:html_options][:modelo].constantize.find_by(carpeta: params[:html_options][:elemento])
-    end      
+      @objeto = @sel_table[:areas][0].first
+    else
+      @objeto = params[:html_options][:modelo].constantize.find(params[:html_options][:id])
+    end
     @modelo = @objeto.class.name
-    @elemento = @objeto.send(@objeto.class.name.downcase)
+    @id = @objeto.id
 
     # no lo puse al comienzo porque necesita el valor de @modelo
     init_tab( { menu: [['Publicaciones', true], ['Especies', @modelo == 'Area'], ['Citas', @modelo == 'Carpeta']] }, true )
     @options[:modelo] = @modelo
-    @options[:elemento] = @elemento
+    @options[:id] = @id
 
     if params[:search].blank?
       init_tabla('publicaciones', @objeto.sel_table.order(sort_column + " " + sort_direction), true) if @modelo == 'Area'
@@ -51,9 +51,6 @@ class VistasController < ApplicationController
     else
       init_tabla('publicaciones', busqueda_publicaciones(params[:search], 'Publicacion').order(sort_column + " " + sort_direction), true)
     end
-
-    # Carpetas compartidas
-    @carpetas_compartidas = perfil_activo.compartidas
 
   end
 
@@ -145,6 +142,16 @@ class VistasController < ApplicationController
 
   private
     # Use callbacks to share common setup or constraints between actions.
+
+    def sel_estado(elemento)
+      (elemento.class.name == 'Carpeta' and elemento.app_perfil.email != perfil_activo.email) ? 'comparrtida' : 'normal'
+    end
+
+    def sel_campo(elemento)
+      clase = elemento.class.name
+      id = elemento.id
+      clase.constantize.find(id).send(clase.downcase)
+    end
 
     def sort_column
       Publicacion.column_names.include?(params[:sort]) ? params[:sort] : "Author"

@@ -5,9 +5,9 @@ class Usuario < ApplicationRecord
          :recoverable, :rememberable, :validatable
 
 	TABLA_FIELDS = [
-		['email',                  'normal'],
-		['d_tipo_usuario',         'normal'],
-		['d_fecha_incorporacion', 'diahora']
+		'email',
+		'd_tipo_usuario',
+		'd_fecha_incorporacion'
 	]
 
 	def d_tipo_usuario
