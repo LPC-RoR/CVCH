@@ -6,29 +6,14 @@ class Help::TemaAyudasController < ApplicationController
   # GET /tema_ayudas.json
   def index
 
-    @options = {}
-    # INICIALIZA TABS
-    @tabs = {
-      menu: TemaAyuda::TIPO
-    }
-
-    @tabs.keys.each do |key|
-      if params[:html_options].blank?
-        @options[key] = @tabs[key][0]
-      else
-        @options[key] = params[:html_options][key.to_s].blank? ? @tabs[key][0] : params[:html_options][key.to_s]
-      end
-    end
-
-    @coleccion = {}
-    @coleccion['tema_ayudas'] = TemaAyuda.where(tipo: @tab).order(:orden)
+    init_tab({menu: TemaAyuda::TIPO}, true)
+    init_tabla('tema_ayudas', TemaAyuda.where(tipo: @options[:menu]).order(:orden), false)
   end
 
   # GET /tema_ayudas/1
   # GET /tema_ayudas/1.json
   def show
-    @coleccion = {}
-    @coleccion['tutoriales'] = @objeto.tutoriales.order(:orden)
+    init_tabla('tutoriales', @objeto.tutoriales.order(:orden), true)
   end
 
   # GET /tema_ayudas/new

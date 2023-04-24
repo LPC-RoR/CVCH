@@ -21,7 +21,7 @@ module CapitanMenuHelper
 	    [
 	        ['',               "/vistas/graficos",   'general', 'bar-chart-line'],
 	        ["Colecciones",    "/vistas",            'anonimo', 'newspaper'],
-	        ["",               "/equipos",           'general', 'people'],
+	        ["Carpetas",       "/carpetas",          'nomina',  'folder'],
 	        ["Contribuciones", "/contribuciones",    'general', 'file-earmark-arrow-up'],
 	        ['Especies',       "/especies",          'admin',   'bug'],
 	        ["Revisiones",     "/revisiones",        'admin',   'file-check'],

@@ -1,6 +1,6 @@
 <%= render partial: '0p/general/titulo', locals: {c: 'tema_ayudas', a: nil, titulo: "Temas Inicio | #{@tab}", size: '5', bg_color: 'bg-'+color('tema_ayudas')} %>
 
-<%= render partial: '0p/tabs/tabs', locals: {tabs: @tabs[:menu], options: @options, tag: :menu, active: @options[:menu]} %>
+<%= render partial: '0p/tabs/tabs', locals: { tabs: @tabs, options: @options, token: :menu } %>
 
 <% unless @coleccion['tema_ayudas'].empty? %>
 	<table class="table table-sm  thead-dark">

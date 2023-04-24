@@ -3,15 +3,11 @@
 <% if new_button_conditions(c) and a != 'seleccion' %>
   <!-- que NO son inline_form -->
   <% unless @coleccion[c].blank? %>
-    <% unless inline_form?(c) %>
-      <% if @coleccion[c].count > 15 %>
-        <%= render partial: '0p/general/btn_turbolink', locals: {texto: c_to_name(c), gly: 'plus-circle', link: get_new_link(c), clr: color(c), delete: false} %>
+    <% if @coleccion[c].count > 15 %>
+      <%= render partial: '0p/general/btn_turbolink', locals: {texto: c_to_name(c), gly: 'plus-circle', link: get_new_link(c), clr: color(c), delete: false} %>
 
-        </br></br>
-        
-      <% end %>
-    <% else %>
-      <%= render partial: "#{c}/inline_nuevo", locals: {c: c, a: a} %>
+      </br></br>
+      
     <% end %>
   <% end %>
 <% end %>
@@ -23,7 +19,7 @@
 
 <table class="table table-striped table-sm  thead-dark">
   <thead>
-   	<%= render partial: '0p/tabla/th', locals: {c: app_alias_tabla(c)} unless ['directorios', 'documentos', 'archivos', 'imagenes'].include?(c) %>
+   	<%= render partial: '0p/tabla/th', locals: {c: get_controller(c)} unless ['directorios', 'documentos', 'archivos', 'imagenes'].include?(c) %>
   </thead>
 
   <tbody>
@@ -45,10 +41,5 @@
 
 <!-- SOLO controladores con botón nuevo -->
 <% if new_button_conditions(c) and a != 'seleccion' %>
-  <!-- que NO son inline_form -->
-  <% unless inline_form?(c) %>
-
-    <%= render partial: '0p/general/btn_turbolink', locals: {texto: c_to_name(c), gly: 'plus-circle', link: get_new_link(c), clr: color(c), delete: false} %>
-
-  <% end %>
+  <%= render partial: '0p/general/btn_turbolink', locals: {texto: c_to_name(c), gly: 'plus-circle', link: get_new_link(c), clr: color(c), delete: false} %>
 <% end %>

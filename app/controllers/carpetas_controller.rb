@@ -7,11 +7,9 @@ class CarpetasController < ApplicationController
   # GET /carpetas
   # GET /carpetas.json
   def index
-    @activo = perfil_activo
-
-    @coleccion = {}
-    @coleccion['carpetas'] =  @activo.carpetas
-    end
+    init_tabla('carpetas', perfil_activo.carpetas.order(:carpeta), false)
+    add_tabla('ext-carpetas', perfil_activo.compartidas.order(:carpeta), false)
+  end
 
   # GET /carpetas/1
   # GET /carpetas/1.json
@@ -27,8 +25,7 @@ class CarpetasController < ApplicationController
 
   # GET /carpetas/new
   def new
-    @activo = perfil_activo
-    @objeto = @activo.carpetas.new
+    @objeto = perfil_activo.carpetas.new
   end
 
   def nuevo
@@ -38,7 +35,7 @@ class CarpetasController < ApplicationController
       activo.carpetas.create(carpeta: params[:nueva_carpeta][:carpeta])
     end
 
-    redirect_to "/publicaciones/#{publicacion.id}?html_options[tab]=Carpetas"
+    redirect_to "/publicaciones/#{publicacion.id}?html_options[menu]=Carpetas"
   end
 
   # GET /carpetas/1/edit
@@ -79,11 +76,15 @@ class CarpetasController < ApplicationController
 
   def compartir_carpeta
     unless params[:compartir_carpeta][:clave].blank?
-      carpeta = Carpeta.find_by(sha1: params[:compartir_carpeta][:clave])
-      perfil_activo.compartidas << carpeta unless (carpeta.blank? or carpeta.app_perfil.email == perfil_activo.email)
+      carpeta = Carpeta.find_by(sha1: params[:compartir_carpeta][:clave].strip)
+      unless carpeta.blank?
+        unless perfil_activo.compartidas.ids.include?(carpeta.id)
+          perfil_activo.compartidas << carpeta unless (carpeta.blank? or carpeta.app_perfil.email == perfil_activo.email)
+        end
+      end
     end
 
-    redirect_to vistas_path
+    redirect_to carpetas_path
   end
 
   def asigna
@@ -136,11 +137,11 @@ class CarpetasController < ApplicationController
     end
 
     def set_redireccion
-      @redireccion = '/vistas/escritorio'
+      @redireccion = carpetas_path
     end
 
     # Only allow a list of trusted parameters through.
     def carpeta_params
-      params.require(:carpeta).permit(:carpeta, :perfil_id, :equipo_id)
+      params.require(:carpeta).permit(:carpeta, :app_perfil_id, :equipo_id)
     end
 end

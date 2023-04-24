@@ -3,12 +3,13 @@ class Carpeta < ApplicationRecord
 	NOT_MODIFY = ['Excluidas', 'Pstergadas', 'Revisadas', 'Revisar']
 
 	TABLA_FIELDS = [
-		['carpeta', 'show'], 
+		's#carpeta',
+		'sha1'
 	]
 
  	FORM_FIELDS = [
 		['carpeta',        'entry'],
-		['perfil_id',     'hidden']
+		['app_perfil_id',     'hidden']
 	]
 
 #	belongs_to :perfil, optional: true

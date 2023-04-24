@@ -113,40 +113,6 @@ module CapitanRecursosHelper
 		end
 	end
 
-	def app_alias_tabla(controller)
-		case controller
-		when 'papers'
-			'publicaciones'
-		when 'contribuciones'
-			'publicaciones'
-		when 'vistas'
-			'publicaciones'
-		when 'revisiones'
-			'publicaciones'
-		else
-			controller
-		end
-	end
-
-	def app_new_button_conditions(controller)
-		case controller
-		when 'publicaciones'
-			controller_name == 'contribuciones' and @options[:menu] == 'ingreso'
-		when 'areas'
-			controller_name == 'app_recursos' and dog?
-		when 'categorias'
-			controller_name == 'app_recursos' and dog?
-		when 'especies'
-			false
-		when 'filo_elementos'
-			controller_name == 'especies'
-		when 'filo_especies'
-			controller_name == 'filo_elementos' and FiloElemento.all.empty?
-		else
-			true
-		end
-	end
-
 	def app_crud_conditions(objeto, btn)
 		case objeto.class.name
 		when 'Carga'
@@ -154,7 +120,7 @@ module CapitanRecursosHelper
 		when 'Publicacion'
 			['ingreso', 'contribucion'].include?(objeto.origen) and controller_name == 'contribuciones'
 		when 'Carpeta'
-			(not Carpeta::NOT_MODIFY.include?(objeto.carpeta)) and controller_name == 'vistas'
+			controller_name == 'carpetas' and objeto.app_perfil.email == perfil_activo.email
 		when 'Area'
 			(not Area::NOT_MODIFY.include?(objeto.area)) and controller_name == 'recursos' and seguridad_desde('admin')
 		when 'Instancia'

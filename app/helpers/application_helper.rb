@@ -183,21 +183,10 @@ module ApplicationHelper
 		objeto.class::TABLA_FIELDS
 	end
 
-	def inline_form?(controller)
-		partial?(app_alias_tabla(controller), 'inline_nuevo')
-	end
-
-	# Objtiene LINK DEL BOTON NEW
-	def get_new_link(controller)
-		if inline_form?(controller)
-			tipo_new = 'inline_form'
-		else
-			tipo_new = 'normal'
-		end
-		if tipo_new == 'normal'
-			(app_alias_tabla(controller_name) == controller or @objeto.blank?) ? "/#{controller}/new" : "/#{@objeto.class.name.tableize}/#{@objeto.id}/#{controller}/new"
-		end
-	end
+	# Cada inline form es específico, así que será un partial en el directorio partials del modelo
+#	def inline_form?(controller)
+#		partial?(app_alias_tabla(controller), 'inline_nuevo')
+#	end
 
 	def sortable?(controller, field)
 		if sortable_fields[controller].present?
@@ -216,26 +205,6 @@ module ApplicationHelper
 
 	## ------------------------------------------------------- TABLA | BTNS
 
-	def new_button_conditions(controller)
-		if ['app_administradores', 'app_nominas', 'hlp_tutoriales', 'hlp_pasos'].include?(controller)
-				seguridad_desde('admin')
-		elsif ['app_perfiles', 'usuarios', 'ind_palabras', 'app_contactos', 'app_directorios', 'app_documentos', 'app_archivos', 'app_enlaces'].include?(controller)
-			false
-		elsif ['app_mensajes'].include?(controller)
-			action_name == 'index' and @e == 'ingreso'
-		elsif ['sb_listas'].include?(controller)
-				seguridad_desde('admin')
-		elsif ['sb_elementos'].include?(controller)
-				(@objeto.acceso == 'dog' ? dog? : seguridad_desde('admin'))
-		elsif ['st_modelos'].include?(controller)
-				dog?
-		elsif ['st_estados'].include?(controller)
-				seguridad_desde('admin')
-		else
-			app_new_button_conditions(controller)
-		end
-	end
-	
 	def crud_conditions(objeto, btn)
 		if ['AppAdministrador', 'AppNomina', 'HlpTutorial', 'HlpPaso'].include?(objeto.class.name)
 				seguridad_desde('admin')

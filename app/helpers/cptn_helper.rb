@@ -1,0 +1,2 @@
+module CptnHelper
+end
