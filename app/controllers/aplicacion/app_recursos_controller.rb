@@ -32,6 +32,10 @@ class Aplicacion::AppRecursosController < ApplicationController
         filo_especie.save
         filo_especie.especies.delete_all
     end
+    FiloElemento.all.each do |filo_elemento|
+      filo_elemento.filo_elemento = filo_elemento.filo_elemento.downcase
+      filo_elemento.save
+    end
 
     redirect_to root_path
   end

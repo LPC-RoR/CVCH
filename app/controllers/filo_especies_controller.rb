@@ -27,7 +27,7 @@ class FiloEspeciesController < ApplicationController
   def nuevo
     padre = params[:class_name].blank? ? nil : params[:class_name].constantize.find(params[:objeto_id])
     unless params[:nueva_especie][:filo_especie].blank?
-      especie = FiloEspecie.create(filo_especie: params[:nueva_especie][:filo_especie].downcase, nombre_comun: params[:nueva_especie][:nombre_comun])
+      especie = FiloEspecie.create(filo_especie: params[:nueva_especie][:filo_especie].downcase, nombre_comun: params[:nueva_especie][:nombre_comun].downcase)
       padre.filo_especies << especie unless padre.blank?
     end
 

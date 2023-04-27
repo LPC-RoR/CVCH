@@ -113,7 +113,7 @@ class FiloElementosController < ApplicationController
   def cambio_padre
     filo_elemento = FiloElemento.find(params[:objeto_id])
     unless params[:cambio_padre][:nuevo_padre].blank?
-      nuevo_padre = FiloElemento.find_by(filo_elemento: params[:cambio_padre][:nuevo_padre])
+      nuevo_padre = FiloElemento.find_by(filo_elemento: params[:cambio_padre][:nuevo_padre].downcase)
       unless nuevo_padre.blank?
         padre = filo_elemento.parent
         padre.children.delete(filo_elemento) unless padre.blank?
@@ -128,9 +128,9 @@ class FiloElementosController < ApplicationController
   def nuevo_hijo
     filo_elemento = FiloElemento.find(params[:objeto_id])
     unless (params[:nuevo_hijo][:filo_orden_id].blank? or params[:nuevo_hijo][:filo_elemento].blank?)
-      check_filo_elemento = FiloElemento.find_by(filo_elemento: params[:nuevo_hijo][:filo_elemento])
+      check_filo_elemento = FiloElemento.find_by(filo_elemento: params[:nuevo_hijo][:filo_elemento].downcase)
       if check_filo_elemento.blank?
-        nuevo = FiloElemento.create(filo_orden_id: params[:nuevo_hijo][:filo_orden_id], filo_elemento: params[:nuevo_hijo][:filo_elemento], descripcion: params[:nuevo_hijo][:descripcion], area_id: params[:nuevo_hijo][:area_id])
+        nuevo = FiloElemento.create(filo_orden_id: params[:nuevo_hijo][:filo_orden_id], filo_elemento: params[:nuevo_hijo][:filo_elemento].downcase, descripcion: params[:nuevo_hijo][:descripcion], area_id: params[:nuevo_hijo][:area_id])
         filo_elemento.children << nuevo
       end
     end
