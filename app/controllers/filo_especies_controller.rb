@@ -13,7 +13,9 @@ class FiloEspeciesController < ApplicationController
   # GET /filo_especies/1.json
   def show
     init_tabla('publicaciones', Publicacion.where(id: @objeto.publicaciones_ids).order(sort_column + " " + sort_direction), true)
-    init_tabla('filo_especies', @objeto.children, false )
+    add_tabla('filo_especies', @objeto.children, false )
+    add_tabla('sinonimos-filo_especies', @objeto.sinonimos, false)
+
     add_tabla('especies', @objeto.especies, false)
   end
 
@@ -25,14 +27,11 @@ class FiloEspeciesController < ApplicationController
   def nuevo
     padre = params[:class_name].blank? ? nil : params[:class_name].constantize.find(params[:objeto_id])
     unless params[:nueva_especie][:filo_especie].blank?
-      textos = params[:nueva_especie][:filo_especie].split('|')
-      tex_espe = textos[0]
-      tex_ncom = textos.count == 2 ? textos[1] : nil
-      especie = FiloEspecie.create(filo_especie: tex_espe.capitalize, nombre_comun: tex_ncom)
+      especie = FiloEspecie.create(filo_especie: params[:nueva_especie][:filo_especie].downcase, nombre_comun: params[:nueva_especie][:nombre_comun])
       padre.filo_especies << especie unless padre.blank?
     end
 
-    redirect_to "/especies?elemento=#{padre.filo_elemento unless padre.blank?}"
+    redirect_to padre
   end
 
   def nuevo_child
@@ -87,10 +86,23 @@ class FiloEspeciesController < ApplicationController
   def nueva_subespecie
     filo_especie = FiloEspecie.find(params[:objeto_id])
     unless params[:nueva_subespecie][:filo_especie].blank?
-      check_filo_especie = FiloEspecie.find_by(filo_especie: params[:nueva_subespecie][:filo_especie])
+      check_filo_especie = FiloEspecie.find_by(filo_especie: params[:nueva_subespecie][:filo_especie].downcase)
       if check_filo_especie.blank?
-        nueva = FiloEspecie.create(filo_especie: params[:nueva_subespecie][:filo_especie], nombre_comun: params[:nueva_subespecie][:nombre_comun], iucn: params[:nueva_subespecie][:iucn])
+        nueva = FiloEspecie.create(filo_especie: params[:nueva_subespecie][:filo_especie].downcase, nombre_comun: params[:nueva_subespecie][:nombre_comun].downcase, iucn: params[:nueva_subespecie][:iucn])
         filo_especie.children << nueva
+      end
+    end
+    
+    redirect_to filo_especie
+  end
+
+  def nuevo_sinonimo
+    filo_especie = FiloEspecie.find(params[:objeto_id])
+    unless params[:nuevo_sinonimo][:sinonimo].blank?
+      check_sinonimo = FiloEspecie.find_by(filo_especie: params[:nuevo_sinonimo][:sinonimo].downcase)
+      if check_sinonimo.blank?
+        sinonimo = FiloEspecie.create(filo_especie: params[:nuevo_sinonimo][:sinonimo].downcase)
+        filo_especie.sinonimos << sinonimo
       end
     end
     
@@ -151,8 +163,6 @@ class FiloEspeciesController < ApplicationController
     end
 
     def set_redireccion
-      puts "****************************************** set_redireccion"
-      puts @objeto.filo_elemento_id
       @redireccion = @objeto.padre
     end
 

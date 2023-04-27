@@ -7,19 +7,7 @@
 				<%= @objeto.parent.blank? ? 'Elemento sin padre' : (link_to @objeto.nombre_padre, @objeto.parent) %>
 			</b></br>
 
-			Asignar padre:</br>
-			<!-- FORMULARIO CAMBIO DE PADRE -->
-			<%= form_for :cambio_padre, url: "/filo_elementos/cambio_padre?objeto_id=#{@objeto.id}" do |form| %>
-				<div class='form-inline'>
-					<%= form.text_field(:nuevo_padre, size: 35, class: 'form-control' ) %>
-					<button type="submit" class="btn btn-info">
-					  <i class="bi bi-plus-circle icon-white"></i>
-					  <i class="bi bi-arrow-90deg-up icon-white"></i>
-					  Padre
-					</button>
-				</div>
-			<% end  %>
-
+			<%= render partial: 'filo_elementos/partials/form_cambio_padre' %>
 		</small></i>
 	</div>
 	<div class='col-md-6'>
@@ -43,42 +31,15 @@
 <div class='row'>
 	<div class='col-md-6'>
 		<%= render partial: '0p/general/icon_text', locals: {text: 'Elementos', gly: 'diagram-2', clr: 'info'} %>
-		<%= render partial: '0p/tabla/solo_tabla', locals: {c: 'filo_elementos', a: 'index'} %>
+		<%= render partial: '0p/tabla/tabla', locals: {c: 'filo_elementos'} %>
 
-		<!-- FORMULARIO PARA NUEVO ELEMENTO HIJO -->
-		<small><b class='text-info'>Nuevo elemento hijo</b></small>
-		<%= form_for :nuevo_hijo, url: "/filo_elementos/nuevo_hijo?objeto_id=#{@objeto.id}" do |form| %>
-
-			<div class='row'>
-				<div class='col-md-2'>
-					<small><%= form.label 'Orden' %></br>
-					<%= form.select :filo_orden_id, FiloOrden.all.order(:orden).collect { |orden| [orden.filo_orden, orden.id] }, include_blank: true %></br>
-					</small>
-				</div>
-				<div class='col-md-2'>
-					<small>
-					<%= form.label 'Área' %></br>
-					<%= form.select :area_id, Area.all.order(:area).collect { |area| [area.area, area.id] }, include_blank: true %>
-					</small>
-				</div>
-				<div class='col-md-8'>
-				</div>
-			</div>
-			<small><%= form.label 'Elemento' %></small></br>
-			<%= form.text_field(:filo_elemento, class: 'form-control') %>
-			<small><%= form.label 'Descripción' %></small></br>
-			<%= form.text_field(:descripcion, class: 'form-control') %>
-		</br>
-			<button type="submit" class="btn btn-info">
-			  <i class="bi bi-plus-circle icon-white"></i>
-			  <i class="bi bi-diagram-2"></i>
-			</button>
-		<% end  %>
-
+		<%= render partial: 'filo_elementos/partials/form_nuevo_child' %>
 	</div>
 	<div class='col-md-6'>
 		<%= render partial: '0p/general/icon_text', locals: {text: 'Especies', gly: 'bug', clr: 'info'} %>
-		<%= render partial: '0p/tabla/solo_tabla', locals: {c: 'filo_especies', a: 'index'} %>
+		<%= render partial: '0p/tabla/tabla', locals: {c: 'filo_especies'} %>
+
+		<%= render partial: 'filo_elementos/partials/form_nueva_especie' %>
 	</div>
 </div>
 

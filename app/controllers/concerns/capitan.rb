@@ -22,8 +22,6 @@ module Capitan
 		@coleccion = {}
 		@paginate = {}
 
-#		@coleccion[controller] = tabla
-#		@paginate[controller] = paginate
 		add_tabla(controller, tabla, paginate)
 	end
 

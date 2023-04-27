@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+  resources :car_filo_esps
+  resources :filo_esp_esp_sinonimos
   resources :per_cares
   resources :filo_ordenes
   resources :filo_esp_esps
@@ -9,6 +11,7 @@ Rails.application.routes.draw do
     match :elimina, via: :get, on: :collection
     # nueva implementacion, verificar anteriores
     match :nueva_subespecie, via: :post, on: :collection
+    match :nuevo_sinonimo, via: :post, on: :collection
     match :asocia_etiqueta, via: :post, on: :collection
   end
   resources :ind_exp_pales
@@ -28,37 +31,45 @@ Rails.application.routes.draw do
   resources :ind_sinonimos
   resources :esp_areas
   resources :per_equipos
-  # SCOPE APLICACION
-  scope module: 'aplicacion' do
+
+# SCOPES *********************************************************
+  scope module: 'autenticacion' do
     resources :app_administradores
     resources :app_nominas
     resources :app_perfiles do
-      match :desvincular, via: :get, on: :member
+      # recurso SOLO si hay manejo de ESTADOS
+#      resources :st_perfil_modelos
     end
-    resources :app_observaciones
+  end
+
+  scope module: 'recursos' do
+    resources :app_contactos
+    resources :app_enlaces
     resources :app_mejoras
-
-    resources :app_recursos do
-      collection do
-        match :ayuda, via: :get
-        match :home, via: :get
-        match :administracion, via: :get
-        match :procesos, via: :get
-      end
+    resources :app_mensajes do
+      match :respuesta, via: :post, on: :collection
+      match :estado, via: :get, on: :member
     end
-
-    resources :app_imagenes
-    
     resources :app_msg_msgs
-    resources :app_mensajes
+    resources :app_observaciones
+  end
 
-    resources :administradores
-    resources :perfiles
-    resources :observaciones
-    resources :mejoras do
-      match :nuevo, via: :post, on: :collection
-    end
-    resources :recursos do
+  scope module: 'repositorios' do
+#    resources :app_repos do
+#      match :publico, via: :get, on: :collection
+#      match :perfil, via: :get, on: :collection
+#    end
+#    resources :app_directorios do
+#      match :nuevo, via: :post, on: :collection
+#    end
+#    resources :app_dir_dires
+#    resources :app_documentos
+#    resources :app_archivos
+    resources :app_imagenes
+  end
+
+  scope module: 'aplicacion' do
+    resources :app_recursos do
       collection do
         match :ayuda, via: :get
         match :home, via: :get

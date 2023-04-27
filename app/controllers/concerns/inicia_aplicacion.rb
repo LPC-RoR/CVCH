@@ -69,7 +69,7 @@ module IniciaAplicacion
 			# LISTA AYUDA
 			ayuda = SbLista.find_by(lista: 'Ayuda')
 			if ayuda.blank?
-				ayuda = SbLista.create(lista: 'Ayuda', acceso: 'admin', link: '/recursos/ayuda')
+				ayuda = SbLista.create(lista: 'Ayuda', acceso: 'admin', link: '/app_recursos/ayuda')
 			end
 		end		
 
@@ -80,13 +80,6 @@ module IniciaAplicacion
 	end
 
 	def inicia_app
-		nombres = perfil_activo.carpetas.map {|car| car.carpeta}
-		if perfil_activo.carpetas.empty?
-			perfil_activo.carpetas.create(carpeta: 'Revisar') unless nombres.include?('Revisar')
-			perfil_activo.carpetas.create(carpeta: 'Excluidas') unless nombres.include?('Excluidas')
-			perfil_activo.carpetas.create(carpeta: 'Postergadas') unless nombres.include?('Postergadas')
-			perfil_activo.carpetas.create(carpeta: 'Revisadas') unless nombres.include?('Revisadas')
-		end
 	end
 
 end

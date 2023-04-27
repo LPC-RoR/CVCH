@@ -1,49 +1,6 @@
 module CapitanRecursosHelper
 	## ------------------------------------------------------- GENERAL
 
-	def app_setup
-		{
-			nombre: 'CVCh',
-			home_link: 'http://www.cvch.cl',
-			logo_navbar: 'logo_navbar.gif'
-		}
-	end
-
-	def image_size
-		{
-			portada: nil,
-			tema: 'half',
-			foot: 'half'
-		}
-	end
-
-	def font_size
-		{
-			title: 4,
-			title_tema: 1,
-			detalle_tema: 6
-		}
-	end
-
-	def app_color
-		{
-			app: 'info',
-			navbar: 'info',
-			help: 'dark',
-			data: 'success',
-			title_tema: 'info',
-			detalle_tema: 'info'
-		}
-	end
-
-	def image_class
-		{
-			portada: img_class[:centrada],
-			image_tema: img_class[:centrada],
-			foot: img_class[:centrada]
-		}
-	end
-
 	## ------------------------------------------------------- LAYOUTS CONTROLLERS
 
 	def app_sidebar_controllers
@@ -110,39 +67,6 @@ module CapitanRecursosHelper
 			end
 		else
 			'default'
-		end
-	end
-
-	def app_crud_conditions(objeto, btn)
-		case objeto.class.name
-		when 'Carga'
-			objeto.estado == 'ingreso'
-		when 'Publicacion'
-			['ingreso', 'contribucion'].include?(objeto.origen) and controller_name == 'contribuciones'
-		when 'Carpeta'
-			controller_name == 'carpetas' and objeto.app_perfil.email == perfil_activo.email
-		when 'Area'
-			(not Area::NOT_MODIFY.include?(objeto.area)) and controller_name == 'recursos' and seguridad_desde('admin')
-		when 'Instancia'
-			false
-		when 'Ruta'
-			false
-		when 'Propuesta'
-			false
-		when 'Categoria'
-			(usuario_signed_in? and objeto.perfil_id == perfil_activo_id) or (admin? and controller_name == 'app_recursos')
-		when 'Especie'
-			false
-		when 'FiloElemento'
-			['especies', 'filo_elementos'].include?(controller_name)
-		else
-			if ['TemaAyuda', 'Tutorial', 'Paso'].include?(objeto.class.name)
-				(usuario_signed_in? ? admin? : false)
-			elsif ['IndClave', 'IndExpresion', 'IndIndice', 'IndPalabra'].include?(objeto.class.name)
-				false
-			else
-				true
-			end
 		end
 	end
 

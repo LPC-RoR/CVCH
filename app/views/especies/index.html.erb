@@ -4,22 +4,22 @@
 	<div class='row'>
 		<div class='col-md-3'>
 			<%= render partial: '0p/general/icon_text', locals: {text: 'Orden de Especies', gly: 'bug', clr: 'info'} %>
-			<%= render partial: '0p/tabla/solo_tabla', locals: {c: 'filo_ordenes', a: 'index'} %>
+			<%= render partial: '0p/tabla/tabla', locals: {c: 'filo_ordenes'} %>
 		</div>
 		<div class='col-md-9'>
 			<%= render partial: '0p/general/icon_text', locals: {text: 'Elementos del estructura', gly: 'bug', clr: 'info'} %>
-			<%= render partial: '0p/tabla/solo_tabla', locals: {c: 'filo_elementos', a: 'index'} %>
+			<%= render partial: '0p/tabla/tabla', locals: {c: 'filo_elementos'} %>
 		</div>
 	</div>
 <% else %>
 	<div class='row'>
 		<div class='col-md-6'>
 			<%= render partial: '0p/general/icon_text', locals: {text: 'Especies de la estructura', gly: 'bug', clr: 'info'} %>
-			<%= render partial: '0p/tabla/solo_tabla', locals: {c: 'filo_especies', a: 'index'} %>
+			<%= render partial: '0p/tabla/tabla', locals: {c: 'filo_especies'} %>
 		</div>
 		<div class='col-md-6'>
 			<%= render partial: '0p/general/icon_text', locals: {text: 'Etiquetas de especies no asociadas', gly: 'tag', clr: 'info'} %>
-			<%= render partial: '0p/tabla/solo_tabla', locals: {c: 'especies', a: 'index'} %>
+			<%= render partial: '0p/tabla/tabla', locals: {c: 'especies'} %>
 		</div>
 	</div>
 	</br>

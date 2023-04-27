@@ -1,12 +1,5 @@
 module CapitanMenuHelper
 
-	def optional_menu_item
-		{
-			contacto: true,
-			ayuda: true,
-		}
-	end
-
 	def menu_base
 	    [
 	        ['',           '/app_recursos/administracion', 'admin', 'person-rolodex'],

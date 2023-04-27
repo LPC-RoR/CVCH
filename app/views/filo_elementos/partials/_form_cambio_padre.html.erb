@@ -1,0 +1,12 @@
+Asignacion/cambio de padre:</br>
+<!-- FORMULARIO CAMBIO DE PADRE -->
+<%= form_for :cambio_padre, url: "/filo_elementos/cambio_padre?objeto_id=#{@objeto.id}" do |form| %>
+	<div class='form-inline'>
+		<%= form.text_field(:nuevo_padre, size: 35, class: 'form-control' ) %>
+		<button type="submit" class="btn btn-info">
+		  <i class="bi bi-plus-circle icon-white"></i>
+		  <i class="bi bi-arrow-90deg-up icon-white"></i>
+		  Padre
+		</button>
+	</div>
+<% end  %>

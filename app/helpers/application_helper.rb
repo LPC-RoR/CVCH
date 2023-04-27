@@ -1,19 +1,13 @@
 module ApplicationHelper
 	## ------------------------------------------------------- HOME
 
-	def img_class 
-		{
-			centrada: 'mx-auto d-block'
-		}
-	end
-
 	def color(ref)
 		if [:app, :navbar].include?(ref)
-			app_color[ref]
+			config[:color][ref]
 		elsif ['hlp_tutoriales', 'hlp_pasos'].include?(ref)
-			app_color[:help]
+			config[:color][:help]
 		else
-			app_color[:app]
+			config[:color][:app]
 		end
 	end
 
@@ -54,40 +48,6 @@ module ApplicationHelper
 			temas_ayuda_activos.any? ? temas_ayuda_activos.order(:orden) : nil
 		else
 			nil
-		end
-	end
-
-	## ------------------------------------------------------- SCOPES & PARTIALS
-
-	def controllers_scope
-		{
-			aplicacion: ['app_administradores', 'app_nominas', 'app_perfiles', 'app_observaciones', 'app_mejoras', 'app_imagenes', 'app_contactos', 'app_mensajes', 'app_repos', 'app_directorios', 'app_documentos', 'app_archivos', 'app_enlaces', 'archivos', 'comentarios', 'directorios', 'documentos', 'imagenes', 'licencias', 'mejoras', 'observaciones', 'recursos', 'subs'],
-			home:       ['h_temas', 'h_links', 'h_imagenes'],
-			help:       ['conversaciones', 'mensajes', 'hlp_pasos', 'temaf_ayudas', 'hlp_tutoriales'],
-			sidebar:    ['sb_listas', 'sb_elementos'],
-			busqueda:   ['ind_clave_facetas', 'ind_claves', 'ind_indice_facetas', 'ind_indices', 'ind_palabras', 'ind_reglas', 'ind_sets'],
-			estados:    ['st_modelos', 'st_estados'],
-			data:       ['caracteristicas', 'caracterizaciones', 'columnas', 'datos', 'encabezados', 'etapas', 'lineas', 'opciones', 'tablas']
-		}
-	end
-
-	def scope_controller(controller)
-		if controllers_scope[:aplicacion].include?(controller)
-			'aplicacion'
-		elsif controllers_scope[:home].include?(controller)
-			'home'
-		elsif controllers_scope[:help].include?(controller)
-			'help'
-		elsif controllers_scope[:sidebar].include?(controller)
-			'sidebar'
-		elsif controllers_scope[:busqueda].include?(controller)
-			'busqueda'
-		elsif controllers_scope[:estados].include?(controller)
-			'estados'
-		elsif controllers_scope[:data].include?(controller)
-			'data'
-		else
-			app_scope_controller(controller)
 		end
 	end
 
@@ -139,7 +99,7 @@ module ApplicationHelper
 	def base_sidebar_controllers
 		[
 			'sb_listas', 'sb_elementos',
-			'app_recursos', 'app_administradores', 'app_nominas', 'app_perfiles', 'app_imagenes',
+			'app_administradores', 'app_nominas', 'app_perfiles', 'app_imagenes', 'app_recursos',
 			'h_portadas', 'h_temas', 'h_links', 'h_imagenes',
 			'hlp_tutoriales', 'hlp_pasos',
 			'st_modelos', 'st_estados'
@@ -183,11 +143,6 @@ module ApplicationHelper
 		objeto.class::TABLA_FIELDS
 	end
 
-	# Cada inline form es específico, así que será un partial en el directorio partials del modelo
-#	def inline_form?(controller)
-#		partial?(app_alias_tabla(controller), 'inline_nuevo')
-#	end
-
 	def sortable?(controller, field)
 		if sortable_fields[controller].present?
 			sortable_fields[controller].include?(field) ? true : false
@@ -204,24 +159,6 @@ module ApplicationHelper
 	end
 
 	## ------------------------------------------------------- TABLA | BTNS
-
-	def crud_conditions(objeto, btn)
-		if ['AppAdministrador', 'AppNomina', 'HlpTutorial', 'HlpPaso'].include?(objeto.class.name)
-				seguridad_desde('admin')
-		elsif ['AppPerfil', 'Usuario', 'AppMensaje' ].include?(objeto.class.name)
-			false
-		elsif ['SbLista', 'SbElemento'].include?(objeto.class.name)
-			(usuario_signed_in? and seguridad_desde(objeto.acceso))
-		elsif ['st_modelos'].include?(controller)
-				dog?
-		elsif ['st_estados'].include?(controller)
-				seguridad_desde('admin')
-		elsif ['AppObservacion', 'AppMejora'].include?(objeto.class.name)
-			(usuario_signed_in? and objeto.perfil.id == current_usuario.id)
-		else
-			app_crud_conditions(objeto, btn)
-		end
-	end
 
 	# Link de un x_btn del modelo de una tabla
 	# objeto : objeto del detalle de la tabla
@@ -303,7 +240,7 @@ module ApplicationHelper
 
 		unless archivo.send(campo).blank?
 			if ['DateTime', 'Time'].include?(archivo.send(campo).class.name)
-				texto_campo = l_fecha(archivo.send(campo))
+				texto_campo = dma(archivo.send(campo))
 			elsif prefijos.include?('uf') 
 				texto_campo = number_to_currency(archivo.send(campo), unit: 'UF', precision: 2, format: '%u %n')
 			elsif prefijos.include?('$')

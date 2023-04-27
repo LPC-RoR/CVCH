@@ -17,7 +17,6 @@ class ApplicationController < ActionController::Base
 
 	helper_method :lexer
 
-
 	# Este método se usa para construir un nombre de directorio a partir de un correo electrónico.
 	def archivo_usuario(email, params)
 		email.split('@').join('-').split('.').join('_')

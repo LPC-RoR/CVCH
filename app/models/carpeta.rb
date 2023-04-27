@@ -24,6 +24,9 @@ class Carpeta < ApplicationRecord
 	has_many :per_cares
 	has_many :app_perfiles, through: :per_cares
 
+	has_many :car_filo_esps
+	has_many :filo_especies, through: :car_filo_esps
+
 	validates :carpeta, presence: true
 
 	def btns_control

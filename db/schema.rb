@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_04_20_005513) do
+ActiveRecord::Schema.define(version: 2023_04_27_201705) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -33,6 +33,29 @@ ActiveRecord::Schema.define(version: 2023_04_20_005513) do
     t.datetime "updated_at", null: false
     t.index ["email"], name: "index_app_administradores_on_email"
     t.index ["usuario_id"], name: "index_app_administradores_on_usuario_id"
+  end
+
+  create_table "app_contactos", force: :cascade do |t|
+    t.string "nombre"
+    t.string "telefono"
+    t.string "email"
+    t.string "owner_class"
+    t.integer "owner_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["owner_class"], name: "index_app_contactos_on_owner_class"
+    t.index ["owner_id"], name: "index_app_contactos_on_owner_id"
+  end
+
+  create_table "app_enlaces", force: :cascade do |t|
+    t.string "descripcion"
+    t.string "enlace"
+    t.string "owner_class"
+    t.integer "owner_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["owner_class"], name: "index_app_enlaces_on_owner_class"
+    t.index ["owner_id"], name: "index_app_enlaces_on_owner_id"
   end
 
   create_table "app_imagenes", force: :cascade do |t|
@@ -142,6 +165,15 @@ ActiveRecord::Schema.define(version: 2023_04_20_005513) do
     t.datetime "updated_at", null: false
     t.index ["investigador_id"], name: "index_autores_on_investigador_id"
     t.index ["publicacion_id"], name: "index_autores_on_publicacion_id"
+  end
+
+  create_table "car_filo_esps", force: :cascade do |t|
+    t.integer "carpeta_id"
+    t.integer "filo_especie_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["carpeta_id"], name: "index_car_filo_esps_on_carpeta_id"
+    t.index ["filo_especie_id"], name: "index_car_filo_esps_on_filo_especie_id"
   end
 
   create_table "cargas", force: :cascade do |t|
@@ -309,6 +341,15 @@ ActiveRecord::Schema.define(version: 2023_04_20_005513) do
     t.index ["area_id"], name: "index_filo_elementos_on_area_id"
     t.index ["filo_elemento"], name: "index_filo_elementos_on_filo_elemento"
     t.index ["filo_orden_id"], name: "index_filo_elementos_on_filo_orden_id"
+  end
+
+  create_table "filo_esp_esp_sinonimos", force: :cascade do |t|
+    t.integer "especie_id"
+    t.integer "sinonimo_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["especie_id"], name: "index_filo_esp_esp_sinonimos_on_especie_id"
+    t.index ["sinonimo_id"], name: "index_filo_esp_esp_sinonimos_on_sinonimo_id"
   end
 
   create_table "filo_esp_esps", force: :cascade do |t|

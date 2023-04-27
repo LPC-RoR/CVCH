@@ -1,7 +1,7 @@
 <%= render partial: 'areas/header' %>
 <div class='row'>
 	<div class='col-md-4'>
-		<%= render partial: '0p/tabla/solo_tabla', locals: {c: 'filo_elementos', a: 'index'} %>
+		<%= render partial: '0p/tabla/tabla', locals: {c: 'filo_elementos'} %>
 
 		<!-- FORM INGRESO FILO ELEMENTOS A ÁREA -->
 		<%= form_for :asigna_area, url: "/filo_elementos/asigna_area?class_name=#{@objeto.class.name}&objeto_id=#{@objeto.id}" do |form| %>
@@ -16,6 +16,6 @@
 
 	</div>
 	<div class='col-md-6'>
-		<%= render partial: '0p/tabla/solo_tabla', locals: {c: 'publicaciones', a: 'index'} %>
+		<%= render partial: '0p/tabla/tabla', locals: {c: 'publicaciones'} %>
 	</div>
 </div>

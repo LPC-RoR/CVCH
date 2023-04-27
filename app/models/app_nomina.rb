@@ -23,4 +23,5 @@ class AppNomina < ApplicationRecord
 		perfil = AppPerfil.find_by(email: self.email)
 		perfil.blank? ? 'Sin perfil' : 'Perfil activo'
 	end
+
 end

@@ -26,8 +26,11 @@ class Aplicacion::AppRecursosController < ApplicationController
 
   def procesos
     FiloEspecie.all.each do |filo_especie|
-      indice = Especie.find_by(especie: filo_especie.filo_especie.downcase.strip)
-      filo_especie.especies << indice unless indice.blank?
+#      indice = Especie.find_by(especie: filo_especie.filo_especie.downcase.strip)
+#      filo_especie.especies << indice unless indice.blank?
+        filo_especie.filo_especie = filo_especie.filo_especie.downcase
+        filo_especie.save
+        filo_especie.especies.delete_all
     end
 
     redirect_to root_path

@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Car Filo Esps</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Carpeta</th>
+      <th>Filo especie</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @car_filo_esps.each do |car_filo_esp| %>
+      <tr>
+        <td><%= car_filo_esp.carpeta_id %></td>
+        <td><%= car_filo_esp.filo_especie %></td>
+        <td><%= link_to 'Show', car_filo_esp %></td>
+        <td><%= link_to 'Edit', edit_car_filo_esp_path(car_filo_esp) %></td>
+        <td><%= link_to 'Destroy', car_filo_esp, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Car Filo Esp', new_car_filo_esp_path %>

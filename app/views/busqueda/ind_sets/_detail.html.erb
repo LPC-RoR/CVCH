@@ -1,5 +1,8 @@
-<%= render partial: '0p/display/form_fields', locals: {form: form, helper_name: 'text', token: :ind_set, label: 'Nombre Set', v: true } %>
+<%= render partial: '0p/form_fields/label', locals: { form: form, label: 'Nombre set', v: true } %>
+<%= render partial: '0p/form_fields/text', locals: { form: form, token: :ind_set } %>
 
-<%= render partial: '0p/display/form_fields', locals: {form: form, helper_name: 'select', token: :tipo, sel_list: IndSet::IND_SET_TIPOS, label: 'tipo', v: false } %>
+<%= render partial: '0p/form_fields/label', locals: { form: form, label: 'tipo', v: true } %>
+<%= render partial: '0p/form_fields/select', locals: { form: form, token: :tipo, sel_list: IndSet::IND_SET_TIPOS, label: 'tipo' } %>
 
-<%= render partial: '0p/display/form_fields', locals: {form: form, helper_name: 'text_area', token: :set, label: 'Set', v: false } %>
+<%= render partial: '0p/form_fields/label', locals: { form: form, label: 'Set', v: true } %>
+<%= render partial: '0p/form_fields/text_area', locals: { form: form, token: :set } %>
