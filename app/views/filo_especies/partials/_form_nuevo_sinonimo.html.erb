@@ -1,5 +1,5 @@
 <!-- FORMULARIO PARA NUEVA SUB ESPECIE -->
-<small><b class='text-info'>Nueva sub especie</b></small>
+<small><b class='text-info'>Nuevo sinónimo</b></small>
 <%= form_for :nuevo_sinonimo, url: "/filo_especies/nuevo_sinonimo?objeto_id=#{@objeto.id}" do |form| %>
 
 <%= render partial: '0p/form_fields/label', locals: { form: form, label: 'Sinónimo', v: true } %>

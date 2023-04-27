@@ -35,7 +35,7 @@ module CptnTablaHelper
 	end
 
 	def crud_conditions(objeto, btn)
-		if ['AppAdministrador', 'AppNomina', 'HlpTutorial', 'HlpPaso'].include?(objeto.class.name)
+		if ['AppAdministrador', 'AppNomina', 'HlpTutorial', 'HlpPaso', 'FiloEspecie'].include?(objeto.class.name)
 				seguridad_desde('admin')
 		elsif ['AppPerfil', 'Usuario', 'AppMensaje' ].include?(objeto.class.name)
 			false

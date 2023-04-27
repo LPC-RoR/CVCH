@@ -17,6 +17,9 @@ class FiloEspeciesController < ApplicationController
     add_tabla('sinonimos-filo_especies', @objeto.sinonimos, false)
 
     add_tabla('especies', @objeto.especies, false)
+
+    @coleccion_usuario = perfil_activo.carpetas.order(:carpeta)
+    @coleccion_publicacion = @objeto.carpetas
   end
 
   # GET /filo_especies/new

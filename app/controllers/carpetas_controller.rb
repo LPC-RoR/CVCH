@@ -19,8 +19,7 @@ class CarpetasController < ApplicationController
       @objeto.save
     end
     init_tabla('publicaciones', @objeto.publicaciones.order(sort_column + " " + sort_direction), true)
-#    @coleccion = {}
-#    @coleccion['publicaciones'] = @objeto.publicaciones.order(sort_column + " " + sort_direction).page(params[:page])
+    add_tabla('filo_especies', @objeto.filo_especies.order(:filo_especie), false)
   end
 
   # GET /carpetas/new
