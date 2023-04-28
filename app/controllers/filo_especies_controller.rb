@@ -130,7 +130,7 @@ class FiloEspeciesController < ApplicationController
         sinonimo = FiloEspecie.create(filo_especie: params[:nuevo_sinonimo][:sinonimo].downcase)
         filo_especie.sinonimos << sinonimo
 
-        etiquetas = Especie.where(etiqueta: sinonimo.filo_especie)
+        etiquetas = Especie.where(especie: sinonimo.filo_especie)
         etiquetas.each do |etiqueta|
           sinonimo.especies << etiqueta
         end
