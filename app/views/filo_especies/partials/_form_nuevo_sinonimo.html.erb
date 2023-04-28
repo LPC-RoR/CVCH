@@ -1,12 +1,13 @@
-<!-- FORMULARIO PARA NUEVA SUB ESPECIE -->
+<!-- FORMULARIO PARA NUEVO SINONIMO -->
 <small><b class='text-info'>Nuevo sinónimo</b></small>
 <%= form_for :nuevo_sinonimo, url: "/filo_especies/nuevo_sinonimo?objeto_id=#{@objeto.id}" do |form| %>
 
-<%= render partial: '0p/form_fields/label', locals: { form: form, label: 'Sinónimo', v: true } %>
-<%= render partial: '0p/form_fields/text', locals: { form: form, token: :sinonimo } %>
-</br>
-	<button type="submit" class="btn btn-info">
-	  <i class="bi bi-plus-circle icon-white"></i>
-	  <i class="bi bi-bug"></i>
-	</button>
+	<%= render partial: '0p/form_fields/label', locals: { form: form, label: 'Sinónimo', v: true } %>
+	<div class='form-inline'>
+		<%= render partial: '0p/form_fields/text', locals: { form: form, token: :sinonimo } %>
+		<button type="submit" class="btn btn-info">
+		  <i class="bi bi-plus-circle icon-white"></i>
+		  <i class="bi bi-bug"></i>
+		</button>
+	</div>
 <% end  %>

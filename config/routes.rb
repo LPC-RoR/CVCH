@@ -13,6 +13,7 @@ Rails.application.routes.draw do
     match :nueva_subespecie, via: :post, on: :collection
     match :nuevo_sinonimo, via: :post, on: :collection
     match :asocia_etiqueta, via: :post, on: :collection
+    match :asigna, via: :post, on: :collection
   end
   resources :ind_exp_pales
   resources :filo_ele_eles

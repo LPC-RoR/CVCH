@@ -31,7 +31,15 @@ class FiloEspeciesController < ApplicationController
     padre = params[:class_name].blank? ? nil : params[:class_name].constantize.find(params[:objeto_id])
     unless params[:nueva_especie][:filo_especie].blank?
       especie = FiloEspecie.create(filo_especie: params[:nueva_especie][:filo_especie].downcase, nombre_comun: params[:nueva_especie][:nombre_comun].downcase)
-      padre.filo_especies << especie unless padre.blank?
+      unless padre.blank? or especie.blank?
+        etiquetas = Etiqueta.where(especie: especie.filo_especie)
+        unless etiquetas.empty?
+          etiquetas.each do |etiqueta|
+            especie.especies << etiqueta
+          end
+        end
+        padre.filo_especies << especie
+      end
     end
 
     redirect_to padre
@@ -86,6 +94,16 @@ class FiloEspeciesController < ApplicationController
     end
   end
 
+  def asigna
+    carpeta = Carpeta.find(params[:objeto_id])
+    unless carpeta.blank? or params[:busca_especie][:especie].blank?
+      especie = FiloEspecie.find_by(filo_especie: params[:busca_especie][:especie])
+      carpeta.filo_especies << especie unless especie.blank?
+    end
+
+    redirect_to carpeta
+  end
+
   def nueva_subespecie
     filo_especie = FiloEspecie.find(params[:objeto_id])
     unless params[:nueva_subespecie][:filo_especie].blank?
@@ -93,6 +111,11 @@ class FiloEspeciesController < ApplicationController
       if check_filo_especie.blank?
         nueva = FiloEspecie.create(filo_especie: params[:nueva_subespecie][:filo_especie].downcase, nombre_comun: params[:nueva_subespecie][:nombre_comun].downcase, iucn: params[:nueva_subespecie][:iucn])
         filo_especie.children << nueva
+
+        etiquetas = Especie.where(especie: nueva.filo_especie)
+        etiquetas.each do |etiqueta|
+          nueva.especies << etiqueta
+        end
       end
     end
     
@@ -106,6 +129,11 @@ class FiloEspeciesController < ApplicationController
       if check_sinonimo.blank?
         sinonimo = FiloEspecie.create(filo_especie: params[:nuevo_sinonimo][:sinonimo].downcase)
         filo_especie.sinonimos << sinonimo
+
+        etiquetas = Especie.where(etiqueta: sinonimo.filo_especie)
+        etiquetas.each do |etiqueta|
+          sinonimo.especies << etiqueta
+        end
       end
     end
     

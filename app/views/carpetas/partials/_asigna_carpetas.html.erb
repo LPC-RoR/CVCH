@@ -1,0 +1,26 @@
+<!-- PARTIAL LLAMADO DESDE especies#show y publicaciones#show para gestionar asignacion de carpetas-->
+<%= render partial: '0p/general/icon_text', locals: {text: 'Carpetas', gly: 'folder', clr: 'info'} %>
+<% @coleccion_usuario.each do |objeto| %>
+	<div class='row'>
+		<div class='col-md-10'>
+			<small>
+			<% if @coleccion_publicacion.ids.include?(objeto.id) %><b class='text-info'><i class="bi bi-check2-all"></i><% else %><i class='text-muted'><% end %>
+
+				<%= link_to objeto.send(objeto.class.name.downcase), objeto  %>
+
+			<% if @coleccion_publicacion.ids.include?(objeto.id) %></b><% else %></i><% end %>
+			</small>
+		</div>
+		<div class='col-md-2'>
+			<% if @coleccion_publicacion.ids.include?(objeto.id) %>
+  				<%= link_to link_x_btn(objeto, '/desasignar', true) do %>
+  					<i class="bi bi-x-circle"></i>
+  				<% end %>
+			<% else %>
+  				<%= link_to link_x_btn(objeto, '/asigna', true) do %>
+  					<i class="bi bi-plus-circle"></i>
+  				<% end %>
+			<% end %>
+		</div>
+	</div>
+<% end %>
