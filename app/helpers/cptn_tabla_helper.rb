@@ -35,7 +35,7 @@ module CptnTablaHelper
 	end
 
 	def crud_conditions(objeto, btn)
-		if ['AppAdministrador', 'AppNomina', 'HlpTutorial', 'HlpPaso', 'FiloEspecie'].include?(objeto.class.name)
+		if ['AppAdministrador', 'AppNomina', 'HlpTutorial', 'HlpPaso'].include?(objeto.class.name)
 				seguridad_desde('admin')
 		elsif ['AppPerfil', 'Usuario', 'AppMensaje' ].include?(objeto.class.name)
 			false
@@ -105,6 +105,13 @@ module CptnTablaHelper
 			false
 		when 'FiloElemento'
 			['especies', 'filo_elementos'].include?(controller_name)
+		when 'FiloEspecie'
+			case btn
+			when 'Eliminar'
+				['filo_especies', 'filo_elementos', 'especies'].include?(controller_name) and seguridad_desde('admin')
+			when 'Editar'
+				false
+			end
 		else
 			if ['TemaAyuda', 'Tutorial', 'Paso'].include?(objeto.class.name)
 				(usuario_signed_in? ? admin? : false)

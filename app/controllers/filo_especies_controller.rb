@@ -97,7 +97,7 @@ class FiloEspeciesController < ApplicationController
   def asigna
     carpeta = Carpeta.find(params[:objeto_id])
     unless carpeta.blank? or params[:busca_especie][:especie].blank?
-      especie = FiloEspecie.find_by(filo_especie: params[:busca_especie][:especie])
+      especie = FiloEspecie.find_by(filo_especie: params[:busca_especie][:especie].downcase)
       carpeta.filo_especies << especie unless especie.blank?
     end
 
