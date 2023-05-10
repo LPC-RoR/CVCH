@@ -15,9 +15,11 @@ class VistasController < ApplicationController
     # @sel_table[key] : [tabla, display?, icon]
     @sel_table = {
       areas: [Area.all.order(:area), true, nil],
-      categorias: [Categoria.all.order(:categoria), true, nil],
-      carpetas: [perfil_activo.carpetas.order(:carpeta) + perfil_activo.compartidas.order(:carpeta), perfil_activo.present?, 'folder']
+      categorias: [Categoria.all.order(:categoria), true, nil]
+#      carpetas: [perfil_activo.carpetas.order(:carpeta) + perfil_activo.compartidas.order(:carpeta), perfil_activo.present?, 'folder']
     }
+
+    @sel_table[:carpetas] = [perfil_activo.carpetas.order(:carpeta) + perfil_activo.compartidas.order(:carpeta), perfil_activo.present?, 'folder'] unless perfil_activo.blank?
 
     @sel_table_list = []
     @sel_table.keys.each do |key_table|
