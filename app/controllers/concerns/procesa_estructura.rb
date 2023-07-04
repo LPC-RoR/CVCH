@@ -142,10 +142,13 @@ module ProcesaEstructura
 		end
 
 		# seguro hay una forma más simple, pero es la que encontré usando la consola
-		ids_ordenados = modelo_ids.group_by {|n| n}.map {|e| e}.sort_by {|e| -e[1].length}.map {|e| e[0]}
+		ids_ordenados = modelo_ids.group_by {|n| n}.map {|e| e}.sort_by {|e| -e[1].length}.map {|e| e[0]}.map(&:to_i).compact
+
+		# HAY QUE RETORNAR ids_ordenados y mdificar el despliegue de la búsqueda para mostrar el resultado de la búsqueda
+
 
 		# Finalmente obtiene la colección de 
-		publicaciones = modelo.constantize.where(id: ids_ordenados)
+		publicaciones = modelo.constantize.where(id: ids_ordenados).order("FIELD(id, #{ids_ordenados.join(',')})")
 		publicaciones
 	end
 
