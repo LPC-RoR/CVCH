@@ -140,8 +140,12 @@ module ProcesaEstructura
 				modelo_ids = modelo_ids.union(ind_palabra.ind_indices.ids)
 			end
 		end
+
+		# seguro hay una forma más simple, pero es la que encontré usando la consola
+		ids_ordenados = modelo_ids.group_by {|n| n}.map {|e| e}.sort_by {|e| -e[1].length}.map {|e| e[0]}
+
 		# Finalmente obtiene la colección de 
-		publicaciones = modelo.constantize.where(id: modelo_ids.uniq)
+		publicaciones = modelo.constantize.where(id: ids_ordenados)
 		publicaciones
 	end
 
