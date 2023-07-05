@@ -119,6 +119,10 @@ module ProcesaEstructura
 		espanol or ingles or numeros or excepciones or numero?(palabra) or unidades?(palabra)
 	end
 
+	def order_string(field_name, arr)
+	  arr.map { |val| "#{field_name}=#{val} desc" }.join(', ')
+	end
+
 	# Metodo que procesa la búsqueda de
 	# search: paarámetros de búsqueda
 	# modelo: modelo que orienta la búsqueda
@@ -142,14 +146,10 @@ module ProcesaEstructura
 		end
 
 		# seguro hay una forma más simple, pero es la que encontré usando la consola
-		ids_ordenados = modelo_ids.group_by {|n| n}.map {|e| e}.sort_by {|e| -e[1].length}.map {|e| e[0]}
-		ids_numeros = ids_ordenados.map(&:to_i).compact
-
-		# HAY QUE RETORNAR ids_ordenados y mdificar el despliegue de la búsqueda para mostrar el resultado de la búsqueda
-
+		ids_ordenados = modelo_ids.group_by {|n| n}.map {|e| e}.sort_by {|e| -e[1].length}.map {|e| e[0].to_i}
 
 		# Finalmente obtiene la colección de 
-		publicaciones = modelo.constantize.where(id: ids_numeros).order(Arel.sql("FIELD(id, #{ids_numeros.join(',')})"))
+		publicaciones = modelo.constantize.where(id: ids_ordenados).order(order_string('id', ids_ordenados))
 		publicaciones
 	end
 

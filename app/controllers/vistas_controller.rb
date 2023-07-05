@@ -51,7 +51,7 @@ class VistasController < ApplicationController
       init_tabla('publicaciones', @objeto.sel_table.order(sort_column + " " + sort_direction), true) if @modelo == 'Carpeta'
       init_tabla('citas', @objeto.publicaciones.order(:author), false) if @options[:menu] == 'Citas'
     else
-      init_tabla('publicaciones', busqueda_publicaciones(params[:search], 'Publicacion').order(sort_column + " " + sort_direction), true)
+      init_tabla('publicaciones', busqueda_publicaciones(params[:search], 'Publicacion'), true)
     end
 
   end
