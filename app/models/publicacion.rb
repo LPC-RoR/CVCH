@@ -83,6 +83,10 @@ class Publicacion < ApplicationRecord
 #	validates :doc_type, :title, :year, :author, presence: true
 	validates :doc_type, :title, presence: true
 
+	def indices
+		IndIndice.where(class_name: self.class.name, objeto_id: self.id)
+	end
+
 	def observaciones
 		obs_pubs = AppObservacion.where(owner_class: 'Publicacion')
 		obs_pubs.blank? ? obs_pubs : obs_pubs.where(owner_id: self.id)
