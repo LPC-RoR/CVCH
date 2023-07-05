@@ -14,7 +14,7 @@ module BuscadorHelper
 		texto_final = ''
 		palabras.each do |pal|
 			claves_publicacion = publicacion.indices.map {|indice| indice.ind_clave.ind_clave unless indice.ind_clave.blank?}
-			if claves_publicacion.include?(pal)
+			if claves_publicacion.include?(pal.downcase)
 				ind_palabra = IndPalabra.find_by(ind_palabra: pal.downcase)
 				if ind_palabra.ind_sinonimo.blank?
 					texto_final = "#{texto_final} <b>#{pal}</b>"
