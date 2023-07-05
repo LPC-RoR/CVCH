@@ -42,6 +42,7 @@
 </div>
 
 <% if dog? %>
+	<%= "Número de índices: #{@objeto.indices.count}" %>
 	<% @objeto.indices.each do |indice| %>
 		<%= indice.ind_palabra.ind_palabra unless indice.ind_palabra.blank? %></br>
 	<% end %>
