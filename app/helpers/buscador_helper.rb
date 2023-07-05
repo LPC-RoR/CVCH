@@ -9,17 +9,20 @@ module BuscadorHelper
 	end
 
 	# Este método muestra que campos están indexados
-	def show_indice(campo)
+	def show_indice(publicacion, campo)
 		palabras = campo.blank? ? [] : lexer(campo)
 		texto_final = ''
 		palabras.each do |pal|
-			ind_palabra = IndPalabra.find_by(ind_palabra: pal.downcase)
-			if ind_palabra.blank?
-				texto_final = "#{texto_final} #{pal}"
-			elsif ind_palabra.ind_sinonimo.blank?
-				texto_final = "#{texto_final} <b>#{pal}</b>"
+			claves_publicacion = publicacion.indices.map {|indice| indice.ind_clave.ind_clave unless indice.ind_clave.blank?}
+			if claves_publicacion.include?(pal)
+				ind_palabra = IndPalabra.find_by(ind_palabra: pal.downcase)
+				if ind_palabra.ind_sinonimo.blank?
+					texto_final = "#{texto_final} <b>#{pal}</b>"
+				else
+					texto_final = "#{texto_final} <b>['#{pal}]</b>"
+				end
 			else
-				texto_final = "#{texto_final} <b>['#{pal}]</b>"
+				texto_final = "#{texto_final} #{pal}"
 			end
 		end
 		texto_final
