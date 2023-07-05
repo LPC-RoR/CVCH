@@ -28,7 +28,7 @@
 
 		<% if dog? %>
 			<hr>
-			<%= "Número de índices: #{@objeto.indices.count}" %>
+			<%= "Número de índices: #{@objeto.indices.count}" %></br>
 			<% @objeto.indices.each do |indice| %>
 				<%= indice.ind_clave.ind_clave unless indice.ind_clave.blank? %></br>
 			<% end %>
