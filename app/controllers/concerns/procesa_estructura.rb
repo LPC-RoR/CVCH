@@ -128,7 +128,7 @@ module ProcesaEstructura
 	# modelo: modelo que orienta la búsqueda
 	def busqueda_publicaciones(search, modelo)
 		# palabras clave: búsqueda!
-		palabras = search.split(' ')
+		palabras = palabras_texto(search)
 		# modelo_ids: arreeglo con las instancias del modelo que coinciden con la búsqueda.
 		modelo_ids = []
 		# buscamos palabra por palabra
