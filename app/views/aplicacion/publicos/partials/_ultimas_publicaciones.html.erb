@@ -1,0 +1,10 @@
+<% coleccion.each do |publicacion| %>
+	<small>
+	<div class='pub-1'>
+		<small><b><%= publicacion.doc_type %></b> | <%= publicacion.year %> : <%= publicacion.journal %></small></br>
+		<small><%= link_to publicacion.title, publicacion %></small><br>
+		<small><small><small class='text-muted'><%= publicacion.author %></small></small></small>
+		<hr>
+	</div>
+	</small>
+<% end %>

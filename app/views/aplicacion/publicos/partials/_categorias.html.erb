@@ -1,0 +1,6 @@
+<ul class="list-group">
+	<li class="list-group-item"><b>Categorías</b></li>
+	<% Categoria.all.order(:categoria).each do |categoria| %>
+		<li class="list-group-item"><%= categoria.categoria %></li>
+	<% end %>
+</ul>

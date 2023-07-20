@@ -1,0 +1,5 @@
+<% if version.blank? %>
+	<%= image_tag HImagen.find_by(nombre: nombre).imagenes.order(created_at: :desc).first.imagen.url %>
+<% else %>
+	<%= image_tag HImagen.find_by(nombre: nombre).imagenes.order(created_at: :desc).first.imagen.send(version).url %>
+<% end  %>

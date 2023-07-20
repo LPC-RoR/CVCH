@@ -1,40 +1,6 @@
 module ApplicationHelper
 	## ------------------------------------------------------- HOME
 
-	def color(ref)
-		if [:app, :navbar].include?(ref)
-			config[:color][ref]
-		elsif ['hlp_tutoriales', 'hlp_pasos'].include?(ref)
-			config[:color][:help]
-		else
-			config[:color][:app]
-		end
-	end
-
-	def table_types_base
-		{
-			simple: '',
-			striped: 'table-striped',
-			bordered: 'table-bordered',
-			borderless: 'table-borderless',
-			hover: 'table-hover',
-			small: 'table-small'
-		}
-	end
-
-	def colors
-		['primary', 'secondary', 'success', 'danger', 'warning', 'info', 'light', 'dark', 'muted', 'white']
-	end
-
-	def image_sizes
-		['entire', 'half', 'quarter', 'thumb']
-	end
-
-	def foot?
-		h_imagen = HImagen.find_by(nombre: 'Foot')
-		h_imagen.blank? ? false : (h_imagen.imagenes.empty? ? false : h_imagen.imagenes.first.present?)
-	end
-
 	# DEPRECATED
 	def objeto_tema_ayuda(tipo)
 		TemaAyuda.where(tipo: tipo).any? ? TemaAyuda.where(tipo: tipo).first : nil
@@ -51,78 +17,8 @@ module ApplicationHelper
 		end
 	end
 
-	## ------------------------------------------------------- MENU
-
-	def nomenu_controllers
-		['confirmations', 'mailer', 'passwords', 'registrations', 'sessions', 'unlocks']
-	end
-
-	# Obtiene los controladores que no despliegan menu
-	def nomenu?(controller)
-		nomenu_controllers.include?(controller)
-	end
-
-	def item_active(link)
-		detalle_link = link.split('/')
-		nombre_accion = (detalle_link.length == 2 ? 'index' : detalle_link[2])
-		detalle_link[1] == controller_name and nombre_accion == action_name
-	end
-
-	def display_item_menu?(item, tipo_item)
-		# SEGURIDADA PARA IEMS DE MENÚS
-		if perfil? == true
-			if ['dog', 'admin', 'anonimo'].include?(tipo_item)
-				(usuario_signed_in? and seguridad_desde(tipo_item))
-			elsif ['nomina', 'general'].include?(tipo_item)
-				(usuario_signed_in? and seguridad_desde(tipo_item) and display_item_app(item, tipo_item))
-			elsif tipo_item == 'excluir'
-				false
-			end
-# DEPRECATED
-#			when 'usuario'
-#				usuario_signed_in? and display_item_app(item, tipo_item)
-		else
-			tipo_item == 'anonimo'
-		end
-	end
-
-	def enlaces_generales
-		AppEnlace.where(owner_id: nil).order(:descripcion)
-	end
-
-	def enlaces_perfil
-		AppEnlace.where(owner_class: 'AppPerfil', owner_id: perfil_activo.id).order(:descripcion)
-	end
-
 	## ------------------------------------------------------- SIDEBAR + BANDEJA
 
-	def base_sidebar_controllers
-		[
-			'sb_listas', 'sb_elementos',
-			'app_administradores', 'app_nominas', 'app_perfiles', 'app_imagenes', 'app_recursos',
-			'h_portadas', 'h_temas', 'h_links', 'h_imagenes',
-			'hlp_tutoriales', 'hlp_pasos',
-			'st_modelos', 'st_estados'
-		]
-	end
-
-	def sidebar_controllers
-		base_sidebar_controllers.union(app_sidebar_controllers)
-	end
-
-	def base_bandeja_controllers
-#		StModelo.all.order(:st_modelo).map {|st_modelo| st_modelo.st_modelo.tableize}
-		[]
-	end
-
-	def bandeja_controllers
-		base_bandeja_controllers.union(app_bandeja_controllers)
-	end
-
-	def primer_estado(controller)
-		st_modelo = StModelo.find_by(st_modelo: controller.classify)
-		st_modelo.blank? ? nil : st_modelo.primer_estado.st_estado
-	end
 
 	def count_modelo_estado(modelo, estado)0
 		modelo.constantize.where(estado: estado).count == 0 ? '' : "(#{modelo.constantize.where(estado: estado).count})"
@@ -179,20 +75,15 @@ module ApplicationHelper
 
 	## ------------------------------------------------------- FORM
 	# Este helper pergunta si hay un partial con un nombre particular en el directorio del controlador
-	def partial?(controller, partial)
-		File.exist?("app/views/#{(scope_controller(controller).blank? ? '' : "#{scope_controller(controller)}/")}#{controller}/_#{partial}.html.erb")
-	end
 
-	def get_partial(controller, partial)
-		"#{(scope_controller(controller).blank? ? '' : "#{scope_controller(controller)}/")}#{controller}/#{partial}"
-	end
 
 	# Este helper encuentra el partial que se debe desplegar como form
 	# originalmente todos llegaban a _form
 	# ahora pregunta si hay un partial llamado _datail en el directorio de las vistas del modelo
 	def detail_partial(controller)
-		if partial?(controller, 'detail')
-			get_partial(controller, 'detail')
+		# partial?(controlller, dir, partial)
+		if partial?(controller, nil, 'detail')
+			get_partial(controller, nil, 'detail')
 		else
 			'0p/form/detail'
 		end
@@ -274,30 +165,12 @@ module ApplicationHelper
 		end
 	end
 
-	def status?(objeto)
-		partial?(controller, 'status')
-	end
-
-	## ------------------------------------------------------- GENERAL
-
-	# Manejode options para selectors múltiples (VERSION PARA MULTI TABS SIN CAMBIOS)
-	def get_html_opts(options, label, value)
-		opts = options.clone
-		opts[label] = value
-		opts
-	end
-
 	## ------------------------------------------------------- LIST
 
 	def text_with_badge(text, badge_value=nil)
 	    badge = content_tag :span, badge_value, class: 'badge badge-primary badge-pill'
 	    text = raw "#{text} #{badge}" if badge_value
 	    return text
-	end
-
-	## ------------------------------------------------------- GENERAL
-	def perfiles_operativos
-		AppNomina.all.map {|nomina| nomina.nombre}.union(AppAdministrador.all.map {|admin| admin.administrador unless admin.email == 'hugo.chinga.g@gmail.com'}.compact)
 	end
 
 	## ------------------------------------------------------- PUBLICACION

@@ -1,0 +1,54 @@
+.texto-banner {
+	font-family: 'Raleway', sans-serif;
+	padding-left: 1em;
+	padding-top: 2em;
+	color: black;
+}
+
+.link-item span a {
+	font-family: 'Raleway', sans-serif;
+    text-decoration: none;
+    &:hover{
+        text-decoration: none;
+        color: red;
+    }
+}
+
+span + span {
+    margin-left: 10px;
+}
+
+.pub-1 {
+    font-family: 'Lexend', sans-serif;
+}
+
+.bajada {
+    font-family: 'Lexend', sans-serif;
+}
+.titulo-seccion {
+    font-family: 'Lexend', sans-serif;
+    background-color:  white;
+
+    position: relative;
+    z-index: 1;
+    
+    &:before {
+        border-top: 2px solid #dfdfdf;
+        content:"";
+        margin: 0 auto; /* this centers the line to the full width specified */
+        position: absolute; /* positioning must be absolute here, and relative positioning must be applied to the parent */
+        top: 50%; left: 0; right: 0; bottom: 0;
+        width: 95%;
+        z-index: -1;
+    }
+
+    p { 
+        /* to hide the lines from behind the text, you have to set the background color the same as the container */ 
+        background: #fff; 
+        padding: 0 15px; 
+    }
+}
+
+.home-estructura {
+    font-family: 'Lexend', sans-serif;
+}

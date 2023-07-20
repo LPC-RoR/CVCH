@@ -1,21 +1,7 @@
 module Capitan
 	extend ActiveSupport::Concern
 
-	def devise_controllers
-		['confirmations', 'mailer', 'passwords', 'registrations', 'sessions', 'unlocks']
-	end
-
-	def admin_controllers
-		['app_recursos', 'app_administradores', 'app_nominas', 
-			'sb_listas', 'sb_elementos', 
-			'st_modelos', 'st_estados', 'st_perfil_modelos', 'st_perfil_estados']
-	end
-
-	def admin_controller?(controller)
-		admin_controllers.include?(controller)
-	end
-
-	# ************************************************************************** INICIALIZA TAB
+	# ************************************************************************** INICIALIZA TABLA
 	def init_tabla(controller, tabla, paginate)
 
 		# INIT siempre inicializa hash
@@ -48,7 +34,12 @@ module Capitan
 
 	# **************************************************************************** GENERAL
 	def uf_del_dia
-		uf = TarUfSistema.find_by(fecha: DateTime.now.to_date)
+		uf = TarUfSistema.find_by(fecha:Time.zone.today.to_date)
+		uf.blank? ? nil : uf.valor
+	end
+
+	def uf_fecha(fecha)
+		uf = TarUfSistema.find_by(fecha: fecha.to_date)
 		uf.blank? ? nil : uf.valor
 	end
 

@@ -17,14 +17,10 @@
 
 <div class="row">
 	<div class="col-md-1">
-		<%= render partial: '0p/form_fields/label', locals: { form: form, label: '#', v: true } %>
-		<%= render partial: '0p/form_fields/number', locals: { form: form, token: :orden } %>
-	</div>
-	<div class="col-md-1">
 		<%= render partial: '0p/form_fields/label', locals: { form: form, label: '>', v: true } %>
 		<%= render partial: '0p/form_fields/number', locals: { form: form, token: :nivel } %>
 	</div>
-	<div class="col-md-10">
+	<div class="col-md-11">
 		<%= render partial: '0p/form_fields/label', locals: { form: form, label: 'Item', v: true } %>
 		<%= render partial: '0p/form_fields/text', locals: { form: form, token: :elemento } %>
 	</div>
@@ -36,3 +32,4 @@
 <%= render partial: '0p/form_fields/check_box', locals: { form: form, token: :activo, label: 'Activo?' } %>
 
 <%= render partial: '0p/form_fields/hidden', locals: { form: form, token: :sb_lista_id } %>
+<%= render partial: '0p/form_fields/hidden', locals: { form: form, token: :orden } %>

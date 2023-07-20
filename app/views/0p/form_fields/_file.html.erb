@@ -1,13 +1,16 @@
 <small>
   	<% if @objeto.send(token.to_s).present? %>
-  		<%= image_tag(@objeto.send(token.to_s).half.url) %></br>
+  		<%# if @objeto.send(token.to_s).present? %>
+  			<%#= image_tag(@objeto.send(token.to_s).half.url) %><!--/br-->
+  		<%# end %>
+
 	  	<small><i><%= @objeto.send(token.to_s).url.split('/').last %></i></small></br>
 		<label>
 		  <%= form.check_box "remove_#{token.to_s}".to_sym %>
-		  <%= "Remueve: #{label}" %>
+		  <%= "Remueve: #{token.to_s}" %>
 		</label>
   	<% else %>
 	    <%= form.file_field token %>
-	    <%= form.hidden_field :ilustracion_cache %>
+	    <%= form.hidden_field "#{token}_cache".to_sym %>
     <% end %>
 </small>

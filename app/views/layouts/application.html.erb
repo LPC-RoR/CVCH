@@ -5,33 +5,44 @@
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
-    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= stylesheet_link_tag  'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= stylesheet_link_tag "app_layout" %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
     <%= favicon_link_tag asset_path('favicon.ico') if File.exist?("app/assets/images/favicon.ico") %>
+
+    <!-- font-family: 'Barlow', sans-serif; -->
+    <!-- font-family: 'Lexend', sans-serif; -->
+    <!-- font-family: 'Raleway', sans-serif; -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Barlow&family=Lexend:wght@100;200;300;400;500;600;700;800;900&family=Raleway:ital,wght@0,200;0,400;0,600;1,200;1,400;1,600&display=swap" rel="stylesheet">
+
   </head>
 
   <body>
-    <!--            NAVBAR                     -->
-    <%= render partial: '0p/navbar/navbar' %>
-    <%= image_tag 'home.png' if action_name == 'home' %>
-    <!--            CONTENIDO + MENU DERECHA   -->
-    <div class="container-fluid">
-      <% if File.exist?("app/views/layouts/_base_layout.html.erb") %>
-        <%= render partial: 'layouts/base_layout' %>
-      <% else %>
+    <!-- OVER -->
+    <% if partial?('layouts', nil, 'over') %>
 
-        <% if controller_name == 'st_bandejas' or bandeja_controllers.include?(controller_name) %>
-            <%= render partial: 'layouts/bandejas' %>
-        <% elsif controller_name == 'app_mensajes' and usuario_signed_in? %>
-            <%= render partial: 'layouts/mensajes' %>
-        <% elsif sidebar_controllers.include?(controller_name) and action_name != 'home' %>
-            <%= render partial: 'layouts/sidebar' %>
-        <% else %>
-          <%= yield %>
-        <% end %>
-
+      <%= render(layout: "0p/general/margen_div", locals: { cols: config[:margen][:over], container: config[:container][:over], container_class: 'app_over', style_str: nil }) do %>
+        <%= render partial: 'layouts/over' %>
       <% end %>
-    </div>
+
+    <% end %>
+
+    <!-- NAVBAR+ -->
+    <% if config[:layout][:menu] %>
+
+      <%= render(layout: "0p/general/margen_div", locals: { cols: config[:margen][:menu], style_str: 'margin-top: .5em; margin-bottom: .5em', container: config[:container][:menu], container_class: 'app_menu' }) do %>
+        <%= render partial: '0p/navbar/navbar' %>
+      <% end %>
+
+    <% end %>
+
+    <!-- BODY -->
+    <%= render(layout: "0p/general/margen_div", locals: { cols: config[:margen][:body], style_str: 'margin-top: .5em; margin-bottom: .5em', container: config[:container][:body], container_class: 'app_body' }) do %>
+      <%= render partial: 'layouts/app' %>
+    <% end %>
+
     <!------------------------------------------->
     <hr>
     <!-- TEMA_AYUDA -->

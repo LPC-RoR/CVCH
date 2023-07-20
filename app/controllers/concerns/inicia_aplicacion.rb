@@ -30,44 +30,39 @@ module IniciaAplicacion
 				end
 
 
-				e_3 = elementos.find_by(elemento: 'Menús Laterales')
-				if e_3.blank?
-					lista.sb_elementos.create(orden: 3, nivel: 1, tipo: 'item', elemento: 'Menús Laterales', acceso: 'admin', activo: true, despliegue: 'list', controlador: 'sb_listas')
-				end
-
-				e_4 = elementos.find_by(elemento: 'Tutoriales')
+				e_4 = elementos.find_by(elemento: 'Menús Laterales')
 				if e_4.blank?
-					lista.sb_elementos.create(orden: 4, nivel: 1, tipo: 'item', elemento: 'Tutoriales', acceso: 'admin', activo: true, despliegue: 'list', controlador: 'hlp_tutoriales')
+					lista.sb_elementos.create(orden: 4, nivel: 1, tipo: 'item', elemento: 'Menús Laterales', acceso: 'admin', activo: true, despliegue: 'list', controlador: 'sb_listas')
 				end
 
-				e_5 = elementos.find_by(elemento: 'Usuarios')
+				e_5 = elementos.find_by(elemento: 'Tutoriales')
 				if e_5.blank?
-					lista.sb_elementos.create(orden: 5, nivel: 1, tipo: 'item', elemento: 'Usuarios', acceso: 'admin', activo: true, despliegue: 'list', controlador: 'usuarios')
+					lista.sb_elementos.create(orden: 5, nivel: 1, tipo: 'item', elemento: 'Tutoriales', acceso: 'admin', activo: true, despliegue: 'list', controlador: 'hlp_tutoriales')
 				end
 
-				e_6 = elementos.find_by(elemento: 'Home')
+				e_6 = elementos.find_by(elemento: 'Usuarios')
 				if e_6.blank?
-					lista.sb_elementos.create(orden: 6, nivel: 1, tipo: 'list', elemento: 'Home', acceso: 'admin', activo: true, despliegue: nil, controlador: nil)
+					lista.sb_elementos.create(orden: 6, nivel: 1, tipo: 'item', elemento: 'Usuarios', acceso: 'admin', activo: true, despliegue: 'list', controlador: 'usuarios')
 				end
 
-				e_7 = elementos.find_by(elemento: 'Imágenes')
+				e_7 = elementos.find_by(elemento: 'Home')
 				if e_7.blank?
-					lista.sb_elementos.create(orden: 7, nivel: 2, tipo: 'item', elemento: 'Imágenes', acceso: 'admin', activo: true, despliegue: 'list', controlador: 'h_imagenes')
+					lista.sb_elementos.create(orden: 7, nivel: 1, tipo: 'list', elemento: 'Home', acceso: 'admin', activo: true, despliegue: nil, controlador: nil)
 				end
 
-				e_8 = elementos.find_by(elemento: 'Temas')
+				e_8 = elementos.find_by(elemento: 'Imágenes')
 				if e_8.blank?
-					lista.sb_elementos.create(orden: 8, nivel: 2, tipo: 'item', elemento: 'Temas', acceso: 'admin', activo: true, despliegue: 'list', controlador: 'h_temas')
+					lista.sb_elementos.create(orden: 8, nivel: 2, tipo: 'item', elemento: 'Imágenes', acceso: 'admin', activo: true, despliegue: 'list', controlador: 'h_imagenes')
 				end
 
-				e_9 = elementos.find_by(elemento: 'Enlaces')
+				e_9 = elementos.find_by(elemento: 'Temas')
 				if e_9.blank?
-					lista.sb_elementos.create(orden: 9, nivel: 2, tipo: 'item', elemento: 'Enlaces', acceso: 'admin', activo: true, despliegue: 'list', controlador: 'h_links')
+					lista.sb_elementos.create(orden: 9, nivel: 2, tipo: 'item', elemento: 'Temas', acceso: 'admin', activo: true, despliegue: 'list', controlador: 'h_temas')
 				end
 
-				e_10 = elementos.find_by(elemento: 'Modelos de Estados')
-				if e_10.blank?
-					lista.sb_elementos.create(orden: 10, nivel: 2, tipo: 'item', elemento: 'Modelos de Estados', acceso: 'admin', activo: true, despliegue: 'list', controlador: 'st_modelos')
+				e_8 = elementos.find_by(elemento: 'Enlaces')
+				if e_8.blank?
+					lista.sb_elementos.create(orden: 10, nivel: 2, tipo: 'item', elemento: 'Enlaces', acceso: 'admin', activo: true, despliegue: 'list', controlador: 'h_links')
 				end
 			end
 

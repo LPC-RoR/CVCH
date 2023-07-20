@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_04_27_201705) do
+ActiveRecord::Schema.define(version: 2023_07_20_025518) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -165,6 +165,38 @@ ActiveRecord::Schema.define(version: 2023_04_27_201705) do
     t.datetime "updated_at", null: false
     t.index ["investigador_id"], name: "index_autores_on_investigador_id"
     t.index ["publicacion_id"], name: "index_autores_on_publicacion_id"
+  end
+
+  create_table "blg_articulos", force: :cascade do |t|
+    t.string "blg_articulo"
+    t.integer "app_perfil_id"
+    t.integer "blg_tema_id"
+    t.string "estado"
+    t.string "imagen"
+    t.text "descripcion"
+    t.text "articulo"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "autor"
+    t.index ["app_perfil_id"], name: "index_blg_articulos_on_app_perfil_id"
+    t.index ["blg_tema_id"], name: "index_blg_articulos_on_blg_tema_id"
+    t.index ["estado"], name: "index_blg_articulos_on_estado"
+  end
+
+  create_table "blg_imagenes", force: :cascade do |t|
+    t.string "blg_imagen"
+    t.string "imagen"
+    t.string "credito_imagen"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "blg_temas", force: :cascade do |t|
+    t.string "blg_tema"
+    t.string "imagen"
+    t.text "descripcion"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "car_filo_esps", force: :cascade do |t|

@@ -140,6 +140,7 @@ module ProcesaEstructura
 				# si la palabra está en la estructura, pregunta por la clave
 				# si la clave existe, retorna la colección de índices
 				# si no retorna una csolección vacía
+
 				modelo_ids = ind_palabra.ind_clave.present? ? modelo_ids.union(ind_palabra.ind_clave.ind_indices.where(class_name: modelo).map {|ii| ii.objeto_id}) : []
 				modelo_ids = modelo_ids.union(ind_palabra.ind_indices.ids)
 			end

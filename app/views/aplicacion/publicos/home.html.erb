@@ -1,0 +1,40 @@
+<div class="row">
+	<div class="col-12 col-md-8">
+		<%= render partial: '0p/home/portada_card' %>
+
+		<div class='bajada'>
+			
+			<div class='text-center text-muted'><small>Agradecimientos a: Proyecto ANID PIA/BASAL FB0002</small></div>
+			<%#= image_tag 'Proyecto ID.jpg', class: "mx-auto d-block" %>
+			<p class='text-center'><small>SILVA-ARANGUIZ E, J CHINGA & H CHINGA (2021)</small></br> <i>Repositorio Citas Bibliográficas de Vertebrados Chilenos</i></br> http://cvch.cl</br>
+			<small class='text-muted'>Fecha Lanzamiento : 01 de Marzo, 2021</small>
+			</p>
+			<hr>
+		</div>
+
+		<div class="notas">
+			<%= render partial: '0blog/nota_h', locals: {articulo: BlgArticulo.find_by(blg_articulo: 'CVCh')} %>
+		</div>
+
+			<p class='text.muted home-estructura' align='center'>Nuestra colección ha sido clasificada en áreas y cetegorías, las que facilitan en una primera aproximación el acceso a lo buscado.</p>
+		<div class="row home-estructura">
+			<div class="col-12 col-md-6">
+				<%= render partial: 'aplicacion/publicos/partials/areas' %>
+			</div>
+			<div class="col-md-6">
+				<%= render partial: 'aplicacion/publicos/partials/categorias' %>
+			</div>
+		</div>
+
+	</div>
+	<div class="col-md-4">
+		<div class='titulo-seccion' style='padding: 1em;'>
+			ULTIMAS 10 ACTUALIZACIONES</br>
+		</div>
+		<%= render partial: 'aplicacion/publicos/partials/ultimas_publicaciones', locals: {coleccion: @coleccion['publicaciones']} %>
+	</div>
+</div>
+<hr>
+
+<h4 class='text-warning text-center'>ADVERTENCIA</h4>
+<h6 class='text-warning text-center'>El dispositivo de traducción automática de su navegador produce efectos que distorsionan los datos de nuestra colección, recomendamos su desactivación.</h6>

@@ -70,6 +70,9 @@ Rails.application.routes.draw do
   end
 
   scope module: 'aplicacion' do
+    resources :publicos do
+        match :home, via: :get, on: :collection
+    end
     resources :app_recursos do
       collection do
         match :ayuda, via: :get
@@ -87,12 +90,14 @@ Rails.application.routes.draw do
     end
   
   scope module: 'sidebar' do
-    resources :sb_elementos
+    resources :sb_elementos do
+      match :arriba, via: :get, on: :member
+      match :abajo, via: :get, on: :member
+    end
     resources :sb_listas do
       resources :sb_elementos
     end
   end
-
 
   # SCOPE HELP
   scope module: 'help' do
@@ -233,6 +238,12 @@ Rails.application.routes.draw do
   end
   resources :vistas do
     match :graficos, via: :get, on: :collection
+  end
+
+  scope module: 'blog' do
+    resources :blg_articulos
+    resources :blg_temas
+    resources :blg_imagenes
   end
 
   devise_for :usuarios, controllers: {
