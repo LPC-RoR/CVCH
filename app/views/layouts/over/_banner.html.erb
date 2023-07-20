@@ -1,5 +1,4 @@
-<% if publico? %>
-<div class='container'>
+<% if publico? %><div class='container'><% end %>
 <div class="row">
 	<div class="imagen-banner">
 		<%= render partial: '0p/home/over_card', locals: {nombre: 'OverCard'} %>
@@ -8,7 +7,4 @@
 		<h6>Repositorio de Citas Bibliográficas</h6><h3>Vertebrados Chilenos</h3>
 	</div>
 </div>
-</div>
-<% else %>
-	<%= image_tag("logo.jpg", class: "img-responsive", id: "logo") if  File.exist?("app/assets/images/logo.jpg") %>
-<% end %>
+<% if publico? %></div><% end %>
