@@ -14,24 +14,29 @@
         }
     }
   }  
+
   .about-company{
     i{font-size: 25px;}
     a{
       color:black;
       transition: color .2s;
       &:hover{color:#4180CB}
-    }
+      }
 
-	.sociales a{
-  		color: black;
-    	transition: color .2s;
-    	&:hover{
-      		text-decoration:none;
-      		color: gray;
-    	}
-	}
-  
-  } 
+    .sociales a{
+        color: black;
+        transition: color .2s;
+        &:hover{
+            text-decoration:none;
+            color: gray;
+        }
+
+
+
+    } 
+
+  }
+
 
   .location{
     i{font-size: 18px;}
