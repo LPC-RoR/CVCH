@@ -111,12 +111,18 @@ module ProcesaEstructura
 	def exception(palabra)
 		# se resuelven l'as excepciones por idioma
 		# En versión nueva estaas se encuentran en IndSet
-		espanol = IndSet.find_by(ind_set: 'exc_español').set.split(' ').include?(palabra)
-		ingles = IndSet.find_by(ind_set: 'exc_ingles').set.split(' ').include?(palabra)
-		numeros = IndSet.find_by(ind_set: 'exc_numeros').set.split(' ').include?(palabra)
-		excepciones = IndSet.find_by(ind_set: 'exc_app').set.split(' ').include?(palabra)
+#		espanol = IndSet.find_by(ind_set: 'exc_español').set.split(' ').include?(palabra)
+#		ingles = IndSet.find_by(ind_set: 'exc_ingles').set.split(' ').include?(palabra)
+#		numeros = IndSet.find_by(ind_set: 'exc_numeros').set.split(' ').include?(palabra)
+#		excepciones = IndSet.find_by(ind_set: 'exc_app').set.split(' ').include?(palabra)
 
-		espanol or ingles or numeros or excepciones or numero?(palabra) or unidades?(palabra)
+		excepcion = false
+
+		IndSet.where(tipo: 'exclusion').each do |exclusion|
+			excepcion = exclusion.set.split(' ').include?(palabra) unless excepcion
+		end
+
+		excepcion or numero?(palabra) or unidades?(palabra)
 	end
 
 	def order_string(field_name, arr)
