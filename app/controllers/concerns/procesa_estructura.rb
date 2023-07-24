@@ -152,12 +152,15 @@ module ProcesaEstructura
 				modelo_ids = ind_palabra.ind_clave.present? ? modelo_ids.union(ind_palabra.ind_clave.ind_indices.where(class_name: modelo).map {|ii| ii.objeto_id}) : []
 				modelo_ids = modelo_ids.union(ind_palabra.ind_indices.ids)
 
+				puts "***************************************** modelo_ids"
 				puts modelo_ids.length
 			end
 		end
 
 		# seguro hay una forma más simple, pero es la que encontré usando la consola
 		ids_ordenados = modelo_ids.group_by {|n| n}.map {|e| e}.sort_by {|e| -e[1].length}.map {|e| e[0].to_i}
+		puts "***************************************** ids_ordenados"
+		puts ids_ordenados.length
 
 		# Finalmente obtiene la colección de 
 		publicaciones = modelo.constantize.where(id: ids_ordenados).order(order_string('id', ids_ordenados))
