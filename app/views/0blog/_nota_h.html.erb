@@ -1,9 +1,9 @@
 <% unless articulo.blank? %>
 <div class="row">
-	<div class="col-12 col-md-6">
+	<div class="col-xs-12 col-lg-6">
 		<%= image_tag articulo.imagen.half.url, class: 'img-fluid' %>
 	</div>
-	<div class="col-md-6" blg-nota>
+	<div class="col-lg-6" blg-nota>
 		<b><%= articulo.blg_articulo %></b></br>
 		<div class='text-muted'><small><%= articulo.autor %> | <%= dma(articulo.created_at) %></small></div>
 		<small><%= sanitize simple_format(articulo.articulo) %></small>
