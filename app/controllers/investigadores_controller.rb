@@ -13,8 +13,9 @@ class InvestigadoresController < ApplicationController
   # GET /investigadores/1
   # GET /investigadores/1.json
   def show
-    @coleccion = {}
-    @coleccion['publicaciones'] = @objeto.publicaciones.order(sort_column + " " + sort_direction).page(params[:page]) #.where(estado: @estado)
+#    @coleccion = {}
+#    @coleccion['publicaciones'] = @objeto.publicaciones.order(sort_column + " " + sort_direction).page(params[:page]) #.where(estado: @estado)
+    init_tabla('publicaciones', @objeto.publicaciones.where(estado: 'publicada'), true)
   end
 
   # GET /investigadores/new
