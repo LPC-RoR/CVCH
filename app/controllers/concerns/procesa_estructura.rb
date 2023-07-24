@@ -134,33 +134,23 @@ module ProcesaEstructura
 		# buscamos palabra por palabra
 		palabras.each do |palabra|
 
-			# ind_palabra es la donde se accede al índice inverso
-			ind_palabra = IndPalabra.find_by(ind_palabra: palabra.strip.downcase)
-			unless excluye_palabra(palabra) or ind_palabra.blank?
-				# si la palabra está en la estructura, pregunta por la clave
-				# si la clave existe, retorna la colección de índices
-				# si no retorna una csolección vacía
-				puts "************************************ hora de la verdad"
-				puts palabra
-				puts ind_palabra.ind_clave.present?
-				if ind_palabra.ind_clave.present?
-					puts ind_palabra.ind_clave.ind_indices.where(class_name: modelo).count
+			unless excluye_palabra(palabra.strip.downcase)
+				# ind_palabra es la donde se accede al índice inverso
+				ind_palabra = IndPalabra.find_by(ind_palabra: palabra.strip.downcase)
+				unless ind_palabra.blank?
+					# si la palabra está en la estructura, pregunta por la clave
+					# si la clave existe, retorna la colección de índices
+					# si no retorna una csolección vacía
+
+					modelo_ids = ind_palabra.ind_clave.present? ? modelo_ids.union(ind_palabra.ind_clave.ind_indices.where(class_name: modelo).map {|ii| ii.objeto_id}) : []
+					modelo_ids = modelo_ids.union(ind_palabra.ind_indices.ids)
+
 				end
-				puts "*********************************** separador"
-				puts ind_palabra.ind_indices.count
-
-				modelo_ids = ind_palabra.ind_clave.present? ? modelo_ids.union(ind_palabra.ind_clave.ind_indices.where(class_name: modelo).map {|ii| ii.objeto_id}) : []
-				modelo_ids = modelo_ids.union(ind_palabra.ind_indices.ids)
-
-				puts "***************************************** modelo_ids"
-				puts modelo_ids.length
-			end
+			end 
 		end
 
 		# seguro hay una forma más simple, pero es la que encontré usando la consola
 		ids_ordenados = modelo_ids.group_by {|n| n}.map {|e| e}.sort_by {|e| -e[1].length}.map {|e| e[0].to_i}
-		puts "***************************************** ids_ordenados"
-		puts ids_ordenados.length
 
 		# Finalmente obtiene la colección de 
 		publicaciones = modelo.constantize.where(id: ids_ordenados).order(order_string('id', ids_ordenados))
