@@ -20,9 +20,6 @@ class Busqueda::IndEstructurasController < ApplicationController
   def show
     init_tabla('ind_modelos', @objeto.ind_modelos.order(:ind_modelos), false)
     add_tabla('ind_palabras', @objeto.ind_palabras.order(:ind_palabra), true)
-#    @coleccion = {}
-#    @coleccion['ind_modelos'] = @objeto.ind_modelos.order(:ind_modelos)
-#    @coleccion['ind_palabras'] = @objeto.ind_palabras.order(:ind_palabra).page(params[:page])
   end
 
   # GET /ind_estructuras/new

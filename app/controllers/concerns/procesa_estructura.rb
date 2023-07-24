@@ -125,7 +125,7 @@ module ProcesaEstructura
 
 	# Metodo que procesa la búsqueda de
 	# search: paarámetros de búsqueda
-	# modelo: modelo que orienta la búsqueda
+	# modelo: modelo que buscamos (Publicacion)
 	def busqueda_publicaciones(search, modelo)
 		# palabras clave: búsqueda!
 		palabras = palabras_texto(search)
@@ -140,9 +140,19 @@ module ProcesaEstructura
 				# si la palabra está en la estructura, pregunta por la clave
 				# si la clave existe, retorna la colección de índices
 				# si no retorna una csolección vacía
+				puts "************************************ hora de la verdad"
+				puts palabra
+				puts ind_palabra.ind_clave.present?
+				if ind_palabra.ind_clave.present?
+					puts ind_palabra.ind_clave.ind_indices.where(class_name: modelo).count
+				end
+				puts "*********************************** separador"
+				puts ind_palabra.ind_indices.count
 
 				modelo_ids = ind_palabra.ind_clave.present? ? modelo_ids.union(ind_palabra.ind_clave.ind_indices.where(class_name: modelo).map {|ii| ii.objeto_id}) : []
 				modelo_ids = modelo_ids.union(ind_palabra.ind_indices.ids)
+
+				puts modelo_ids.length
 			end
 		end
 
