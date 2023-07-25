@@ -59,7 +59,7 @@ class PublicacionesController < ApplicationController
     # ÁREA PÚBLICA ******************************************************************************************
       # Las especies puedes ser vistas por un usuario anónimo
       if @options[:menu] == 'Especies'
-        @coleccion_publicacion = @objeto.especies
+        @coleccion_publicacion = @objeto.especies.order(:especie)
       end
 
     # ********************** DUPLICADOS *****************************
