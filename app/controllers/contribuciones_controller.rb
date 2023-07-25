@@ -7,13 +7,9 @@ class ContribucionesController < ApplicationController
   # GET /contribuciones
   # GET /contribuciones.json
   def index
-    @activo = perfil_activo
-
     init_tab( { menu: ['ingreso', 'contribucion', 'publicada'] }, true )
 
-    init_tabla('publicaciones', @activo.contribuciones.where(estado: @tab).order(sort_column + " " + sort_direction), true)
-#    @coleccion = {}
-#    @coleccion['publicaciones'] = @activo.contribuciones.where(estado: @tab).order(sort_column + " " + sort_direction).page(params[:page])
+    init_tabla('publicaciones', perfil_activo.contribuciones.where(estado: @options[:menu]).order(sort_column + " " + sort_direction), true)
   end
 
   # GET /contribuciones/1

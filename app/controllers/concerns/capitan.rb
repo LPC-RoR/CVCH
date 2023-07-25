@@ -19,6 +19,7 @@ module Capitan
 	# ************************************************************************** INICIALIZA TAB
 	def init_tab(tabs, options_init)
 
+		# init_tab( { menu: ['ingreso', 'contribucion', 'publicada'] }, true )
 		@tabs = tabs
 		@options = {} if options_init
 

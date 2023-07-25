@@ -12,7 +12,8 @@ module CptnCristianoHelper
 			'TarUfSistema' => 'Uf del sistema',
 			'SbLista' => 'Menú lateral',
 			'SbElemento' => 'Elemento del menú lateral',
-			'TarHora' => 'Tarifa en Horas'
+			'TarHora' => 'Tarifa en Horas',
+			'TarUfFacturacion' => 'UF de facturación'
 		}
 	end
 
@@ -34,13 +35,16 @@ module CptnCristianoHelper
 			'consultoria' => 'consultoría',
 			'codigo' => 'código',
 			'descripcion' => 'descripción',
-			'facturacion' => 'facturación'
+			'facturacion' => 'facturación',
+			'conciliacion' => 'conciliación',
+			'articulo' => 'artículo',
+			'publicacion' => 'publicación'
 		}
 	end
 
 	# prefijos de modelos con scope
 	def scopes
-		/^tar_|^app_|^h_|^st_|^ind_|^blg_/
+		/^tar_|^app_|^h_|^st_|^ind_|^m_|^blg_/
 	end
 
 	# nombre que se desplega de un controlador
@@ -52,7 +56,7 @@ module CptnCristianoHelper
 			# Manejo de scopes
 			text = controller.match(scopes) ? controller.gsub(scopes, '') : controller
 			# corrige acentos
-			text.humanize.split.map {|word| corrige(word.downcase)}.join(' ').capitalize
+			text.singularize.humanize.split.map {|word| corrige(word.downcase)}.join(' ').capitalize
 		end
 	end
 

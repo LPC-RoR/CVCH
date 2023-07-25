@@ -53,3 +53,9 @@ span + span {
 .home-estructura {
     font-family: 'Lexend', sans-serif;
 }
+
+.list-item {
+    font-family: 'Raleway', sans-serif;
+    background-color:     #eaf2f8;
+    padding-bottom: 1em;    
+}

@@ -50,7 +50,7 @@ module Seguridad
 	end
 
 	def publico?
-		['publicos'].include?(controller_name) or controller_name.match(/^blg_*/)
+		['publicos', 'vistas', 'contribuciones'].include?(controller_name) or controller_name.match(/^blg_*/)
 	end
 
 	def mi_seguridad?
