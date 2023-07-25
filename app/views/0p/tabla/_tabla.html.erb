@@ -23,21 +23,6 @@
     <%= render partial: '0p/tabla/display_tabla', locals: {c: c} %>
   <% end %>
   
-  <!-- TABLA -->
-    <!--table class="table table-striped table-sm  thead-dark">
-    <thead>
-      <%#= render partial: '0p/tabla/th', locals: {c: get_controller(c)} unless no_th_controllers.include?(get_controller(c)) %>
-    </thead>
-
-    <tbody>
-      <%# unless @coleccion[c].blank? %>
-        <%# @coleccion[c].each do |objeto| %>
-          <%#= render partial: "/0p/tabla/modelo", locals: {objeto: objeto} %>
-        <%# end  %>
-      <%# end %>
-    </tbody>
-  </table-->
-
   <% if @paginate[c] and @coleccion[c].count > 15 %>
     <small><small><%= page_entries_info(@coleccion[c]) %></small></small>
     <%= paginate @coleccion[c] %>
