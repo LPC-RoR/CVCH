@@ -18,6 +18,14 @@ class FiloElemento < ApplicationRecord
 
 	validates :filo_elemento, presence: true
 
+	def padres_ids
+		if self.parent.present?
+			[self.parent.id].union(self.parent.padres_ids)
+		else
+			[]
+		end
+	end
+
 	def n_hijos
 		self.children.count + self.filo_especies.count
 	end

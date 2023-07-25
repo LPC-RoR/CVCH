@@ -12,15 +12,16 @@ module CptnMenuAppHelper
 	    ## Menu principal de la aplicación
 	    # [ 'Item del menú', 'link', 'accesso', 'gly' ]
 	    [
-	        [nil,              "/vistas/graficos",   'general', 'bar-chart-line'],
-	        ["Colecciones",    "/vistas",            'anonimo', 'book'],
-	        ["Carpetas",       "/carpetas",          'nomina',  'folder'],
-	        ["Contribuciones", "/contribuciones",    'general', 'file-earmark-arrow-up'],
-	        ['Especies',       "/especies",          'admin',   'bug'],
-	        ["Revisiones",     "/revisiones",        'admin',   'file-check'],
-	        ["Cargas",         "/cargas",            'admin',   'upload'],
-	        [nil,              "/ind_estructuras",   'dog',     'binoculars'],
-	        [nil,       "/blg_articulos",             'nomina', controller_icon['blg_articulos'], 'Blogs']
+#	        [nil,              "/vistas/graficos",    'general', 'bar-chart-line'],
+	        ["Colecciones",    "/vistas",             'anonimo', 'book'],
+	        ["Carpetas",       "/carpetas",           'nomina',  'folder'],
+	        ["Contribuciones", "/contribuciones",     'general', 'file-earmark-arrow-up'],
+	        ['Especies',       "/especies",           'admin',   'bug'],
+	        ['Taxonomía',      "/publicos/taxonomia", 'admin',   'diagram-3'],
+	        ["Revisiones",     "/revisiones",         'admin',   'file-check'],
+#	        ["Cargas",         "/cargas",             'admin',   'upload'],
+	        [nil,              "/ind_estructuras",    'dog',     'binoculars'],
+	        [nil,              "/blg_articulos",      'nomina',  controller_icon['blg_articulos'], 'Blogs']
 	    ]
 
 	end

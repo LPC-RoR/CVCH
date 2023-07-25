@@ -1,5 +1,6 @@
 class FiloOrdenesController < ApplicationController
-  before_action :set_filo_orden, only: [:show, :edit, :update, :destroy]
+  before_action :set_filo_orden, only: [:show, :edit, :update, :destroy, :arriba, :abajo]
+  after_action :reordenar, only: :destroy
 
   # GET /filo_ordenes
   # GET /filo_ordenes.json
@@ -49,6 +50,37 @@ class FiloOrdenesController < ApplicationController
       else
         format.html { render :edit }
         format.json { render json: @objeto.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  def arriba
+    owner = @objeto.owner
+    anterior = @objeto.anterior
+    @objeto.orden -= 1
+    @objeto.save
+    anterior.orden += 1
+    anterior.save
+
+    redirect_to @objeto.redireccion
+  end
+
+  def abajo
+    owner = @objeto.owner
+    siguiente = @objeto.siguiente
+    @objeto.orden += 1
+    @objeto.save
+    siguiente.orden -= 1
+    siguiente.save
+
+    redirect_to @objeto.redireccion
+  end
+
+  def reordenar
+    @objeto.list.each_with_index do |val, index|
+      unless val.orden == index + 1
+        val.orden = index + 1
+        val.save
       end
     end
   end

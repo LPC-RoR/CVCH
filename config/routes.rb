@@ -3,7 +3,10 @@ Rails.application.routes.draw do
   resources :car_filo_esps
   resources :filo_esp_esp_sinonimos
   resources :per_cares
-  resources :filo_ordenes
+  resources :filo_ordenes do
+    match :arriba, via: :get, on: :member
+    match :abajo, via: :get, on: :member
+  end
   resources :filo_esp_esps
   resources :filo_especies do
     match :nuevo, via: :post, on: :collection
@@ -72,6 +75,8 @@ Rails.application.routes.draw do
   scope module: 'aplicacion' do
     resources :publicos do
         match :home, via: :get, on: :collection
+        match :especies, via: :get, on: :collection
+        match :taxonomia, via: :get, on: :collection
     end
     resources :app_recursos do
       collection do

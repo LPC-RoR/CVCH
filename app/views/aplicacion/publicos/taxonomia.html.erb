@@ -1,0 +1,37 @@
+<%= render partial: '0p/general/gly_title_size', locals: {gly: 'diagram-3', title: (params[:indice].blank? ? 'Taxonomía | Base' : "Taxonomía | #{@objeto.filo_elemento}"), size: 5} %>
+
+<small>
+	<%= link_to ': Base', '/publicos/taxonomia' unless params[:indice].blank? %>
+	<% unless @padres_ids.blank? %>
+		<% @padres_ids.each do |padre_id| %>
+		 | <%= link_to FiloElemento.find(padre_id).filo_elemento, "/publicos/taxonomia?indice=#{padre_id}" %>
+		<% end %>
+	<% end %>
+</small>
+<div class="row">
+	<div class="col-lg-6 col-xs-12">
+		<% @coleccion['base-filo_elementos'].each do |elemento| %>
+			<div class="elemento">
+				<i class="bi bi-diagram-3"></i>
+				<small><%= elemento.filo_orden.filo_orden unless elemento.filo_orden.blank? %></small> | 
+				<%= link_to elemento.filo_elemento, "/publicos/taxonomia?indice=#{elemento.id}" %>
+				<small>
+				<div class="sub-elementos" style='padding-left: 2em'>
+					<% elemento.children.order(:filo_elemento).each do |sub_elemento| %>
+						<i class="bi bi-diagram-3"></i>
+						<small><%= sub_elemento.filo_orden.filo_orden %></small> | 
+						<%= link_to sub_elemento.filo_elemento, "/publicos/taxonomia?indice=#{sub_elemento.id}" %></br>
+					<% end %>
+				</div>
+				<div class="especies" style='padding-left: 2em'>
+					<% elemento.filo_especies.order(:filo_especies).each do |especie| %>
+						<i class="bi bi-bug"></i>
+						<%= link_to especie.filo_especie, "/publicos/especies?indice=#{especie.id}" %></br>
+					<% end %>
+				</div>
+				</small>
+			</div>
+		<% end %>
+	</div>
+	<div class="col-lg-6 col-xs-12"></div>
+</div>

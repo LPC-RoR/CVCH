@@ -8,6 +8,26 @@ class Aplicacion::PublicosController < ApplicationController
     init_tabla( 'publicaciones', Publicacion.where(id: ultimos_ids).order(sort_column + " " + sort_direction), false )
     add_tabla( 'tema_ayudas', TemaAyuda.where(tipo: 'inicio').where(activo: true).order(:orden), false )
   end
+
+  def taxonomia
+    if params[:indice].blank?
+      base_ids = FiloElemento.all.map {|fe| fe.id unless fe.parent.present?}.compact
+      init_tabla('base-filo_elementos', FiloElemento.where(id: base_ids).order(:filo_elemento), false)
+      @padres_ids = nil
+    else
+      @objeto = FiloElemento.find(params[:indice])
+      init_tabla('base-filo_elementos', @objeto.children.order(:filo_elemento), false)
+      @padres_ids = @objeto.padres_ids.reverse()
+    end      
+  end
+
+  def especies
+    unless params[:indice].blank?
+      @objeto = FiloEspecie.find(params[:indice])
+      init_tabla('filo_especies', @objeto.children.order(:filo_especie), false)
+#      @padres_ids = @objeto.padres_ids.reverse()
+    end
+  end
  
   private
     # Use callbacks to share common setup or constraints between actions.

@@ -1,0 +1,15 @@
+<%= render partial: '0p/general/gly_title_size', locals: {gly: 'diagram-3', title: "Especie | #{@objeto.filo_especie}", size: 5} %>
+
+<small>
+</small>
+<div class="row">
+	<div class="col-lg-6 col-xs-12">
+		<% @coleccion['filo_especies'].each do |especie| %>
+			<div class="especie">
+				<i class="bi bi-bug"></i>
+				<%= link_to especie.filo_especie, "/publicos/especies?indice=#{especie.id}" %>
+			</div>
+		<% end %>
+	</div>
+	<div class="col-lg-6 col-xs-12"></div>
+</div>
