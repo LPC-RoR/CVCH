@@ -17,7 +17,7 @@ class Aplicacion::PublicosController < ApplicationController
     else
       @objeto = FiloElemento.find(params[:indice])
       init_tabla('base-filo_elementos', @objeto.children.order(:filo_elemento), false)
-      add_tabla('filo_especie', @objeto.filo_especies.order(:filo_especie), false)
+      add_tabla('filo_especies', @objeto.filo_especies.order(:filo_especie), false)
       @padres_ids = @objeto.padres_ids.reverse()
     end      
   end
