@@ -86,7 +86,7 @@ class FiloElementosController < ApplicationController
     respond_to do |format|
       if @objeto.save
         set_redireccion
-        format.html { redirect_to @redireccion, notice: 'Filo elemento was successfully created.' }
+        format.html { redirect_to @redireccion, notice: 'Elemento fue exitósamente creado.' }
         format.json { render :show, status: :created, location: @objeto }
       else
         format.html { render :new }
@@ -101,7 +101,7 @@ class FiloElementosController < ApplicationController
     respond_to do |format|
       if @objeto.update(filo_elemento_params)
         set_redireccion
-        format.html { redirect_to @redireccion, notice: 'Filo elemento was successfully updated.' }
+        format.html { redirect_to @redireccion, notice: 'Elemento fue exitósamente actualizado.' }
         format.json { render :show, status: :ok, location: @objeto }
       else
         format.html { render :edit }
@@ -144,7 +144,7 @@ class FiloElementosController < ApplicationController
     set_redireccion
     @objeto.destroy
     respond_to do |format|
-      format.html { redirect_to @redireccion, notice: 'Filo elemento was successfully destroyed.' }
+      format.html { redirect_to @redireccion, notice: 'Elemento fue exitósamente eliminado.' }
       format.json { head :no_content }
     end
   end
@@ -173,11 +173,11 @@ class FiloElementosController < ApplicationController
     end
 
     def set_redireccion
-      @redireccion = '/especies'
+      @redireccion = "/publicos/taxonomia?indice=#{@objeto.id}"
     end
 
     # Only allow a list of trusted parameters through.
     def filo_elemento_params
-      params.require(:filo_elemento).permit(:filo_orden_id, :filo_elemento, :descripcion)
+      params.require(:filo_elemento).permit(:filo_orden_id, :filo_elemento, :descripcion, :mma_ok, :revisar)
     end
 end

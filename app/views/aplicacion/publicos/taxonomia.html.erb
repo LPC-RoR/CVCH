@@ -16,17 +16,45 @@
 				<small><%= elemento.filo_orden.filo_orden unless elemento.filo_orden.blank? %></small> | 
 				<%= link_to elemento.filo_elemento, "/publicos/taxonomia?indice=#{elemento.id}" %>
 				<small>
+				<% if elemento.mma_ok %>
+					<i class="bi bi-spellcheck text-success"></i>
+				<% end %>
+				<% if elemento.revisar %>
+					<i class="bi bi-exclamation-diamond text-danger"></i>
+				<% end %>
+				</small>
+				<% if admin? %>
+					<small>
+						<%= render partial: '0p/tabla/link_editar', locals: {objeto: elemento} %>
+						<%= render partial: '0p/tabla/link_eliminar', locals: {objeto: elemento} unless has_child?(elemento) %>
+					</small>
+				<% end %>
+				<small>
 				<div class="sub-elementos" style='padding-left: 2em'>
 					<% elemento.children.order(:filo_elemento).each do |sub_elemento| %>
 						<i class="bi bi-diagram-3"></i>
 						<small><%= sub_elemento.filo_orden.filo_orden %></small> | 
-						<%= link_to sub_elemento.filo_elemento, "/publicos/taxonomia?indice=#{sub_elemento.id}" %></br>
+						<%= link_to sub_elemento.filo_elemento, "/publicos/taxonomia?indice=#{sub_elemento.id}" %>
+						<% if admin? %>
+							<small>
+								<%= render partial: '0p/tabla/link_editar', locals: {objeto: sub_elemento} %>
+								<%= render partial: '0p/tabla/link_eliminar', locals: {objeto: elemento} unless has_child?(sub_elemento) %>
+							</small>
+						<% end %>
+						</br>
 					<% end %>
 				</div>
 				<div class="especies" style='padding-left: 2em'>
 					<% elemento.filo_especies.order(:filo_especies).each do |especie| %>
 						<i class="bi bi-bug"></i>
-						<%= link_to especie.filo_especie, "/publicos/especies?indice=#{especie.id}" %></br>
+						<%= link_to especie.filo_especie, "/publicos/especies?indice=#{especie.id}" %>
+						<% if admin? %>
+							<small>
+								<%= render partial: '0p/tabla/link_editar', locals: {objeto: especie} %>
+								<%= render partial: '0p/tabla/link_eliminar', locals: {objeto: elemento} unless has_child?(especie) %>
+							</small>
+						<% end %>
+						</br>
 					<% end %>
 				</div>
 				</small>
@@ -36,7 +64,14 @@
 		<% unless params[:indice].blank? %>
 		<% @coleccion['filo_especies'].each do |especie| %>
 			<i class="bi bi-bug"></i>
-			<%= link_to especie.filo_especie, "/publicos/especies?indice=#{especie.id}" %></br>
+			<%= link_to especie.filo_especie, "/publicos/especies?indice=#{especie.id}" %>
+			<% if admin? %>
+				<small>
+					<%= render partial: '0p/tabla/link_editar', locals: {objeto: especie} %>
+					<%= render partial: '0p/tabla/link_eliminar', locals: {objeto: especie} unless has_child?(especie) %>
+				</small>
+			<% end %>
+			</br>
 		<% end %>
 		<% end %>
 	</div>

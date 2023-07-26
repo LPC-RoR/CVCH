@@ -194,11 +194,11 @@ class FiloEspeciesController < ApplicationController
     end
 
     def set_redireccion
-      @redireccion = @objeto.padre
+      @redireccion = "/publicos/especies?indice=#{@objeto.id}"
     end
 
     # Only allow a list of trusted parameters through.
     def filo_especie_params
-      params.require(:filo_especie).permit(:filo_especie, :nombre_comun, :iucn, :filo_elemento_id)
+      params.require(:filo_especie).permit(:filo_especie, :nombre_comun, :iucn, :filo_elemento_id, :mma_ok, :revisar)
     end
 end
