@@ -33,9 +33,11 @@
 			</div>
 		<% end %>
 
+		<% unless params[:indice].blank? %>
 		<% @coleccion['filo_especies'].each do |especie| %>
 			<i class="bi bi-bug"></i>
 			<%= link_to especie.filo_especie, "/publicos/especies?indice=#{especie.id}" %></br>
+		<% end %>
 		<% end %>
 	</div>
 	<div class="col-lg-6 col-xs-12"></div>
