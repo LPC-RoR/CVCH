@@ -10,8 +10,10 @@
 			<% @regiones_para_asignar.each do |region| %>
 				<li>
 					<%= region.region %>
-					<%= link_to "/regiones/#{region.id}/asigna?o=#{objeto.class.name}&indice=#{objeto.id}" do %>
-						<i class="bi bi-arrow-bar-down"></i>
+					<% if admin? %>
+						<%= link_to "/regiones/#{region.id}/asigna?o=#{objeto.class.name}&indice=#{objeto.id}" do %>
+							<i class="bi bi-arrow-bar-down"></i>
+						<% end %>
 					<% end %>
 				</li>
 			<% end %>
@@ -26,8 +28,10 @@
 		<li>
 			<i class="bi bi-check-all"></i>
 			<%= region.region %>
-			<%= link_to "/regiones/#{region.id}/desasigna?o=#{objeto.class.name}&indice=#{objeto.id}" do %>
-				<i class="bi bi-arrow-bar-up"></i>
+			<% if admin? %>
+				<%= link_to "/regiones/#{region.id}/desasigna?o=#{objeto.class.name}&indice=#{objeto.id}" do %>
+					<i class="bi bi-arrow-bar-up"></i>
+				<% end %>
 			<% end %>
 		</li>
 	<% end %>
