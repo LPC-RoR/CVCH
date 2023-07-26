@@ -5,6 +5,7 @@
 </p>
 <div class="collapse" id="collapseExample">
 	<div class="card card-body">
+		<small>
 		<ul>
 			<% @regiones_para_asignar.each do |region| %>
 				<li>
@@ -15,9 +16,11 @@
 				</li>
 			<% end %>
 		</ul>
+		</small>
 	</div>
 </div>
 
+<small>
 <ul>
 	<% objeto.regiones.order(:orden).each do |region| %>
 		<li>
@@ -29,3 +32,4 @@
 		</li>
 	<% end %>
 </ul>
+</small>
