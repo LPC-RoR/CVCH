@@ -1,36 +1,39 @@
-class FiloOrdenesController < ApplicationController
-  before_action :set_filo_orden, only: [:show, :edit, :update, :destroy, :arriba, :abajo]
+class RegionesController < ApplicationController
+  before_action :set_region, only: [:show, :edit, :update, :destroy, :arriba, :abajo ]
+  before_action :carga_solo_sidebar, only: %i[ show new edit create update ]
   after_action :reordenar, only: :destroy
 
-  # GET /filo_ordenes
-  # GET /filo_ordenes.json
+  include Sidebar
+
+  # GET /regiones
+  # GET /regiones.json
   def index
-    @coleccion = FiloOrden.all
+    @coleccion = Region.all
   end
 
-  # GET /filo_ordenes/1
-  # GET /filo_ordenes/1.json
+  # GET /regiones/1
+  # GET /regiones/1.json
   def show
   end
 
-  # GET /filo_ordenes/new
+  # GET /regiones/new
   def new
-    @objeto = FiloOrden.new
+    @objeto = Region.new(orden: Region.all.count + 1)
   end
 
-  # GET /filo_ordenes/1/edit
+  # GET /regiones/1/edit
   def edit
   end
 
-  # POST /filo_ordenes
-  # POST /filo_ordenes.json
+  # POST /regiones
+  # POST /regiones.json
   def create
-    @objeto = FiloOrden.new(filo_orden_params)
+    @objeto = Region.new(region_params)
 
     respond_to do |format|
       if @objeto.save
         set_redireccion
-        format.html { redirect_to @redireccion, notice: 'Filo orden was successfully created.' }
+        format.html { redirect_to @redireccion, notice: 'Región fue exitósamente creada.' }
         format.json { render :show, status: :created, location: @objeto }
       else
         format.html { render :new }
@@ -39,13 +42,13 @@ class FiloOrdenesController < ApplicationController
     end
   end
 
-  # PATCH/PUT /filo_ordenes/1
-  # PATCH/PUT /filo_ordenes/1.json
+  # PATCH/PUT /regiones/1
+  # PATCH/PUT /regiones/1.json
   def update
     respond_to do |format|
-      if @objeto.update(filo_orden_params)
+      if @objeto.update(region_params)
         set_redireccion
-        format.html { redirect_to @redireccion, notice: 'Filo orden was successfully updated.' }
+        format.html { redirect_to @redireccion, notice: 'Región fue exitósamente actualizada.' }
         format.json { render :show, status: :ok, location: @objeto }
       else
         format.html { render :edit }
@@ -85,29 +88,29 @@ class FiloOrdenesController < ApplicationController
     end
   end
 
-  # DELETE /filo_ordenes/1
-  # DELETE /filo_ordenes/1.json
+  # DELETE /regiones/1
+  # DELETE /regiones/1.json
   def destroy
     set_redireccion
     @objeto.destroy
     respond_to do |format|
-      format.html { redirect_to @redireccion, notice: 'Filo orden was successfully destroyed.' }
+      format.html { redirect_to @redireccion, notice: 'Región fue exitósamente eliminada.' }
       format.json { head :no_content }
     end
   end
 
   private
     # Use callbacks to share common setup or constraints between actions.
-    def set_filo_orden
-      @objeto = FiloOrden.find(params[:id])
+    def set_region
+      @objeto = Region.find(params[:id])
     end
 
     def set_redireccion
-      @redireccion = especies_path
+      @redireccion = "/app_recursos/administracion?id=#{get_elemento_id(controller_name, 'Regiones')}" 
     end
 
     # Only allow a list of trusted parameters through.
-    def filo_orden_params
-      params.require(:filo_orden).permit(:orden, :filo_orden)
+    def region_params
+      params.require(:region).permit(:region, :orden)
     end
 end

@@ -1,4 +1,4 @@
-class FiloEspeciesController < ApplicationController
+class Taxonomia::FiloEspeciesController < ApplicationController
   before_action :set_filo_especie, only: [:show, :edit, :update, :destroy]
 
   helper_method :sort_column, :sort_direction

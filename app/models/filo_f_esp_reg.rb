@@ -1,0 +1,2 @@
+class FiloFEspReg < ApplicationRecord
+end

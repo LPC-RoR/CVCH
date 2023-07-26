@@ -2,6 +2,7 @@ class CategoriasController < ApplicationController
 #  before_action :authenticate_usuario!
 #  before_action :inicia_sesion
   before_action :set_categoria, only: [:show, :edit, :update, :destroy, :asigna, :desasignar, :aceptar, :rechazar]
+  before_action :carga_solo_sidebar, only: %i[ show new edit create update ]
 
   helper_method :sort_column, :sort_direction
 
@@ -39,7 +40,7 @@ class CategoriasController < ApplicationController
     respond_to do |format|
       if @objeto.save
         set_redireccion
-        format.html { redirect_to @redireccion, notice: 'Categoria was successfully created.' }
+        format.html { redirect_to @redireccion, notice: 'Categoría fue exitósamente creada.' }
         format.json { render :show, status: :created, location: @objeto }
       else
         format.html { render :new }
@@ -54,7 +55,7 @@ class CategoriasController < ApplicationController
     respond_to do |format|
       if @objeto.update(categoria_params)
         set_redireccion
-        format.html { redirect_to @redireccion, notice: 'Categoria was successfully updated.' }
+        format.html { redirect_to @redireccion, notice: 'Categoría fue exitósamente actualizada.' }
         format.json { render :show, status: :ok, location: @objeto }
       else
         format.html { render :edit }
@@ -114,7 +115,7 @@ class CategoriasController < ApplicationController
     set_redireccion
     @objeto.destroy
     respond_to do |format|
-      format.html { redirect_to @redireccion, notice: 'Categoria was successfully destroyed.' }
+      format.html { redirect_to @redireccion, notice: 'Categoría fue exitósamente eliminada.' }
       format.json { head :no_content }
     end
   end

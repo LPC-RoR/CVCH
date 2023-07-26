@@ -6,7 +6,9 @@ class FiloOrden < ApplicationRecord
 
 	has_many :filo_elementos
 
-	# ------------------------------------ ORDER LIST
+	scope :ordered, -> { order(:orden) }
+
+ 	# ------------------------------------ ORDER LIST
 
 	def owner
 		nil
@@ -29,9 +31,13 @@ class FiloOrden < ApplicationRecord
 	end
 
 	def redireccion
-		"/especies?html_options[menu]=Estructura"
+		"/app_recursos/administracion?id=#{get_elemento_id(self.class.name.tableize, 'Tipos de Elementos')}" 
 	end
 
 	# -----------------------------------------------
+
+	def get_elemento_id(controlador, nombre_elemento)
+		SbElemento.where(despliegue: 'list').where(controlador: controlador).find_by(elemento: nombre_elemento).id
+	end
 
 end

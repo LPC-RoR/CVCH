@@ -1,37 +1,15 @@
 Rails.application.routes.draw do
 
-  resources :car_filo_esps
-  resources :filo_esp_esp_sinonimos
-  resources :per_cares
-  resources :filo_ordenes do
+  resources :regiones do
     match :arriba, via: :get, on: :member
     match :abajo, via: :get, on: :member
   end
+  resources :car_filo_esps
+  resources :filo_esp_esp_sinonimos
+  resources :per_cares
   resources :filo_esp_esps
-  resources :filo_especies do
-    match :nuevo, via: :post, on: :collection
-    match :nuevo_child, via: :post, on: :collection
-    match :elimina, via: :get, on: :collection
-    # nueva implementacion, verificar anteriores
-    match :nueva_subespecie, via: :post, on: :collection
-    match :nuevo_sinonimo, via: :post, on: :collection
-    match :asocia_etiqueta, via: :post, on: :collection
-    match :asigna, via: :post, on: :collection
-  end
   resources :ind_exp_pales
   resources :filo_ele_eles
-  resources :filo_elementos do
-    resources :filo_especies
-    match :nuevo, via: :post, on: :collection
-    match :asigna_especie, via: :post, on: :collection
-    match :elimina, via: :get, on: :collection
-    match :elimina_base, via: :get, on: :collection
-    match :asigna_area, via: :post, on: :collection
-    match :libera_area, via: :get, on: :member
-    # última implementación, revisar anteriores
-    match :cambio_padre, via: :post, on: :collection
-    match :nuevo_hijo, via: :post, on: :collection
-  end
   resources :ind_sinonimos
   resources :esp_areas
   resources :per_equipos
@@ -249,6 +227,41 @@ Rails.application.routes.draw do
     resources :blg_articulos
     resources :blg_temas
     resources :blg_imagenes
+  end
+
+  scope module: 'taxonomia' do
+    resources :filo_ordenes do
+      match :arriba, via: :get, on: :member
+      match :abajo, via: :get, on: :member
+    end
+    resources :filo_tipo_especies
+    resources :filo_categoria_conservaciones
+
+    resources :filo_especies do
+      match :nuevo, via: :post, on: :collection
+      match :nuevo_child, via: :post, on: :collection
+      match :elimina, via: :get, on: :collection
+      # nueva implementacion, verificar anteriores
+      match :nueva_subespecie, via: :post, on: :collection
+      match :nuevo_sinonimo, via: :post, on: :collection
+      match :asocia_etiqueta, via: :post, on: :collection
+      match :asigna, via: :post, on: :collection
+    end
+
+    resources :filo_elementos do
+      resources :filo_especies
+      match :nuevo, via: :post, on: :collection
+      match :asigna_especie, via: :post, on: :collection
+      match :elimina, via: :get, on: :collection
+      match :elimina_base, via: :get, on: :collection
+      match :asigna_area, via: :post, on: :collection
+      match :libera_area, via: :get, on: :member
+      # última implementación, revisar anteriores
+      match :cambio_padre, via: :post, on: :collection
+      match :nuevo_hijo, via: :post, on: :collection
+    end
+
+    resources :filo_f_esp_regs
   end
 
   devise_for :usuarios, controllers: {

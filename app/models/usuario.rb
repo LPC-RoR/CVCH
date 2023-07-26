@@ -10,6 +10,8 @@ class Usuario < ApplicationRecord
 		'd_fecha_incorporacion'
 	]
 
+	scope :ordered, -> { order(:created_at) }
+
 	def d_tipo_usuario
 		(AppAdministrador.find_by(email: self.email).blank? ? 'usuario' : 'administrador')
 	end

@@ -2,6 +2,9 @@ class AreasController < ApplicationController
   before_action :authenticate_usuario!
   before_action :inicia_sesion
   before_action :set_area, only: [:show, :edit, :update, :destroy, :desasignar, :asigna]
+  before_action :carga_solo_sidebar, only: %i[ show new edit create update ]
+
+  include Sidebar
 
   helper_method :sort_column, :sort_direction
   # GET /areas
@@ -35,7 +38,7 @@ class AreasController < ApplicationController
     respond_to do |format|
       if @objeto.save
         set_redireccion
-        format.html { redirect_to @redireccion, notice: 'Area was successfully created.' }
+        format.html { redirect_to @redireccion, notice: 'Área fue exitósamente creada.' }
         format.json { render :show, status: :created, location: @objeto }
       else
         format.html { render :new }
@@ -50,7 +53,7 @@ class AreasController < ApplicationController
     respond_to do |format|
       if @objeto.update(area_params)
         set_redireccion
-        format.html { redirect_to @redireccion, notice: 'Area was successfully updated.' }
+        format.html { redirect_to @redireccion, notice: 'Área fue exitósamente actualizada.' }
         format.json { render :show, status: :ok, location: @objeto }
       else
         format.html { render :edit }
@@ -77,7 +80,7 @@ class AreasController < ApplicationController
     set_redireccion
     @objeto.destroy
     respond_to do |format|
-      format.html { redirect_to @redireccion, notice: 'Area was successfully destroyed.' }
+      format.html { redirect_to @redireccion, notice: 'Área fue exitósamente eliminada.' }
       format.json { head :no_content }
     end
   end
@@ -110,7 +113,7 @@ class AreasController < ApplicationController
     end
 
     def set_redireccion
-      @redireccion = '/recursos/administracion?t=Áreas'
+      @redireccion = "/app_recursos/administracion?id=#{get_elemento_id(controller_name, 'Áreas')}" 
     end
 
     # Only allow a list of trusted parameters through.

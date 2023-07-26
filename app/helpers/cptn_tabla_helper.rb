@@ -54,35 +54,6 @@ module CptnTablaHelper
 
 #**********************************************************************   APP   *************************************************************
 
-	def app_no_th_controllers
-		[]
-	end
-
-	def app_new_button_conditions(controller)
-		case controller
-		when 'ext-carpetas'
-			false
-		else
-			aliasness = get_controller(controller)
-			case aliasness
-			when 'publicaciones'
-				controller_name == 'contribuciones' and @options[:menu] == 'ingreso'
-			when 'areas'
-				controller_name == 'app_recursos' and dog?
-			when 'categorias'
-				controller_name == 'app_recursos' and dog?
-			when 'especies'
-				false
-			when 'filo_elementos'
-				controller_name == 'especies'
-			when 'filo_especies'
-				controller_name == 'filo_elementos' and FiloElemento.all.empty?
-			else
-				true
-			end
-		end
-	end
-
 	def app_crud_conditions(objeto, btn)
 		case objeto.class.name
 		when 'Carga'

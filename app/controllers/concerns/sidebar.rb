@@ -33,7 +33,7 @@ module Sidebar
 	    	@id = get_id(@sb_elementos, param_id)
 		    @elemento = SbElemento.find(@id)
 
-	    	@controlador = get_controller(@sb_elementos, @id)
+	    	@controlador = get_sb_controller(@sb_elementos, @id)
 	    end
 	end
 
@@ -45,7 +45,7 @@ module Sidebar
 		end
 	end
 
-	def get_controller(elementos, param_id)
+	def get_sb_controller(elementos, param_id)
 		if param_id.blank?
 			first_elemento(elementos).blank? ? nil : first_elemento(elementos).controlador
 		else
@@ -65,7 +65,7 @@ module Sidebar
 			    @objeto = HlpTutorial.find_by(clave: @elemento.controlador)
 			    init_tabla('hlp_pasos', @objeto.hlp_pasos.order(:orden), false) unless @objeto.blank?
 		    elsif ['list', 'ulist'].include?(@elemento.despliegue)
-				init_tabla(@elemento.controlador, @elemento.controlador.classify.constantize.all.order(:created_at), (not (@controlador.classify.constantize.all.count < 26 or @elemento.despliegue == 'ulist')))
+				init_tabla(@elemento.controlador, @elemento.controlador.classify.constantize.ordered, (not (@controlador.classify.constantize.all.count < 26 or @elemento.despliegue == 'ulist')))
 		    end
 		end
 	end

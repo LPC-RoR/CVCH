@@ -1,4 +1,4 @@
-class FiloElementosController < ApplicationController
+class Taxonomia::FiloElementosController < ApplicationController
   before_action :set_filo_elemento, only: [:show, :edit, :update, :destroy, :libera_area]
 
   # GET /filo_elementos

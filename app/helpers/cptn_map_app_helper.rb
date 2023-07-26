@@ -9,7 +9,7 @@ module CptnMapAppHelper
 	end
 
 	def app_sidebar_controllers
-		[]
+		['categorias', 'areas', 'regiones']
 	end
 
 	def app_controllers_scope

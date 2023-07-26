@@ -1,0 +1,27 @@
+<%= form_with(model: filo_categoria_conservacion, local: true) do |form| %>
+  <% if filo_categoria_conservacion.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(filo_categoria_conservacion.errors.count, "error") %> prohibited this filo_categoria_conservacion from being saved:</h2>
+
+      <ul>
+      <% filo_categoria_conservacion.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :codigo %>
+    <%= form.text_field :codigo %>
+  </div>
+
+  <div class="field">
+    <%= form.label :filo_categoria_conservacion %>
+    <%= form.text_field :filo_categoria_conservacion %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

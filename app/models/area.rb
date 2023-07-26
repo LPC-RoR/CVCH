@@ -1,16 +1,8 @@
 class Area < ApplicationRecord
-	# MARCA CARPETAS QUE NO SE MODIFICAN NI ELIMINAN
-	NOT_MODIFY = ['Aves','Micromamíferos','Mamíferos marinos','Carnívoros', 'Ungulados','Murciélagos y edentados','Reptiles','Invasores','Conejos']
-
-	#-------------------------------------------------------------  TABLA
-	TABLA_FIELDS = [
+ 
+ 	TABLA_FIELDS = [
 		's#area'
 	]
-
- 	FORM_FIELDS = [
-		['area',           'entry']
-	]
-
 
 	has_many :filo_elementos
 	
@@ -24,6 +16,8 @@ class Area < ApplicationRecord
 
 	validates :area, presence: true
 	validates :area, uniqueness: true
+
+	scope :ordered, -> { order(:area) }
 
 	def especies_ids
 		bug_ids = []

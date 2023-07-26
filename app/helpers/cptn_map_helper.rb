@@ -49,7 +49,8 @@ module CptnMapHelper
 			estados:       ['st_bandejas', 'st_modelos', 'st_estados'],
 			data:          ['caracteristicas', 'caracterizaciones', 'columnas', 'datos', 'encabezados', 'etapas', 'lineas', 'opciones', 'tablas'],
 			modelos:       ['m_modelos', 'm_conceptos', 'm_bancos', 'm_items', 'm_cuentas', 'm_conciliaciones', 'm_formatos', 'm_datos', 'm_elementos', 'm_valores', 'm_registros'],
-			blog:          ['blg_temas', 'blg_articulos']
+			blog:          ['blg_temas', 'blg_articulos'],
+			taxonomia:     ['filo_tipo_especies', 'filo_ordenes', 'filo_categoria_conservaciones', 'filo_elementos', 'filo_especies']
 		}
 	end
 
@@ -89,7 +90,8 @@ module CptnMapHelper
 			'app_administradores', 'app_nominas', 'app_perfiles', 'app_imagenes',
 			'h_portadas', 'h_temas', 'h_links', 'h_imagenes',
 			'hlp_tutoriales', 'hlp_pasos',
-			'st_modelos', 'st_estados'
+			'st_modelos', 'st_estados',
+			'filo_ordenes', 'filo_tipo_especies', 'filo_categoria_conservaciones'
 		]
 		base_sidebar_controllers.union(app_sidebar_controllers)
 	end
@@ -101,7 +103,7 @@ module CptnMapHelper
 	## -------------------------------------------------------- TABLAS ORDENADAS
 
 	def ordered_controllers
-		['m_datos', 'm_elementos', 'sb_elementos', 'st_estados', 'tar_pagos', 'tar_formulas', 'tar_comentarios', 'filo_ordenes']
+		['m_datos', 'm_elementos', 'sb_elementos', 'st_estados', 'tar_pagos', 'tar_formulas', 'tar_comentarios', 'filo_ordenes', 'regiones']
 	end
 
 	def ordered_controller?(controller)

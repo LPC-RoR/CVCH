@@ -1,0 +1,1 @@
+json.partial! "filo_categoria_conservaciones/filo_categoria_conservacion", filo_categoria_conservacion: @filo_categoria_conservacion

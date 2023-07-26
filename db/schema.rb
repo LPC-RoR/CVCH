@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_07_26_030120) do
+ActiveRecord::Schema.define(version: 2023_07_26_171024) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -354,6 +354,14 @@ ActiveRecord::Schema.define(version: 2023_07_26_030120) do
     t.index ["publicacion_id"], name: "index_evaluaciones_on_publicacion_id"
   end
 
+  create_table "filo_categoria_conservaciones", force: :cascade do |t|
+    t.string "codigo"
+    t.string "filo_categoria_conservacion"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["codigo"], name: "index_filo_categoria_conservaciones_on_codigo"
+  end
+
   create_table "filo_ele_eles", force: :cascade do |t|
     t.integer "parent_id"
     t.integer "child_id"
@@ -406,9 +414,23 @@ ActiveRecord::Schema.define(version: 2023_07_26_030120) do
     t.boolean "mma_ok"
     t.boolean "revisar"
     t.string "referencia"
+    t.integer "filo_tipo_especie_id"
+    t.integer "filo_categoria_conservacion_id"
+    t.text "sinonimia"
     t.index ["especie_id"], name: "index_filo_especies_on_especie_id"
+    t.index ["filo_categoria_conservacion_id"], name: "index_filo_especies_on_filo_categoria_conservacion_id"
     t.index ["filo_elemento_id"], name: "index_filo_especies_on_filo_elemento_id"
     t.index ["filo_especie"], name: "index_filo_especies_on_filo_especie"
+    t.index ["filo_tipo_especie_id"], name: "index_filo_especies_on_filo_tipo_especie_id"
+  end
+
+  create_table "filo_f_esp_regs", force: :cascade do |t|
+    t.integer "filo_especie_id"
+    t.integer "region_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["filo_especie_id"], name: "index_filo_f_esp_regs_on_filo_especie_id"
+    t.index ["region_id"], name: "index_filo_f_esp_regs_on_region_id"
   end
 
   create_table "filo_ordenes", force: :cascade do |t|
@@ -417,6 +439,12 @@ ActiveRecord::Schema.define(version: 2023_07_26_030120) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["filo_orden"], name: "index_filo_ordenes_on_filo_orden"
+  end
+
+  create_table "filo_tipo_especies", force: :cascade do |t|
+    t.string "filo_tipo_especie"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "h_imagenes", force: :cascade do |t|
@@ -810,6 +838,14 @@ ActiveRecord::Schema.define(version: 2023_07_26_030120) do
     t.index ["t_sha1"], name: "index_publicaciones_on_t_sha1"
     t.index ["title"], name: "index_publicaciones_on_title"
     t.index ["unique_id"], name: "index_publicaciones_on_unique_id"
+  end
+
+  create_table "regiones", force: :cascade do |t|
+    t.string "region"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "orden"
+    t.index ["orden"], name: "index_regiones_on_orden"
   end
 
   create_table "registros", force: :cascade do |t|

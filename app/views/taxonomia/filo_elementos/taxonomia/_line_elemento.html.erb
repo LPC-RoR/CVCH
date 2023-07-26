@@ -2,6 +2,6 @@
 <small><%= objeto.filo_orden.filo_orden unless objeto.filo_orden.blank? %></small> | 
 <%= link_to objeto.filo_elemento, "/publicos/taxonomia?indice=#{objeto.id}" %>
 
-<%= render partial: 'filo_elementos/taxonomia/flags', locals: {objeto: objeto} %>
-<%= render partial: 'filo_elementos/taxonomia/btns_e', locals: {objeto: objeto} if admin? %>
+<%= render partial: 'taxonomia/filo_elementos/taxonomia/flags', locals: {objeto: objeto} %>
+<%= render partial: 'taxonomia/filo_elementos/taxonomia/btns_e', locals: {objeto: objeto} if admin? %>
 </br>
