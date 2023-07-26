@@ -1,5 +1,6 @@
 <i class="bi bi-bug"></i>
 <%= link_to objeto.filo_especie, "/publicos/especies?indice=#{objeto.id}" %>
+<small><%= "( #{objeto.referencia} )" %></small>
 
 <%= render partial: 'filo_elementos/taxonomia/flags', locals: {objeto: objeto} %>
 <%= render partial: 'filo_elementos/taxonomia/btns_e', locals: {objeto: objeto} if admin? %>

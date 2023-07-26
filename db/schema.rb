@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_07_26_003957) do
+ActiveRecord::Schema.define(version: 2023_07_26_030120) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -405,6 +405,7 @@ ActiveRecord::Schema.define(version: 2023_07_26_003957) do
     t.integer "especie_id"
     t.boolean "mma_ok"
     t.boolean "revisar"
+    t.string "referencia"
     t.index ["especie_id"], name: "index_filo_especies_on_especie_id"
     t.index ["filo_elemento_id"], name: "index_filo_especies_on_filo_elemento_id"
     t.index ["filo_especie"], name: "index_filo_especies_on_filo_especie"
