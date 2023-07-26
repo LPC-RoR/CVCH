@@ -2,7 +2,7 @@
 	<%= link_to ': Base', '/publicos/taxonomia' unless params[:indice].blank? %>
 	<% unless @padres_ids.blank? %>
 		<% @padres_ids.each do |padre_id| %>
-		 | <%= link_to "#{FiloElemento.find(padre_id).filo_elemento.filo_orden.filo_orden unless FiloElemento.find(padre_id).filo_elemento.filo_orden.blank?}:#{FiloElemento.find(padre_id).filo_elemento}", "/publicos/taxonomia?indice=#{padre_id}" %>
+		 | <%= link_to "#{FiloElemento.find(padre_id).filo_orden.filo_orden unless FiloElemento.find(padre_id).filo_orden.blank?}:#{FiloElemento.find(padre_id).filo_elemento}", "/publicos/taxonomia?indice=#{padre_id}" %>
 		<% end %>
 	<% end %>
 </small>
