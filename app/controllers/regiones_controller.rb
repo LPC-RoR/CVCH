@@ -1,5 +1,5 @@
 class RegionesController < ApplicationController
-  before_action :set_region, only: [:show, :edit, :update, :destroy, :arriba, :abajo ]
+  before_action :set_region, only: [:show, :edit, :update, :destroy, :arriba, :abajo, :asigna, :desasigna ]
   before_action :carga_solo_sidebar, only: %i[ show new edit create update ]
   after_action :reordenar, only: :destroy
 
@@ -85,6 +85,24 @@ class RegionesController < ApplicationController
         val.orden = index + 1
         val.save
       end
+    end
+  end
+
+  def asigna
+    destino = params[:o].constantize.find(params[:indice])
+    destino.regiones << @objeto
+
+    if params[:o] == 'FiloEspecie'
+      redirect_to "/publicos/especies?indice=#{destino.id}"
+    end
+  end
+
+  def desasigna
+    destino = params[:o].constantize.find(params[:indice])
+    destino.regiones.delete(@objeto)
+
+    if params[:o] == 'FiloEspecie'
+      redirect_to "/publicos/especies?indice=#{destino.id}"
     end
   end
 

@@ -26,6 +26,9 @@ class Aplicacion::PublicosController < ApplicationController
     unless params[:indice].blank?
       @objeto = FiloEspecie.find(params[:indice])
       init_tabla('filo_especies', @objeto.children.order(:filo_especie), false)
+
+      regiones_para_asignar_ids = Region.all.map {|region| region.id unless @objeto.regiones.ids.include?(region.id)}.compact
+      @regiones_para_asignar = Region.where(id: regiones_para_asignar_ids).order(:orden)
 #      @padres_ids = @objeto.padres_ids.reverse()
     end
   end

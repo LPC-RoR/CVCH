@@ -3,6 +3,8 @@ Rails.application.routes.draw do
   resources :regiones do
     match :arriba, via: :get, on: :member
     match :abajo, via: :get, on: :member
+    match :asigna, via: :get, on: :member
+    match :desasigna, via: :get, on: :member
   end
   resources :car_filo_esps
   resources :filo_esp_esp_sinonimos
