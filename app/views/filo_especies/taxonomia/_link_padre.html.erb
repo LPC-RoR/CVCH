@@ -1,0 +1,7 @@
+<small><small>
+	<% if objeto.parent.present? %>
+		<%= link_to ":#{objeto.parent.filo_especie}", objeto.parent %>
+	<% elsif objeto.filo_elemento.present? %>
+		<%= link_to ":#{objeto.filo_elemento.filo_elemento}", objeto.filo_elemento %>
+	<% end %>
+</small></small>
