@@ -5,6 +5,8 @@ class FiloEspecie < ApplicationRecord
 	]
 
 	belongs_to :filo_elemento, optional: true
+	belongs_to :filo_categoria_conservacion
+	belongs_to :filo_tipo_especie
 
 	has_one  :parent_relation, :foreign_key => "child_id", :class_name => "FiloEspEsp"
 	has_many :child_relations, :foreign_key => "parent_id", :class_name => "FiloEspEsp"
@@ -20,6 +22,9 @@ class FiloEspecie < ApplicationRecord
 
 	has_many :car_filo_esps
 	has_many :carpetas, through: :car_filo_esps
+
+	has_many :filo_f_esp_regs
+	has_many :regiones, through: :filo_f_esp_regs
 
 	has_many :especies
 

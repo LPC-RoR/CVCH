@@ -3,6 +3,9 @@ class Region < ApplicationRecord
 		's#region'
 	]
 
+	has_many :filo_f_esp_regs
+	has_many :filo_especies, through: :filo_f_esp_regs
+
 	scope :ordered, -> { order(:orden) }
 
  	# ------------------------------------ ORDER LIST

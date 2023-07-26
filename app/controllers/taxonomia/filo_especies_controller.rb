@@ -199,6 +199,6 @@ class Taxonomia::FiloEspeciesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def filo_especie_params
-      params.require(:filo_especie).permit(:filo_especie, :referencia, :nombre_comun, :iucn, :filo_elemento_id, :mma_ok, :revisar)
+      params.require(:filo_especie).permit(:filo_especie, :referencia, :nombre_comun, :iucn, :filo_elemento_id, :mma_ok, :revisar, :filo_tipo_especie_id, :filo_categoria_conservacion_id, :sinonimia)
     end
 end

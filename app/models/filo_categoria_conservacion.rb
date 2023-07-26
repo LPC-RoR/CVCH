@@ -5,6 +5,8 @@ class FiloCategoriaConservacion < ApplicationRecord
 		'filo_categoria_conservacion'
 	]
 
+	has_many :filo_especies
+
 	scope :ordered, -> { order(:filo_categoria_conservacion) }
 
 end
