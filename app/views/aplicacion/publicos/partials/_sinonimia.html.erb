@@ -1,0 +1,10 @@
+		Sinonimia
+		<small>
+		<% unless objeto.sinonimia.blank? %>
+			<ul>
+				<% objeto.sinonimia.split(';').each do |sinonimo| %>
+					<li><%= sinonimo %></li>
+				<% end %>
+			</ul>
+		<% end %>
+		</small>
