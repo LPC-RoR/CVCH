@@ -70,7 +70,7 @@ class FiloEspeciesController < ApplicationController
     respond_to do |format|
       if @objeto.save
         set_redireccion
-        format.html { redirect_to @redireccion, notice: 'Filo especie was successfully created.' }
+        format.html { redirect_to @redireccion, notice: 'Especie fue exitósamente creada.' }
         format.json { render :show, status: :created, location: @objeto }
       else
         format.html { render :new }
@@ -85,7 +85,7 @@ class FiloEspeciesController < ApplicationController
     respond_to do |format|
       if @objeto.update(filo_especie_params)
         set_redireccion
-        format.html { redirect_to @redireccion, notice: 'Filo especie was successfully updated.' }
+        format.html { redirect_to @redireccion, notice: 'Especie fue exitósamente actualizada.' }
         format.json { render :show, status: :ok, location: @objeto }
       else
         format.html { render :edit }
@@ -156,7 +156,7 @@ class FiloEspeciesController < ApplicationController
     @objeto.destroy
     set_redireccion
     respond_to do |format|
-      format.html { redirect_to @redireccion, notice: 'Filo especie was successfully destroyed.' }
+      format.html { redirect_to @redireccion, notice: 'Especie fue exitósamente eliminada.' }
       format.json { head :no_content }
     end
   end
