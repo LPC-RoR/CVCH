@@ -1,10 +1,11 @@
-		Sinonimia
-		<small>
-		<% unless objeto.sinonimia.blank? %>
-			<ul>
-				<% objeto.sinonimia.split(';').each do |sinonimo| %>
-					<li><%= sinonimo %></li>
-				<% end %>
-			</ul>
+Sinonimia
+<small>
+<% unless objeto.sinonimia.blank? %>
+	<%#= objeto.sinonimia_list %>
+	<ul>
+		<% objeto.sinonimia_list.each do |sinonimo| %>
+			<li><%= sinonimo[1] %></li>
 		<% end %>
-		</small>
+	</ul>
+<% end %>
+</small>

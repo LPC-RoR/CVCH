@@ -47,4 +47,21 @@ class FiloEspecie < ApplicationRecord
 		end
 		pub_ids
 	end
+
+	def sinonimia_list
+		unless self.sinonimia.blank?
+			sin_arr = self.sinonimia.split(';')
+			sin_has = {}
+			sin_arr.each do |sin|
+				m = sin.match(/(.*)\.(.*)\,(.*)/)
+				unless m[3].blank?
+					sin_has[m[3].strip] = m[0]
+				else
+					sin_has['1'] = "Error en match : #{m[0]}"
+				end
+			end
+			sin_has.sort_by { |annio, sinonimo| annio }
+		end
+	end
+
 end

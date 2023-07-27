@@ -11,19 +11,19 @@
 				<%= render partial: '0p/general/icon_text', locals: {text: 'Sub Especies', gly: 'bug', clr: 'info'} %>
 				<%= render partial: '0p/tabla/tabla', locals: {c: 'filo_especies'} %>
 
-				<%= render partial: 'filo_especies/partials/form_nueva_sub_especie' %>
+				<%= render partial: 'taxonomia/filo_especies/partials/form_nueva_sub_especie' %>
 			<hr>
 			<% end  %>
 			<%= render partial: '0p/general/icon_text', locals: {text: 'Sinonimia', gly: 'bug', clr: 'info'} %>
 			<%= render partial: '0p/tabla/tabla', locals: {c: 'sinonimos-filo_especies'} %>
 
-			<%= render partial: 'filo_especies/partials/form_nuevo_sinonimo' %>
+			<%= render partial: 'taxonomia/filo_especies/partials/form_nuevo_sinonimo' %>
 		</div>
 		<div class='col-md-4'>
 			<%= render partial: '0p/general/icon_text', locals: {text: 'Etiquetas de especies asociadas', gly: 'tag', clr: 'info'} %>
 			<%= render partial: '0p/tabla/tabla', locals: {c: 'especies'} %>
 
-			<%= render partial: 'filo_especies/partials/form_asociar_etiqueta' %>
+			<%= render partial: 'taxonomia/filo_especies/partials/form_asociar_etiqueta' %>
 		</div>
 	</div>
 	<hr>
