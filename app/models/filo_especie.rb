@@ -76,12 +76,12 @@ class FiloEspecie < ApplicationRecord
 				m = sin.match(/[^\.]*(?=\.)/)
 				unless m.blank?
 					unless m[0].blank?
-						result << m[0].strip
+						result << m[0].strip.downcase
 					else
-						result << sin
+						result << sin.downcase
 					end
 				else
-					result << sin
+					result << sin.downcase
 				end
 			end
 			result
