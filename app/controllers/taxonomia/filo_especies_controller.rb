@@ -189,7 +189,7 @@ class Taxonomia::FiloEspeciesController < ApplicationController
     # buscar sinonimia
     @objeto.sinonimos.each do |sinonimo|
       sin=Especie.find_by(especie: sinonimo)
-      unless fe.blank?
+      unless sin.blank?
         @objeto.especies << sin unless ids_existentes.include?(sin.id)
       end
     end
