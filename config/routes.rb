@@ -248,6 +248,7 @@ Rails.application.routes.draw do
       match :nuevo_sinonimo, via: :post, on: :collection
       match :asocia_etiqueta, via: :post, on: :collection
       match :asigna, via: :post, on: :collection
+      match :buscar_etiquetas, via: :get, on: :member
     end
 
     resources :filo_elementos do

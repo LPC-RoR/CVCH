@@ -68,4 +68,23 @@ class FiloEspecie < ApplicationRecord
 		end
 	end
 
+	def sinonimos
+		unless self.sinonimia.blank?
+			sin_arr = self.sinonimia.split(';')
+			result = []
+			sin_arr.each do |sin|
+				m = sin.match(/[^\.]*(?=\.)/)
+				unless m.blank?
+					unless m[0].blank?
+						result << m[0].strip
+					else
+						result << sin
+					end
+				else
+					result << sin
+				end
+			end
+			result
+		end
+	end
 end

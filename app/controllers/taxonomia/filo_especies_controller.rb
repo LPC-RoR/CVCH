@@ -1,5 +1,5 @@
 class Taxonomia::FiloEspeciesController < ApplicationController
-  before_action :set_filo_especie, only: [:show, :edit, :update, :destroy]
+  before_action :set_filo_especie, only: [:show, :edit, :update, :destroy, :buscar_etiquetas ]
 
   helper_method :sort_column, :sort_direction
 
@@ -176,6 +176,25 @@ class Taxonomia::FiloEspeciesController < ApplicationController
     else
       redirect_to "/especies?elemento=#{@objeto.padre.filo_elemento}"
     end
+  end
+
+  # NUEVOS
+  def buscar_etiquetas
+    ids_existentes = @objeto.especies.ids
+    # buscar filo_especie
+    fe=Especie.find_by(especie: @objeto.filo_especie)
+    unless fe.blank?
+      @objeto.especies << fe unless ids_existentes.include?(fe.id)
+    end
+    # buscar sinonimia
+    @objeto.sinonimos.each do |sinonimo|
+      sin=Especie.find_by(especie: sinonimo)
+      unless fe.blank?
+        @objeto.especies << sin unless ids_existentes.include?(sin.id)
+      end
+    end
+
+    redirect_to "/publicos/especies?indice=#{@objeto.id}"
   end
 
   private
