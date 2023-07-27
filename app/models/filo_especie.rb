@@ -14,12 +14,6 @@ class FiloEspecie < ApplicationRecord
 	has_one  :parent, :through => :parent_relation
 	has_many :children, :through => :child_relations, :source => :child
 
-	has_one :especie_padre, foreign_key: 'sinonimo_id', class_name: 'FiloEspEspSinonimo'
-	has_many :especies_sinonimos, foreign_key: 'especie_id', class_name: 'FiloEspEspSinonimo'
-
-	has_one :especie_actual, through: :especie_padre, source: :especie
-	has_many :sinonimos, through: :especies_sinonimos, source: :sinonimo
-
 	has_many :car_filo_esps
 	has_many :carpetas, through: :car_filo_esps
 
