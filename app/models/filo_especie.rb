@@ -54,13 +54,17 @@ class FiloEspecie < ApplicationRecord
 			sin_has = {}
 			sin_arr.each do |sin|
 				m = sin.match(/(.*)\.(.*)\,(.*)/)
-				unless m[3].blank?
-					sin_has[m[3].strip] = m[0]
+				unless m.blank?
+					unless m[3].blank?
+						sin_has[m[0].strip] = m[3].strip
+					else
+						sin_has[m[0]] = "Error en match : #{m[3]}"
+					end
 				else
-					sin_has['1'] = "Error en match : #{m[0]}"
+					sin_has[m[0]] = "Error en match"
 				end
 			end
-			sin_has.sort_by { |annio, sinonimo| annio }
+			sin_has.sort_by { |sinonimo, annio| annio }.reverse
 		end
 	end
 
