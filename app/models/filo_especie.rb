@@ -53,15 +53,15 @@ class FiloEspecie < ApplicationRecord
 			sin_arr = self.sinonimia.split(';')
 			sin_has = {}
 			sin_arr.each do |sin|
-				m = sin.match(/(.*)\.(.*)\,(.*)/)
+				m = sin.match(/[^\d](\d{4})[^\d]*/)
 				unless m.blank?
-					unless m[3].blank?
-						sin_has[m[0].strip] = m[3].strip
+					unless m[1].blank?
+						sin_has[sin] = m[1].strip
 					else
-						sin_has[m[0]] = "Error en match : #{m[3]}"
+						sin_has[sin] = "Error en match : #{m[1]}"
 					end
 				else
-					sin_has[m[0]] = "Error en match"
+					sin_has[sin] = "Error en match"
 				end
 			end
 			sin_has.sort_by { |sinonimo, annio| annio }.reverse
