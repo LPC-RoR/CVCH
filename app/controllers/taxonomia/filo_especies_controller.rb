@@ -194,7 +194,7 @@ class Taxonomia::FiloEspeciesController < ApplicationController
       end
     end
 
-    redirect_to "/publicos/especies?indice=#{@objeto.id}", notice: "Sinónimos: #{@objeto.sinonimos.join(' ')}"
+    redirect_to "/publicos/especies?indice=#{@objeto.id}", notice: "Sinónimos: #{@objeto.sinonimos.join('; ')}"
   end
 
   private
