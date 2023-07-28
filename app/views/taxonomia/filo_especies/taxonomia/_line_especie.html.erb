@@ -1,4 +1,4 @@
-<i class="bi bi-bug"></i>
+<i class="bi bi-bug text-<%= objeto.revisar ? 'danger' : (objeto.mma_ok ? 'info' : 'dark') %>"></i>
 <%= link_to objeto.filo_especie, "/publicos/especies?indice=#{objeto.id}" %>
 <small><%= "( #{objeto.referencia} )" %></small>
 
