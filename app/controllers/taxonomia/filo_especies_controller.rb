@@ -190,12 +190,15 @@ class Taxonomia::FiloEspeciesController < ApplicationController
     unless fe.blank?
       @objeto.especies << fe unless ids_existentes.include?(fe.id)
     end
+
+    unless @objeto.sinonimia.blank?
     # buscar sinonimia
     @objeto.sinonimos.each do |sinonimo|
       sin=Especie.find_by(especie: sinonimo)
       unless sin.blank?
         @objeto.especies << sin unless ids_existentes.include?(sin.id)
       end
+    end
     end
 
     redirect_to "/publicos/especies?indice=#{@objeto.id}", notice: "Sinónimos: #{@objeto.sinonimos.join('; ')}"
@@ -207,15 +210,6 @@ class Taxonomia::FiloEspeciesController < ApplicationController
       # Especie
       padre = @objeto.filo_elemento
       destino.filo_especies << @objeto
-      puts "********************************** objeto"
-      puts @objeto.class.name
-      puts @objeto.id
-      puts "********************************** padre"
-      puts padre.class.name
-      puts padre.id
-      puts "********************************** destino"
-      puts destino.class.name
-      puts destino.id 
       padre.filo_especies.delete(@objeto)
     else
       # Sub Especie
