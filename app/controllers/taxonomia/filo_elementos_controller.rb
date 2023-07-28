@@ -1,5 +1,5 @@
 class Taxonomia::FiloElementosController < ApplicationController
-  before_action :set_filo_elemento, only: [:show, :edit, :update, :destroy, :libera_area]
+  before_action :set_filo_elemento, only: [:show, :edit, :update, :destroy, :libera_area, :subir, :bajar]
 
   # GET /filo_elementos
   # GET /filo_elementos.json
@@ -125,17 +125,42 @@ class Taxonomia::FiloElementosController < ApplicationController
     redirect_to filo_elemento
   end
 
+  #  REutilizado
   def nuevo_hijo
-    filo_elemento = FiloElemento.find(params[:objeto_id])
     unless (params[:nuevo_hijo][:filo_orden_id].blank? or params[:nuevo_hijo][:filo_elemento].blank?)
       check_filo_elemento = FiloElemento.find_by(filo_elemento: params[:nuevo_hijo][:filo_elemento].downcase)
       if check_filo_elemento.blank?
         nuevo = FiloElemento.create(filo_orden_id: params[:nuevo_hijo][:filo_orden_id], filo_elemento: params[:nuevo_hijo][:filo_elemento].downcase, descripcion: params[:nuevo_hijo][:descripcion], area_id: params[:nuevo_hijo][:area_id])
-        filo_elemento.children << nuevo
+        unless params[:objeto_id].blank?
+          filo_elemento = FiloElemento.find(params[:objeto_id])
+          filo_elemento.children << nuevo
+        end
       end
     end
+
+    redireccion =  ( params[:objeto_id].blank? ? '/publicos/taxonomia' : "/publicos/taxonomia?indice=#{params[:objeto_id]}")
     
-    redirect_to filo_elemento
+    redirect_to redireccion
+  end
+
+  def subir
+    # @objeto.parent SIEMPRE EXISTE
+    padre = @objeto.parent
+    abuelo = @objeto.parent.parent
+    padre.children.delete(@objeto)
+
+    abuelo.children << @objeto unless abuelo.blank?
+
+    redirect_to "/publicos/taxonomia?indice=#{@objeto.id}"
+  end
+
+  def bajar
+    padre = @objeto.parent
+    padre.children.delete(@objeto) unless padre.blank?
+    nuevo_padre = FiloElemento.find(params[:indice])
+    nuevo_padre.children << @objeto
+
+    redirect_to "/publicos/taxonomia?indice=#{@objeto.id}"
   end
 
   # DELETE /filo_elementos/1
@@ -173,7 +198,7 @@ class Taxonomia::FiloElementosController < ApplicationController
     end
 
     def set_redireccion
-      @redireccion = "/publicos/taxonomia?indice=#{@objeto.id}"
+      @redireccion = @objeto.parent.blank? ? '/publicos/taxonomia' : "/publicos/taxonomia?indice=#{@objeto.parent.id}"
     end
 
     # Only allow a list of trusted parameters through.

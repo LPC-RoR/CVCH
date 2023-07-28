@@ -1,0 +1,14 @@
+<p class='text-info'><i class="bi bi-diagram-2"></i> <%= @clase == 'FiloElemento' ? 'Elementos' : 'Especies' %></p>
+<% unless @tios.empty? %>
+	<ul>
+		<% @tios.each do |tio| %>
+			<li>
+				<% if @clase == 'FiloElemento' %>
+					<%= link_to tio.filo_elemento, "/filo_especies/#{objeto.id}/mover?cls=#{@clase}&tio=#{tio.id}" %>
+				<% else %>
+					<%= link_to tio.filo_especie, "/filo_especies/#{objeto.id}/mover?cls=#{@clase}&tio=#{tio.id}" %>
+				<% end %>
+			</li>
+		<% end %>
+	</ul>
+<% end %>

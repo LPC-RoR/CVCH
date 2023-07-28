@@ -1,5 +1,5 @@
 class Taxonomia::FiloEspeciesController < ApplicationController
-  before_action :set_filo_especie, only: [:show, :edit, :update, :destroy, :buscar_etiquetas ]
+  before_action :set_filo_especie, only: [:show, :edit, :update, :destroy, :buscar_etiquetas, :mover ]
 
   helper_method :sort_column, :sort_direction
 
@@ -29,8 +29,8 @@ class Taxonomia::FiloEspeciesController < ApplicationController
 
   def nuevo
     padre = params[:class_name].blank? ? nil : params[:class_name].constantize.find(params[:objeto_id])
-    unless params[:nueva_especie][:filo_especie].blank?
-      especie = FiloEspecie.create(filo_especie: params[:nueva_especie][:filo_especie].downcase, nombre_comun: params[:nueva_especie][:nombre_comun].downcase)
+    unless params[:nueva_especie][:filo_especie].blank? or params[:nueva_especie][:filo_tipo_especie_id].blank? or params[:nueva_especie][:filo_categoria_conservacion_id].blank?
+      especie = FiloEspecie.create(filo_especie: params[:nueva_especie][:filo_especie].downcase, nombre_comun: params[:nueva_especie][:nombre_comun].downcase, filo_tipo_especie_id: params[:nueva_especie][:filo_tipo_especie_id], filo_categoria_conservacion_id: params[:nueva_especie][:filo_categoria_conservacion_id])
       unless padre.blank? or especie.blank?
         etiquetas = Etiqueta.where(especie: especie.filo_especie)
         unless etiquetas.empty?
@@ -38,11 +38,15 @@ class Taxonomia::FiloEspeciesController < ApplicationController
             especie.especies << etiqueta
           end
         end
-        padre.filo_especies << especie
+        padre.filo_especies << especie if params[:class_name] == 'FiloElemento'
+        padre.children << especie if params[:class_name] == 'FiloEspecie'
       end
+      noticia = 'Especie fue exitósamente creada'
+    else
+      noticia = 'Información incompleta'
     end
 
-    redirect_to padre
+    redirect_to "/publicos/#{params[:class_name]=='FiloElemento' ? 'taxonomia' : 'especies'}?indice=#{padre.id}", notice: noticia
   end
 
   def nuevo_child
@@ -195,6 +199,32 @@ class Taxonomia::FiloEspeciesController < ApplicationController
     end
 
     redirect_to "/publicos/especies?indice=#{@objeto.id}", notice: "Sinónimos: #{@objeto.sinonimos.join('; ')}"
+  end
+
+  def mover
+    destino = params[:cls].constantize.find(params[:tio])
+    if params[:cls] == 'FiloElemento'
+      # Especie
+      padre = @objeto.filo_elemento
+      destino.filo_especies << @objeto
+      puts "********************************** objeto"
+      puts @objeto.class.name
+      puts @objeto.id
+      puts "********************************** padre"
+      puts padre.class.name
+      puts padre.id
+      puts "********************************** destino"
+      puts destino.class.name
+      puts destino.id 
+      padre.filo_especies.delete(@objeto)
+    else
+      # Sub Especie
+      padre = @objeto.parent
+      destino.children << @objeto
+      padre.children.delete(@objeto)
+    end
+
+    redirect_to "/publicos/especies?indice=#{@objeto.id}"
   end
 
   private

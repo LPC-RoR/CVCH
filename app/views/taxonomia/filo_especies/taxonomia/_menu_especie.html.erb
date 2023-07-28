@@ -1,0 +1,26 @@
+<small>
+	<% if objeto.parent.blank? %>
+		<!-- NUEVA SUB ESPECIE -->
+		<span><a data-toggle="collapse" href="#collapseEspecie" role="button" aria-expanded="false" aria-controls="collapseEspecie">nueva sub especie</a></span>
+	<% end %>
+	<!-- MUEVE ESPECIE -->
+	<span><a data-toggle="collapse" href="#collapseMueveElemento" role="button" aria-expanded="false" aria-controls="collapseMueveElemento"><i class="bi bi-diagram-2"></i></i></a></span>
+	<%= render partial: 'taxonomia/filo_elementos/taxonomia/btns_e', locals: {objeto: objeto} %>
+
+	<% if objeto.parent.blank? %>
+		<div class="collapse" id="collapseEspecie">
+		  <div class="card card-body">
+		  	<%= render partial: 'taxonomia/filo_elementos/taxonomia/form_nueva_especie', locals: {objeto: objeto} %>
+		  </div>
+		</div>
+	<% end %>
+
+	<% unless params[:indice].blank? %>
+		<div class="collapse" id="collapseMueveElemento">
+		  <div class="card card-body">
+		  	<%= render partial: 'taxonomia/filo_especies/taxonomia/mueve_especie', locals: {objeto: objeto} %>
+		  </div>
+		</div>
+	<% end %>
+</small>
+</br>

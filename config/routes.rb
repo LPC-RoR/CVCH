@@ -249,6 +249,8 @@ Rails.application.routes.draw do
       match :asocia_etiqueta, via: :post, on: :collection
       match :asigna, via: :post, on: :collection
       match :buscar_etiquetas, via: :get, on: :member
+      # mas nuevo aún
+      match :mover, via: :get, on: :member
     end
 
     resources :filo_elementos do
@@ -259,9 +261,11 @@ Rails.application.routes.draw do
       match :elimina_base, via: :get, on: :collection
       match :asigna_area, via: :post, on: :collection
       match :libera_area, via: :get, on: :member
-      # última implementación, revisar anteriores
       match :cambio_padre, via: :post, on: :collection
+      # última implementación, revisar anteriores
       match :nuevo_hijo, via: :post, on: :collection
+      match :subir, via: :get, on: :member
+      match :bajar, via: :get, on: :member
     end
 
     resources :filo_f_esp_regs

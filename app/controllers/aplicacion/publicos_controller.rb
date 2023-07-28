@@ -19,6 +19,14 @@ class Aplicacion::PublicosController < ApplicationController
       init_tabla('base-filo_elementos', @objeto.children.order(:filo_elemento), false)
       add_tabla('filo_especies', @objeto.filo_especies.order(:filo_especie), false)
       @padres_ids = @objeto.padres_ids.reverse()
+
+      if @objeto.parent.blank?
+        hermanos_ids = FiloElemento.all.map {|elemento| elemento.id if elemento.parent.blank? and elemento.id != @objeto.id}.compact
+      else
+        hermanos_ids = @objeto.parent.children.map {|elem| elem.id unless elem.id == @objeto.id}.compact
+      end
+      @hermanos = FiloElemento.where(id: hermanos_ids).order(:filo_elemento)
+
     end      
   end
 
@@ -29,7 +37,21 @@ class Aplicacion::PublicosController < ApplicationController
 
       regiones_para_asignar_ids = Region.all.map {|region| region.id unless @objeto.regiones.ids.include?(region.id)}.compact
       @regiones_para_asignar = Region.where(id: regiones_para_asignar_ids).order(:orden)
-#      @padres_ids = @objeto.padres_ids.reverse()
+
+      if @objeto.parent.blank?
+        if @objeto.filo_elemento.parent.blank?
+          tios_ids = FiloElemento.all.map {|elemento| elemento.id if elemento.parent.blank? and elemento.id != @objeto.id}.compact
+        else
+          tios_ids = @objeto.filo_elemento.parent.children.map {|elem| elem.id unless elem.id == @objeto.filo_elemento.id}.compact
+        end
+        @clase = 'FiloElemento'
+        orden = :filo_elemento
+      else
+        tios_ids = @objeto.parent.filo_elemento.filo_especies.map {|especie| especie.id unless especie.id == @objeto.parent.id}.compact
+        @clase = 'FiloEspecie'
+        orden = :filo_especie
+      end
+      @tios = @clase.constantize.where(id: tios_ids).order(orden)
     end
   end
  
