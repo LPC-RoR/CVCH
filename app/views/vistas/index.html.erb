@@ -7,7 +7,7 @@
 
 		<% if @options[:menu] == 'Especies' %>
 			<% @objeto.filo_elementos.order(:filo_elemento).each do |elemento| %>
-				<%= render partial: 'filo_elementos/partials/show_tree', locals: {base: elemento} %>
+				<%= render partial: 'taxonomia/filo_elementos/partials/show_tree', locals: {base: elemento} %>
 			<% end %>
 		<% elsif @options[:menu] == 'Citas' %>
 			<% unless @coleccion['citas'].blank? %>
