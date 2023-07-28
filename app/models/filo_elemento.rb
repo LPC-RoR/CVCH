@@ -18,7 +18,21 @@ class FiloElemento < ApplicationRecord
 
 	validates :filo_elemento, presence: true
 
-	def padres_ids
+	# **** TAXOMOMÍA
+	def n_keys
+		self.filo_especies.map {|esp| esp.n_keys}.sum + self.children.map {|child| child.n_keys}.sum
+	end
+
+	def n_tags
+		self.filo_especies.map {|esp| esp.n_tags}.sum + self.children.map {|child| child.n_tags}.sum
+	end
+
+	def n_pubs
+		self.filo_especies.map {|esp| esp.n_pubs}.sum + self.children.map {|child| child.n_pubs}.sum
+	end
+	# **************
+
+ 	def padres_ids
 		if self.parent.present?
 			[self.parent.id].union(self.parent.padres_ids)
 		else

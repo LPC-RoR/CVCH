@@ -1,4 +1,4 @@
-class FiloEspecie < ApplicationRecord
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        class FiloEspecie < ApplicationRecord
 
 	TABLA_FIELDS = [
 		's#filo_especie'
@@ -21,6 +21,20 @@ class FiloEspecie < ApplicationRecord
 	has_many :regiones, through: :filo_f_esp_regs
 
 	has_many :especies
+
+	# **** TAXOMOMÍA
+	def n_keys
+		self.children.count + 1
+	end
+
+	def n_tags
+		self.especies.count + self.children.map {|child| child.n_tags}.sum
+	end
+
+	def n_pubs
+		self.especies.map {|esp| esp.publicaciones.count}.sum + self.children.map {|child| child.n_pubs}.sum
+	end
+	# **************
 
 	def n_especies
 		self.children.count

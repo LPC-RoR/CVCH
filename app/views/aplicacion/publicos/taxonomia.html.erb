@@ -6,6 +6,7 @@
 	<div class="col-lg-6 col-xs-12">
 
 		<%= render partial: 'taxonomia/filo_elementos/taxonomia/menu_elemento', locals: {objeto: @objeto} if admin? %>
+		
 
 		<% @coleccion['base-filo_elementos'].each do |elemento| %>
 			<div class="elemento">

@@ -8,7 +8,9 @@
 		<span><a data-toggle="collapse" href="#collapseMueveElemento" role="button" aria-expanded="false" aria-controls="collapseMueveElemento"><i class="bi bi-diagram-2"></i></i></a></span>
 
 		<%= render partial: 'taxonomia/filo_elementos/taxonomia/btns_e', locals: {objeto: objeto} %>
-	<% end %>
+	<% end %> | 
+
+	<%= render partial: 'aplicacion/publicos/partials/counts', locals: {objeto: objeto} unless params[:indice].blank? %>
 
 	<div class="collapse" id="collapseElemento">
 	  <div class="card card-body">
