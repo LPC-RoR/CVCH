@@ -5,7 +5,12 @@
 		<p class='text-info'>Etiquetas</p>
 		<small><small><ul>
 		<% @etiquetas.each do |tag| %>
-			<li><%= tag.especie %> | <%= tag.publicaciones.count %></li>
+			<li>
+				<% if tag.especie == @objeto.filo_especie %>
+					<i class="bi bi-check-all"></i>
+				<% end %>
+				<%= tag.especie %> | <%= tag.publicaciones.count %>
+			</li>
 		<% end %>		
 		</ul></small></small>
 	</div>

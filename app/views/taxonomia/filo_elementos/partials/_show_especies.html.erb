@@ -5,8 +5,7 @@
 				<% if especie.especies.count == 0 %>
 					<%= "[Especie] - " %><i class="bi bi-bug"></i><%= " #{especie.filo_especie}" %>
 				<% else %>
-					<%#= "[Especie] - " %><i class="bi bi-bug"></i><%= link_to " #{especie.filo_especie}", especie %>
-					<%= "[Especie] - " %><i class="bi bi-bug"></i><%= link_to " #{especie.filo_especie}", "publicos/especies?indice=#{especie.id}" %>
+					<%= "[Especie] - " %><i class="bi bi-bug"></i><%= link_to " #{especie.filo_especie}", "publicos/publicaciones?indice=#{especie.id}" %>
 				<% end %>
 			</small>
 		</td>
@@ -20,7 +19,7 @@
 					<% if subespecie.especies.count == 0 %>
 						<%= "[SubEspecie] - " %><i class="bi bi-bug"></i><%= " #{subespecie.filo_especie}" %>
 					<% else %>
-						<%= "[SubEspecie] - " %><i class="bi bi-bug"></i><%= link_to " #{subespecie.filo_especie}", subespecie %>
+						<%= "[SubEspecie] - " %><i class="bi bi-bug"></i><%= link_to " #{especie.filo_especie}", "publicos/publicaciones?indice=#{subespecie.id}" %>
 					<% end %>
 				</small>
 			</td>
