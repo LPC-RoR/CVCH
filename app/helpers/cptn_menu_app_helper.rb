@@ -16,7 +16,6 @@ module CptnMenuAppHelper
 	        ["Colecciones",    "/vistas",             'anonimo', 'book'],
 	        ["Carpetas",       "/carpetas",           'nomina',  'folder'],
 	        ["Contribuciones", "/contribuciones",     'general', 'file-earmark-arrow-up'],
-	        ['Especies',       "/especies",           'admin',   'bug'],
 	        ['Taxonomía',      "/publicos/taxonomia", 'admin',   'diagram-3'],
 	        ["Revisiones",     "/revisiones",         'admin',   'file-check'],
 #	        ["Cargas",         "/cargas",             'admin',   'upload'],
