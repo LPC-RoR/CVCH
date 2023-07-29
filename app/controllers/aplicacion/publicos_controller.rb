@@ -57,6 +57,7 @@ class Aplicacion::PublicosController < ApplicationController
 
   def publicaciones
     unless params[:indice].blank?
+      @objeto = FiloEspecie.find(params[:indice])
       @etiquetas = @objeto.especies
       pubs_ids = []
       @etiquetas.each do |tag|
