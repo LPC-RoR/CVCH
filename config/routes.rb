@@ -57,6 +57,7 @@ Rails.application.routes.draw do
         match :home, via: :get, on: :collection
         match :especies, via: :get, on: :collection
         match :taxonomia, via: :get, on: :collection
+        match :publicaciones, via: :get, on: :collection
     end
     resources :app_recursos do
       collection do
