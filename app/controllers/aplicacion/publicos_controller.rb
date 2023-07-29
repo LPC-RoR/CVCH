@@ -54,6 +54,19 @@ class Aplicacion::PublicosController < ApplicationController
       @tios = @clase.constantize.where(id: tios_ids).order(orden)
     end
   end
+
+  def publicaciones
+    unless params[:indice].blank?
+      @objeto = FiloEspecie.find(params[:indice])
+      @principal_tag = Especie.find_by(especie: @objeto.filo_especie)
+      init_tabla('principal-publicaciones', @principal_tag.publicaciones.order(:title), true)
+
+      @etiquetas = @objeto.especies.order(:especie)
+      @etiquetas.each do |tag|
+        add_tabla("#{tag.especie.split(' ').join('#')}-publicaciones", tag.publicaciones.order(:title), true)
+      end
+    end
+  end
  
   private
     # Use callbacks to share common setup or constraints between actions.
