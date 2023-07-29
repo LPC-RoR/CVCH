@@ -95,4 +95,8 @@
 			result
 		end
 	end
+
+	def enlaces
+		AppEnlace.where(owner_class: self.class.name, owner_id: self.id)
+	end
 end

@@ -6,6 +6,7 @@
 	<div class='col-lg-6'>
 		<%= render partial: '0p/form_fields/label', locals: { form: form, label: 'Categoria de Conservación', v: true } %>
 		<%= render partial: '0p/form_fields/select_id', locals: { form: form, token: :filo_categoria_conservacion_id, colection: FiloCategoriaConservacion.order(:filo_categoria_conservacion).collect { |fcc| [fcc.filo_categoria_conservacion, fcc.id] }, display_field: 'filo_categoria_conservacion', prompt: 'Categoria de Conservación' } %>
+		<%= render partial: '0p/form_fields/check_box', locals: {form: form, token: :rara, label: 'Rara'} %>
 	</div>
 </div>
 

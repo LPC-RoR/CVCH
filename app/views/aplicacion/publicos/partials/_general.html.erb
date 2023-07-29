@@ -1,7 +1,7 @@
 		<small>
 			<% unless objeto.filo_tipo_especie.blank? and objeto.filo_categoria_conservacion.blank? %>
 				<%= objeto.filo_tipo_especie.filo_tipo_especie %> | 
-				<%= objeto.filo_categoria_conservacion.filo_categoria_conservacion %></br>
+				<%= objeto.filo_categoria_conservacion.filo_categoria_conservacion %><% if objeto.rara %><%= " ; Rara" %><% end %></br>
 			<% end %>
 			<% unless objeto.nombre_comun.blank? %>
 				<small><%= objeto.nombre_comun %></small>

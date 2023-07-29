@@ -252,6 +252,7 @@ Rails.application.routes.draw do
       match :buscar_etiquetas, via: :get, on: :member
       # mas nuevo aún
       match :mover, via: :get, on: :member
+      match :nuevo_enlace, via: :post, on: :member
     end
 
     resources :filo_elementos do

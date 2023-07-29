@@ -1,5 +1,5 @@
 class Taxonomia::FiloEspeciesController < ApplicationController
-  before_action :set_filo_especie, only: [:show, :edit, :update, :destroy, :buscar_etiquetas, :mover ]
+  before_action :set_filo_especie, only: [:show, :edit, :update, :destroy, :buscar_etiquetas, :mover, :nuevo_enlace ]
 
   helper_method :sort_column, :sort_direction
 
@@ -60,6 +60,12 @@ class Taxonomia::FiloEspeciesController < ApplicationController
     end
 
     redirect_to "/especies?especie=#{padre.filo_especie unless padre.blank?}"
+  end
+
+  def nuevo_enlace
+    AppEnlace.create(owner_class: @objeto.class.name, owner_id: @objeto.id, descripcion: params[:nuevo_enlace][:descripcion], enlace: params[:nuevo_enlace][:enlace])
+
+    redirect_to "/publicos/especies?indice=#{@objeto.id}"
   end
 
   # GET /filo_especies/1/edit
@@ -242,6 +248,6 @@ class Taxonomia::FiloEspeciesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def filo_especie_params
-      params.require(:filo_especie).permit(:filo_especie, :referencia, :nombre_comun, :iucn, :filo_elemento_id, :mma_ok, :revisar, :filo_tipo_especie_id, :filo_categoria_conservacion_id, :sinonimia)
+      params.require(:filo_especie).permit(:filo_especie, :referencia, :nombre_comun, :iucn, :filo_elemento_id, :mma_ok, :revisar, :filo_tipo_especie_id, :filo_categoria_conservacion_id, :sinonimia, :rara)
     end
 end

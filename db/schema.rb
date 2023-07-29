@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_07_26_171024) do
+ActiveRecord::Schema.define(version: 2023_07_29_162157) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -417,6 +417,7 @@ ActiveRecord::Schema.define(version: 2023_07_26_171024) do
     t.integer "filo_tipo_especie_id"
     t.integer "filo_categoria_conservacion_id"
     t.text "sinonimia"
+    t.boolean "rara"
     t.index ["especie_id"], name: "index_filo_especies_on_especie_id"
     t.index ["filo_categoria_conservacion_id"], name: "index_filo_especies_on_filo_categoria_conservacion_id"
     t.index ["filo_elemento_id"], name: "index_filo_especies_on_filo_elemento_id"
