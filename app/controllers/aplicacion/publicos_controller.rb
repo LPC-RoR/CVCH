@@ -57,7 +57,7 @@ class Aplicacion::PublicosController < ApplicationController
 
   def publicaciones
     unless params[:indice].blank?
-      @etiquetas = @objeto.especies.order(:especie)
+      @etiquetas = @objeto.especies
       pubs_ids = []
       @etiquetas.each do |tag|
         pubs_ids = pubs_ids.union(tag.publicaciones.ids)
