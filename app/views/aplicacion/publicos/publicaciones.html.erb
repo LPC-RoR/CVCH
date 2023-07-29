@@ -3,11 +3,11 @@
 <div class="row">
 	<div class="col-lg-2 col-xs-12">
 		<p class='text-info'>Etiquetas</p>
-		<ul>
+		<small><ul>
 		<% @etiquetas.each do |tag| %>
 			<li><%= tag.especie %> | <%= tag.publicaciones.count %></li>
 		<% end %>		
-		</ul>
+		</ul></small>
 	</div>
 	<div class="col-lg-10">
 		<p class='text-info'>Publicaciones</p>
