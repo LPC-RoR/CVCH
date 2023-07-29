@@ -1,11 +1,17 @@
 <%= render partial: 'aplicacion/publicos/partials/titulo_especie', locals: {objeto: @objeto} %>
 
-Coleccion principal
+<div class="row">
+	<div class="col-lg-2 col-xs-12">
+		<p class='text-info'>Etiquetas</p>
+		<ul>
+		<% @etiquetas.each do |tag| %>
+			<li><%= tag.especie %> | <%= tag.publicaciones.count %></li>
+		<% end %>		
+		</ul>
+	</div>
+	<div class="col-lg-10">
+		<p class='text-info'>Publicaciones</p>
+		<%= render partial: '0p/tabla/tabla', locals: {c: 'publicaciones'} %>
+	</div>
+</div>
 
-<%= render partial: '0p/tabla/tabla', locals: {c: 'publicaciones'} %>
-
-Sinonimia
-
-<% @etiquetas.each do |tag| %>
-	<%= tag.especie %> | <%= tag.publicaciones.count %>
-<% end %>
