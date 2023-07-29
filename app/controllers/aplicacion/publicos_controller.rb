@@ -57,13 +57,11 @@ class Aplicacion::PublicosController < ApplicationController
 
   def publicaciones
     unless params[:indice].blank?
-      @objeto = FiloEspecie.find(params[:indice])
-      @principal_tag = Especie.find_by(especie: @objeto.filo_especie)
-      init_tabla('principal-publicaciones', @principal_tag.publicaciones.order(:title), true)
-
       @etiquetas = @objeto.especies.order(:especie)
+      pubs_ids = []
       @etiquetas.each do |tag|
-        add_tabla("#{tag.especie.split(' ').join('#')}-publicaciones", tag.publicaciones.order(:title), true)
+        pubs_ids = pubs_ids.union(tag.publicaciones.ids)
+        init_tabla("publicaciones", Publicacion.where(id: pubs_ids).order(:title), true)
       end
     end
   end

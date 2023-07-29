@@ -2,11 +2,10 @@
 
 Coleccion principal
 
-<%= render partial: '0p/tabla/tabla', locals: {c: 'principal-publicaciones'} %>
+<%= render partial: '0p/tabla/tabla', locals: {c: 'publicaciones'} %>
 
 Sinonimia
 
 <% @etiquetas.each do |tag| %>
-	Sinónimo : <%= tag.especie %>
-	<%= render partial: '0p/tabla/tabla', locals: {c: "#{tag.especie.split(' ').join('#')}-publicaciones"} %>
+	<%= tag.especie %> | <%= tag.especie.publicaciones.count %>
 <% end %>
