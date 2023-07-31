@@ -51,7 +51,7 @@
 	end
 
 	def conflictos
-		FiloConflicto.where(id: FiloConfElem.where(filo_elem_class: self.class.name, filo_elem_id: self.id).map {|fe| fe.filo_conflicto.id})
+		FiloConflicto.where(id: FiloConfElem.where(filo_elem_class: self.class.name, filo_elem_id: self.id).map {|fe| fe.filo_conflicto.id unless fe.filo_conflicto.blank?}.compact)
 	end
 	# **************
 
