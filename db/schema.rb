@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_07_31_184958) do
+ActiveRecord::Schema.define(version: 2023_07_31_205951) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -379,7 +379,9 @@ ActiveRecord::Schema.define(version: 2023_07_31_184958) do
     t.boolean "resuelto"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "huella"
     t.index ["app_perfil_id"], name: "index_filo_conflictos_on_app_perfil_id"
+    t.index ["huella"], name: "index_filo_conflictos_on_huella"
   end
 
   create_table "filo_ele_eles", force: :cascade do |t|

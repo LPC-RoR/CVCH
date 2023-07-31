@@ -192,8 +192,8 @@ class Taxonomia::FiloEspeciesController < ApplicationController
 
   def elimina_conflicto
     conflicto = FiloConflicto.find(params[:indice]) 
-    filo_elem = conflicto.filo_conf_elems.first
-    filo_elem.delete
+    filo_elems = conflicto.filo_conf_elems
+    filo_elems.delete_all
     conflicto.delete
 
     redirect_to "/publicos/especies?indice=#{@objeto.id}"
@@ -209,7 +209,7 @@ class Taxonomia::FiloEspeciesController < ApplicationController
     unless fe.blank?
       if fe.filo_especie.present? and fe.filo_especie.filo_especie != fe.especie
         #crea conflicto y reasigna, tiene preferencia la etiqueta propia
-        conflicto = perfil_activo.filo_conflictos.create(filo_conflicto: "#{@objeto.filo_especie} ? #{fe.especie} : #{fe.filo_especie.filo_especie} : la etiqueta se reasigno a au especie")
+        conflicto = perfil_activo.filo_conflictos.create( huella: "#{@objeto.filo_especie} ? #{fe.especie} : #{fe.filo_especie.filo_especie}",filo_conflicto:  : "Reasigna etiqueta propia")
         conflicto.filo_conf_elems.create(filo_elem_class: 'FiloEspecie', filo_elem_id: @objeto.id)
         conflicto.filo_conf_elems.create(filo_elem_class: 'FiloEspecie', filo_elem_id: fe.sinonimos-filo_especies.id)
         conflicto.filo_conf_elems.create(filo_elem_class: 'Especie', filo_elem_id: fe.id)
@@ -227,7 +227,7 @@ class Taxonomia::FiloEspeciesController < ApplicationController
           if sin.filo_especie.present? and sin.filo_especie.filo_especie != sin.especie
             unless sin.filo_especie.en_desuso
               #crea conflicto sin reasignar
-              conflicto = perfil_activo.filo_conflictos.create(filo_conflicto: "#{@objeto.filo_especie} ? #{sin.especie} > #{sin.filo_especie.filo_especie} : la etiqueta no se reasigna")
+              conflicto = perfil_activo.filo_conflictos.create( huella: "#{@objeto.filo_especie} ? #{sin.especie} : #{sin.filo_especie.filo_especie}",filo_conflicto:  : "Sinónimo en conflicto")
               conflicto.filo_conf_elems.create(filo_elem_class: 'FiloEspecie', filo_elem_id: @objeto.id)
               conflicto.filo_conf_elems.create(filo_elem_class: 'FiloEspecie', filo_elem_id: sin.filo_especie.id)
               conflicto.filo_conf_elems.create(filo_elem_class: 'Especie', filo_elem_id: sin.id)
