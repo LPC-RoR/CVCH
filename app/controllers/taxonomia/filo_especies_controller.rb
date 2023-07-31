@@ -1,5 +1,5 @@
 class Taxonomia::FiloEspeciesController < ApplicationController
-  before_action :set_filo_especie, only: [:show, :edit, :update, :destroy, :buscar_etiquetas, :mover, :nuevo_enlace ]
+  before_action :set_filo_especie, only: [:show, :edit, :update, :destroy, :buscar_etiquetas, :mover, :nuevo_enlace, :elimina_conflicto ]
 
   helper_method :sort_column, :sort_direction
 
@@ -189,6 +189,16 @@ class Taxonomia::FiloEspeciesController < ApplicationController
   end
 
   # NUEVOS
+
+  def elimina_conflicto
+    conflicto = FiloConflicto.find(params[:indice]) 
+    filo_elem = conflicto.filo_conf_elems.first
+    delete(filo_elem)
+    delete(conflicto)
+
+    redirect_to "/publicos/especies?indice=#{@objeto.id}"
+  end
+
   def buscar_etiquetas
     #para chequear las etiquetas ya asignadas
     ids_existentes = @objeto.especies.ids

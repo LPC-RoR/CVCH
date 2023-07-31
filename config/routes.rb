@@ -253,6 +253,7 @@ Rails.application.routes.draw do
       # mas nuevo aún
       match :mover, via: :get, on: :member
       match :nuevo_enlace, via: :post, on: :member
+      match :elimina_conflicto, via: :get, on: :member
     end
 
     resources :filo_elementos do

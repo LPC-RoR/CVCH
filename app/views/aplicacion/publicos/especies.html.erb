@@ -7,36 +7,34 @@
 	<div class="col-lg-4 col-xs-12">
 
 		<div style='padding-left: 2em;'>
-		<% @coleccion['filo_especies'].each do |especie| %>
-			<div class="especie">
-				<%= render partial: 'taxonomia/filo_especies/taxonomia/line_especie', locals: {objeto: especie} %>
-			</div>
-		<% end %>
+			<% @coleccion['filo_especies'].each do |especie| %>
+				<div class="especie">
+					<%= render partial: 'taxonomia/filo_especies/taxonomia/line_especie', locals: {objeto: especie} %>
+				</div>
+			<% end %>
 		</div>
 
 		<hr>
 
-		<%= render partial: '0p/general/gly_title_size', locals: {gly: 'tag', title: "Etiquetas de la especie", size: 6} %>
-
-		<small>
-		<%= link_to 'buscar etiquetas', "/filo_especies/#{@objeto.id}/buscar_etiquetas" if admin? %>
-
-		<ul>
-		<% @objeto.especies.each do |etiqueta| %>
-			<li><%= etiqueta.especie %> : <%= etiqueta.publicaciones.count %></li>
-		<% end %>
-		</ul>
-		</small>
+		<%= render partial: 'aplicacion/publicos/partials/etiquetas', locals: {objeto: @objeto} %>
 
 	</div>
 	<div class="col-lg-4 col-xs-12">
 		<%= render partial: 'aplicacion/publicos/partials/sinonimia', locals: {objeto: @objeto} %>
 
+		Conflictos
+		<small>
 		<ul>
 		<% @objeto.conflictos.each do |conflicto| %>
-			<li><%= conflicto.filo_conflicto%></li>
+			<li>
+				<%= conflicto.filo_conflicto%>
+				<%= link_to "filo_especies/#{@objeto.id}/elimina_conflicto?indice=#{conflicto.id}" do %>
+					<i class="bi bi-trash"></i>
+				<% end %>
+			</li>
 		<% end %>
 		</ul>
+		</small>
 	</div>
 	<div class="col-lg-4">
 		<%= render partial: 'aplicacion/publicos/partials/distribucion', locals: {objeto: @objeto} %>
