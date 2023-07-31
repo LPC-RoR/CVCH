@@ -27,6 +27,8 @@ class AppPerfil < ApplicationRecord
 	has_many :per_cares
 	has_many :compartidas, through: :per_cares, source: :carpeta
 
+	has_many :filo_conflictos
+
 #	def app_enlaces
 #		AppEnlace.where(owner_class: 'AppPerfil', owner_id: self.id)
 #	end

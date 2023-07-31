@@ -24,6 +24,10 @@ class Especie < ApplicationRecord
 	def propia?
 		self.filo_especie.blank? ? false : self.especie == self.filo_especie.filo_especie
 	end
+
+	def conflictos
+		FiloConflicto.where(id: FiloConfElem.where(filo_elem_class: self.class.name, filo_elem_id: self.id).map {|fe| fe.filo_conflicto.id})
+	end
 	# ***********************************
 
 	def d_pubs

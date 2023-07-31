@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>App perfil:</strong>
+  <%= @filo_conflicto.app_perfil_id %>
+</p>
+
+<p>
+  <strong>Filo conflicto:</strong>
+  <%= @filo_conflicto.filo_conflicto %>
+</p>
+
+<p>
+  <strong>Detalle:</strong>
+  <%= @filo_conflicto.detalle %>
+</p>
+
+<p>
+  <strong>Resuelto:</strong>
+  <%= @filo_conflicto.resuelto %>
+</p>
+
+<%= link_to 'Edit', edit_filo_conflicto_path(@filo_conflicto) %> |
+<%= link_to 'Back', filo_conflictos_path %>

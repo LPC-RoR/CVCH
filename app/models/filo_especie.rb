@@ -49,6 +49,10 @@
 		enlaces = self.enlaces
 		enlaces.empty? ? false : enlaces.find_by(descripcion: 'mma').present?
 	end
+
+	def conflictos
+		FiloConflicto.where(id: FiloConfElem.where(filo_elem_class: self.class.name, filo_elem_id: self.id).map {|fe| fe.filo_conflicto.id})
+	end
 	# **************
 
 	def n_especies

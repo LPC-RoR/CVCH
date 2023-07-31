@@ -31,6 +31,12 @@
 	</div>
 	<div class="col-lg-4 col-xs-12">
 		<%= render partial: 'aplicacion/publicos/partials/sinonimia', locals: {objeto: @objeto} %>
+
+		<ul>
+		<% @objeto.conflictos.each do |conflicto| %>
+			<li><%= conflicto.filo_conflicto%></li>
+		<% end %>
+		</ul>
 	</div>
 	<div class="col-lg-4">
 		<%= render partial: 'aplicacion/publicos/partials/distribucion', locals: {objeto: @objeto} %>

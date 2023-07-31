@@ -190,21 +190,46 @@ class Taxonomia::FiloEspeciesController < ApplicationController
 
   # NUEVOS
   def buscar_etiquetas
+    #para chequear las etiquetas ya asignadas
     ids_existentes = @objeto.especies.ids
+
     # buscar filo_especie
     fe=Especie.find_by(especie: @objeto.filo_especie)
+
     unless fe.blank?
-      @objeto.especies << fe unless ids_existentes.include?(fe.id)
+      if fe.filo_especie.present? and fe.filo_especie.filo_especie != fe.especie
+        #crea conflicto y reasigna, tiene preferencia la etiqueta propia
+        conflicto = perfil_activo.filo_conflictos.create(filo_conflicto: "#{@objeto.filo_especie} esta en la sinonimia de la especie #{fe.filo_especie.filo_especie} : la etiqueta se reasigno a au especie")
+        conflicto.filo_conf_elems.create(filo_elem_class: 'FiloEspecie', filo_elem_id: @objeto.id)
+        conflicto.filo_conf_elems.create(filo_elem_class: 'FiloEspecie', filo_elem_id: fe.filo_elemento.id)
+        conflicto.filo_conf_elems.create(filo_elem_class: 'Especie', filo_elem_id: fe.id)
+      else
+        @objeto.especies << fe unless ids_existentes.include?(fe.id)
+      end
     end
 
     unless @objeto.sinonimia.blank?
-    # buscar sinonimia
-    @objeto.sinonimos.each do |sinonimo|
-      sin=Especie.find_by(especie: sinonimo)
-      unless sin.blank?
-        @objeto.especies << sin unless (ids_existentes.include?(sin.id) or sin.propia?)
+      # buscar sinonimia
+      @objeto.sinonimos.each do |sinonimo|
+        sin=Especie.find_by(especie: sinonimo)
+        unless sin.blank? or sin.id == fe.id or ids_existentes.include?(sin.id)
+
+          if sin.filo_especie.present? and sin.filo_especie.filo_especie != sin.especie
+            unless sin.filo_especie.en_desuso
+              #crea conflicto sin reasignar
+              conflicto = perfil_activo.filo_conflictos.create(filo_conflicto: "#{sin.especie} esta en la sinonimia de la especie #{sin.filo_especie.filo_especie} : la etiqueta no se reasigna")
+              conflicto.filo_conf_elems.create(filo_elem_class: 'FiloEspecie', filo_elem_id: @objeto.id)
+              conflicto.filo_conf_elems.create(filo_elem_class: 'FiloEspecie', filo_elem_id: sin.filo_elemento.id)
+              conflicto.filo_conf_elems.create(filo_elem_class: 'Especie', filo_elem_id: sin.id)
+            else
+              @objeto.especies << sin
+            end
+          else
+            @objeto.especies << sin
+          end
+
+        end
       end
-    end
     end
 
     redirect_to "/publicos/especies?indice=#{@objeto.id}", notice: "Sinónimos: #{@objeto.sinonimos.join('; ') unless @objeto.sinonimia.blank?}"
@@ -243,7 +268,11 @@ class Taxonomia::FiloEspeciesController < ApplicationController
     end
 
     def set_redireccion
-      @redireccion = "/publicos/especies?indice=#{@objeto.id}"
+      if @objeto.destroyed?
+        @redireccion = @objeto.parent.present? ? "/publicos/especies?indice=#{@objeto.parent.id}" : "/publicos/taxonomia?indice=#{@objeto.filo_elemento.id}"
+      else
+        @redireccion = "/publicos/especies?indice=#{@objeto.id}"
+      end
     end
 
     # Only allow a list of trusted parameters through.

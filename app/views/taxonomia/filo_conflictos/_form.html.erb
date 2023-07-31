@@ -1,0 +1,37 @@
+<%= form_with(model: filo_conflicto, local: true) do |form| %>
+  <% if filo_conflicto.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(filo_conflicto.errors.count, "error") %> prohibited this filo_conflicto from being saved:</h2>
+
+      <ul>
+      <% filo_conflicto.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :app_perfil_id %>
+    <%= form.number_field :app_perfil_id %>
+  </div>
+
+  <div class="field">
+    <%= form.label :filo_conflicto %>
+    <%= form.text_field :filo_conflicto %>
+  </div>
+
+  <div class="field">
+    <%= form.label :detalle %>
+    <%= form.text_area :detalle %>
+  </div>
+
+  <div class="field">
+    <%= form.label :resuelto %>
+    <%= form.check_box :resuelto %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

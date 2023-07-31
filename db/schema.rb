@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_07_29_162157) do
+ActiveRecord::Schema.define(version: 2023_07_31_184958) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -362,6 +362,26 @@ ActiveRecord::Schema.define(version: 2023_07_29_162157) do
     t.index ["codigo"], name: "index_filo_categoria_conservaciones_on_codigo"
   end
 
+  create_table "filo_conf_elems", force: :cascade do |t|
+    t.integer "filo_conflicto_id"
+    t.string "filo_elem_class"
+    t.integer "filo_elem_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["filo_conflicto_id"], name: "index_filo_conf_elems_on_filo_conflicto_id"
+    t.index ["filo_elem_id"], name: "index_filo_conf_elems_on_filo_elem_id"
+  end
+
+  create_table "filo_conflictos", force: :cascade do |t|
+    t.integer "app_perfil_id"
+    t.string "filo_conflicto"
+    t.text "detalle"
+    t.boolean "resuelto"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["app_perfil_id"], name: "index_filo_conflictos_on_app_perfil_id"
+  end
+
   create_table "filo_ele_eles", force: :cascade do |t|
     t.integer "parent_id"
     t.integer "child_id"
@@ -418,6 +438,7 @@ ActiveRecord::Schema.define(version: 2023_07_29_162157) do
     t.integer "filo_categoria_conservacion_id"
     t.text "sinonimia"
     t.boolean "rara"
+    t.boolean "en_desuso"
     t.index ["especie_id"], name: "index_filo_especies_on_especie_id"
     t.index ["filo_categoria_conservacion_id"], name: "index_filo_especies_on_filo_categoria_conservacion_id"
     t.index ["filo_elemento_id"], name: "index_filo_especies_on_filo_elemento_id"

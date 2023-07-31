@@ -270,6 +270,8 @@ Rails.application.routes.draw do
       match :bajar, via: :get, on: :member
     end
 
+    resources :filo_conf_elems
+    resources :filo_conflictos
     resources :filo_f_esp_regs
   end
 
