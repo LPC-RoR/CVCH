@@ -227,7 +227,7 @@ class Taxonomia::FiloEspeciesController < ApplicationController
           if sin.filo_especie.present? and sin.filo_especie.filo_especie != sin.especie
             unless sin.filo_especie.en_desuso
               #crea conflicto sin reasignar
-              conflicto = perfil_activo.filo_conflictos.create(filo_conflicto: "#{@objeto.filo_especie} ? #{sin.especie} : #{fe.filo_especie.filo_especie} : la etiqueta no se reasigna")
+              conflicto = perfil_activo.filo_conflictos.create(filo_conflicto: "#{@objeto.filo_especie} ? #{sin.especie} > #{sin.filo_especie.filo_especie} : la etiqueta no se reasigna")
               conflicto.filo_conf_elems.create(filo_elem_class: 'FiloEspecie', filo_elem_id: @objeto.id)
               conflicto.filo_conf_elems.create(filo_elem_class: 'FiloEspecie', filo_elem_id: sin.filo_especie.id)
               conflicto.filo_conf_elems.create(filo_elem_class: 'Especie', filo_elem_id: sin.id)
