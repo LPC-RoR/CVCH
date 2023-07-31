@@ -5,7 +5,12 @@
 
 	<ul>
 		<% objeto.especies.each do |etiqueta| %>
-			<li><%= etiqueta.especie %> : <%= etiqueta.publicaciones.count %></li>
+			<li>
+				<% if etiqueta.propia? %>
+					<i class="bi bi-check-all"></i> 
+				<% end %>
+				<%= etiqueta.especie %> : <%= etiqueta.publicaciones.count %>
+			</li>
 		<% end %>
 	</ul>
 </small>
