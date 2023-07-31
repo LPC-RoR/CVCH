@@ -28,7 +28,7 @@
 		<% @objeto.conflictos.each do |conflicto| %>
 			<li>
 				<%= conflicto.filo_conflicto%>
-				<%= link_to "filo_especies/#{@objeto.id}/elimina_conflicto?indice=#{conflicto.id}" do %>
+				<%= link_to "/filo_especies/#{@objeto.id}/elimina_conflicto?indice=#{conflicto.id}" do %>
 					<i class="bi bi-trash"></i>
 				<% end %>
 			</li>
