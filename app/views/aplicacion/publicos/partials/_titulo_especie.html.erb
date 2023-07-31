@@ -5,3 +5,19 @@
 		<%= "#{objeto.filo_especie} ( #{objeto.referencia} )" %>
 	</span>
 </h5>
+<h6 class='text-muted'>
+	<i class="bi bi-tags"></i>
+	<% unless objeto.filo_tipo_especie.blank? and objeto.filo_categoria_conservacion.blank? %>
+		<%= objeto.filo_tipo_especie.filo_tipo_especie %> | 
+		<%= objeto.filo_categoria_conservacion.filo_categoria_conservacion %><% if objeto.rara %><%= " ; Rara" %><% end %></br>
+	<% end %>
+	<% unless objeto.nombre_comun.blank? %>
+		<i class="bi bi-tags"></i>
+		<small><%= objeto.nombre_comun %></small>
+	<% end %>
+</h6>
+<% if objeto.sinonimo? %>
+	<h6 class='text-danger'>
+		Esta especie esta en la sinonimia de la especie <%= objeto.padre_sinonimo.filo_especie %>
+	</h6>
+<% end %>

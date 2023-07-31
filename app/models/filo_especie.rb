@@ -34,6 +34,21 @@
 	def n_pubs
 		self.especies.map {|esp| esp.publicaciones.count}.sum + self.children.map {|child| child.n_pubs}.sum
 	end
+
+	def sinonimo?
+		especie = Especie.find_by(especie: self.filo_especie)
+		especie.blank? ? false : (self.especies.ids.exclude?(especie.id) and especie.filo_especie.present?)
+	end
+
+	def padre_sinonimo
+		especie = Especie.find_by(especie: self.filo_especie)
+		especie.blank? ? nil : especie.filo_especie
+	end
+
+	def mma_link?
+		enlaces = self.enlaces
+		enlaces.empty? ? false : enlaces.find_by(descripcion: 'mma').present?
+	end
 	# **************
 
 	def n_especies

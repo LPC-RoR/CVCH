@@ -1,6 +1,9 @@
 <i class="bi bi-bug text-<%= objeto.revisar ? 'danger' : (objeto.mma_ok ? 'info' : 'dark') %>"></i>
 <%= link_to objeto.filo_especie, "/publicos/especies?indice=#{objeto.id}" %>
-<small><%= "( #{objeto.referencia} )" %></small>
+<small>
+	<%= "( #{objeto.referencia} )" %>
+	<% if objeto.mma_link? %><i class="bi bi-link-45deg"></i><% end %>		
+</small>
 
 <%= render partial: 'taxonomia/filo_elementos/taxonomia/btns_e', locals: {objeto: objeto} if admin? %>
 </br>
