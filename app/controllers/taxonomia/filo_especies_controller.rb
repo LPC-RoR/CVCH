@@ -211,7 +211,7 @@ class Taxonomia::FiloEspeciesController < ApplicationController
         #crea conflicto y reasigna, tiene preferencia la etiqueta propia
         conflicto = perfil_activo.filo_conflictos.create( huella: "#{@objeto.filo_especie} ? #{fe.especie} : #{fe.filo_especie.filo_especie}",filo_conflicto:  "Reasigna etiqueta propia")
         conflicto.filo_conf_elems.create(filo_elem_class: 'FiloEspecie', filo_elem_id: @objeto.id)
-        conflicto.filo_conf_elems.create(filo_elem_class: 'FiloEspecie', filo_elem_id: fe.filo_especies.id)
+        conflicto.filo_conf_elems.create(filo_elem_class: 'FiloEspecie', filo_elem_id: fe.filo_especie.id)
         conflicto.filo_conf_elems.create(filo_elem_class: 'Especie', filo_elem_id: fe.id)
       else
         @objeto.especies << fe unless ids_existentes.include?(fe.id)
