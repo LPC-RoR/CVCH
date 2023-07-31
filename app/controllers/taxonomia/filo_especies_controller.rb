@@ -193,8 +193,8 @@ class Taxonomia::FiloEspeciesController < ApplicationController
   def elimina_conflicto
     conflicto = FiloConflicto.find(params[:indice]) 
     filo_elem = conflicto.filo_conf_elems.first
-    delete(filo_elem)
-    delete(conflicto)
+    filo_elem.delete
+    conflicto.delete
 
     redirect_to "/publicos/especies?indice=#{@objeto.id}"
   end
