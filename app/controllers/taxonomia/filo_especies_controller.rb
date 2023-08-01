@@ -27,21 +27,31 @@ class Taxonomia::FiloEspeciesController < ApplicationController
     @objeto = FiloEspecie.new(filo_elemento_id: params[:filo_elemento_id])
   end
 
+  # Taxonomía
   def nuevo
     padre = params[:class_name].blank? ? nil : params[:class_name].constantize.find(params[:objeto_id])
     unless params[:nueva_especie][:filo_especie].blank? or params[:nueva_especie][:filo_tipo_especie_id].blank? or params[:nueva_especie][:filo_categoria_conservacion_id].blank?
-      especie = FiloEspecie.create(filo_especie: params[:nueva_especie][:filo_especie].downcase, nombre_comun: params[:nueva_especie][:nombre_comun].downcase, filo_tipo_especie_id: params[:nueva_especie][:filo_tipo_especie_id], filo_categoria_conservacion_id: params[:nueva_especie][:filo_categoria_conservacion_id])
-      unless padre.blank? or especie.blank?
-        etiquetas = Etiqueta.where(especie: especie.filo_especie)
-        unless etiquetas.empty?
-          etiquetas.each do |etiqueta|
-            especie.especies << etiqueta
+
+      check = FiloEspecie.where(filo_especie: params[:nueva_especie][:filo_especie].downcase)
+      if check.blank?
+        especie = FiloEspecie.create(filo_especie: params[:nueva_especie][:filo_especie].downcase, nombre_comun: params[:nueva_especie][:nombre_comun].downcase, filo_tipo_especie_id: params[:nueva_especie][:filo_tipo_especie_id], filo_categoria_conservacion_id: params[:nueva_especie][:filo_categoria_conservacion_id])
+
+        unless padre.blank? or especie.blank?
+          etiquetas = Etiqueta.where(especie: especie.filo_especie)
+          unless etiquetas.empty?
+            etiquetas.each do |etiqueta|
+              especie.especies << etiqueta
+            end
           end
+          padre.filo_especies << especie if params[:class_name] == 'FiloElemento'
+          padre.children << especie if params[:class_name] == 'FiloEspecie'
         end
-        padre.filo_especies << especie if params[:class_name] == 'FiloElemento'
-        padre.children << especie if params[:class_name] == 'FiloEspecie'
+        noticia = 'Especie fue exitósamente creada'
+      else
+        check.filo_especies << especie if params[:class_name] == 'FiloElemento'
+        check.children << especie if params[:class_name] == 'FiloEspecie'
+        noticia = 'Especie fue exitósamente reasignada'
       end
-      noticia = 'Especie fue exitósamente creada'
     else
       noticia = 'Información incompleta'
     end
