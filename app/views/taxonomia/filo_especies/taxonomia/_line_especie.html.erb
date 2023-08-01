@@ -3,6 +3,7 @@
 <%= link_to objeto.filo_especie, "/publicos/especies?indice=#{objeto.id}" %>
 <small>
 	<%= "( #{objeto.referencia} )" %>
+	<%= ": #{objeto.especies.map { |especie| especie.publicaciones.count  }.sum}" %>
 </small>
 
 <%= render partial: 'taxonomia/filo_elementos/taxonomia/btns_e', locals: {objeto: objeto} if admin? %>

@@ -1,5 +1,5 @@
 class Taxonomia::FiloEspeciesController < ApplicationController
-  before_action :set_filo_especie, only: [:show, :edit, :update, :destroy, :buscar_etiquetas, :mover, :nuevo_enlace, :elimina_conflicto ]
+  before_action :set_filo_especie, only: [:show, :edit, :update, :destroy, :buscar_etiquetas, :subir, :bajar, :nuevo_enlace, :elimina_conflicto ]
 
   helper_method :sort_column, :sort_direction
 
@@ -260,6 +260,36 @@ class Taxonomia::FiloEspeciesController < ApplicationController
       padre.children.delete(@objeto)
     end
 
+    redirect_to "/publicos/especies?indice=#{@objeto.id}"
+  end
+
+  def subir
+    # @objeto.parent SIEMPRE EXISTE
+    padre = @objeto.parent.present? ? @objeto.parent : @objeto.filo_elemento
+    abuelo = @objeto.parent.present? ? padre.filo_elemento : padre.parent
+    if padre.class.name == 'FiloElemento'
+      padre.filo_especies.delete(@objeto)
+    else
+      padre.children.delete(@objeto)
+    end
+
+    abuelo.filo_especies << @objeto unless abuelo.blank?
+
+    redirect_to "/publicos/especies?indice=#{@objeto.id}"
+  end
+
+  def bajar
+    padre = @objeto.parent.present? ? @objeto.parent : @objeto.filo_elemento
+    nuevo_padre = params[:class].constantize.find(params[:indice])
+
+    if padre.class.name == 'FiloElemento'
+      padre.filo_especies.delete(@objeto)
+      if nuevo_padre.class.name == 'FiloElemento'
+        nuevo_padre.filo_especies << @objeto
+      else
+        nuevo_padre.children << @objeto
+      end
+    end
     redirect_to "/publicos/especies?indice=#{@objeto.id}"
   end
 

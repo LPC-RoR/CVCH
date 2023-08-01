@@ -251,7 +251,8 @@ Rails.application.routes.draw do
       match :asigna, via: :post, on: :collection
       match :buscar_etiquetas, via: :get, on: :member
       # mas nuevo aún
-      match :mover, via: :get, on: :member
+      match :subir, via: :get, on: :member
+      match :bajar, via: :get, on: :member
       match :nuevo_enlace, via: :post, on: :member
       match :elimina_conflicto, via: :get, on: :member
     end

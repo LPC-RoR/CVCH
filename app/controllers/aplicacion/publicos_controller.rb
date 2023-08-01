@@ -38,20 +38,12 @@ class Aplicacion::PublicosController < ApplicationController
       regiones_para_asignar_ids = Region.all.map {|region| region.id unless @objeto.regiones.ids.include?(region.id)}.compact
       @regiones_para_asignar = Region.where(id: regiones_para_asignar_ids).order(:orden)
 
-      if @objeto.parent.blank?
-        if @objeto.filo_elemento.parent.blank?
-          tios_ids = FiloElemento.all.map {|elemento| elemento.id if elemento.parent.blank? and elemento.id != @objeto.id}.compact
-        else
-          tios_ids = @objeto.filo_elemento.parent.children.map {|elem| elem.id unless elem.id == @objeto.filo_elemento.id}.compact
-        end
-        @clase = 'FiloElemento'
-        orden = :filo_elemento
-      else
-        tios_ids = @objeto.parent.filo_elemento.filo_especies.map {|especie| especie.id unless especie.id == @objeto.parent.id}.compact
-        @clase = 'FiloEspecie'
-        orden = :filo_especie
-      end
-      @tios = @clase.constantize.where(id: tios_ids).order(orden)
+      @padre = @objeto.parent.present? ? @objeto.parent : @objeto.filo_elemento
+      @abuelo = @objeto.parent.present? ? @padre.filo_elemento : @padre.parent
+
+      # En este caso puede haber HERMANOS ELEMENTOS/ESPECIES
+      @hermanos_elementos = @objeto.parent.present? ? nil : @padre.children
+      @hermanos_especies = @objeto.parent.present? ? nil : @padre.filo_especies
     end
   end
 
