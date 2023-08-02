@@ -38,6 +38,13 @@ class Aplicacion::PublicosController < ApplicationController
       regiones_para_asignar_ids = Region.all.map {|region| region.id unless @objeto.regiones.ids.include?(region.id)}.compact
       @regiones_para_asignar = Region.where(id: regiones_para_asignar_ids).order(:orden)
 
+      # recuperación de especies perdidas
+      if @objeto.parent.blank? and @objeto.filo_elemento.blank?
+        elemento = @objeto.filo_especie.split(' ')[0].strip
+        sustituto = FiloElemento.find_by(filo_elemento: elemento)
+        sustituto.filo_especies << @objeto
+      end
+
       @padre = @objeto.parent.present? ? @objeto.parent : @objeto.filo_elemento
       @abuelo = @objeto.parent.present? ? @padre.filo_elemento : @padre.parent
 
