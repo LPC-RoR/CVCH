@@ -50,7 +50,7 @@ class Taxonomia::FiloEspeciesController < ApplicationController
       else
         padre.filo_especies << check if padre.class.name == 'FiloElemento'
         padre.children << check if padre.class.name == 'FiloEspecie'
-        noticia = 'Especie fue exitósamente reasignada'
+        noticia = "Especie fue exitósamente reasignada: #{check.filo_elemento.present?} #{check.parent.present?}"
       end
     else
       noticia = 'Información incompleta'
