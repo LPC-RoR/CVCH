@@ -42,6 +42,8 @@ class Aplicacion::PublicosController < ApplicationController
       if @objeto.parent.blank? and @objeto.filo_elemento.blank?
         elemento = @objeto.filo_especie.split(' ')[0].strip
         sustituto = FiloElemento.find_by(filo_elemento: elemento)
+        @objeto.filo_categoria_id = FiloCategoria.first.id if @objeto.filo_categoria.blank?
+        @objeto.filo_tipo_especie_id = FiloTipoEspecie.first.id if @objeto.filo_tipo_especie.blank?
         sustituto.filo_especies << @objeto
       end
 

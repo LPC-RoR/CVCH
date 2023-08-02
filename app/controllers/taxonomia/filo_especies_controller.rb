@@ -256,23 +256,6 @@ class Taxonomia::FiloEspeciesController < ApplicationController
     redirect_to "/publicos/especies?indice=#{@objeto.id}", notice: "Sinónimos: #{@objeto.sinonimos.join('; ') unless @objeto.sinonimia.blank?}"
   end
 
-  def mover
-    destino = params[:cls].constantize.find(params[:tio])
-    if params[:cls] == 'FiloElemento'
-      # Especie
-      padre = @objeto.filo_elemento
-      destino.filo_especies << @objeto
-      padre.filo_especies.delete(@objeto)
-    else
-      # Sub Especie
-      padre = @objeto.parent
-      destino.children << @objeto
-      padre.children.delete(@objeto)
-    end
-
-    redirect_to "/publicos/especies?indice=#{@objeto.id}"
-  end
-
   def subir
     # @objeto.parent SIEMPRE EXISTE
     padre = @objeto.parent.present? ? @objeto.parent : @objeto.filo_elemento
