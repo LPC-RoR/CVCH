@@ -32,7 +32,7 @@ class Taxonomia::FiloEspeciesController < ApplicationController
     padre = params[:class_name].blank? ? nil : params[:class_name].constantize.find(params[:objeto_id])
     unless params[:nueva_especie][:filo_especie].blank? or params[:nueva_especie][:filo_tipo_especie_id].blank? or params[:nueva_especie][:filo_categoria_conservacion_id].blank?
 
-      check = FiloEspecie.where(filo_especie: params[:nueva_especie][:filo_especie].downcase)
+      check = FiloEspecie.find_by(filo_especie: params[:nueva_especie][:filo_especie].downcase)
       if check.blank?
         especie = FiloEspecie.create(filo_especie: params[:nueva_especie][:filo_especie].downcase, nombre_comun: params[:nueva_especie][:nombre_comun].downcase, filo_tipo_especie_id: params[:nueva_especie][:filo_tipo_especie_id], filo_categoria_conservacion_id: params[:nueva_especie][:filo_categoria_conservacion_id])
 
@@ -50,7 +50,7 @@ class Taxonomia::FiloEspeciesController < ApplicationController
       else
         padre.filo_especies << check if padre.class.name == 'FiloElemento'
         padre.children << check if padre.class.name == 'FiloEspecie'
-        noticia = "Especie fue exitósamente reasignada: #{check.filo_elemento.present?} #{check.parent.present?}"
+        noticia = "Especie fue exitósamente reasignada"
       end
     else
       noticia = 'Información incompleta'
