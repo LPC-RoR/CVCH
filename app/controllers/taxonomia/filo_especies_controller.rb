@@ -48,8 +48,8 @@ class Taxonomia::FiloEspeciesController < ApplicationController
         end
         noticia = 'Especie fue exitósamente creada'
       else
-        padre.filo_especies << check if params[:class_name] == 'FiloElemento'
-        padre.children << check if params[:class_name] == 'FiloEspecie'
+        padre.filo_especies << check if padre.class.name == 'FiloElemento'
+        padre.children << check if padre.class.name == 'FiloEspecie'
         noticia = 'Especie fue exitósamente reasignada'
       end
     else
