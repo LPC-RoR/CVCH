@@ -277,7 +277,7 @@ class Taxonomia::FiloEspeciesController < ApplicationController
   end
 
   def bajar
-    if @objetivo.valid?
+    if @objeto.valid?
       padre = @objeto.parent.present? ? @objeto.parent : @objeto.filo_elemento
       nuevo_padre = params[:class].constantize.find(params[:indice])
 
