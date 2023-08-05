@@ -8,8 +8,8 @@
 <h6 class='text-muted'>
 	<i class="bi bi-tags"></i>
 	<% unless objeto.filo_tipo_especies.empty? and objeto.filo_categoria_conservaciones.empty? %>
-		<%= objeto.filo_tipo_especies.map {|te| te.filo_tipo_especie}.split(' | ') %> | 
-		<%= objeto.filo_categoria_conservaciones.map {|cc| cc.filo_categoria_conservacion}.split(' | ') %></br>
+		<%= objeto.filo_tipo_especies.map {|te| te.filo_tipo_especie}.join(' | ') %> | 
+		<%= objeto.filo_categoria_conservaciones.map {|cc| cc.filo_categoria_conservacion}.join(' | ') %></br>
 	<% end %>
 	<% unless objeto.nombre_comun.blank? %>
 		<i class="bi bi-list-check"></i>
