@@ -3,24 +3,24 @@
     Distribución
   </a>
 </p>
-<div class="collapse" id="collapseExample">
-	<div class="card card-body">
-		<small>
-		<ul>
-			<% @regiones_para_asignar.each do |region| %>
-				<li>
-					<%= region.region %>
-					<% if admin? %>
+
+<% if admin? %>
+	<div class="collapse" id="collapseExample">
+		<div class="card card-body">
+			<small>
+			<ul>
+				<% @regiones_para_asignar.each do |region| %>
+					<li>
 						<%= link_to "/regiones/#{region.id}/asigna?o=#{objeto.class.name}&indice=#{objeto.id}" do %>
-							<i class="bi bi-arrow-bar-down"></i>
+						<%= region.region %>
 						<% end %>
-					<% end %>
-				</li>
-			<% end %>
-		</ul>
-		</small>
+					</li>
+				<% end %>
+			</ul>
+			</small>
+		</div>
 	</div>
-</div>
+<% end %>
 
 <small>
 <ul>
