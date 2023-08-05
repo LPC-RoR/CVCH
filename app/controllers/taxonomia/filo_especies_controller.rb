@@ -1,5 +1,5 @@
 class Taxonomia::FiloEspeciesController < ApplicationController
-  before_action :set_filo_especie, only: [:show, :edit, :update, :destroy, :buscar_etiquetas, :subir, :bajar, :nuevo_enlace, :elimina_conflicto ]
+  before_action :set_filo_especie, only: [:show, :edit, :update, :destroy, :buscar_etiquetas, :subir, :bajar, :nuevo_enlace, :elimina_conflicto, :mas_tipo_especie, :menos_tipo_especie, :mas_categoria_conservacion, :menos_categoria_conservacion ]
 
   helper_method :sort_column, :sort_direction
 
@@ -30,11 +30,11 @@ class Taxonomia::FiloEspeciesController < ApplicationController
   # Taxonomía
   def nuevo
     padre = params[:class_name].blank? ? nil : params[:class_name].constantize.find(params[:objeto_id])
-    unless params[:nueva_especie][:filo_especie].blank? or params[:nueva_especie][:filo_tipo_especie_id].blank? or params[:nueva_especie][:filo_categoria_conservacion_id].blank?
+    unless params[:nueva_especie][:filo_especie].blank?
 
       check = FiloEspecie.find_by(filo_especie: params[:nueva_especie][:filo_especie].downcase)
       if check.blank?
-        especie = FiloEspecie.create(filo_especie: params[:nueva_especie][:filo_especie].downcase, nombre_comun: params[:nueva_especie][:nombre_comun].downcase, filo_tipo_especie_id: params[:nueva_especie][:filo_tipo_especie_id], filo_categoria_conservacion_id: params[:nueva_especie][:filo_categoria_conservacion_id])
+        especie = FiloEspecie.create(filo_especie: params[:nueva_especie][:filo_especie].downcase, nombre_comun: params[:nueva_especie][:nombre_comun].downcase, link_fuente: params[:nueva_especie][:link_fuente])
 
         unless padre.blank? or especie.blank?
           etiquetas = Etiqueta.where(especie: especie.filo_especie)
@@ -52,8 +52,9 @@ class Taxonomia::FiloEspeciesController < ApplicationController
         padre.children << check if padre.class.name == 'FiloEspecie'
         noticia = "Especie fue exitósamente reasignada #{check.id} #{padre.class.name} #{check.filo_elemento_id} #{check.filo_elemento.filo_elemento}"
       end
+
     else
-      noticia = 'Información incompleta'
+      noticia = 'Debe contener el nombre de la especie'
     end
 
     redirect_to "/publicos/#{params[:class_name]=='FiloElemento' ? 'taxonomia' : 'especies'}?indice=#{padre.id}", notice: noticia
@@ -297,6 +298,34 @@ class Taxonomia::FiloEspeciesController < ApplicationController
     redirect_to "/publicos/especies?indice=#{@objeto.id}", notice: noticia
   end
 
+  def mas_tipo_especie
+    tipo_especie = FiloTipoEspecie.find(params[:indice])
+    @objeto.filo_tipo_especies << tipo_especie unless tipo_especie.blank?
+
+    redirect_to "/publicos/especies?indice=#{@objeto.id}"
+  end
+
+  def menos_tipo_especie
+    tipo_especie = FiloTipoEspecie.find(params[:indice])
+    @objeto.filo_tipo_especies.delete(tipo_especie) unless tipo_especie.blank?
+
+    redirect_to "/publicos/especies?indice=#{@objeto.id}"
+  end
+
+  def mas_categoria_conservacion
+    categoria = FiloCategoriaConservacion.find(params[:indice])
+    @objeto.filo_categoria_conservaciones << categoria unless categoria.blank?
+
+    redirect_to "/publicos/especies?indice=#{@objeto.id}"
+  end
+
+  def menos_categoria_conservacion
+    categoria = FiloCategoriaConservacion.find(params[:indice])
+    @objeto.filo_categoria_conservaciones.delete(categoria) unless categoria.blank?
+
+    redirect_to "/publicos/especies?indice=#{@objeto.id}"
+  end
+
   private
 
     def sort_column
@@ -322,6 +351,6 @@ class Taxonomia::FiloEspeciesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def filo_especie_params
-      params.require(:filo_especie).permit(:filo_especie, :referencia, :nombre_comun, :iucn, :filo_elemento_id, :mma_ok, :revisar, :filo_tipo_especie_id, :filo_categoria_conservacion_id, :sinonimia, :rara)
+      params.require(:filo_especie).permit(:filo_especie, :referencia, :nombre_comun, :iucn, :filo_elemento_id, :mma_ok, :revisar, :filo_tipo_especie_id, :filo_categoria_conservacion_id, :sinonimia, :rara, :link_fuente)
     end
 end

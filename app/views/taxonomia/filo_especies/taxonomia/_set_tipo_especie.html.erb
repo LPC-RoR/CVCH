@@ -1,0 +1,11 @@
+<ul>
+	<% FiloTipoEspecie.all.order(:filo_tipo_especie).each do |tipo| %>
+		<li>
+			<% unless objeto.filo_tipo_especies.ids.include?(tipo.id) %>
+				<%= link_to tipo.filo_tipo_especie, "/filo_especies/#{objeto.id}/mas_tipo_especie?indice=#{tipo.id}" %>
+			<% else %>
+				<i class="bi bi-check2-all"></i><%= link_to tipo.filo_tipo_especie, "/filo_especies/#{objeto.id}/menos_tipo_especie?indice=#{tipo.id}" %>
+			<% end %>
+		</li>
+	<% end %>
+</ul>

@@ -18,6 +18,8 @@ class FiloElemento < ApplicationRecord
 
 	validates :filo_elemento, presence: true
 
+	before_save { self.filo_elemento.downcase! }
+
 	# **** TAXOMOMÍA
 	def n_keys
 		self.filo_especies.map {|esp| esp.n_keys}.sum + self.children.map {|child| child.n_keys}.sum

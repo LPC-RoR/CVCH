@@ -255,6 +255,10 @@ Rails.application.routes.draw do
       match :bajar, via: :get, on: :member
       match :nuevo_enlace, via: :post, on: :member
       match :elimina_conflicto, via: :get, on: :member
+      match :mas_tipo_especie, via: :get, on: :member
+      match :menos_tipo_especie, via: :get, on: :member
+      match :mas_categoria_conservacion, via: :get, on: :member
+      match :menos_categoria_conservacion, via: :get, on: :member
     end
 
     resources :filo_elementos do

@@ -32,6 +32,8 @@
 
 	has_many :especies
 
+	before_save { self.filo_especie.downcase! }
+
 	# **** TAXOMOMÍA
 	def n_keys
 		self.children.count + 1

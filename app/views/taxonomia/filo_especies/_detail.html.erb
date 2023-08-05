@@ -1,21 +1,11 @@
-<div class='row'>
-	<div class='col-lg-6 col-xs-12'>
-		<%= render partial: '0p/form_fields/label', locals: { form: form, label: 'Tipo de Especie', v: true } %>
-		<%= render partial: '0p/form_fields/select_id', locals: { form: form, token: :filo_tipo_especie_id, colection: FiloTipoEspecie.all.order(:filo_tipo_especie).collect { |fte| [fte.filo_tipo_especie, fte.id] }, display_field: 'filo_tipo_especie', prompt: 'Tipo de Especie' } %>
-	</div>
-	<div class='col-lg-6'>
-		<%= render partial: '0p/form_fields/label', locals: { form: form, label: 'Categoria de Conservación', v: true } %>
-		<%= render partial: '0p/form_fields/select_id', locals: { form: form, token: :filo_categoria_conservacion_id, colection: FiloCategoriaConservacion.order(:filo_categoria_conservacion).collect { |fcc| [fcc.filo_categoria_conservacion, fcc.id] }, display_field: 'filo_categoria_conservacion', prompt: 'Categoria de Conservación' } %>
-		<%= render partial: '0p/form_fields/check_box', locals: {form: form, token: :rara, label: 'Rara'} %>
-	</div>
-</div>
-
 <%= render partial: '0p/form_fields/label', locals: { form: form, label: 'Especie', v: true } %>
 <%= render partial: '0p/form_fields/text', locals: { form: form, token: :filo_especie } %>
 <%= render partial: '0p/form_fields/label', locals: { form: form, label: 'Referencia', v: false } %>
 <%= render partial: '0p/form_fields/text', locals: { form: form, token: :referencia } %>
 <%= render partial: '0p/form_fields/label', locals: { form: form, label: 'Nombre Común', v: false } %>
 <%= render partial: '0p/form_fields/text', locals: { form: form, token: :nombre_comun } %>
+<%= render partial: '0p/form_fields/label', locals: { form: form, label: 'Link Fuente', v: false } %>
+<%= render partial: '0p/form_fields/text', locals: { form: form, token: :link_fuente } %>
 
 <%= render partial: '0p/form_fields/label', locals: { form: form, label: 'Sinonimia', v: false } %>
 <%= render partial: '0p/form_fields/text_area', locals: { form: form, token: :sinonimia } %>

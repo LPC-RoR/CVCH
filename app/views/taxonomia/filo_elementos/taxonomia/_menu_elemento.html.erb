@@ -1,8 +1,11 @@
 <small>
 	<!-- NUEVO ELEMENTO -->
 	<span><a data-toggle="collapse" href="#collapseElemento" role="button" aria-expanded="false" aria-controls="collapseElemento">nuevo elemento</a></span>
-	<!-- NUEVO ESPECIE -->
-	<span><a data-toggle="collapse" href="#collapseEspecie" role="button" aria-expanded="false" aria-controls="collapseEspecie">nueva especie</a></span>
+
+	<% unless params[:indice].blank? %>
+		<!-- NUEVO ESPECIE -->
+		<span><a data-toggle="collapse" href="#collapseEspecie" role="button" aria-expanded="false" aria-controls="collapseEspecie">nueva especie</a></span>
+	<% end %>
 	<!-- MUEVE ELEMENTO -->
 	<% unless params[:indice].blank? %>
 		<span><a data-toggle="collapse" href="#collapseMueveElemento" role="button" aria-expanded="false" aria-controls="collapseMueveElemento"><i class="bi bi-diagram-2"></i></i></a></span>

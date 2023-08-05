@@ -1,4 +1,8 @@
 <small>
+
+	<span><a data-toggle="collapse" href="#collapseTipoEspecie" role="button" aria-expanded="false" aria-controls="collapseTipoEspecie">tipo</a></span>
+	<span><a data-toggle="collapse" href="#collapseCategoria" role="button" aria-expanded="false" aria-controls="collapseCategoria">categoria</a></span>
+
 	<% if objeto.parent.blank? %>
 		<!-- NUEVA SUB ESPECIE -->
 		<span><a data-toggle="collapse" href="#collapseEspecie" role="button" aria-expanded="false" aria-controls="collapseEspecie">nueva sub especie</a></span>
@@ -6,6 +10,18 @@
 	<!-- MUEVE ESPECIE -->
 	<span><a data-toggle="collapse" href="#collapseMueveElemento" role="button" aria-expanded="false" aria-controls="collapseMueveElemento"><i class="bi bi-diagram-2"></i></i></a></span>
 	<%= render partial: 'taxonomia/filo_elementos/taxonomia/btns_e', locals: {objeto: objeto} %>
+
+	<div class="collapse" id="collapseTipoEspecie">
+	  <div class="card card-body">
+	  	<%= render partial: 'taxonomia/filo_especies/taxonomia/set_tipo_especie', locals: {objeto: objeto} %>
+	  </div>
+	</div>
+
+	<div class="collapse" id="collapseCategoria">
+	  <div class="card card-body">
+	  	<%= render partial: 'taxonomia/filo_especies/taxonomia/set_categoria', locals: {objeto: objeto} %>
+	  </div>
+	</div>
 
 	<% if objeto.parent.blank? %>
 		<div class="collapse" id="collapseEspecie">

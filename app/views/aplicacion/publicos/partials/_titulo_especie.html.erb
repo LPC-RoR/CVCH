@@ -4,12 +4,17 @@
 		<%= objeto.parent.blank? ? 'Especie' : 'Sub especie' %> | 
 		<%= "#{objeto.filo_especie} ( #{objeto.referencia} )" %>
 	</span>
+	<% if objeto.link_fuente.present? %>
+		<%= link_to objeto.link_fuente do %>
+			<i class="bi bi-box-arrow-up-right"></i>
+		<% end %>
+	<% end %>
 </h5>
 <h6 class='text-muted'>
 	<i class="bi bi-tags"></i>
 	<% unless objeto.filo_tipo_especies.empty? and objeto.filo_categoria_conservaciones.empty? %>
-		<%= objeto.filo_tipo_especies.map {|te| te.filo_tipo_especie}.join(' | ') %> | 
-		<%= objeto.filo_categoria_conservaciones.map {|cc| cc.filo_categoria_conservacion}.join(' | ') %></br>
+		<%= objeto.filo_tipo_especies.map {|te| te.filo_tipo_especie}.join(' : ') %> | 
+		<%= objeto.filo_categoria_conservaciones.map {|cc| cc.filo_categoria_conservacion}.join(' : ') %></br>
 	<% end %>
 	<% unless objeto.nombre_comun.blank? %>
 		<i class="bi bi-list-check"></i>
