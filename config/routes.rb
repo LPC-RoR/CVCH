@@ -275,6 +275,8 @@ Rails.application.routes.draw do
     resources :filo_conf_elems
     resources :filo_conflictos
     resources :filo_f_esp_regs
+    resources :filo_esp_cones
+    resources :filo_esp_tipos
   end
 
   devise_for :usuarios, controllers: {

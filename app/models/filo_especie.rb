@@ -5,8 +5,18 @@
 	]
 
 	belongs_to :filo_elemento, optional: true
-	belongs_to :filo_categoria_conservacion
-	belongs_to :filo_tipo_especie
+#	belongs_to :filo_categoria_conservacion
+#	belongs_to :filo_tipo_especie
+
+	# *****************      CAMBIO RELACIONES
+
+	has_many :filo_esp_tipos
+	has_many :filo_tipo_especies, through: :filo_esp_tipos
+
+	has_many :filo_esp_cones
+	has_many :filo_categoria_conservaciones, through: :filo_esp_cones
+
+	# ****************************************
 
 	has_one  :parent_relation, :foreign_key => "child_id", :class_name => "FiloEspEsp"
 	has_many :child_relations, :foreign_key => "parent_id", :class_name => "FiloEspEsp"

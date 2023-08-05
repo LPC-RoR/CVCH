@@ -1,0 +1,27 @@
+<%= form_with(model: filo_esp_tipo, local: true) do |form| %>
+  <% if filo_esp_tipo.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(filo_esp_tipo.errors.count, "error") %> prohibited this filo_esp_tipo from being saved:</h2>
+
+      <ul>
+      <% filo_esp_tipo.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :filo_especie_id %>
+    <%= form.number_field :filo_especie_id %>
+  </div>
+
+  <div class="field">
+    <%= form.label :filo_tipo_especie_id %>
+    <%= form.number_field :filo_tipo_especie_id %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

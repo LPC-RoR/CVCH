@@ -7,9 +7,9 @@
 </h5>
 <h6 class='text-muted'>
 	<i class="bi bi-tags"></i>
-	<% unless objeto.filo_tipo_especie.blank? and objeto.filo_categoria_conservacion.blank? %>
-		<%= objeto.filo_tipo_especie.filo_tipo_especie %> | 
-		<%= objeto.filo_categoria_conservacion.filo_categoria_conservacion %><% if objeto.rara %><%= " ; Rara" %><% end %></br>
+	<% unless objeto.filo_tipo_especies.empty? and objeto.filo_categoria_conservaciones.empty? %>
+		<%= objeto.filo_tipo_especie.filo_tipo_especies.split(' | ') %> | 
+		<%= objeto.filo_categoria_conservacion.filo_categoria_conservaciones.split(' | ') %><% if objeto.rara %><%= " ; Rara" %><% end %></br>
 	<% end %>
 	<% unless objeto.nombre_comun.blank? %>
 		<i class="bi bi-list-check"></i>

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_07_31_205951) do
+ActiveRecord::Schema.define(version: 2023_08_05_005303) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -407,6 +407,15 @@ ActiveRecord::Schema.define(version: 2023_07_31_205951) do
     t.index ["filo_orden_id"], name: "index_filo_elementos_on_filo_orden_id"
   end
 
+  create_table "filo_esp_cones", force: :cascade do |t|
+    t.integer "filo_especie_id"
+    t.integer "filo_categoria_conservacion_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["filo_categoria_conservacion_id"], name: "index_filo_esp_cones_on_filo_categoria_conservacion_id"
+    t.index ["filo_especie_id"], name: "index_filo_esp_cones_on_filo_especie_id"
+  end
+
   create_table "filo_esp_esp_sinonimos", force: :cascade do |t|
     t.integer "especie_id"
     t.integer "sinonimo_id"
@@ -425,6 +434,15 @@ ActiveRecord::Schema.define(version: 2023_07_31_205951) do
     t.index ["parent_id"], name: "index_filo_esp_esps_on_parent_id"
   end
 
+  create_table "filo_esp_tipos", force: :cascade do |t|
+    t.integer "filo_especie_id"
+    t.integer "filo_tipo_especie_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["filo_especie_id"], name: "index_filo_esp_tipos_on_filo_especie_id"
+    t.index ["filo_tipo_especie_id"], name: "index_filo_esp_tipos_on_filo_tipo_especie_id"
+  end
+
   create_table "filo_especies", force: :cascade do |t|
     t.string "filo_especie"
     t.string "nombre_comun"
@@ -441,6 +459,7 @@ ActiveRecord::Schema.define(version: 2023_07_31_205951) do
     t.text "sinonimia"
     t.boolean "rara"
     t.boolean "en_desuso"
+    t.string "link_fuente"
     t.index ["especie_id"], name: "index_filo_especies_on_especie_id"
     t.index ["filo_categoria_conservacion_id"], name: "index_filo_especies_on_filo_categoria_conservacion_id"
     t.index ["filo_elemento_id"], name: "index_filo_especies_on_filo_elemento_id"
