@@ -28,9 +28,21 @@
 		<% end %>
 
 		<% unless params[:indice].blank? %>
-		<% @coleccion['filo_especies'].each do |especie| %>
-			<%= render partial: 'taxonomia/filo_especies/taxonomia/line_especie', locals: {objeto: especie} %>
-		<% end %>
+			<% @coleccion['filo_especies'].each do |especie| %>
+				<%= render partial: 'taxonomia/filo_especies/taxonomia/line_especie', locals: {objeto: especie} %>
+
+
+				<small>
+				<div class="sub_especies" style='padding-left: 2em'>
+					<% especie.children.order(:filo_especies).each do |sub_especie| %>
+						<%= render partial: 'taxonomia/filo_especies/taxonomia/line_especie', locals: {objeto: sub_especie} %>
+					<% end %>
+				</div>
+				</small>
+
+
+			<% end %>
+
 		<% end %>
 	</div>
 	<div class="col-lg-6 col-xs-12"></div>
