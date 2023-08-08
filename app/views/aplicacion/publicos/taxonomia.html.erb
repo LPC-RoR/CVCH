@@ -2,13 +2,6 @@
 
 <%= render partial: 'aplicacion/publicos/partials/titulo_elemento', locals: {objeto: @objeto} %>
 
-<% if dog? and @objeto.present? %>
-	<%= @objeto.parent_relation.present? %></br>
-	<%= @objeto.parent.present? %></br>
-	<%= @objeto.child_relations.count %></br>
-	<%= @objeto.children.count %></br>
-<% end %>
-
 <div class="row">
 	<div class="col-lg-6 col-xs-12">
 
