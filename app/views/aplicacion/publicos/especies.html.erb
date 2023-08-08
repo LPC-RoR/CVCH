@@ -1,7 +1,7 @@
 <%= render partial: 'taxonomia/filo_especies/taxonomia/link_padre', locals: {objeto: @objeto} %>
 <%= render partial: 'aplicacion/publicos/partials/titulo_especie', locals: {objeto: @objeto} %>
 <%= render partial: 'taxonomia/filo_especies/taxonomia/menu_especie', locals: {objeto: @objeto} if admin? %>
-<%= render partial: 'aplicacion/publicos/partials/enlaces_especie', locals: {objeto: @objeto} %>
+<%#= render partial: 'aplicacion/publicos/partials/enlaces_especie', locals: {objeto: @objeto} %>
 <% unless @objeto.conflictos.empty? %>
 	<i class="bi bi-flag text-danger"></i>
 <% end %>

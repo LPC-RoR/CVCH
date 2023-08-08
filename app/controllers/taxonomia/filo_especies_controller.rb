@@ -1,5 +1,5 @@
 class Taxonomia::FiloEspeciesController < ApplicationController
-  before_action :set_filo_especie, only: [:show, :edit, :update, :destroy, :buscar_etiquetas, :subir, :bajar, :nuevo_enlace, :elimina_conflicto, :mas_tipo_especie, :menos_tipo_especie, :mas_categoria_conservacion, :menos_categoria_conservacion ]
+  before_action :set_filo_especie, only: [:show, :edit, :update, :destroy, :buscar_etiquetas, :subir, :bajar, :nuevo_enlace, :elimina_conflicto, :mas_tipo_especie, :menos_tipo_especie, :mas_categoria_conservacion, :menos_categoria_conservacion, :asigna_regiones ]
 
   helper_method :sort_column, :sort_direction
 
@@ -34,7 +34,13 @@ class Taxonomia::FiloEspeciesController < ApplicationController
 
       check = FiloEspecie.find_by(filo_especie: params[:nueva_especie][:filo_especie].downcase)
       if check.blank?
-        especie = FiloEspecie.create(filo_especie: params[:nueva_especie][:filo_especie].downcase, nombre_comun: params[:nueva_especie][:nombre_comun].downcase, link_fuente: params[:nueva_especie][:link_fuente])
+        filo_especie = params[:nueva_especie][:filo_especie].downcase
+        referencia = params[:nueva_especie][:referencia].downcase
+        nombre_comun = params[:nueva_especie][:nombre_comun].downcase
+        link_fuente = params[:nueva_especie][:link_fuente]
+        sinonimia = params[:nueva_especie][:sinonimia]
+        revisar = params[:nueva_especie][:revisar]
+        especie = FiloEspecie.create(filo_especie: filo_especie, referencia: referencia, nombre_comun: nombre_comun, link_fuente: link_fuente, sinonimia: sinonimia, revisar: revisar)
 
         unless padre.blank? or especie.blank?
           etiquetas = Etiqueta.where(especie: especie.filo_especie)
@@ -322,6 +328,17 @@ class Taxonomia::FiloEspeciesController < ApplicationController
   def menos_categoria_conservacion
     categoria = FiloCategoriaConservacion.find(params[:indice])
     @objeto.filo_categoria_conservaciones.delete(categoria) unless categoria.blank?
+
+    redirect_to "/publicos/especies?indice=#{@objeto.id}"
+  end
+
+  def asigna_regiones
+    ids_asignadas = @objeto.regiones.ids
+    Region.all.order(:orden).each do |region|
+      unless ( params[:key] == 'norte' and region.orden > 6 ) or ( params[:key] == 'sur' and region.orden < 8 )
+        @objeto.regiones << region unless ids_asignadas.include?(region.id)
+      end
+    end
 
     redirect_to "/publicos/especies?indice=#{@objeto.id}"
   end

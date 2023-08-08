@@ -11,11 +11,12 @@
 	<% end %>
 </h5>
 <h6 class='text-muted'>
-	<i class="bi bi-tags"></i>
-	<% unless objeto.filo_tipo_especies.empty? and objeto.filo_categoria_conservaciones.empty? %>
-		<%= objeto.filo_tipo_especies.map {|te| te.filo_tipo_especie}.join(' : ') %> | 
-		<%= objeto.filo_categoria_conservaciones.map {|cc| cc.filo_categoria_conservacion}.join(' : ') %></br>
-	<% end %>
+	<p>
+		<i class="bi bi-tags text-<%= objeto.filo_tipo_especies.empty? ? 'danger' : 'info' %>"> </i>
+		<%= objeto.filo_tipo_especies.map {|te| te.filo_tipo_especie}.join(' : ') %>
+		<i class="bi bi-droplet text-<%= objeto.filo_categoria_conservaciones.empty? ? 'danger' : 'info' %>"> </i>
+		<%= objeto.filo_categoria_conservaciones.map {|cc| cc.filo_categoria_conservacion}.join(' : ') %>
+	</p>
 	<% unless objeto.nombre_comun.blank? %>
 		<i class="bi bi-list-check"></i>
 		<small><%= objeto.nombre_comun %></small>
