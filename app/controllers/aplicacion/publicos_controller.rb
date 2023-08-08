@@ -27,6 +27,12 @@ class Aplicacion::PublicosController < ApplicationController
       end
       @hermanos = FiloElemento.where(id: hermanos_ids).order(:filo_elemento)
 
+      # limpia errores en children
+      if @objeto.child_relations.count != @objeto.children.count
+        @objeto.child_relations.each do |chr|
+          @objeto.child_relations.delete(chr) if chr.child.blank?
+        end
+      end
     end      
   end
 
