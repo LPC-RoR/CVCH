@@ -26,22 +26,7 @@ class Aplicacion::AppRecursosController < ApplicationController
 
   def procesos
     FiloEspecie.all.each do |filo_especie|
-      unless filo_especie.filo_tipo_especie_id.blank?
-        filo_tipo_especie = FiloTipoEspecie.find(filo_especie.filo_tipo_especie_id)
-        filo_especie.filo_tipo_especies << filo_tipo_especie unless filo_especie.filo_tipo_especies.ids.include?(filo_tipo_especie)
-      end
-
-      unless filo_especie.filo_categoria_conservacion_id.blank?
-        filo_categoria_conservacion = FiloCategoriaConservacion.find(filo_especie.filo_categoria_conservacion_id)
-        filo_especie.filo_categoria_conservaciones << filo_categoria_conservacion unless filo_especie.filo_categoria_conservaciones.ids.include?(filo_categoria_conservacion.id)
-      end
-
-      if filo_especie.rara == true
-        categoria = FiloCategoriaConservacion.find_by(codigo: 'R')
-        filo_especie.filo_categoria_conservaciones << categoria unless filo_especie.filo_categoria_conservaciones.ids.include?(categoria.id)
-      end
-
-      link_mma = filo_especie.enlaces.find_by(descripcion: 'bootstrap')
+      link_mma = filo_especie.enlaces.find_by(descripcion: 'mma')
       unless link_mma.blank?
         filo_especie.link_fuente = link_mma.enlace
         filo_especie.save
