@@ -1,6 +1,11 @@
 <i class="bi bi-bug text-<%= objeto.revisar ? 'danger' : (objeto.mma_ok ? 'info' : 'dark') %>"></i>
 <small><% if objeto.link_fuente.present? %><i class="bi bi-box-arrow-up-right"></i><% end %></small>
 <%= link_to objeto.filo_especie, "/publicos/especies?indice=#{objeto.id}" %>
+
+<% unless objeto.conflictos.empty? %>
+	<i class="bi bi-flag text-danger"></i>
+<% end %>
+
 <small>
 	<%= "( #{objeto.referencia} )" %>
 	<%= ": #{objeto.especies.map { |especie| especie.publicaciones.count  }.sum}" %>
