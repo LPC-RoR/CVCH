@@ -5,7 +5,7 @@
 		<%= "#{objeto.filo_especie} ( #{objeto.referencia} )" %>
 	</span>
 	<% if objeto.link_fuente.present? %>
-		<%= link_to objeto.link_fuente do %>
+		<%= link_to objeto.link_fuente, target: '_blank' do %>
 			<i class="bi bi-box-arrow-up-right"></i>
 		<% end %>
 	<% end %>
