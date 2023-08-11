@@ -42,7 +42,7 @@ class Aplicacion::AppRecursosController < ApplicationController
             filo_especie = genero.filo_especies.create(filo_especie: s_filo_especie) if filo_especie.blank?
             unless filo_especie.blank?
               sub_especie = FiloEspecie.create(filo_especie: especie.especie.strip.downcase)
-              filo_elemento.children << sub_especie
+              filo_especie.children << sub_especie
               sub_especie.especies << especie
             end
           end
