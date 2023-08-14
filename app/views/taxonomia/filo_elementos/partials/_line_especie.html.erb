@@ -1,4 +1,4 @@
-<div style="padding-left: <%= objeto.parent.blank? ? 6*2 : 7*2; %>em">
+<div style="padding-left: <%= objeto.parent.blank? ? 7*2 : 8*2; %>em">
 <i class="bi bi-bug text-<%= objeto.revisar ? 'danger' : (objeto.link_fuente.present? ? 'info' : 'dark') %>"></i>
 <small><% if objeto.link_fuente.present? %><i class="bi bi-box-arrow-up-right"></i><% end %></small>
 <%= link_to objeto.filo_especie, "/publicos/especies?indice=#{objeto.id}" %>
