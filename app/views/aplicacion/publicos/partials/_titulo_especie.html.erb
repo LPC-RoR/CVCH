@@ -1,5 +1,5 @@
 <h5>
-	<i class="bi bi-bug text-<%= params[:indice].blank? ? 'info' : (objeto.revisar ? 'danger' : (objeto.mma_ok ? 'info' : 'dark')) %>"></i>
+	<i class="bi bi-bug text-<%= params[:indice].blank? ? 'info' : (objeto.revisar ? 'danger' : (objeto.link_fuente.present? ? 'info' : 'dark')) %>"></i>
 	<span class='text-info'>
 		<%= objeto.parent.blank? ? 'Especie' : 'Sub especie' %> | 
 		<%= "#{objeto.filo_especie} ( #{objeto.referencia} )" %>
