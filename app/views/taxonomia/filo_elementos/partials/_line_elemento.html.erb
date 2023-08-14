@@ -1,0 +1,8 @@
+<div style="padding-left: <%= objeto.filo_orden.orden*2 %>em">
+<i class="bi bi-diagram-3 text-<%= objeto.revisar ? 'danger' : (objeto.mma_ok ? 'info' : 'dark') %>"></i>
+<small><%= objeto.filo_orden.filo_orden unless objeto.filo_orden.blank? %></small> | 
+<%= objeto.filo_elemento %>
+<%= link_to "/publicos/taxonomia?indice=#{objeto.id}" do %>
+	<i class="bi bi-bookmark"></i>
+<% end %>
+</div>
