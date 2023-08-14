@@ -28,8 +28,8 @@ class Aplicacion::AppRecursosController < ApplicationController
     n_especies = Especie.all.count
     n_sin_padre = Especie.where(filo_especie_id: nil).count
     n_filo_especies = FiloEspecie.all.count
-    n_sub_especies = FiloEspecie.where(filo_elemento_id: nil)
-    n_cvch = FiloEspecie.where(link_fuente: nil)
+    n_sub_especies = FiloEspecie.where(filo_elemento_id: nil).count
+    n_cvch = FiloEspecie.where(link_fuente: nil).count
 #    Especie.all.each do |especie|
 #      if especie.filo_especie.blank?
 #        palabras = especie.especie.split(' ')
