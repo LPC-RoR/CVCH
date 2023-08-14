@@ -8,6 +8,11 @@
 	<% unless elemento.filo_especies.empty? %>
 		<% elemento.filo_especies.order(:filo_especie).each do |especie| %>
 			<%= render partial: 'taxonomia/filo_elementos/partials/line_especie', locals: {objeto: especie} %>
+			<% unless especie.children.empty? %>
+				<% especie.children.order(:filo_especie).each do |subespecie| %>
+					<small><%= render partial: 'taxonomia/filo_elementos/partials/line_especie', locals: {objeto: subespecie} %></small>
+				<% end %>
+			<% end %>
 		<% end %>
 	<% end %>
 <% end %>
