@@ -70,8 +70,8 @@ class Aplicacion::PublicosController < ApplicationController
       pubs_ids = []
       @etiquetas.each do |tag|
         pubs_ids = pubs_ids.union(tag.publicaciones.ids)
-        init_tabla("publicaciones", Publicacion.where(id: pubs_ids).order(:title), true)
       end
+      init_tabla("publicaciones", Publicacion.where(id: pubs_ids).order(:title), true)
     end
   end
 
