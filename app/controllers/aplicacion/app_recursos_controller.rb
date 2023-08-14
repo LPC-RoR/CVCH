@@ -25,6 +25,11 @@ class Aplicacion::AppRecursosController < ApplicationController
   end
 
   def procesos
+    n_especies = Especie.all.count
+    n_sin_padre = Especie.where(filo_especie_id: nil).count
+    n_filo_especies = FiloEspecie.all.count
+    n_sub_especies = FiloEspecie.where(filo_elemento_id: nil)
+    n_cvch = FiloEspecie.where(link_fuente: nil)
 #    Especie.all.each do |especie|
 #      if especie.filo_especie.blank?
 #        palabras = especie.especie.split(' ')
@@ -50,7 +55,7 @@ class Aplicacion::AppRecursosController < ApplicationController
 #      end
 #    end
 
-    redirect_to root_path
+    redirect_to root_path, notice: "#{n_especies} : #{n_sin_padre} | #{n_filo_especies} : #{n_sub_especies} : #{n_cvch}"
   end
 
   private
