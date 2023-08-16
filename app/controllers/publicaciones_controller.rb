@@ -220,7 +220,7 @@ class PublicacionesController < ApplicationController
 
     def procesa_sha1
       unless @objeto.title.blank?
-        @t_sha1 = Digest::SHA1.hexdigest(@objeto.title.downcase)
+        @t_sha1 = Digest::SHA1.hexdigest(limpia_nombre(@objeto.title))
         unless @objeto.t_sha1 == @t_sha1
           @objeto.t_sha1 = @t_sha1
           @objeto.save

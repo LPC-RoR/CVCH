@@ -15,7 +15,7 @@ class ApplicationController < ActionController::Base
 
 	helper_method :dog?, :admin?, :nomina?, :general?, :anonimo?, :seguridad_desde, :dog_email, :dog_name, :perfil?, :perfil_activo, :perfil_activo_id, :mi_seguridad?, :publico?
 	helper_method :bandeja_display?
-	helper_method :uf_del_dia, :uf_fecha
+	helper_method :uf_del_dia, :uf_fecha, :limpia_nombre
 
 	helper_method :lexer
 

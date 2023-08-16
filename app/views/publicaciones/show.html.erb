@@ -19,11 +19,13 @@
 	<div class='col-md-6'>
 		<% unless @duplicados.blank? %>
 			<p class="text-danger">Esta publicación puede ya existir en la publicación!</p>
+			<small>
 			<ul>
 				<% @duplicados.each do |duplicado| %>
 					<li><%= link_to duplicado.title, duplicado %></li>
 				<% end %>
 			</ul>
+			</small>
 		<% end %>
 
 		<%= render partial: 'publicaciones/partials/links' %>

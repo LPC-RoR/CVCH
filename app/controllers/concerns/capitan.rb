@@ -44,4 +44,8 @@ module Capitan
 		uf.blank? ? nil : uf.valor
 	end
 
+	def limpia_nombre(string)
+		string.gsub(/\t|\r|\n/, ' ').strip.downcase
+	end
+
 end
