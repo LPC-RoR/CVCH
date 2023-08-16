@@ -2,22 +2,30 @@
 <hr>
 <div class='row'>
 	<div class='col-md-4'>
-		<%= render partial: '0p/tabs/tabs', locals: { tabs: @tabs, options: @options, token: :menu } %>
 
-		<% if usuario_signed_in? %>
-			<% if admin? %>
-				<%= render partial: 'publicaciones/partials/areas' if @options[:menu] == 'Áreas' %>
-				<%= render partial: 'publicaciones/partials/categorias' if @options[:menu] == 'Categorías' %>
+		<%= render partial: 'publicaciones/partials/areas' %>
+		<%= render partial: 'publicaciones/partials/categorias' %>
+
+		<% if @objeto.estado == 'publicada' %>
+			<% if usuario_signed_in? %>
+				<%= render partial: 'publicaciones/partials/carpetas', locals: {titulo: 'Carpetas', coleccion: perfil_activo.carpetas.order(:carpeta), tag: 'Carpetas' } %>
+				<%= render partial: 'publicaciones/partials/carpetas', locals: {titulo: 'Carpetas compartidas', coleccion: perfil_activo.compartidas.order(:carpeta), tag: 'Compartidas' } %>
 			<% end %>
-			<% if @objeto.estado == 'publicada' %>
-				<%= render partial: 'publicaciones/partials/carpetas' if @options[:menu] == 'Carpetas' %>
-			<% end %>
+
+			<%= render partial: 'publicaciones/partials/especies' %>
 		<% end %>
-		<% if (@objeto.estado == 'publicada') %>
-			<%= render partial: 'publicaciones/partials/especies' if @options[:menu] == 'Especies' %>
-		<% end %>
+
 	</div>
 	<div class='col-md-6'>
+		<% unless @duplicados.blank? %>
+			<p class="text-danger">Esta publicación puede ya existir en la publicación!</p>
+			<ul>
+				<% @duplicados.each do |duplicado| %>
+					<li><%= link_to duplicado.title, duplicado %></li>
+				<% end %>
+			</ul>
+		<% end %>
+
 		<%= render partial: 'publicaciones/partials/links' %>
 		<hr>
 		<%= render partial: 'publicaciones/partials/cita' %>

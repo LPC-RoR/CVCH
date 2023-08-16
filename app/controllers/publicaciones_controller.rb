@@ -29,38 +29,11 @@ class PublicacionesController < ApplicationController
   # GET /publicaciones/1.json
   def show
 
-    init_tab({menu: [['Áreas', (usuario_signed_in? and admin?)], ['Categorías', (usuario_signed_in? and admin?)], ['Carpetas', (usuario_signed_in? and @objeto.estado == 'publicada')], ['Especies', (@objeto.estado == 'publicada')]]}, true)
-    @options[:menu] = 'Especies' unless usuario_signed_in?
+    areas_disponibles_ids = Area.all.map {|area| area.id unless @objeto.areas.ids.include?(area.id)}.compact
+    @areas_disponibles = Area.where(id: areas_disponibles_ids).order(:area)
 
-    @coleccion = {}
-
-    if usuario_signed_in?
-
-      @activo = perfil_activo
-
-      # ********************** CARPETAS *****************************
-      if @objeto.estado == 'publicada'
-        if @options[:menu] == 'Carpetas'
-          @coleccion_usuario = @activo.carpetas.order(:carpeta)
-          @coleccion_publicacion = @objeto.carpetas
-        end
-      end
-
-      if @options[:menu] == 'Áreas'
-        @coleccion_usuario = Area.all.order(:area)
-        @coleccion_publicacion = @objeto.areas
-      elsif @options[:menu] == 'Categorías'
-        @coleccion_usuario = Categoria.all.order(:categoria)
-        @coleccion_publicacion = @objeto.categorias
-      end
-
-    end
-
-    # ÁREA PÚBLICA ******************************************************************************************
-      # Las especies puedes ser vistas por un usuario anónimo
-      if @options[:menu] == 'Especies'
-        @coleccion_publicacion = @objeto.especies.order(:especie)
-      end
+    categorias_disponibles_ids = Categoria.all.map {|categoria| categoria.id unless @objeto.categorias.ids.include?(categoria.id)}.compact
+    @categorias_disponibles = Categoria.where(id: categorias_disponibles_ids)
 
     # ********************** DUPLICADOS *****************************
 
@@ -69,10 +42,9 @@ class PublicacionesController < ApplicationController
 
     @duplicados_ids = @duplicados_doi_ids.union(@duplicados_t_sha1_ids)
 
-    unless @duplicados_ids.empty?
-      @duplicados = Publicacion.where(id: @duplicados_ids)
-    end
+    @duplicados = @duplicados_ids.empty? ? nil : Publicacion.where(id: @duplicados_ids)
 
+    @coleccion = {}
     @coleccion['app_observaciones'] = @objeto.observaciones.order(created_at: :desc)
     @coleccion['app_mejoras'] = @objeto.mejoras.order(created_at: :desc)
 

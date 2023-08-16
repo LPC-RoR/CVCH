@@ -1,37 +1,40 @@
-<i class='text-muted'><small>Nueva carpeta</small></i>
-<%= form_for :nueva_carpeta, url: "/carpetas/nuevo?objeto_id=#{@objeto.id}" do |form| %>
-	<div class='form-inline'>
-		<%= form.text_field(:carpeta, size: 35, class: 'form-control' ) %>
-		<button type="submit" class="btn btn-info">
-		  <i class="bi bi-plus-circle icon-white"></i>
-		  <i class="bi bi-folder icon-white"></i>
-		</button>
-	</div>
-<% end  %>
+<p class='text-info'>
+	<i class="bi bi-folder"></i>
+	<%= titulo %>
+	<% if admin? %>
+		<a data-toggle="collapse" href="#collapse<%=tag%>" role="button" aria-expanded="false" aria-controls="collapse<%=tag%>">
+			<i class="bi bi-folder-plus"></i>
+		</a>
+  	<% end %>
+</p>
 
-</br>
-
-<% @coleccion_usuario.each do |objeto| %>
-	<div class='row'>
-		<div class='col-md-10'>
+<% if admin? %>
+	<div class="collapse" id="collapse<%=tag%>">
+		<div class="card card-body">
 			<small>
-			<% if @coleccion_publicacion.ids.include?(objeto.id) %><b class='text-info'><i class="bi bi-check2-all"></i><% else %><i class='text-muted'><% end %>
-
-				<%= link_to objeto.send(objeto.class.name.downcase), objeto  %>
-
-			<% if @coleccion_publicacion.ids.include?(objeto.id) %></b><% else %></i><% end %>
+				<%= render partial: "publicaciones/partials/form_#{tag.downcase}", locals: {objeto: @objeto} %>
 			</small>
-		</div>
-		<div class='col-md-2'>
-			<% if @coleccion_publicacion.ids.include?(objeto.id) %>
-  				<%= link_to link_x_btn(objeto, '/desasignar', true) do %>
-  					<i class="bi bi-x-circle"></i>
-  				<% end %>
-			<% else %>
-  				<%= link_to link_x_btn(objeto, '/asigna', true) do %>
-  					<i class="bi bi-plus-circle"></i>
-  				<% end %>
-			<% end %>
 		</div>
 	</div>
 <% end %>
+
+<small>
+<ul>
+	<% coleccion.each do |carpeta| %>
+	   	<li>
+	   		<% if carpeta.publicaciones.ids.include?(@objeto.id) %>
+	   			<i class="bi bi-check2-all"></i>
+	   			<%= link_to "/carpetas/#{carpeta.id}/desasignar?class_name=#{@objeto.class.name}&objeto_id=#{@objeto.id}" do %>
+	   				<i class="bi bi-x-circle"></i>
+	   			<% end %>
+	   		<% else %>
+	   			<%= link_to "/carpetas/#{carpeta.id}/asigna?class_name=#{@objeto.class.name}&objeto_id=#{@objeto.id}" do %>
+	   				<i class="bi bi-plus-circle"></i>
+	   			<% end %>
+	   		<% end %>
+
+	   		<%= link_to carpeta.carpeta, carpeta %>
+	   	</li>
+	<% end %>
+</ul>
+</small>

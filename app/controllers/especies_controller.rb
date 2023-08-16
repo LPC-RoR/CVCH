@@ -91,26 +91,31 @@ class EspeciesController < ApplicationController
 
   def asigna
 
-    publicacion = Publicacion.find(params[:publicacion_id])
+    elemento = params[:class_name].constantize.find(params[:objeto_id])
 
     unless params[:especie_base][:especie].blank?
-      especie_name = params[:especie_base][:especie].strip.downcase
+      especie_name = params[:especie_base][:especie].gsub(/\t|\r|\n/, ' ').strip.downcase
       especie      = Especie.find_by(especie: especie_name)
 
       if especie.blank?
         especie    = Especie.create(especie: especie_name)
       end
 
-      unless publicacion.especies.ids.include?(especie.id)
-        publicacion.especies << especie
+      unless elemento.especies.ids.include?(especie.id)
+        elemento.especies << especie
 
-        etiqueta = Etiqueta.where(publicacion_id: publicacion.id).find_by(especie_id: especie.id)
+        etiqueta = Etiqueta.where(publicacion_id: elemento.id).find_by(especie_id: especie.id)
         etiqueta.asociado_por = perfil_activo_id
         etiqueta.save
+        noticia = "Se ha etiquetado exitósamente esta publicación"
+      else
+        noticia = "Error de etiquetado: Especie ya fue etiquetada en esta publicacion"
       end
+    else
+      noticia = "Error de etiquetado: Etiqueta no especificada"
     end
 
-    redirect_to "/publicaciones/#{publicacion.id}?html_options[menu]=Especies"
+    redirect_to "/publicaciones/#{elemento.id}", notice: noticia
   end
 
   def desasignar
@@ -118,7 +123,7 @@ class EspeciesController < ApplicationController
     elemento.especies.delete(@objeto)
     @objeto.delete if @objeto.send(params[:class_name].tableize).empty?
 
-    redirect_to "/publicaciones/#{elemento.id}?html_options[menu]=Especies"
+    redirect_to "/publicaciones/#{elemento.id}", notice: "Etiqueta desasignada exitósamente"
   end
 
   def libera_especie

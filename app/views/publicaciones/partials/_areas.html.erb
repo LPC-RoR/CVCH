@@ -1,22 +1,38 @@
-<% @coleccion_usuario.each do |objeto| %>
-	<div class='row'>
-		<div class='col-md-10'>
+<p class='text-info'>
+	<i class="bi bi-file-check"></i>
+	Áreas
+	<% if admin? %>
+		<a data-toggle="collapse" href="#collapseAreas" role="button" aria-expanded="false" aria-controls="collapseAreas">
+			<i class="bi bi-plus-circle"></i>
+		</a>
+  	<% end %>
+</p>
+
+<% if admin? %>
+	<div class="collapse" id="collapseAreas">
+		<div class="card card-body">
 			<small>
-			<% if @coleccion_publicacion.ids.include?(objeto.id) %><b class='text-info'><i class="bi bi-check2-all"></i><% else %><i class='text-muted'><% end %>
-				<%= objeto.send(objeto.class.name.downcase)  %>
-			<% if @coleccion_publicacion.ids.include?(objeto.id) %></b><% else %></i><% end %>
+			<ul>
+				<% @areas_disponibles.each do |area_objeto| %>
+					<li><%= link_to area_objeto.area, "/areas/#{area_objeto.id}/asigna?class_name=Publicacion&objeto_id=#{@objeto.id}" %></li>
+				<% end %>
+			</ul>
 			</small>
-		</div>
-		<div class='col-md-2'>
-			<% if @coleccion_publicacion.ids.include?(objeto.id) %>
-  				<%= link_to link_x_btn(objeto, '/desasignar', true) do %>
-  					<i class="bi bi-x-circle"></i>
-  				<% end %>
-			<% else %>
-  				<%= link_to link_x_btn(objeto, '/asigna', true) do %>
-  					<i class="bi bi-plus-circle"></i>
-  				<% end %>
-			<% end %>
 		</div>
 	</div>
 <% end %>
+
+<small>
+<ul>
+	<% @objeto.areas.order(:area).each do |area| %>
+	   	<li>
+	   		<% if admin? and @objeto.areas.count > 1 %>
+		   		<%= link_to "/areas/#{area.id}/desasignar?class_name=Publicacion&objeto_id=#{@objeto.id}" do %>
+		   			<i class="bi bi-x-circle"></i>
+		   		<% end %>
+	   		<% end %>
+	   		<%= link_to area.area, "/vistas?html_options[modelo]=Area&html_options[id]=#{area.id}" %>
+	   	</li>
+	<% end %>
+</ul>
+</small>

@@ -1,31 +1,44 @@
+<p class='text-info'>
+	<i class="bi bi-tag"></i>
+	Especies
+	<% if admin? %>
+		<a data-toggle="collapse" href="#collapseEspecies" role="button" aria-expanded="false" aria-controls="collapseEspecies">
+			<i class="bi bi-plus-circle"></i>
+		</a>
+  	<% end %>
+</p>
+
 <% if admin? %>
-	<i class='text-muted'><small>Etiquetar nueva especie</small></i>
-	<%= form_for :especie_base, url: "/especies/asigna?publicacion_id=#{@objeto.id}" do |form| %>
-		<div class='form-inline'>
-			<%= form.text_field(:especie, size: 35, class: 'form-control' ) %>
-			<button type="submit" class="btn btn-info">
-			  <i class="bi bi-plus-circle icon-white"></i>
-			  <i class="bi bi-bug icon-white"></i>
-			</button>
-		</div>
-	<% end  %>
-<% end  %>
-<% if usuario_signed_in? %></br><% end %>
-<% @coleccion_publicacion.each do |objeto| %>
-	<div class='row'>
-		<div class='col-md-10'>
+	<div class="collapse" id="collapseEspecies">
+		<div class="card card-body">
 			<small>
-			<b class='text-info'><i class="bi bi-check2-all"></i>
-				<%= objeto.send(objeto.class.name.downcase)  %>
-			</b>
+				<i class='text-muted'><small>Etiquetar nueva especie</small></i>
+				<%= form_for :especie_base, url: "/especies/asigna?class_name=Publicacion&objeto_id=#{@objeto.id}" do |form| %>
+					<div class='form-inline'>
+						<%= form.text_field(:especie, class: 'form-control' ) %>
+						<button type="submit" class="btn btn-info">
+						  <i class="bi bi-plus-circle icon-white"></i>
+						  <i class="bi bi-tag icon-white"></i>
+						</button>
+					</div>
+				<% end  %>
 			</small>
-		</div>
-		<div class='col-md-2'>
-			<% if admin? %>
-				<%= link_to link_x_btn(objeto, '/desasignar', true) do %>
-					<i class="bi bi-x-circle"></i>
-				<% end %>
-			<% end %>
 		</div>
 	</div>
 <% end %>
+
+<small>
+<ul>
+	<% @objeto.especies.order(:especie).each do |especie| %>
+	   	<li>
+	   		<% if admin? %>
+		   		<%= link_to "/especies/#{especie.id}/desasignar?class_name=Publicacion&objeto_id=#{@objeto.id}" do %>
+		   			<i class="bi bi-x-circle"></i>
+		   		<% end %>
+	   		<% end %>
+	   		<% unless especie.filo_especie.blank? %><i class="bi bi-bug"></i><% end %>
+	   		<%= link_to especie.especie, especie %>
+	   	</li>
+	<% end %>
+</ul>
+</small>
