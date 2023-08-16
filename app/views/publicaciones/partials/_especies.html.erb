@@ -37,7 +37,7 @@
 		   		<% end %>
 	   		<% end %>
 	   		<% unless especie.filo_especie.blank? %>
-	   			<%= link_to especie.filo_especie do %>
+	   			<%= link_to "/publicos/especies?indice=#{especie.filo_especie.id}" do %>
 	   				<i class="bi bi-bug"></i>
 	   			<% end %>
 	   		<% end %>
