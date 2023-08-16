@@ -36,7 +36,11 @@
 		   			<i class="bi bi-x-circle"></i>
 		   		<% end %>
 	   		<% end %>
-	   		<% unless especie.filo_especie.blank? %><i class="bi bi-bug"></i><% end %>
+	   		<% unless especie.filo_especie.blank? %>
+	   			<%= link_to especie.filo_especie do %>
+	   				<i class="bi bi-bug"></i>
+	   			<% end %>
+	   		<% end %>
 	   		<%= link_to especie.especie, especie %>
 	   	</li>
 	<% end %>
