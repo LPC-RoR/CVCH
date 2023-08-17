@@ -3,6 +3,17 @@
 <%= render partial: 'publicaciones/partials/doc_type_buttons' %>
 <p class='text-muted'><%= @objeto.m_quote %></p>
 
+<% unless @duplicados.blank? %>
+	<p class="text-danger">Esta publicación puede ya existir en la colección!</p>
+	<small>
+	<ul>
+		<% @duplicados.each do |duplicado| %>
+			<li><%= link_to duplicado.m_quote, duplicado %></li>
+		<% end %>
+	</ul>
+	</small>
+<% end %>
+
 <% unless @objeto.doi.blank? %>
 	<small><%= link_to "https://doi.org/#{@objeto.doi}", "https://doi.org/#{@objeto.doi}", target: :blank %></small>
 <% end %>
