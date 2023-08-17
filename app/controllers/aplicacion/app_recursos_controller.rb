@@ -26,57 +26,6 @@ class Aplicacion::AppRecursosController < ApplicationController
 
   def procesos
 
-    FiloElemento.all.each do |elemento|
-      if elemento.filo_elemento != limpia_nombre(elemento.filo_elemento)
-        elemento.filo_elemento = limpia_nombre(elemento.filo_elemento)
-        elemento.save
-      end
-    end
-
-    Especie.all.each do |etiqueta|
-      if etiqueta.especie != limpia_nombre(etiqueta.especie)
-        # Lo primero es unificar las etiquetas
-        # preguntamos si hay una etiqueta limpia
-        limpia = Especie.find_by(especie: limpia_nombre(etiqueta.especie))
-        if limpia.present? and limpia.id != etiqueta.id
-          # Existe etiqueta con nombre limpio
-          # se traspasan publicaciones a la etiqueta limpia
-          unless etiqueta.publicaciones.empty?
-            etiqueta.publicaciones.each do |pub|
-              limpia.publicaciones << pub
-              etiqueta.publicaciones.delete(pub)
-            end
-          end
-          if etiqueta.filo_especie.present?
-            filo_especie = etiqueta.filo_especie
-            filo_especie.filo_especie = limpia_nombre(filo_especie.filo_especie)
-            filo_especie.save
-
-            etiqueta.delete if etiqueta.publicaciones.empty?
-            filo_especie.especies << limpia if limpia.filo_especie.blank?
-          end
-        else
-          # no existe etiqueta limpia
-          etiqueta.especie = limpia_nombre(etiqueta.especie)
-          etiqueta.save
-          if etiqueta.filo_especie.present?
-            filo_especie = etiqueta.filo_especie
-            filo_especie.filo_especie = limpia_nombre(filo_especie.filo_especie)
-            filo_especie.save
-          end
-        end
-      end
-    end
-
-    FiloEspecie.all.each do |filo_especie|
-      if filo_especie.filo_especie != limpia_nombre(filo_especie.filo_especie)
-        if filo_especie.especies.empty?
-          filo_especie.filo_especie = limpia_nombre(filo_especie.filo_especie)
-          filo_especie.save
-        end
-      end
-    end
-
 
 #    n_especies = Especie.all.count
 #    n_sin_padre = Especie.where(filo_especie_id: nil).count

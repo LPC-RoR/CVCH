@@ -14,7 +14,6 @@ module CptnMenuAppHelper
 	    [
 #	        [nil,              "/vistas/graficos",    'general', 'bar-chart-line'],
 	        ["Colecciones",    "/vistas",             'anonimo', 'book'],
-	        ["Carpetas",       "/carpetas",           'nomina',  'folder'],
 	        ["Contribuciones", "/contribuciones",     'general', 'file-earmark-arrow-up'],
 	        ['Taxonomía',      "/publicos/taxonomia", 'admin',   'diagram-3'],
 	        ["Revisiones",     "/revisiones",         'admin',   'file-check'],
