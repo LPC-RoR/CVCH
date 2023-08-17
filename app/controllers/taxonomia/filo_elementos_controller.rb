@@ -203,6 +203,6 @@ class Taxonomia::FiloElementosController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def filo_elemento_params
-      params.require(:filo_elemento).permit(:filo_orden_id, :filo_elemento, :descripcion, :mma_ok, :revisar)
+      params.require(:filo_elemento).permit(:filo_orden_id, :filo_elemento, :descripcion, :mma_ok, :revisar, :area_id)
     end
 end
