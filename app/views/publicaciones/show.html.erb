@@ -1,7 +1,7 @@
 <%= render partial: 'publicaciones/partials/header' %>
 <hr>
 <div class='row'>
-	<div class='col-md-4'>
+	<div class='col-md-3'>
 
 		<%= render partial: 'publicaciones/partials/areas' %>
 		<%= render partial: 'publicaciones/partials/categorias' %>
@@ -16,7 +16,7 @@
 		<% end %>
 
 	</div>
-	<div class='col-md-6'>
+	<div class='col-md-7'>
 
 		<%= render partial: 'publicaciones/partials/links' %>
 		<hr>
@@ -28,10 +28,13 @@
 
 		<% if dog? %>
 			<hr>
+			<small>
 			<%= "Número de índices: #{@objeto.indices.count}" %></br>
+			<%= @objeto.author_email %></br>
 			<% @objeto.indices.each do |indice| %>
 				<%= indice.ind_clave.ind_clave unless indice.ind_clave.blank? %> | <%= indice.ind_palabra.ind_palabra unless indice.ind_palabra_id.blank? %></br>
 			<% end %>
+			</small>
 		<% end %>
 
 	</div>

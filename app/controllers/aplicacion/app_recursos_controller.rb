@@ -27,15 +27,11 @@ class Aplicacion::AppRecursosController < ApplicationController
 
   def procesos
 
-    n_pub = 0
-    Publicacion.all.each do |pub|
-      if pub.estado == 'publicada' and n_pub < 1000 and pub.author_email != 'indexada'
+    Publicacion.where(estado: 'publicada', author_email: nil).last(500).each do |pub|
         desindexa_registro(pub)
         indexa_registro(pub)
         pub.author_email = 'indexada'
         pub.save
-        n_pub += 1
-      end
     end
 
 
