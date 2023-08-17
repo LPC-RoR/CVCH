@@ -67,7 +67,7 @@ class PublicacionesController < ApplicationController
 
     respond_to do |format|
       if @objeto.save
-        format.html { redirect_to @objeto, notice: 'Publicacion was successfully created.' }
+        format.html { redirect_to @objeto, notice: 'Publicación fue exitósamente creada.' }
         format.json { render :show, status: :created, location: @objeto }
       else
         format.html { render :new }
@@ -81,7 +81,7 @@ class PublicacionesController < ApplicationController
   def update
     respond_to do |format|
       if @objeto.update(publicacion_params)
-        format.html { redirect_to @objeto, notice: 'Publicacion was successfully updated.' }
+        format.html { redirect_to @objeto, notice: 'Publicación fue exitósamente actualizada.' }
         format.json { render :show, status: :ok, location: @objeto }
       else
         format.html { render :edit }
@@ -164,7 +164,7 @@ class PublicacionesController < ApplicationController
   def destroy
     @objeto.destroy
     respond_to do |format|
-      format.html { redirect_to publicaciones_url, notice: 'Publicacion was successfully destroyed.' }
+      format.html { redirect_to publicaciones_url, notice: 'Publicación fue exitósamente eliminada.' }
       format.json { head :no_content }
     end
   end

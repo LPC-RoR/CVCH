@@ -83,7 +83,8 @@ module ProcesaEstructura
 	end
 
 	def palabras_texto(str)
-		str.gsub(/[\.,;\:\(\)¿\?¡!\[\]\{\}°º]/, ' ').split(' ').map {|word| word.strip}
+		limpio = str.gsub(/\t|\r|\n/, ' ').strip.downcase
+		limpio.gsub(/[\.,;\:\(\)¿\?¡!\[\]\{\}°º]/, ' ').split(' ').map {|word| word.strip}
 	end
 
 	def procesa_campos_busqueda(estructura, objeto, campo)
