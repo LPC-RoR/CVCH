@@ -11,7 +11,7 @@ module ProcesaEstructura
 	end
 
 	def numero?(str)
-		str.to_i.to_s == str
+		!!(str =~ /\A[-+]?[0-9]+\z/)
 	end
 
 	def unidades?(str)
