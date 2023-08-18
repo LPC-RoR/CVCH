@@ -1,8 +1,9 @@
 <%= render partial: '0p/general/o_titulo', locals: {o: @objeto, a: action_name, size: '5'} %>
 
 <%= @objeto.ind_clave.ind_indices.count if @objeto.ind_clave.present? %> | 
-<%= @objeto.ind_indices.count %>
+<%= @objeto.ind_indices.count %></br>
 
+<%= @objeto.ind_palabra.split('').map {|ch| "#{ch}#{ch.ord}"}.join(':') %>
 <% @coleccion['publicaciones'].each do |pub| %>
 	<h5><%= @objeto.class.name %>:<%= @objeto.id %></h5>
 	<i>Título</i></br>
