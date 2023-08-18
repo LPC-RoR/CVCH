@@ -63,8 +63,10 @@ class Busqueda::IndPalabrasController < ApplicationController
     estructura = @objeto.ind_estructura
     coleccion_ids = @objeto.ind_clave.blank? ? [] : @objeto.ind_clave.ind_indices.where(class_name: 'Publicacion').ids
 
-    ids = coleccion_ids.union(@objeto.ind_indices.ids)
+    ids = coleccion_ids.union(@objeto.ind_indices.where(class_name: 'Publicacion').ids)
     indices = IndIndice.where(id: ids.uniq)
+
+    noticia = "n_indices = #{indices.count}"
 
     indices.each do |indice|
       publicacion = indice.class_name.constantize.find(indice.objeto_id)
@@ -79,7 +81,7 @@ class Busqueda::IndPalabrasController < ApplicationController
       @objeto.delete
     end
 
-    redirect_to estructura
+    redirect_to estructura, notice: noticia
   end
 
   # DELETE /ind_palabras/1
