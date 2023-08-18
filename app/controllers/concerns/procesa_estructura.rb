@@ -11,7 +11,7 @@ module ProcesaEstructura
 	end
 
 	def numero?(str)
-		not str.split('').map {|car| car.match?(/[[:digit:]]/)}.include?(false)
+		not ( str.split('').map {|car| car.match?(/[[:digit:]]/)}.include?(false) )
 	end
 
 	def unidades?(str)
