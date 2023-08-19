@@ -82,7 +82,7 @@ class Aplicacion::AppRecursosController < ApplicationController
 #    end
 
 #    redirect_to root_path, notice: "#{n_especies} : #{n_sin_padre} | #{n_filo_especies} : #{n_sub_especies} : #{n_cvch}"
-    redirect_to root_path, notice: "Proceso terminado #{inicio} : #{termino}"
+    redirect_to root_path, notice: "Proceso terminado"
   end
 
   private
