@@ -33,20 +33,20 @@ class Aplicacion::AppRecursosController < ApplicationController
 
 #    inicio = IndPalabra.all.count
 
-#    IndPalabra.all.each do |palabra|
-#      if palabra.ind_clave.blank? and palabra.ind_indices.empty?
-#        palabra.delete
-#      end
-#    end
+    IndPalabra.all.each do |palabra|
+      if palabra.ind_clave.blank? and palabra.ind_indices.empty?
+        palabra.delete
+      end
+    end
 
 #    termino = IndPalabra.all.count
 
-    Publicacion.where(estado: 'publicada', author_email: 'indexada').last(500).each do |pub|
-        desindexa_registro(pub)
-        indexa_registro(pub)
-        pub.author_email = 'segundo'
-        pub.save
-    end
+#    Publicacion.where(estado: 'publicada', author_email: 'indexada').last(500).each do |pub|
+#        desindexa_registro(pub)
+#        indexa_registro(pub)
+#        pub.author_email = 'segundo'
+#        pub.save
+#    end
 
 
 #    n_especies = Especie.all.count
