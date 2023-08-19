@@ -27,12 +27,16 @@ class Aplicacion::AppRecursosController < ApplicationController
 
   def procesos
 
-    Publicacion.where(estado: 'publicada', author_email: nil).last(500).each do |pub|
-        desindexa_registro(pub)
-        indexa_registro(pub)
-        pub.author_email = 'indexada'
-        pub.save
+    IndClave.all.each do |clave|
+      clave.delete if clave.ind_indices.empty?
     end
+
+#    Publicacion.where(estado: 'publicada', author_email: nil).last(500).each do |pub|
+#        desindexa_registro(pub)
+#        indexa_registro(pub)
+#        pub.author_email = 'indexada'
+#        pub.save
+#    end
 
 
 #    n_especies = Especie.all.count
@@ -68,7 +72,7 @@ class Aplicacion::AppRecursosController < ApplicationController
 #    end
 
 #    redirect_to root_path, notice: "#{n_especies} : #{n_sin_padre} | #{n_filo_especies} : #{n_sub_especies} : #{n_cvch}"
-    redirect_to root_path, notice: "Proceso terminado"
+    redirect_to root_path, notice: "Proceso terminado #{IndClave.all.count}"
   end
 
   private
