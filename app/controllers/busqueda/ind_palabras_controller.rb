@@ -70,9 +70,13 @@ class Busqueda::IndPalabrasController < ApplicationController
 
     indices.each do |indice|
       publicacion = indice.class_name.constantize.find(indice.objeto_id)
-      noticia = noticia + "| #{publicacion.id}"
-      desindexa_registro(publicacion)
-      indexa_registro(publicacion)
+      if publicacion.blank?
+        indice.delete
+      else
+        noticia = noticia + "| #{publicacion.id}"
+        desindexa_registro(publicacion)
+        indexa_registro(publicacion)
+      end
     end
 
     n_indices = @objeto.ind_clave.blank? ? @objeto.ind_indices.count : @objeto.ind_clave.ind_indices.count + @objeto.ind_indices.count
