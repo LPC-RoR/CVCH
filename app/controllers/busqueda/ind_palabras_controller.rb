@@ -69,6 +69,9 @@ class Busqueda::IndPalabrasController < ApplicationController
     noticia = "n_indices = #{indices.count}"
 
     indices.each do |indice|
+      if [6653].include?(indice.objeto_id)
+        indice.delete
+      else
       publicacion = indice.class_name.constantize.find(indice.objeto_id)
       if publicacion.blank?
         indice.delete
@@ -76,6 +79,7 @@ class Busqueda::IndPalabrasController < ApplicationController
         noticia = noticia + "| #{publicacion.id}"
         desindexa_registro(publicacion)
         indexa_registro(publicacion)
+      end
       end
     end
 
