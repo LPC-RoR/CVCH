@@ -27,30 +27,32 @@ class Aplicacion::AppRecursosController < ApplicationController
 
   def procesos
 
-    IndClave.all.each do |clave|
-      if clave.ind_indices.empty?
-        clave.delete
-      elsif clave.ind_palabras.empty?
-        clave.ind_indices.each do |indice|
-          indice.delete
-        end
-        clave.delete
-      else
-        clave.ind_indices.each do |indice|
-          pubs = Publicacion.where(id: indice.objeto_id.to_i)
-          indice.delete if pubs.empty?
-        end
-        clave.delete if clave.ind_indices.empty?
-      end
-    end
+#    IndClave.all.each do |clave|
+#      if clave.ind_indices.empty?
+#        clave.delete
+#      elsif clave.ind_palabras.empty?
+#        clave.ind_indices.each do |indice|
+#          indice.delete
+#        end
+#        clave.delete
+#      else
+#        clave.ind_indices.each do |indice|
+#          pubs = Publicacion.where(id: indice.objeto_id.to_i)
+#          indice.delete if pubs.empty?
+#        end
+#        clave.delete if clave.ind_indices.empty?
+#      end
+#    end
 
 #    inicio = IndPalabra.all.count
 
-#    IndPalabra.all.each do |palabra|
-#      if palabra.ind_clave.blank? and palabra.ind_indices.empty?
-#        palabra.delete
-#      end
-#    end
+    IndPalabra.where.not(ind_clave_id: nil).last(500).each do |palabra|
+      if palabra.ind_clave.blank?
+          palabra.ind_clave_id = nil
+          palabra.save
+      end
+      palabra.delete if palabra.ind_indices.empty?
+    end
 
 #    termino = IndPalabra.all.count
 
