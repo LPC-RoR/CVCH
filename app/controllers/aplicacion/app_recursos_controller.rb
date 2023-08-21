@@ -46,27 +46,27 @@ class Aplicacion::AppRecursosController < ApplicationController
 
 #    inicio = IndPalabra.all.count
 
-    IndPalabra.where(proceso: nil).first(2000).each do |palabra|
-      if palabra.ind_clave.blank?
-          palabra.ind_clave_id = nil
-          palabra.save
-      end
-      if palabra.ind_indices.empty?
-        palabra.delete 
-      else
-        palabra.proceso = 'primer'
-        palabra.save
-      end
-    end
+#    IndPalabra.where(proceso: nil).first(2000).each do |palabra|
+#      if palabra.ind_clave.blank?
+#          palabra.ind_clave_id = nil
+#          palabra.save
+#      end
+#      if palabra.ind_indices.empty?
+#        palabra.delete 
+#      else
+#        palabra.proceso = 'primer'
+#        palabra.save
+#      end
+#    end
 
 #    termino = IndPalabra.all.count
 
-#    Publicacion.where(estado: 'publicada', author_email: 'indexada').last(500).each do |pub|
-#        desindexa_registro(pub)
-#        indexa_registro(pub)
-#        pub.author_email = 'segundo'
-#        pub.save
-#    end
+    Publicacion.where(estado: 'publicada', author_email: 'segundo').last(500).each do |pub|
+        desindexa_registro(pub)
+        indexa_registro(pub)
+        pub.author_email = 'tercero'
+        pub.save
+    end
 
 
 #    n_especies = Especie.all.count
