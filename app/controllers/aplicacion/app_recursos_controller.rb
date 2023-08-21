@@ -46,7 +46,7 @@ class Aplicacion::AppRecursosController < ApplicationController
 
 #    inicio = IndPalabra.all.count
 
-    IndPalabra.where(proceso: nil).first(500).each do |palabra|
+    IndPalabra.where(proceso: nil).first(2000).each do |palabra|
       if palabra.ind_clave.blank?
           palabra.ind_clave_id = nil
           palabra.save
