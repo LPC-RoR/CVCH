@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_08_05_005303) do
+ActiveRecord::Schema.define(version: 2023_08_21_162307) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -664,11 +664,13 @@ ActiveRecord::Schema.define(version: 2023_08_05_005303) do
     t.datetime "updated_at", null: false
     t.integer "ind_estructura_id"
     t.integer "ind_sinonimo_id"
+    t.string "proceso"
     t.index ["ind_clave_id"], name: "index_ind_palabras_on_ind_clave_id"
     t.index ["ind_estructura_id"], name: "index_ind_palabras_on_ind_estructura_id"
     t.index ["ind_lenguaje_id"], name: "index_ind_palabras_on_ind_lenguaje_id"
     t.index ["ind_palabra"], name: "index_ind_palabras_on_ind_palabra"
     t.index ["ind_sinonimo_id"], name: "index_ind_palabras_on_ind_sinonimo_id"
+    t.index ["proceso"], name: "index_ind_palabras_on_proceso"
   end
 
   create_table "ind_redacciones", force: :cascade do |t|

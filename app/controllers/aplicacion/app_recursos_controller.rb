@@ -46,12 +46,17 @@ class Aplicacion::AppRecursosController < ApplicationController
 
 #    inicio = IndPalabra.all.count
 
-    IndPalabra.where.not(ind_clave_id: nil).order(:ind_palabra).first(1000).each do |palabra|
+    IndPalabra.where(proceso: nil).first(500).each do |palabra|
       if palabra.ind_clave.blank?
           palabra.ind_clave_id = nil
           palabra.save
       end
-      palabra.delete if palabra.ind_indices.empty?
+      if palabra.ind_indices.empty?
+        palabra.delete 
+      else
+        palabra.proceso = 'primer'
+        palabra.save
+      end
     end
 
 #    termino = IndPalabra.all.count
