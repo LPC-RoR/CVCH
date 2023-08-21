@@ -61,7 +61,7 @@ class Aplicacion::AppRecursosController < ApplicationController
 
 #    termino = IndPalabra.all.count
 
-    Publicacion.where(estado: 'publicada', author_email: 'segundo').last(500).each do |pub|
+    Publicacion.where(estado: 'publicada', author_email: 'segundo').last(200).each do |pub|
         desindexa_registro(pub)
         indexa_registro(pub)
         pub.author_email = 'tercero'
