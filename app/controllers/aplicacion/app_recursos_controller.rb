@@ -29,7 +29,12 @@ class Aplicacion::AppRecursosController < ApplicationController
 
     IndClave.all.each do |clave|
       if clave.ind_indices.empty?
-        clave.delete 
+        clave.delete
+      elsif clave.ind_palabras.empty?
+        clave.ind_indices.each do |indice|
+          indice.delete
+        end
+        clave.delete
       else
         clave.ind_indices.each do |indice|
           pubs = Publicacion.where(id: indice.objeto_id.to_i)
