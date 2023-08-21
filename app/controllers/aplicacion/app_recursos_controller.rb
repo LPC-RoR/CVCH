@@ -32,8 +32,8 @@ class Aplicacion::AppRecursosController < ApplicationController
         clave.delete 
       else
         clave.ind_indices.each do |indice|
-          pub = Publicacion.find(indice.objeto_id)
-          indice.delete if pub.blank?
+          pubs = Publicacion.where(id: indice.objeto_id.to_i)
+          indice.delete if pubs.empty??
         end
         clave.delete if clave.ind_indices.empty?
       end
