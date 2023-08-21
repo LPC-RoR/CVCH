@@ -27,17 +27,25 @@ class Aplicacion::AppRecursosController < ApplicationController
 
   def procesos
 
-#    IndClave.all.each do |clave|
-#      clave.delete if clave.ind_indices.empty?
-#    end
+    IndClave.all.each do |clave|
+      if clave.ind_indices.empty?
+        clave.delete 
+      else
+        clave.ind_indices.each do |indice|
+          pub = Publicacion.find(indice.objeto_id)
+          indice.delete if pub.blank?
+        end
+        clave.delete if clave.ind_indices.empty?
+      end
+    end
 
 #    inicio = IndPalabra.all.count
 
-    IndPalabra.all.each do |palabra|
-      if palabra.ind_clave.blank? and palabra.ind_indices.empty?
-        palabra.delete
-      end
-    end
+#    IndPalabra.all.each do |palabra|
+#      if palabra.ind_clave.blank? and palabra.ind_indices.empty?
+#        palabra.delete
+#      end
+#    end
 
 #    termino = IndPalabra.all.count
 
@@ -82,7 +90,7 @@ class Aplicacion::AppRecursosController < ApplicationController
 #    end
 
 #    redirect_to root_path, notice: "#{n_especies} : #{n_sin_padre} | #{n_filo_especies} : #{n_sub_especies} : #{n_cvch}"
-    redirect_to root_path, notice: "Proceso terminado"
+    redirect_to root_path, notice: "Proceso terminado #{IndClave.all.count}"
   end
 
   private
