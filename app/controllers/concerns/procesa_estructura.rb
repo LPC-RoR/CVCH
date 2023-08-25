@@ -140,7 +140,6 @@ module ProcesaEstructura
 		modelo_ids = []
 		# buscamos palabra por palabra
 		palabras.each do |palabra|
-
 			unless excluye_palabra(palabra.strip.downcase)
 				# ind_palabra es la donde se accede al índice inverso
 				ind_palabra = IndPalabra.find_by(ind_palabra: palabra.strip.downcase)
@@ -149,9 +148,7 @@ module ProcesaEstructura
 					# si la clave existe, retorna la colección de índices
 					# si no retorna una csolección vacía
 
-					modelo_ids = ind_palabra.ind_clave.present? ? modelo_ids.union(ind_palabra.ind_clave.ind_indices.where(class_name: modelo).map {|ii| ii.objeto_id}) : []
-					modelo_ids = modelo_ids.union(ind_palabra.ind_indices.ids)
-
+					modelo_ids = ind_palabra.ind_indices.map {|indice| indice.objeto_id}
 				end
 			end 
 		end
