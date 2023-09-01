@@ -10,7 +10,7 @@
 					<i class="bi bi-check-all"></i>
 				<% end %>
 				<%= link_to tag.especie, tag %> | <%= tag.publicaciones.count %></br>
-				<small><%= tag.publicaciones.map {|pub| pub.year}.uniq %></small>
+				<small><%= tag.publicaciones.map {|pub| pub.year}.sort %></small>
 			</li>
 		<% end %>		
 		</ul></small></small>
