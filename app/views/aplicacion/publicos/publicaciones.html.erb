@@ -9,8 +9,7 @@
 				<% if tag.especie == @objeto.filo_especie %>
 					<i class="bi bi-check-all"></i>
 				<% end %>
-				<%= link_to tag.especie, tag %> | <%= tag.publicaciones.count %></br>
-				<small><%= tag.publicaciones.map {|pub| pub.year}.sort %></small>
+				<%= link_to tag.especie, tag %> | <%= tag.publicaciones.count %>
 			</li>
 		<% end %>		
 		</ul></small></small>
