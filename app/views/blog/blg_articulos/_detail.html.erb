@@ -1,6 +1,9 @@
 <%= render partial: '0p/form_fields/label', locals: { form: form, label: 'Tema', v: true } %>
 <%= render partial: '0p/form_fields/select_id', locals: { form: form, token: :blg_tema_id, colection: BlgTema.all.order(:blg_tema).collect { |tema| [tema.blg_tema, tema.id] }, display_field: 'blg_tema', prompt: 'Tema' } %></br>
 
+<%= render partial: '0p/form_fields/label', locals: { form: form, label: 'Estado', v: true } %>
+<%= render partial: '0p/form_fields/select', locals: { form: form, token: :estado, sel_list: ['ingreso', 'revisión', 'publicada'], label: 'estado' } %></br>
+
 <%= render partial: '0p/form_fields/label', locals: { form: form, label: 'Título', v: true } %>
 <%= render partial: '0p/form_fields/text', locals: { form: form, token: :blg_articulo } %>
 <%= render partial: '0p/form_fields/label', locals: { form: form, label: 'Autor', v: true } %>

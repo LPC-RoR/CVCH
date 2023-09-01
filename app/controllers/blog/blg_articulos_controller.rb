@@ -3,10 +3,7 @@ class Blog::BlgArticulosController < ApplicationController
 
   # GET /blg_articulos or /blg_articulos.json
   def index
-    puts "********************************* index "
     if admin?
-      puts perfil_activo.blank?
-      puts perfil_activo.blg_articulos.count
       init_tabla('perfil-blg_articulos', perfil_activo.blg_articulos.order(created_at: :desc), true)
       add_tabla('general-blg_articulos', BlgArticulo.all.order(created_at: :desc), true)
       add_tabla('blg_temas', BlgTema.all.order(created_at: :desc), true)
