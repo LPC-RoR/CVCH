@@ -7,7 +7,7 @@
 	<% if Especie.find_by(especie: objeto.filo_especie).blank? %>
 		<p class='text-danger'>No se encontró etiqueta para esta especie.
 	<% else %>
-		<p class='text-info'><i class="bi bi-tag"></i> <%= link_to objeto.filo_especie, Especie.find_by(especie: filo_especie.filo_especie) %>
+		<p class='text-info'><i class="bi bi-tag"></i> <%= link_to objeto.filo_especie, Especie.find_by(especie: objeto.filo_especie) %>
 	<% end %>
 	</p>
 	</small>
