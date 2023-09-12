@@ -15,7 +15,9 @@
 	( <%= objeto.especie.present? ? objeto.especie.publicaciones.count : 0 %> ) 
 	<% if objeto.sinonimo_especie? %><i class="bi bi-flag text-danger"></i><% end %>
 	<% if objeto.multiple? %><i class="bi bi-intersect text-danger"></i><% end %>
-	<%= render partial: '0p/tabla/link_eliminar', locals: {objeto: objeto} if objeto.especie.blank? %>
+	<%= link_to "/filo_sinonimos/#{objeto.id}/borrar?indice=#{@objeto.id}" do %>
+		<i class="bi bi-trash"></i>
+	<% end %>
 	</br>
 
 	<div class="collapse" id="collapseSinonimo<%=objeto.id%>">

@@ -280,6 +280,7 @@ Rails.application.routes.draw do
     resources :filo_criterios
     resources :filo_sinonimos do
       match :set_sinonimo, via: :post, on: :member
+      match :borrar, via: :get, on: :member
     end
     resources :filo_esp_sinos
 

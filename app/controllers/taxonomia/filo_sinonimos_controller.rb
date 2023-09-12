@@ -1,5 +1,5 @@
 class Taxonomia::FiloSinonimosController < ApplicationController
-  before_action :set_filo_sinonimo, only: [:show, :edit, :update, :destroy, :set_sinonimo]
+  before_action :set_filo_sinonimo, only: [:show, :edit, :update, :destroy, :set_sinonimo, :borrar]
 
   # GET /filo_sinonimos
   # GET /filo_sinonimos.json
@@ -95,6 +95,14 @@ class Taxonomia::FiloSinonimosController < ApplicationController
     end
   end
 
+  def borrar
+    filo_especie = FiloEspecie.find(params[:indice])
+    filo_especie.filo_sinonimos.delete(@objeto)
+    @objeto.delete
+
+    redirect_to "/publicos/especies?indice=#{filo_especie.id}"
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_filo_sinonimo
@@ -102,6 +110,7 @@ class Taxonomia::FiloSinonimosController < ApplicationController
     end
 
     def set_redireccion
+      # NO SIRVE porque es @objeto.filo_especies !!
       @redireccion = "/publicos/especies?indice=#{@objeto.filo_especie.id}"
     end
 
