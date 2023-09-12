@@ -91,6 +91,9 @@ class Taxonomia::FiloEspeciesController < ApplicationController
       fes=@objeto.filo_esp_sinos.find_by(filo_sinonimo_id: fs.id)
       fes.tipo = 'sinónimo'
       fes.save
+
+      e=Especie.find_by(especie: fs.filo_sinonimo)
+      fs.especie = e unless e.blank?
     end
 
     redirect_to "/publicos/especies?indice=#{@objeto.id}", notice: 'Sinónimo ha sido exitósamente creado'
