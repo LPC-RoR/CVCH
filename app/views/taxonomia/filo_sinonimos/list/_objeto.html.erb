@@ -1,10 +1,10 @@
 <small>
-	<i class="bi bi-tag text-<%=objeto.especie.blank? ? 'urgent' : 'info'%>"></i> 
+	<i class="bi bi-tag text-<%=objeto.especie.blank? ? 'danger' : 'info'%>"></i> 
 	<% if objeto.especie.present? %>
 		<%= link_to objeto.filo_sinonimo, objeto.especie %> 
 	<% else %>
 		<%= objeto.filo_sinonimo %> 
 	<% end %>
 	( <%= objeto.especie.present? ? objeto.especie.publicaciones.count : 0 %> ) 
-	<% if objeto.conflicto? %><i class="bi bi-flag text-urgent"></i><% end %></br>
+	<% if objeto.conflicto? %><i class="bi bi-flag text-danger"></i><% end %></br>
 </small>
