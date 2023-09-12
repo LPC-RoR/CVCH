@@ -17,4 +17,8 @@ class FiloSinonimo < ApplicationRecord
 		self.especie.blank? ? false : self.especie.filo_especie.present?
 	end
 
+	def nombre
+		self.coreccion.blank? ? self.filo_sinonimo : self.correccion
+	end
+
 end

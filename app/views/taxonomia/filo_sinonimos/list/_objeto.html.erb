@@ -3,10 +3,14 @@
 		<i class="bi bi-tag"></i> 
 	</a>
 
+	<% unless objeto.correccion.blank? %>
+		<i class="bi bi-arrow-repeat text-info"></i>
+	<% end %>
+
 	<% if objeto.especie.present? %>
-		<%= link_to objeto.filo_sinonimo, objeto.especie %> 
+		<%= link_to objeto.nombre, objeto.especie %> 
 	<% else %>
-		<%= objeto.filo_sinonimo %> 
+		<%= objeto.nombre %> 
 	<% end %>
 	( <%= objeto.especie.present? ? objeto.especie.publicaciones.count : 0 %> ) 
 	<% if objeto.sinonimo_especie? %><i class="bi bi-flag text-danger"></i><% end %>
