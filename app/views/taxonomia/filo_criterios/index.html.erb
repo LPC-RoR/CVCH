@@ -1,0 +1,35 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Filo Criterios</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Filo conflicto</th>
+      <th>Problema</th>
+      <th>Criterio</th>
+      <th>Fuente</th>
+      <th>Link fuente</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @filo_criterios.each do |filo_criterio| %>
+      <tr>
+        <td><%= filo_criterio.filo_conflicto_id %></td>
+        <td><%= filo_criterio.problema %></td>
+        <td><%= filo_criterio.criterio %></td>
+        <td><%= filo_criterio.fuente %></td>
+        <td><%= filo_criterio.link_fuente %></td>
+        <td><%= link_to 'Show', filo_criterio %></td>
+        <td><%= link_to 'Edit', edit_filo_criterio_path(filo_criterio) %></td>
+        <td><%= link_to 'Destroy', filo_criterio, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Filo Criterio', new_filo_criterio_path %>

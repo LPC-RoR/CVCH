@@ -1,0 +1,31 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Filo Sinonimos</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Filo especie</th>
+      <th>Filo sinonimo</th>
+      <th>Tipo</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @filo_sinonimos.each do |filo_sinonimo| %>
+      <tr>
+        <td><%= filo_sinonimo.filo_especie_id %></td>
+        <td><%= filo_sinonimo.filo_sinonimo %></td>
+        <td><%= filo_sinonimo.tipo %></td>
+        <td><%= link_to 'Show', filo_sinonimo %></td>
+        <td><%= link_to 'Edit', edit_filo_sinonimo_path(filo_sinonimo) %></td>
+        <td><%= link_to 'Destroy', filo_sinonimo, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Filo Sinonimo', new_filo_sinonimo_path %>

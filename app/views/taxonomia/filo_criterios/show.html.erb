@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Filo conflicto:</strong>
+  <%= @filo_criterio.filo_conflicto_id %>
+</p>
+
+<p>
+  <strong>Problema:</strong>
+  <%= @filo_criterio.problema %>
+</p>
+
+<p>
+  <strong>Criterio:</strong>
+  <%= @filo_criterio.criterio %>
+</p>
+
+<p>
+  <strong>Fuente:</strong>
+  <%= @filo_criterio.fuente %>
+</p>
+
+<p>
+  <strong>Link fuente:</strong>
+  <%= @filo_criterio.link_fuente %>
+</p>
+
+<%= link_to 'Edit', edit_filo_criterio_path(@filo_criterio) %> |
+<%= link_to 'Back', filo_criterios_path %>

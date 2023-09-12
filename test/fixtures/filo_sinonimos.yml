@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  filo_especie_id: 1
+  filo_sinonimo: MyString
+  tipo: MyString
+
+two:
+  filo_especie_id: 1
+  filo_sinonimo: MyString
+  tipo: MyString

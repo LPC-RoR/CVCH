@@ -2,6 +2,10 @@
 <small><% if objeto.link_fuente.present? %><i class="bi bi-box-arrow-up-right"></i><% end %></small>
 <%= link_to objeto.filo_especie, "/publicos/especies?indice=#{objeto.id}" %>
 
+<% unless objeto.sinonimia.blank? %>
+	<i class="bi bi-collection text-info"></i>
+<% end %>
+
 <% unless objeto.conflictos.empty? %>
 	<i class="bi bi-flag text-danger"></i>
 <% end %>

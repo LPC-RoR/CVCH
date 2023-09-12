@@ -1,4 +1,6 @@
 <hr>
-<% coleccion.each do |objeto| %>
-	<%= render partial: get_partial(objeto.class.name.tableize, 'list', 'objeto') , locals: {objeto: objeto} %>
+<% unless coleccion.empty? %>
+	<% coleccion.each do |objeto| %>
+		<%= render partial: get_partial(objeto.class.name.tableize, 'list', 'objeto') , locals: {objeto: objeto} %>
+	<% end %>
 <% end %>

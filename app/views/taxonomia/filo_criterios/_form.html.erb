@@ -1,0 +1,42 @@
+<%= form_with(model: filo_criterio, local: true) do |form| %>
+  <% if filo_criterio.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(filo_criterio.errors.count, "error") %> prohibited this filo_criterio from being saved:</h2>
+
+      <ul>
+      <% filo_criterio.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :filo_conflicto_id %>
+    <%= form.number_field :filo_conflicto_id %>
+  </div>
+
+  <div class="field">
+    <%= form.label :problema %>
+    <%= form.text_field :problema %>
+  </div>
+
+  <div class="field">
+    <%= form.label :criterio %>
+    <%= form.text_field :criterio %>
+  </div>
+
+  <div class="field">
+    <%= form.label :fuente %>
+    <%= form.text_field :fuente %>
+  </div>
+
+  <div class="field">
+    <%= form.label :link_fuente %>
+    <%= form.text_field :link_fuente %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

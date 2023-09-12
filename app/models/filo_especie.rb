@@ -30,11 +30,37 @@
 	has_many :filo_f_esp_regs
 	has_many :regiones, through: :filo_f_esp_regs
 
+	has_many :filo_esp_sinos
+	has_many :filo_sinonimos, through: :filo_esp_sinos
+
+	# despues se debe reeemplazar con has_one, solo se asocia directamente la especie propia
 	has_many :especies
 
 	before_save { self.filo_especie.downcase! }
 
 	# **** TAXOMOMÍA
+
+	def fs_equivalentes
+		e_ids = self.filo_esp_sinos.where(tipo: 'equivalente').map {|fes| fes.filo_sinonimo.id}
+		FiloSinonimo.where(id: e_ids)
+	end
+
+	def fs_sinonimos
+		e_ids = self.filo_esp_sinos.where(tipo: 'sinónimo').map {|fes| fes.filo_sinonimo.id}
+		FiloSinonimo.where(id: e_ids)
+	end
+
+	def fs_excluidos
+		e_ids = self.filo_esp_sinos.where(tipo: 'excluido').map {|fes| fes.filo_sinonimo.id}
+		FiloSinonimo.where(id: e_ids)
+	end
+
+	def fs_agregados
+		e_ids = self.filo_esp_sinos.where(tipo: 'agregado').map {|fes| fes.filo_sinonimo.id}
+		FiloSinonimo.where(id: e_ids)
+	end
+
+	# antiguos métodos: revisar
 	def n_keys
 		self.children.count + 1
 	end

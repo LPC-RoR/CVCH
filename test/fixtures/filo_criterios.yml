@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  filo_conflicto_id: 1
+  problema: MyString
+  criterio: MyString
+  fuente: MyString
+  link_fuente: MyString
+
+two:
+  filo_conflicto_id: 1
+  problema: MyString
+  criterio: MyString
+  fuente: MyString
+  link_fuente: MyString

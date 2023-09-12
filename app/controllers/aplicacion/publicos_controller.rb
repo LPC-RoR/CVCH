@@ -42,6 +42,11 @@ class Aplicacion::PublicosController < ApplicationController
       @objeto = FiloEspecie.find(params[:indice])
       init_tabla('filo_especies', @objeto.children.order(:filo_especie), false)
 
+      add_tabla('equivalentes-filo_sinonimos', @objeto.fs_equivalentes, false)
+      add_tabla('sinonimos-filo_sinonimos', @objeto.fs_sinonimos, false)
+      add_tabla('excluidos-filo_sinonimos', @objeto.fs_excluidos, false)
+      add_tabla('agregados-filo_sinonimos', @objeto.fs_agregados, false)
+
       regiones_para_asignar_ids = Region.all.map {|region| region.id unless @objeto.regiones.ids.include?(region.id)}.compact
       @regiones_para_asignar = Region.where(id: regiones_para_asignar_ids).order(:orden)
 

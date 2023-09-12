@@ -217,46 +217,56 @@ class Taxonomia::FiloEspeciesController < ApplicationController
   end
 
   def buscar_etiquetas
-    #para chequear las etiquetas ya asignadas
+    # 1ro PROCESAR LA ESPECIE
+    # variables de la especie, ids_existentes y especie de la filo_especie
     ids_existentes = @objeto.especies.ids
-
-    # buscar filo_especie
     fe=Especie.find_by(especie: @objeto.filo_especie)
-
+    fe_n_words = @objeto.filo_especie.strip.split(' ').length
+    # Tratándose de una especie propia, No se relaciona a través de un filo_sinonimo
     unless fe.blank?
-      unless ids_existentes.include?(fe.id)
-        if fe.filo_especie.present? and fe.filo_especie.filo_especie != fe.especie
-          #crea conflicto y reasigna, tiene preferencia la etiqueta propia
-          conflicto = perfil_activo.filo_conflictos.create( huella: "#{@objeto.filo_especie} ? #{fe.especie} : #{fe.filo_especie.filo_especie}",filo_conflicto:  "Reasigna etiqueta propia")
-          conflicto.filo_conf_elems.create(filo_elem_class: 'FiloEspecie', filo_elem_id: @objeto.id)
-          conflicto.filo_conf_elems.create(filo_elem_class: 'FiloEspecie', filo_elem_id: fe.filo_especie.id)
-          conflicto.filo_conf_elems.create(filo_elem_class: 'Especie', filo_elem_id: fe.id)
-        end
-        @objeto.especies << fe
-      end
+        @objeto.especies << fe unless ids_existentes.include?(fe.id)
     end
 
+    # 2DO PROCESAR LA SINONIMIA SI EXISTE
     unless @objeto.sinonimia.blank?
-      # buscar sinonimia
       @objeto.sinonimos.each do |sinonimo|
-        sin=Especie.find_by(especie: sinonimo)
-        unless sin.blank? or sin.id == fe.id or ids_existentes.include?(sin.id)
-
-          if sin.filo_especie.present? and sin.filo_especie.filo_especie != sin.especie
-            unless sin.filo_especie.en_desuso
-              #crea conflicto sin reasignar
-              conflicto = perfil_activo.filo_conflictos.create( huella: "#{@objeto.filo_especie} ? #{sin.especie} : #{sin.filo_especie.filo_especie}",filo_conflicto:  "Sinónimo en conflicto")
-              conflicto.filo_conf_elems.create(filo_elem_class: 'FiloEspecie', filo_elem_id: @objeto.id)
-              conflicto.filo_conf_elems.create(filo_elem_class: 'FiloEspecie', filo_elem_id: sin.filo_especie.id)
-              conflicto.filo_conf_elems.create(filo_elem_class: 'Especie', filo_elem_id: sin.id)
-            else
-              @objeto.especies << sin
-            end
-          else
-            @objeto.especies << sin
-          end
-
+        # Si el sinonimo no  existe lo crea, ya puede existir como sinonimo de otra especie
+        fsin=FiloSinonimo.find_by(filo_sinonimo: sinonimo)
+        fsin=FiloSinonimo.create(filo_sinonimo: sinonimo) if fsin.blank?
+        fsin_n_words = sinonimo.strip.split(' ').length
+        if fsin.manual == true
+          fsin = false
+          fsin.save
         end
+        # lo agrega como sinonimo si ya no está agregado como sinonimo
+        @objeto.filo_sinonimos << fsin unless @objeto.filo_sinonimos.ids.include?(fsin.id)
+        # si el sinónimo es su especie padre, marca el sinonimo como excluido : si no lo marca com sinónimo
+        fes=fsin.filo_esp_sinos.find_by(filo_especie_id: @objeto.id)
+        if fe_n_words > fsin_n_words
+          fe_genero = @objeto.filo_especie.strip.split(' ')[0]
+          fsin_genero = sinonimo.strip.split(' ')[0]
+          fe_nombre = @objeto.filo_especie.strip.split(' ')[1]
+          fsin_nombre = sinonimo.strip.split(' ')[1]
+          if fe_genero == fsin_genero and fe_nombre == fsin_nombre
+            unless fes.blank?
+              fes.tipo = 'excluido'
+              fes.save
+            end
+          end
+        else
+          unless fes.blank?
+            fes.tipo = 'sinónimo'
+            fes.save
+          end
+        end
+
+        sin=Especie.find_by(especie: sinonimo)
+        unless sin.blank?
+          fsin.especie = sin unless fsin.especie.present?
+          @objeto.especies.delete(sin) if ids_existentes.include?(sin.id) and sin.id != fe.id
+        end
+
+        # Manego de especie/sub_especie
       end
     end
 

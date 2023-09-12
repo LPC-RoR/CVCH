@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_08_21_162307) do
+ActiveRecord::Schema.define(version: 2023_09_11_194454) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -324,9 +324,11 @@ ActiveRecord::Schema.define(version: 2023_08_21_162307) do
     t.datetime "updated_at", null: false
     t.integer "filo_elemento_id"
     t.integer "filo_especie_id"
+    t.integer "filo_sinonimo_id"
     t.index ["especie"], name: "index_especies_on_especie"
     t.index ["filo_elemento_id"], name: "index_especies_on_filo_elemento_id"
     t.index ["filo_especie_id"], name: "index_especies_on_filo_especie_id"
+    t.index ["filo_sinonimo_id"], name: "index_especies_on_filo_sinonimo_id"
   end
 
   create_table "etiquetas", force: :cascade do |t|
@@ -384,6 +386,19 @@ ActiveRecord::Schema.define(version: 2023_08_21_162307) do
     t.index ["huella"], name: "index_filo_conflictos_on_huella"
   end
 
+  create_table "filo_criterios", force: :cascade do |t|
+    t.integer "filo_conflicto_id"
+    t.string "problema"
+    t.string "criterio"
+    t.string "fuente"
+    t.string "link_fuente"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "filo_especie_id"
+    t.index ["filo_conflicto_id"], name: "index_filo_criterios_on_filo_conflicto_id"
+    t.index ["filo_especie_id"], name: "index_filo_criterios_on_filo_especie_id"
+  end
+
   create_table "filo_ele_eles", force: :cascade do |t|
     t.integer "parent_id"
     t.integer "child_id"
@@ -434,6 +449,17 @@ ActiveRecord::Schema.define(version: 2023_08_21_162307) do
     t.index ["parent_id"], name: "index_filo_esp_esps_on_parent_id"
   end
 
+  create_table "filo_esp_sinos", force: :cascade do |t|
+    t.integer "filo_especie_id"
+    t.integer "filo_sinonimo_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "tipo"
+    t.index ["filo_especie_id"], name: "index_filo_esp_sinos_on_filo_especie_id"
+    t.index ["filo_sinonimo_id"], name: "index_filo_esp_sinos_on_filo_sinonimo_id"
+    t.index ["tipo"], name: "index_filo_esp_sinos_on_tipo"
+  end
+
   create_table "filo_esp_tipos", force: :cascade do |t|
     t.integer "filo_especie_id"
     t.integer "filo_tipo_especie_id"
@@ -482,6 +508,19 @@ ActiveRecord::Schema.define(version: 2023_08_21_162307) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["filo_orden"], name: "index_filo_ordenes_on_filo_orden"
+  end
+
+  create_table "filo_sinonimos", force: :cascade do |t|
+    t.integer "filo_especie_id"
+    t.string "filo_sinonimo"
+    t.string "tipo"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "correccion"
+    t.boolean "manual"
+    t.index ["correccion"], name: "index_filo_sinonimos_on_correccion"
+    t.index ["filo_especie_id"], name: "index_filo_sinonimos_on_filo_especie_id"
+    t.index ["manual"], name: "index_filo_sinonimos_on_manual"
   end
 
   create_table "filo_tipo_especies", force: :cascade do |t|

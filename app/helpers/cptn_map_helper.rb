@@ -50,7 +50,7 @@ module CptnMapHelper
 			data:          ['caracteristicas', 'caracterizaciones', 'columnas', 'datos', 'encabezados', 'etapas', 'lineas', 'opciones', 'tablas'],
 			modelos:       ['m_modelos', 'm_conceptos', 'm_bancos', 'm_items', 'm_cuentas', 'm_conciliaciones', 'm_formatos', 'm_datos', 'm_elementos', 'm_valores', 'm_registros'],
 			blog:          ['blg_temas', 'blg_articulos'],
-			taxonomia:     ['filo_tipo_especies', 'filo_ordenes', 'filo_categoria_conservaciones', 'filo_elementos', 'filo_especies']
+			taxonomia:     ['filo_tipo_especies', 'filo_ordenes', 'filo_categoria_conservaciones', 'filo_elementos', 'filo_especies', 'filo_sinonimos']
 		}
 	end
 

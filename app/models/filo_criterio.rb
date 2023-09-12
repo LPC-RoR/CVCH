@@ -1,0 +1,2 @@
+class FiloCriterio < ApplicationRecord
+end

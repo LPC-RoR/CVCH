@@ -13,6 +13,7 @@ class Especie < ApplicationRecord
 	]
 
 	belongs_to :filo_especie, optional: true
+	belongs_to :filo_sinonimo, optional: true
 
 	has_many :etiquetas
 	has_many :publicaciones, through: :etiquetas

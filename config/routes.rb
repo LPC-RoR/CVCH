@@ -277,6 +277,10 @@ Rails.application.routes.draw do
       match :bajar, via: :get, on: :member
     end
 
+    resources :filo_criterios
+    resources :filo_sinonimos
+    resources :filo_esp_sinos
+
     resources :filo_conf_elems
     resources :filo_conflictos
     resources :filo_f_esp_regs
