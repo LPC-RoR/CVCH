@@ -22,9 +22,9 @@
 		<small><%= objeto.nombre_comun %></small>
 	<% end %>
 </h6>
-<% if objeto.sinonimo? %>
+<% if objeto.especie_sinonimo? %>
 	<h6 class='text-danger'>
 		<i class="bi bi-exclamation-diamond"></i>
-		Esta especie esta en la sinonimia de la especie <%= objeto.padre_sinonimo.filo_especie %>
+		Esta especie esta en la sinonimia de la especie <%= objeto.especie_padre.filo_especie %>
 	</h6>
 <% end %>

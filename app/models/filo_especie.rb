@@ -60,6 +60,15 @@
 		FiloSinonimo.where(id: e_ids)
 	end
 
+	def especie_sinonimo?
+		e=Especie.find_by(especie: self.filo_especie)
+		e.blank? ? false : e.filo_sinonimo.present?
+	end
+
+	def especie_padre
+		self.especie_sinonimo? ? Especie.find_by(especie: self.filo_especie).filo_sinonimo.filo_especie
+	end
+
 	# antiguos métodos: revisar
 	def n_keys
 		self.children.count + 1
