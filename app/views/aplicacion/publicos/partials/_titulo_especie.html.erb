@@ -2,7 +2,7 @@
 	<i class="bi bi-bug text-<%= params[:indice].blank? ? 'info' : (objeto.revisar ? 'danger' : (objeto.link_fuente.present? ? 'info' : 'dark')) %>"></i>
 	<span class='text-info'>
 		<%= objeto.parent.blank? ? 'Especie' : 'Sub especie' %> | 
-		<%= "#{objeto.filo_especie} ( #{objeto.referencia} )" %>
+		<%= "#{objeto.filo_especie} ( #{objeto.referencia.blank? ? 'sin referencia' : objeto.referencia} )" %>
 	</span>
 	<% if objeto.link_fuente.present? %>
 		<%= link_to objeto.link_fuente, target: '_blank' do %>

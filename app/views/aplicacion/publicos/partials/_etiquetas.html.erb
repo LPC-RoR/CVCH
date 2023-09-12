@@ -1,8 +1,38 @@
 <%= render partial: '0p/general/gly_title_size', locals: {gly: 'tag', title: "Etiquetas de la especie", size: 6} %>
 
-<small>
-	<%= link_to 'buscar etiquetas', "/filo_especies/#{objeto.id}/buscar_etiquetas" if admin? %>
+<div style='padding-left: 2em;'>
+	<small>
+		<%= link_to 'buscar etiquetas', "/filo_especies/#{objeto.id}/buscar_etiquetas" if admin? %>
 
+	<% if Especie.find_by(especie: objeto.filo_especie).blank? %>
+		<p class='text-danger'>No se encontró etiqueta para esta especie.
+	<% else %>
+		<p class='text-info'><i class="bi bi-tag"></i> <%= link_to objeto.filo_especie, Especie.find_by(especie: filo_especie.filo_especie) %>
+	<% end %>
+	</p>
+	</small>
+
+	
+	
+	<% unless @coleccion['equivalentes-filo_sinonimos'].empty? %>
+		<p class='text-info'><small>Equivalentes</small></p>
+		<%= render partial: '0p/tabla/tabla', locals: {c: 'equivalentes-filo_sinonimos'} %>
+	<% end %>
+	
+	<% unless @coleccion['sinonimos-filo_sinonimos'].empty? %>
+		<p class='text-info'><small>Sinónimos</small></p>
+		<%= render partial: '0p/tabla/tabla', locals: {c: 'sinonimos-filo_sinonimos'} %>
+	<% end %>
+	<% unless @coleccion['agregados-filo_sinonimos'].empty? %>
+		<p class='text-info'><small>Agregados</small></p>
+		<%= render partial: '0p/tabla/tabla', locals: {c: 'agregados-filo_sinonimos'} %>
+	<% end %>
+	<% unless @coleccion['excluidos-filo_sinonimos'].empty? %>
+		<p class='text-info'><small>Excluidos</small></p>
+		<%= render partial: '0p/tabla/tabla', locals: {c: 'excluidos-filo_sinonimos'} %>
+	<% end %>
+
+<small>
 	<ul>
 		<% objeto.especies.each do |etiqueta| %>
 			<li>
@@ -14,3 +44,4 @@
 		<% end %>
 	</ul>
 </small>
+</div>
