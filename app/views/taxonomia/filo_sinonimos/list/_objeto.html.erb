@@ -6,5 +6,5 @@
 		<%= objeto.filo_sinonimo %> 
 	<% end %>
 	( <%= objeto.especie.present? ? objeto.especie.publicaciones.count : 0 %> ) 
-	<% if objeto.filo_especies.count > 1 %><i class="bi bi-flag text-urgent"></i><% end %></br>
+	<% if objeto.conflicto? %><i class="bi bi-flag text-urgent"></i><% end %></br>
 </small>
