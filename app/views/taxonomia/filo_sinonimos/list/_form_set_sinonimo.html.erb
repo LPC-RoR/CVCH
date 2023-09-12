@@ -1,0 +1,18 @@
+<!-- FORMULARIO PARA SET SINONIMO -->
+<small><b class='text-info'>Define sinónimo</b></small>
+<%= form_for :set_sinonimo, url: "/filo_sinonimos/#{objeto.id}/set_sinonimo?indice=#{@objeto.id}" do |form| %>
+
+	<%= render partial: '0p/form_fields/label', locals: { form: form, label: 'Tipo de sinónimo', v: false } %>
+	<%= render partial: '0p/form_fields/select', locals: { form: form, token: :tipo, sel_list: ['equivalente', 'sinónimo', 'agregado', 'excluido'], label: 'Tipo' } %></br>
+
+	<p><%= render partial: '0p/form_fields/check_box', locals: { form: form, token: :borrar, label: 'Borrar corrección', v: false } %></p>
+
+	<%= render partial: '0p/form_fields/label', locals: { form: form, label: 'Corrección', v: true } %>
+	<div class='form-inline'>
+		<%= render partial: '0p/form_fields/text', locals: { form: form, token: :correccion } %>
+		<button type="submit" class="btn btn-info">
+		  <i class="bi bi-plus-circle icon-white"></i>
+		  <i class="bi bi-tag"></i>
+		</button>
+	</div>
+<% end  %>
