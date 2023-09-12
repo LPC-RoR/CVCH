@@ -1,3 +1,10 @@
 <small>
-	<i class="bi bi-tag text-<%=objeto.especie.blank? ? 'urgent' : 'info'%>"></i> <%= objeto.filo_sinonimo %> <% if objeto.filo_especies.count > 1 %><i class="bi bi-flag text-urgent"></i><% end %></br>
+	<i class="bi bi-tag text-<%=objeto.especie.blank? ? 'urgent' : 'info'%>"></i> 
+	<% if objeto.especie.present? %>
+		<%= link_to objeto.filo_sinonimo, objeto.especie %> 
+	<% else %>
+		<%= objeto.filo_sinonimo %> 
+	<% end %>
+	( <%= objeto.especie.present? ? objeto.especie.publicaciones.count : 0 %> ) 
+	<% if objeto.filo_especies.count > 1 %><i class="bi bi-flag text-urgent"></i><% end %></br>
 </small>
