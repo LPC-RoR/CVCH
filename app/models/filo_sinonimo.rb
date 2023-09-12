@@ -18,7 +18,7 @@ class FiloSinonimo < ApplicationRecord
 	end
 
 	def nombre
-		self.coreccion.blank? ? self.filo_sinonimo : self.correccion
+		self.correccion.blank? ? self.filo_sinonimo : self.correccion
 	end
 
 end
