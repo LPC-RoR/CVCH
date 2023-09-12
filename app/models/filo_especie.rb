@@ -66,7 +66,7 @@
 	end
 
 	def especie_padre
-		self.especie_sinonimo? ? Especie.find_by(especie: self.filo_especie).filo_sinonimo.filo_especie : nil
+		self.especie_sinonimo? ? Especie.find_by(especie: self.filo_especie).filo_sinonimo.filo_especies.first : nil
 	end
 
 	# antiguos métodos: revisar
