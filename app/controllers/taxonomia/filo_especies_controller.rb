@@ -1,5 +1,5 @@
 class Taxonomia::FiloEspeciesController < ApplicationController
-  before_action :set_filo_especie, only: [:show, :edit, :update, :destroy, :buscar_etiquetas, :subir, :bajar, :nuevo_enlace, :elimina_conflicto, :mas_tipo_especie, :menos_tipo_especie, :mas_categoria_conservacion, :menos_categoria_conservacion, :asigna_regiones, :agrega_sinonimo ]
+  before_action :set_filo_especie, only: [:show, :edit, :update, :destroy, :buscar_etiquetas, :subir, :bajar, :nuevo_enlace, :elimina_conflicto, :mas_tipo_especie, :menos_tipo_especie, :mas_categoria_conservacion, :menos_categoria_conservacion, :asigna_regiones, :agrega_sinonimo, :borra_especie_sinonimo ]
 
   helper_method :sort_column, :sort_direction
 
@@ -228,6 +228,18 @@ class Taxonomia::FiloEspeciesController < ApplicationController
     conflicto.delete
 
     redirect_to "/publicos/especies?indice=#{@objeto.id}"
+  end
+
+  def borra_especie_sinonimo
+    especie = @objeto.especies.find_by(especie: @objeto.filo_especie)
+    filo_especie_padre = especie.filo_sinonimo.filo_especie
+
+    especie.filo_especie_id = nil
+    especie.save
+
+    @objeto.delete
+
+    redirect_to "/publicos/especies?indice=#{filo_especie_padre.id}"
   end
 
   def buscar_etiquetas

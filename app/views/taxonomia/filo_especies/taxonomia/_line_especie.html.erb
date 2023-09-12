@@ -8,6 +8,11 @@
 
 <% if objeto.especie_sinonimo? %>
 	<i class="bi bi-question-diamond text-danger"></i>
+	<% if admin? and objeto.link_fuente.blank? and objeto.regiones.empty? %>
+		<%= link_to "/filo_especies/#{objeto.id}/borra_especie_sinonimo" do %>
+			<i class="bi bi-trash text-info"></i>
+		<% end %>
+	<% end %>
 <% end %>
 
 <small>
