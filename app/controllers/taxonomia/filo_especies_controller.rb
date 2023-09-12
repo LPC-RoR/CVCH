@@ -232,7 +232,7 @@ class Taxonomia::FiloEspeciesController < ApplicationController
 
   def borra_especie_sinonimo
     especie = @objeto.especies.find_by(especie: @objeto.filo_especie)
-    filo_especie_padre = especie.filo_sinonimo.filo_especie
+    filo_especie_padre = especie.filo_sinonimo.filo_especies.first
 
     especie.filo_especie_id = nil
     especie.save
