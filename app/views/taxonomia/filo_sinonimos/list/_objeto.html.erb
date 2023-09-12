@@ -15,7 +15,7 @@
 	( <%= objeto.especie.present? ? objeto.especie.publicaciones.count : 0 %> ) 
 	<% if objeto.sinonimo_especie? %><i class="bi bi-flag text-danger"></i><% end %>
 	<% if objeto.multiple? %><i class="bi bi-intersect text-danger"></i><% end %>
-	<%= render partial: '0p/tabla/btn_eliminar', locals: {objeto: objeto} if objeto.especies.empty? %>
+	<%= render partial: '0p/tabla/btn_eliminar', locals: {objeto: objeto} if objeto.especie.blank? %>
 	</br>
 
 	<div class="collapse" id="collapseSinonimo<%=objeto.id%>">
