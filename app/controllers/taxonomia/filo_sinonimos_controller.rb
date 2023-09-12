@@ -60,7 +60,7 @@ class Taxonomia::FiloSinonimosController < ApplicationController
       fes.tipo = params[:set_sinonimo][:tipo]
       fes.save
     end
-    if params[:set_sinonimo][:borrar] == true
+    if params[:set_sinonimo][:borrar] == '1'
       @objeto.correccion = nil
       @objeto.save
     else
