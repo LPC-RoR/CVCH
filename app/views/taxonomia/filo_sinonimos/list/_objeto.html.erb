@@ -15,8 +15,11 @@
 	( <%= objeto.especie.present? ? objeto.especie.publicaciones.count : 0 %> ) 
 	<% if objeto.sinonimo_especie? %><i class="bi bi-flag text-danger"></i><% end %>
 	<% if objeto.multiple? %><i class="bi bi-intersect text-danger"></i><% end %>
-	<%= link_to "/filo_sinonimos/#{objeto.id}/borrar?indice=#{@objeto.id}" do %>
-		<i class="bi bi-trash"></i>
+
+	<% if objeto.especie.blank? %>
+		<%= link_to "/filo_sinonimos/#{objeto.id}/borrar?indice=#{@objeto.id}" do %>
+			<i class="bi bi-trash"></i>
+		<% end %>
 	<% end %>
 	</br>
 
