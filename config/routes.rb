@@ -260,6 +260,7 @@ Rails.application.routes.draw do
       match :mas_categoria_conservacion, via: :get, on: :member
       match :menos_categoria_conservacion, via: :get, on: :member
       match :asigna_regiones, via: :get, on: :member
+      match :agrega_sinonimo, via: :post, on: :member
     end
 
     resources :filo_elementos do

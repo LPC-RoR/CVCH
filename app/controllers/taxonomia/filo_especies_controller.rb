@@ -1,5 +1,5 @@
 class Taxonomia::FiloEspeciesController < ApplicationController
-  before_action :set_filo_especie, only: [:show, :edit, :update, :destroy, :buscar_etiquetas, :subir, :bajar, :nuevo_enlace, :elimina_conflicto, :mas_tipo_especie, :menos_tipo_especie, :mas_categoria_conservacion, :menos_categoria_conservacion, :asigna_regiones ]
+  before_action :set_filo_especie, only: [:show, :edit, :update, :destroy, :buscar_etiquetas, :subir, :bajar, :nuevo_enlace, :elimina_conflicto, :mas_tipo_especie, :menos_tipo_especie, :mas_categoria_conservacion, :menos_categoria_conservacion, :asigna_regiones, :agrega_sinonimo ]
 
   helper_method :sort_column, :sort_direction
 
@@ -83,6 +83,17 @@ class Taxonomia::FiloEspeciesController < ApplicationController
     AppEnlace.create(owner_class: @objeto.class.name, owner_id: @objeto.id, descripcion: params[:nuevo_enlace][:descripcion], enlace: params[:nuevo_enlace][:enlace])
 
     redirect_to "/publicos/especies?indice=#{@objeto.id}"
+  end
+
+  def agrega_sinonimo
+    unless params[:nuevo_sinonimo][:filo_sinonimo].blank?
+      fs=@objeto.filo_sinonimos.create(filo_sinonimo: params[:nuevo_sinonimo][:filo_sinonimo])
+      fes=@objeto.filo_esp_sinos.find_by(filo_sinonimo_id: fs.id)
+      fes.tipo = 'sinónimo'
+      fes.save
+    end
+
+    redirect_to "/publicos/especies?indice=#{@objeto.id}", notice: 'Sinónimo ha sido exitósamente creado'
   end
 
   # GET /filo_especies/1/edit

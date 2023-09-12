@@ -1,3 +1,20 @@
+<h6 class="text-info">
+	<i class="bi bi-tag"></i> 
+	Sinonimia / Etiquetas de la especie 
+	<% if admin? %>
+		<a data-toggle="collapse" href="#collapseNuevoSinonimo" role="button" aria-expanded="false" aria-controls="collapseNuevoSinonimo">
+			<i class="bi bi-plus-circle"></i>
+		</a>
+	<% end %>
+</h6>
+<% if admin? %>
+	<div class="collapse" id="collapseNuevoSinonimo">
+		<div class="card card-body">
+			<%= render partial: 'aplicacion/publicos/partials/form_nuevo_sinonimo', locals: {objeto: objeto} %>
+		</div>
+	</div>
+<% end %> 
+
 <%= render partial: '0p/general/gly_title_size', locals: {gly: 'tag', title: "Etiquetas de la especie", size: 6} %>
 
 <div style='padding-left: 2em;'>
@@ -17,19 +34,23 @@
 	<% unless @coleccion['equivalentes-filo_sinonimos'].empty? %>
 		<p class='text-info'><small>Equivalentes</small></p>
 		<%= render partial: '0p/tabla/tabla', locals: {c: 'equivalentes-filo_sinonimos'} %>
+		</br>
 	<% end %>
 	
 	<% unless @coleccion['sinonimos-filo_sinonimos'].empty? %>
 		<p class='text-info'><small>Sinónimos</small></p>
 		<%= render partial: '0p/tabla/tabla', locals: {c: 'sinonimos-filo_sinonimos'} %>
+		</br>
 	<% end %>
 	<% unless @coleccion['agregados-filo_sinonimos'].empty? %>
 		<p class='text-info'><small>Agregados</small></p>
 		<%= render partial: '0p/tabla/tabla', locals: {c: 'agregados-filo_sinonimos'} %>
+		</br>
 	<% end %>
 	<% unless @coleccion['excluidos-filo_sinonimos'].empty? %>
 		<p class='text-info'><small>Excluidos</small></p>
 		<%= render partial: '0p/tabla/tabla', locals: {c: 'excluidos-filo_sinonimos'} %>
+		</br>
 	<% end %>
 
 <small>
