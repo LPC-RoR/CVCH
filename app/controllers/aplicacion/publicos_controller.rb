@@ -44,6 +44,13 @@ class Aplicacion::PublicosController < ApplicationController
       @objeto = FiloEspecie.find(params[:indice])
 
       # limpieza de relacion con sub-especie
+      if @objeto.filo_esp_sinos.count != @objeto.filo_sinonimos.count
+        sinonimos_ids = @objeto.filo_sinonimos.ids
+        @objeto.filo_esp_sinos.each do |esp_sinos|
+          esp_sinos.delete unless sinonimos_ids.include?(esp_sinos.filo_sinonimo_id)
+        end
+      end
+      # limpieza de relacion con sub-especie
       if @objeto.child_relations.count != @objeto.children.count
         children_ids = @objeto.children.ids
         @objeto.child_relations.each do |child_rel|
@@ -58,7 +65,7 @@ class Aplicacion::PublicosController < ApplicationController
           e.filo_sinonimo_id = nil
           e.save
         end
-        misma.delete
+        @objeto.filo_sinonimos.delete(misma)
       end
 
       init_tabla('filo_especies', @objeto.children.order(:filo_especie), false)
