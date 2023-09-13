@@ -16,6 +16,15 @@ class Aplicacion::PublicosController < ApplicationController
       @padres_ids = nil
     else
       @objeto = FiloElemento.find(params[:indice])
+
+      # limpieza de relacion con sub-elemento
+      if @objeto.child_relations.count != @objeto.children.count
+        children_ids = @objeto.children.ids
+        @objeto.child_relations.each do |child_rel|
+          child_rel.delete unless children_ids.include?(child_rel.child_id)
+        end
+      end
+
       init_tabla('base-filo_elementos', @objeto.children.order(:filo_elemento), false)
       add_tabla('filo_especies', @objeto.filo_especies.order(:filo_especie), false)
       @padres_ids = @objeto.padres_ids.reverse()
@@ -27,19 +36,21 @@ class Aplicacion::PublicosController < ApplicationController
       end
       @hermanos = FiloElemento.where(id: hermanos_ids).order(:filo_elemento)
 
-      # limpia errores en children
-#      if @objeto.child_relations.count != @objeto.children.count
-#        @objeto.child_relations.each do |chr|
-#          @objeto.child_relations.delete(chr) if chr.child.blank?
-#        end
-#      end
-
     end      
   end
 
   def especies
     unless params[:indice].blank?
       @objeto = FiloEspecie.find(params[:indice])
+
+      # limpieza de relacion con sub-especie
+      if @objeto.child_relations.count != @objeto.children.count
+        children_ids = @objeto.children.ids
+        @objeto.child_relations.each do |child_rel|
+          child_rel.delete unless children_ids.include?(child_rel.child_id)
+        end
+      end
+
       init_tabla('filo_especies', @objeto.children.order(:filo_especie), false)
 
       add_tabla('equivalentes-filo_sinonimos', @objeto.fs_equivalentes, false)
