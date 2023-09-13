@@ -50,6 +50,16 @@ class Aplicacion::PublicosController < ApplicationController
           child_rel.delete unless children_ids.include?(child_rel.child_id)
         end
       end
+      # limpieza de especies que son sinónimos de si mismas
+      if @objeto.filo_sinonimos.map {|fs| fs.filo_sinonimo}.include?(@objeto.filo_especie)
+        misma = @objeto.filo_sinonimos.find_by(filo_sinonimo: @objeto.filo_especie)
+        e=misma.especie
+        unless e.blank?
+          e.filo_sinonimo_id = nil
+          e.save
+        end
+        misma.delete
+      end
 
       init_tabla('filo_especies', @objeto.children.order(:filo_especie), false)
 
