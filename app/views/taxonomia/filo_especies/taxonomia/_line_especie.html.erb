@@ -2,10 +2,6 @@
 <small><% if objeto.link_fuente.present? %><i class="bi bi-box-arrow-up-right"></i><% end %></small>
 <%= link_to objeto.filo_especie, "/publicos/especies?indice=#{objeto.id}" %>
 
-<% unless objeto.sinonimia.blank? %>
-	<i class="bi bi-collection text-info"></i>
-<% end %>
-
 <% if objeto.especie_sinonimo? %>
 	<i class="bi bi-question-diamond text-danger"></i>
 	<% if admin? and objeto.link_fuente.blank? and objeto.regiones.empty? %>
@@ -16,8 +12,17 @@
 <% end %>
 
 <small>
-	<%= "( #{objeto.referencia} )" %>
+	<%= "( #{objeto.referencia.blank? ? 'sin referencia' : objeto.referencia} )" %>
 	<%= ": #{objeto.especies.map { |especie| especie.publicaciones.count  }.sum}" %>
+</small> | 
+
+<small>
+<% unless objeto.sinonimia.blank? %>
+	<i class="bi bi-collection text-info"></i>
+<% end %>
+<% unless objeto.children.empty? %>
+	<i class="bi bi-bug text-info"></i>
+<% end %>
 </small>
 
 <%= render partial: 'taxonomia/filo_elementos/taxonomia/btns_e', locals: {objeto: objeto} if admin? %>
