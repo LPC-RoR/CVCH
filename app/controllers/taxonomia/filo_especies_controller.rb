@@ -256,43 +256,45 @@ class Taxonomia::FiloEspeciesController < ApplicationController
     # 2DO PROCESAR LA SINONIMIA SI EXISTE
     unless @objeto.sinonimia.blank?
       @objeto.sinonimos.each do |sinonimo|
-        # Si el sinonimo no  existe lo crea, ya puede existir como sinonimo de otra especie
-        fsin=FiloSinonimo.find_by(filo_sinonimo: sinonimo)
-        fsin=FiloSinonimo.create(filo_sinonimo: sinonimo) if fsin.blank?
-        fsin_n_words = sinonimo.strip.split(' ').length
-        if fsin.manual == true
-          fsin = false
-          fsin.save
-        end
-        # lo agrega como sinonimo si ya no está agregado como sinonimo
-        @objeto.filo_sinonimos << fsin unless @objeto.filo_sinonimos.ids.include?(fsin.id)
-        # si el sinónimo es su especie padre, marca el sinonimo como excluido : si no lo marca com sinónimo
-        fes=fsin.filo_esp_sinos.find_by(filo_especie_id: @objeto.id)
-        if fe_n_words > fsin_n_words
-          fe_genero = @objeto.filo_especie.strip.split(' ')[0]
-          fsin_genero = sinonimo.strip.split(' ')[0]
-          fe_nombre = @objeto.filo_especie.strip.split(' ')[1]
-          fsin_nombre = sinonimo.strip.split(' ')[1]
-          if fe_genero == fsin_genero and fe_nombre == fsin_nombre
+        unless @objeto.filo_especie == sinonimo
+
+          # Si el sinonimo no  existe lo crea, ya puede existir como sinonimo de otra especie
+          fsin=FiloSinonimo.find_by(filo_sinonimo: sinonimo)
+          fsin=FiloSinonimo.create(filo_sinonimo: sinonimo) if fsin.blank?
+          fsin_n_words = sinonimo.strip.split(' ').length
+          if fsin.manual == true
+            fsin = false
+            fsin.save
+          end
+          # lo agrega como sinonimo si ya no está agregado como sinonimo
+          @objeto.filo_sinonimos << fsin unless @objeto.filo_sinonimos.ids.include?(fsin.id)
+          # si el sinónimo es su especie padre, marca el sinonimo como excluido : si no lo marca com sinónimo
+          fes=fsin.filo_esp_sinos.find_by(filo_especie_id: @objeto.id)
+          if fe_n_words > fsin_n_words
+            fe_genero = @objeto.filo_especie.strip.split(' ')[0]
+            fsin_genero = sinonimo.strip.split(' ')[0]
+            fe_nombre = @objeto.filo_especie.strip.split(' ')[1]
+            fsin_nombre = sinonimo.strip.split(' ')[1]
+            if fe_genero == fsin_genero and fe_nombre == fsin_nombre
+              unless fes.blank?
+                fes.tipo = 'excluido'
+                fes.save
+              end
+            end
+          else
             unless fes.blank?
-              fes.tipo = 'excluido'
+              fes.tipo = 'sinónimo'
               fes.save
             end
           end
-        else
-          unless fes.blank?
-            fes.tipo = 'sinónimo'
-            fes.save
+
+          sin=Especie.find_by(especie: sinonimo)
+          unless sin.blank?
+            fsin.especie = sin unless fsin.especie.present?
+            @objeto.especies.delete(sin) if ids_existentes.include?(sin.id) and sin.id != fe.id
           end
-        end
 
-        sin=Especie.find_by(especie: sinonimo)
-        unless sin.blank?
-          fsin.especie = sin unless fsin.especie.present?
-          @objeto.especies.delete(sin) if ids_existentes.include?(sin.id) and sin.id != fe.id
         end
-
-        # Manego de especie/sub_especie
       end
     end
 
