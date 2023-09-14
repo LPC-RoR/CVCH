@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_09_11_194454) do
+ActiveRecord::Schema.define(version: 2023_09_14_173344) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -356,6 +356,22 @@ ActiveRecord::Schema.define(version: 2023_09_11_194454) do
     t.index ["publicacion_id"], name: "index_evaluaciones_on_publicacion_id"
   end
 
+  create_table "filo_actualizaciones", force: :cascade do |t|
+    t.integer "app_perfil_id"
+    t.integer "filo_fuente_id"
+    t.string "referencia"
+    t.string "nombre_comun"
+    t.text "link_fuentesinonimia"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "filo_especie_id"
+    t.string "link_fuente"
+    t.text "sinonimia"
+    t.index ["app_perfil_id"], name: "index_filo_actualizaciones_on_app_perfil_id"
+    t.index ["filo_especie_id"], name: "index_filo_actualizaciones_on_filo_especie_id"
+    t.index ["filo_fuente_id"], name: "index_filo_actualizaciones_on_filo_fuente_id"
+  end
+
   create_table "filo_categoria_conservaciones", force: :cascade do |t|
     t.string "codigo"
     t.string "filo_categoria_conservacion"
@@ -500,6 +516,12 @@ ActiveRecord::Schema.define(version: 2023_09_11_194454) do
     t.datetime "updated_at", null: false
     t.index ["filo_especie_id"], name: "index_filo_f_esp_regs_on_filo_especie_id"
     t.index ["region_id"], name: "index_filo_f_esp_regs_on_region_id"
+  end
+
+  create_table "filo_fuentes", force: :cascade do |t|
+    t.string "filo_fuente"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "filo_ordenes", force: :cascade do |t|

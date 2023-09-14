@@ -1,7 +1,5 @@
-<p class="text-info">Sinonimia</p>
-<%#= objeto.sinonimia_list %>
 <small>
-<% unless objeto.sinonimia.blank? %>
+<% if objeto.multiple_sinonimia? %>
 	<%#= objeto.sinonimia_list %>
 	<ul>
 		<% objeto.sinonimia_list.each do |sinonimo| %>

@@ -1,6 +1,9 @@
 <h6 class="text-info">
 	<i class="bi bi-tag"></i> 
-	Sinonimia / Etiquetas de la especie 
+	<% if objeto.multiple_sinonimia? %><a data-toggle="collapse" href="#collapseSinonimia" role="button" aria-expanded="false" aria-controls="collapseSinonimia"><% end %>
+		Sinonimia
+	<% if objeto.multiple_sinonimia? %></a><% end %>
+	 / Etiquetas de la especie 
 	<% if admin? %>
 		<a data-toggle="collapse" href="#collapseNuevoSinonimo" role="button" aria-expanded="false" aria-controls="collapseNuevoSinonimo">
 			<i class="bi bi-plus-circle"></i>
@@ -14,6 +17,11 @@
 		</div>
 	</div>
 <% end %> 
+<div class="collapse" id="collapseSinonimia">
+	<div class="card card-body">
+		<%= render partial: 'aplicacion/publicos/partials/sinonimia', locals: {objeto: @objeto} %>
+	</div>
+</div>
 
 <div style='padding-left: 2em;'>
 	<small>

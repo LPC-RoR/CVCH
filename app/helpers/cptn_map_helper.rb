@@ -50,7 +50,7 @@ module CptnMapHelper
 			data:          ['caracteristicas', 'caracterizaciones', 'columnas', 'datos', 'encabezados', 'etapas', 'lineas', 'opciones', 'tablas'],
 			modelos:       ['m_modelos', 'm_conceptos', 'm_bancos', 'm_items', 'm_cuentas', 'm_conciliaciones', 'm_formatos', 'm_datos', 'm_elementos', 'm_valores', 'm_registros'],
 			blog:          ['blg_temas', 'blg_articulos'],
-			taxonomia:     ['filo_tipo_especies', 'filo_ordenes', 'filo_categoria_conservaciones', 'filo_elementos', 'filo_especies', 'filo_sinonimos']
+			taxonomia:     ['filo_tipo_especies', 'filo_ordenes', 'filo_categoria_conservaciones', 'filo_elementos', 'filo_especies', 'filo_sinonimos', 'filo_fuentes', 'filo_actualizaciones']
 		}
 	end
 
@@ -91,7 +91,7 @@ module CptnMapHelper
 			'h_portadas', 'h_temas', 'h_links', 'h_imagenes',
 			'hlp_tutoriales', 'hlp_pasos',
 			'st_modelos', 'st_estados',
-			'filo_ordenes', 'filo_tipo_especies', 'filo_categoria_conservaciones'
+			'filo_ordenes', 'filo_tipo_especies', 'filo_categoria_conservaciones', 'filo_fuentes'
 		]
 		base_sidebar_controllers.union(app_sidebar_controllers)
 	end

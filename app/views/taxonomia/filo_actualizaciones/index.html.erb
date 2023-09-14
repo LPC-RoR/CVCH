@@ -1,0 +1,35 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Filo Actualizaciones</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>App perfil</th>
+      <th>Filo fuente</th>
+      <th>Referencia</th>
+      <th>Nombre comun</th>
+      <th>Link fuentesinonimia</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @filo_actualizaciones.each do |filo_actualizacion| %>
+      <tr>
+        <td><%= filo_actualizacion.app_perfil_id %></td>
+        <td><%= filo_actualizacion.filo_fuente_id %></td>
+        <td><%= filo_actualizacion.referencia %></td>
+        <td><%= filo_actualizacion.nombre_comun %></td>
+        <td><%= filo_actualizacion.link_fuentesinonimia %></td>
+        <td><%= link_to 'Show', filo_actualizacion %></td>
+        <td><%= link_to 'Edit', edit_filo_actualizacion_path(filo_actualizacion) %></td>
+        <td><%= link_to 'Destroy', filo_actualizacion, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Filo Actualizacion', new_filo_actualizacion_path %>

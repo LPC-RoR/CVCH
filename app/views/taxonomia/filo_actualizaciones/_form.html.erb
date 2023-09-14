@@ -1,0 +1,42 @@
+<%= form_with(model: filo_actualizacion, local: true) do |form| %>
+  <% if filo_actualizacion.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(filo_actualizacion.errors.count, "error") %> prohibited this filo_actualizacion from being saved:</h2>
+
+      <ul>
+      <% filo_actualizacion.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :app_perfil_id %>
+    <%= form.number_field :app_perfil_id %>
+  </div>
+
+  <div class="field">
+    <%= form.label :filo_fuente_id %>
+    <%= form.number_field :filo_fuente_id %>
+  </div>
+
+  <div class="field">
+    <%= form.label :referencia %>
+    <%= form.text_field :referencia %>
+  </div>
+
+  <div class="field">
+    <%= form.label :nombre_comun %>
+    <%= form.text_field :nombre_comun %>
+  </div>
+
+  <div class="field">
+    <%= form.label :link_fuentesinonimia %>
+    <%= form.text_area :link_fuentesinonimia %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

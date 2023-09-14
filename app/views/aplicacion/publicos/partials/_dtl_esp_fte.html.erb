@@ -1,0 +1,26 @@
+<% if destino == 'especie' %>
+	<small><small>
+	<p class="text-info"><i class="bi bi-info-square"></i> Este registro sólo se puede crear/modificar con información proveniente de dos fuentes de información:</p>
+		<ul class="text-info">
+			<li><b>Inventario de especies del Ministerio del Medio Ambiente</b></li>
+			<li><b>Especies etiquetadas en cvch.cl</b></li>
+		</ul>
+	<p class="text-info">Información de otro origen debe ser creada/actualizada en una <b>fuente complementaria</b>.</p>
+	</small></small>
+	<%= render partial: '0p/form_fields/label', locals: { form: form, label: 'Especie', v: true } %>
+	<%= render partial: '0p/form_fields/text', locals: { form: form, token: :filo_especie } %>
+<% end %>
+
+<%= render partial: '0p/form_fields/label', locals: { form: form, label: 'Referencia', v: false } %>
+<%= render partial: '0p/form_fields/text', locals: { form: form, token: :referencia } %>
+<%= render partial: '0p/form_fields/label', locals: { form: form, label: 'Nombre Común', v: false } %>
+<%= render partial: '0p/form_fields/text', locals: { form: form, token: :nombre_comun } %>
+<% if destino == 'fuente' %>
+	<%= render partial: '0p/form_fields/label', locals: { form: form, label: 'Fuente', v: true } %>
+	<%= render partial: '0p/form_fields/select_id', locals: { form: form, token: :filo_fuente_id, colection: FiloFuente.all.order(:filo_fuente).collect { |ff| [ff.filo_fuente, ff.id] }, display_field: 'filo_fuente', prompt: 'Fuente' } %></br>
+<% end %>
+<%= render partial: '0p/form_fields/label', locals: { form: form, label: 'Link Fuente', v: false } %>
+<%= render partial: '0p/form_fields/text', locals: { form: form, token: :link_fuente } %>
+
+<%= render partial: '0p/form_fields/label', locals: { form: form, label: 'Sinonimia', v: false } %>
+<%= render partial: '0p/form_fields/text_area', locals: { form: form, token: :sinonimia } %>

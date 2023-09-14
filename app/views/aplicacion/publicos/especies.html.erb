@@ -4,7 +4,7 @@
 <%#= render partial: 'aplicacion/publicos/partials/enlaces_especie', locals: {objeto: @objeto} %>
 
 <div class="row">
-	<div class="col-lg-5 col-xs-12">
+	<div class="col-lg-8 col-xs-12">
 
 		<div style='padding-left: 2em;'>
 			<% @coleccion['filo_especies'].each do |especie| %>
@@ -19,10 +19,19 @@
 		<%= render partial: 'aplicacion/publicos/partials/etiquetas', locals: {objeto: @objeto} %>
 
 	</div>
-	<div class="col-lg-3 col-xs-12">
-		<%= render partial: 'aplicacion/publicos/partials/sinonimia', locals: {objeto: @objeto} %>
-	</div>
 	<div class="col-lg-4">
 		<%= render partial: 'aplicacion/publicos/partials/distribucion', locals: {objeto: @objeto} %>
+
+		<% if admin? %>
+			<p class="text-info"><i class="bi bi-bandaid"></i> 
+				Actualizaciones 
+				<%= link_to "/filo_actualizaciones/new?indice=#{@objeto.id}" do %>
+					<i class="bi bi-plus-circle"></i>
+				<% end %>
+			</p>
+			<% unless @objeto.filo_actualizaciones.empty? %>
+				<%= render partial: '0p/tabla/tabla', locals: {c: 'filo_actualizaciones'} %>
+			<% end %>
+		<% end %>
 	</div>
 </div>

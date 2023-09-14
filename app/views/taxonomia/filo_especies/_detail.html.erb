@@ -1,14 +1,5 @@
-<%= render partial: '0p/form_fields/label', locals: { form: form, label: 'Especie', v: true } %>
-<%= render partial: '0p/form_fields/text', locals: { form: form, token: :filo_especie } %>
-<%= render partial: '0p/form_fields/label', locals: { form: form, label: 'Referencia', v: false } %>
-<%= render partial: '0p/form_fields/text', locals: { form: form, token: :referencia } %>
-<%= render partial: '0p/form_fields/label', locals: { form: form, label: 'Nombre Común', v: false } %>
-<%= render partial: '0p/form_fields/text', locals: { form: form, token: :nombre_comun } %>
-<%= render partial: '0p/form_fields/label', locals: { form: form, label: 'Link Fuente', v: false } %>
-<%= render partial: '0p/form_fields/text', locals: { form: form, token: :link_fuente } %>
-
-<%= render partial: '0p/form_fields/label', locals: { form: form, label: 'Sinonimia', v: false } %>
-<%= render partial: '0p/form_fields/text_area', locals: { form: form, token: :sinonimia } %>
+<!-- como  es un formulario que se  puede utilizar para especies, pero para el registro de fuente también se llevó a un partial -->
+<%= render partial: 'aplicacion/publicos/partials/dtl_esp_fte', locals: {form: form, destino: 'especie'} %>
 
 <%= render partial: '0p/form_fields/check_box', locals: {form: form, token: :revisar, label: 'Revisar!'} %></br>
 

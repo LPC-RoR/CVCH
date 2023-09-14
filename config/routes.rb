@@ -245,7 +245,6 @@ Rails.application.routes.draw do
       match :nuevo_child, via: :post, on: :collection
       match :elimina, via: :get, on: :collection
       # nueva implementacion, verificar anteriores
-      match :nueva_subespecie, via: :post, on: :collection
       match :nuevo_sinonimo, via: :post, on: :collection
       match :asocia_etiqueta, via: :post, on: :collection
       match :asigna, via: :post, on: :collection
@@ -285,6 +284,9 @@ Rails.application.routes.draw do
       match :borrar, via: :get, on: :member
     end
     resources :filo_esp_sinos
+
+    resources :filo_actualizaciones
+    resources :filo_fuentes
 
     resources :filo_conf_elems
     resources :filo_conflictos

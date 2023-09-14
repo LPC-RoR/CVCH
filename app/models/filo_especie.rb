@@ -36,7 +36,16 @@
 	# despues se debe reeemplazar con has_one, solo se asocia directamente la especie propia
 	has_many :especies
 
+	has_many :filo_actualizaciones
+
+	validates :filo_especie, presence: true
+
 	before_save { self.filo_especie.downcase! }
+	before_save :limpia_especie
+
+	def limpia_especie
+		self.filo_especie.gsub(/\t|\r|\n/, ' ').strip.downcase.split(' ').join(' ')
+	end
 
 	# **** TAXOMOMÍA
 
@@ -75,6 +84,39 @@
 
 	def n_pubs
 		self.n_pubs_propias + self.filo_sinonimos.map {|sino| sino.n_pubs_propias}.sum
+	end
+
+	def multiple_nombre_comun
+		base = self.nombre_comun.blank? ? [] : self.nombre_comun.downcase.split(';').collect(&:strip)
+		arreglo = self.filo_actualizaciones.empty? ? [] : self.filo_actualizaciones.map {|act| act.nombre_comun unless act.nombre_comun.blank?}.compact
+		unless arreglo.empty?
+			arreglo.each do |nc|
+				base = base.union( nc.downcase.split(';').collect(&:strip) )
+			end
+		end
+		base.uniq.sort.join('; ')
+	end
+
+	def multiple_sinonimia?
+		self.sinonimia.present? or (self.filo_actualizaciones.map {|act| act.sinonimia unless act.sinonimia.blank?}.compact.length > 0)
+	end
+
+	def multiple_sinonimia
+		base = self.sinonimia.blank? ? [] : self.sinonimia.downcase.split(';').collect(&:strip)
+		arreglo = self.filo_actualizaciones.empty? ? [] : self.filo_actualizaciones.map {|act| act.sinonimia unless act.sinonimia.blank?}.compact
+		unless arreglo.empty?
+			arreglo.each do |sino|
+				base = base.union( sino.downcase.split(';').collect(&:strip) )
+			end
+		end
+		base.uniq.sort.join('; ')
+	end
+
+	def multiple_referencia
+		base = self.referencia
+		arreglo = self.filo_actualizaciones.empty? ? [] : self.filo_actualizaciones.order(updated_at: :desc).map {|act| act.referencia unless act.referencia.blank?}.compact
+		base = base.blank? ? arreglo.first : base
+		base.blank? ? '-' : base
 	end
 
 	# antiguos métodos: revisar
@@ -122,8 +164,8 @@
 	end
 
 	def sinonimia_list
-		unless self.sinonimia.blank?
-			sin_arr = self.sinonimia.split(';')
+		unless self.multiple_sinonimia.blank?
+			sin_arr = self.multiple_sinonimia.split(';')
 			sin_has = {}
 			sin_arr.each do |sin|
 				m = sin.match(/[^\d](\d{4})[^\d]*/)

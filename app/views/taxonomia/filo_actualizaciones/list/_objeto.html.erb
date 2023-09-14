@@ -1,0 +1,19 @@
+<small>
+<div class="list-item" style='padding-left: 1em; padding-top: 1em; margin-bottom: 1em;'>
+	<p class="text-info">
+		<b>
+		<% unless objeto.link_fuente.blank? %>
+			<%= link_to objeto.filo_fuente.filo_fuente, objeto.link_fuente%>
+		<% else %>
+			<%=objeto.filo_fuente.filo_fuente%>
+		<% end %> 
+		| <%= dma(objeto.updated_at) %> <%= render partial: '0p/tabla/links_e', locals: {objeto: objeto} %></br>
+		</b>
+	<small>
+		<% unless objeto.referencia.blank? %>Referencia: <%=objeto.referencia%></br><% end %>
+		<% unless objeto.nombre_comun.blank? %>Nombre(s) común(es): <%=objeto.nombre_comun%></br><% end %>
+		<% unless objeto.sinonimia.blank? %>Sinonimia: <%=objeto.sinonimia%></br><% end %>
+	</small>
+	</p>
+</div>
+</small>

@@ -1,0 +1,12 @@
+<b class='text-info'>Nueva <%= 'sub' if objeto.class.name == 'FiloEspecie'%>especie</b>
+<%= form_for :nueva_especie, url: "/filo_especies/nuevo?class_name=#{objeto.class.name unless objeto.blank?}&objeto_id=#{objeto.id unless objeto.blank?}" do |form| %>
+
+	<%= render partial: 'aplicacion/publicos/partials/dtl_esp_fte', locals: {form: form, destino: 'especie'} %>
+
+	</br>
+	<button type="submit" class="btn btn-info">
+	  <i class="bi bi-plus-circle icon-white"></i>
+	  <i class="bi bi-bug"></i>
+	</button>
+
+<% end  %>

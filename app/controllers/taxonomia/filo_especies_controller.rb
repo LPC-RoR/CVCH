@@ -30,37 +30,39 @@ class Taxonomia::FiloEspeciesController < ApplicationController
   # Taxonomía
   def nuevo
     padre = params[:class_name].blank? ? nil : params[:class_name].constantize.find(params[:objeto_id])
-    unless params[:nueva_especie][:filo_especie].blank?
+    unless params[:nueva_especie][:filo_especie].blank? or padre.blank?
+      filo_especie = params[:nueva_especie][:filo_especie].gsub(/\t|\r|\n/, ' ').strip.downcase.split(' ').join(' ')
 
-      check = FiloEspecie.find_by(filo_especie: params[:nueva_especie][:filo_especie].downcase)
+      check = FiloEspecie.find_by(filo_especie: filo_especie)
       if check.blank?
-        filo_especie = params[:nueva_especie][:filo_especie].downcase
+        # Especie no existe !!
         referencia = params[:nueva_especie][:referencia].downcase
         nombre_comun = params[:nueva_especie][:nombre_comun].downcase
         link_fuente = params[:nueva_especie][:link_fuente]
         sinonimia = params[:nueva_especie][:sinonimia]
         revisar = params[:nueva_especie][:revisar]
-        especie = FiloEspecie.create(filo_especie: filo_especie, referencia: referencia, nombre_comun: nombre_comun, link_fuente: link_fuente, sinonimia: sinonimia, revisar: revisar)
+        nueva_especie = FiloEspecie.create(filo_especie: filo_especie, referencia: referencia, nombre_comun: nombre_comun, link_fuente: link_fuente, sinonimia: sinonimia, revisar: revisar)
 
-        unless padre.blank? or especie.blank?
-          etiquetas = Etiqueta.where(especie: especie.filo_especie)
+        unless nueva_especie.blank?
+          noticia = 'especie/subespecie fue exitósamente creada'
+          # agrega al elemento/especie según corresponda
+          padre.filo_especies << nueva_especie if params[:class_name] == 'FiloElemento'
+          padre.children << nueva_especie if params[:class_name] == 'FiloEspecie'
+          # se asignan etiquetas caundo corresponde
+          etiquetas = Etiqueta.where(especie: nueva_especie.filo_especie)
           unless etiquetas.empty?
             etiquetas.each do |etiqueta|
-              especie.especies << etiqueta
+              nueva_especie.especies << etiqueta
             end
           end
-          padre.filo_especies << especie if params[:class_name] == 'FiloElemento'
-          padre.children << especie if params[:class_name] == 'FiloEspecie'
+        else
+          noticia = 'Error: no se pudo crear especie/subespecie!'
         end
-        noticia = 'Especie fue exitósamente creada'
       else
-        padre.filo_especies << check if padre.class.name == 'FiloElemento'
-        padre.children << check if padre.class.name == 'FiloEspecie'
-        noticia = "Especie fue exitósamente reasignada #{check.id} #{padre.class.name} #{check.filo_elemento_id} #{check.filo_elemento.filo_elemento}"
+        noticia = "Especie ya existe con el id: #{check.id}"
       end
-
     else
-      noticia = 'Debe contener el nombre de la especie'
+      noticia = padre.blank? ? 'Error: especie/subespecie debe tener un padre' : 'Error: No se puede crear una especie/subespecie sin nombre'
     end
 
     redirect_to "/publicos/#{params[:class_name]=='FiloElemento' ? 'taxonomia' : 'especies'}?indice=#{padre.id}", notice: noticia
@@ -143,24 +145,6 @@ class Taxonomia::FiloEspeciesController < ApplicationController
     end
 
     redirect_to carpeta
-  end
-
-  def nueva_subespecie
-    filo_especie = FiloEspecie.find(params[:objeto_id])
-    unless params[:nueva_subespecie][:filo_especie].blank?
-      check_filo_especie = FiloEspecie.find_by(filo_especie: params[:nueva_subespecie][:filo_especie].downcase)
-      if check_filo_especie.blank?
-        nueva = FiloEspecie.create(filo_especie: params[:nueva_subespecie][:filo_especie].downcase, nombre_comun: params[:nueva_subespecie][:nombre_comun].downcase, iucn: params[:nueva_subespecie][:iucn])
-        filo_especie.children << nueva
-
-        etiquetas = Especie.where(especie: nueva.filo_especie)
-        etiquetas.each do |etiqueta|
-          nueva.especies << etiqueta
-        end
-      end
-    end
-    
-    redirect_to filo_especie
   end
 
   def nuevo_sinonimo
