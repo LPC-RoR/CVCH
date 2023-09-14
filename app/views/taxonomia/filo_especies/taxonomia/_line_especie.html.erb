@@ -18,7 +18,7 @@
 
 <small>
 <% unless objeto.sinonimia.blank? %>
-	<i class="bi bi-collection text-<%= (objeto.especies.count > 1) ? 'danger' : 'info'%>"></i>
+	<i class="bi bi-collection text-<%= objeto.filo_sinonimos.empty? ? 'danger' : 'info'%>"></i>
 <% end %>
 <% unless objeto.children.empty? %>
 	<i class="bi bi-bug text-info"></i>
