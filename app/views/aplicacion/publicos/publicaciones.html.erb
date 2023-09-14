@@ -2,7 +2,7 @@
 
 <div class="row">
 	<div class="col-lg-3 col-xs-12">
-		<p class='text-info'>Etiquetas</p>
+		<p class='text-info'>Etiqueta(s)</p>
 		<small><small><ul>
 		<% @etiquetas.each do |tag| %>
 			<li>
@@ -11,6 +11,17 @@
 				<% end %>
 				<%= link_to tag.especie, tag %> | <%= tag.publicaciones.count %>
 			</li>
+		<% end %>		
+		</ul></small></small>
+
+		<p class='text-info'>Sinónimo(s)</p>
+		<small><small><ul>
+		<% @sinonimos.each do |sino| %>
+			<% unless sino.especie.blank? %>
+			<li>
+				<%= link_to sino.filo_sinonimo, sino.especie %> | <%= sino.especie.publicaciones.count %>
+			</li>
+			<% end %>
 		<% end %>		
 		</ul></small></small>
 	</div>
