@@ -21,4 +21,8 @@ class FiloSinonimo < ApplicationRecord
 		self.correccion.blank? ? self.filo_sinonimo : self.correccion
 	end
 
+	def n_pubs_propias
+		self.especie.blank? ? 0 : self.especie.publicaciones.count
+	end
+
 end

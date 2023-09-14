@@ -69,6 +69,14 @@
 		self.especie_sinonimo? ? Especie.find_by(especie: self.filo_especie).filo_sinonimo.filo_especies.first : nil
 	end
 
+	def n_pubs_propias
+		self.especies.empty? ? 0 : self.especies.map {|esp| esp.publicaciones.count}.sum
+	end
+
+	def n_pubs
+		self.n_pubs_propias + self.filo_sinonimos.map {|sino| sino.n_pubs_propias}.sum
+	end
+
 	# antiguos métodos: revisar
 	def n_keys
 		self.children.count + 1
@@ -76,10 +84,6 @@
 
 	def n_tags
 		self.especies.count + self.children.map {|child| child.n_tags}.sum
-	end
-
-	def n_pubs
-		self.especies.map {|esp| esp.publicaciones.count}.sum + self.children.map {|child| child.n_pubs}.sum
 	end
 
 	def sinonimo?

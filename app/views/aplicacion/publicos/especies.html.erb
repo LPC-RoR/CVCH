@@ -21,23 +21,6 @@
 	</div>
 	<div class="col-lg-3 col-xs-12">
 		<%= render partial: 'aplicacion/publicos/partials/sinonimia', locals: {objeto: @objeto} %>
-
-		<p class="text-info">Conflictos</p>
-		<small>
-		<ul>
-		<% @objeto.conflictos.each do |conflicto| %>
-			<li>
-				<b><%= conflicto.filo_conflicto%></b></br>
-				<%= conflicto.huella unless conflicto.huella.blank?%>
-				<% if conflicto.app_perfil.email == perfil_activo.email %>
-				<%= link_to "/filo_especies/#{@objeto.id}/elimina_conflicto?indice=#{conflicto.id}" do %>
-					<i class="bi bi-trash"></i>
-				<% end %>
-				<% end %>
-			</li>
-		<% end %>
-		</ul>
-		</small>
 	</div>
 	<div class="col-lg-4">
 		<%= render partial: 'aplicacion/publicos/partials/distribucion', locals: {objeto: @objeto} %>

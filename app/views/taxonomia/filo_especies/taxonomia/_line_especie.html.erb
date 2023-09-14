@@ -13,7 +13,7 @@
 
 <small>
 	<%= "( #{objeto.referencia.blank? ? 'sin referencia' : objeto.referencia} )" %>
-	<%= ": #{objeto.especies.map { |especie| especie.publicaciones.count  }.sum}" %>
+	<%= ": #{objeto.n_pubs}" %>
 </small> | 
 
 <small>
