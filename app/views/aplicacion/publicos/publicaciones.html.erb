@@ -8,7 +8,7 @@
 	<div class="col-lg-3 col-xs-12">
 		<p class='text-info'>Etiqueta(s)</p>
 		<small><small><ul>
-		<% @etiquetas.each do |tag| %>
+		<% @objeto.etiquetas.each do |tag| %>
 			<li>
 				<% if tag.especie == @objeto.filo_especie %>
 					<i class="bi bi-check-all"></i>
@@ -20,7 +20,7 @@
 
 		<p class='text-info'>Sinónimo(s)</p>
 		<small><small><ul>
-		<% @sinonimos.each do |sino| %>
+		<% @objeto.filo_sinonimos.each do |sino| %>
 			<% unless sino.especie.blank? %>
 			<li>
 				<%= link_to sino.filo_sinonimo, sino.especie %> | <%= sino.especie.publicaciones.count %>
