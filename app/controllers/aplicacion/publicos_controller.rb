@@ -101,17 +101,7 @@ class Aplicacion::PublicosController < ApplicationController
   def publicaciones
     unless params[:indice].blank?
       @objeto = FiloEspecie.find(params[:indice])
-      @etiquetas = @objeto.especies
-      @sinonimos = @objeto.filo_sinonimos
-
-      pubs_ids = []
-      @etiquetas.each do |tag|
-        pubs_ids = pubs_ids.union(tag.publicaciones.ids)
-      end
-      @sinonimos.each do |sino|
-        pubs_ids = pubs_ids.union(sino.especie.publicaciones.ids) unless sino.especie.blank?
-      end
-      init_tabla("publicaciones", Publicacion.where(id: pubs_ids).order(:title), true)
+      init_tabla("publicaciones", @objeto.publicaciones.order(:title), true)
     end
   end
 

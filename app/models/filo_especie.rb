@@ -117,6 +117,20 @@
 		base.blank? ? '-' : base
 	end
 
+	def publicaciones
+      etiquetas = self.especies
+      sinonimos = self.filo_sinonimos
+
+      pubs_ids = []
+      etiquetas.each do |tag|
+        pubs_ids = pubs_ids.union(tag.publicaciones.ids)
+      end
+      sinonimos.each do |sino|
+        pubs_ids = pubs_ids.union(sino.especie.publicaciones.ids) unless sino.especie.blank?
+      end
+      Publicacion.where(id: pubs_ids)
+	end
+
 	# antiguos métodos: revisar
 	def n_keys
 		self.children.count + 1
