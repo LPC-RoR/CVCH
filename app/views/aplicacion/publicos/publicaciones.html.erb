@@ -1,9 +1,5 @@
 <%= render partial: 'aplicacion/publicos/partials/titulo_especie', locals: {objeto: @objeto} %>
 
-<% if dog? %>
-	<%= line_chart @objeto.publicaciones.group(:year).count %>
-<% end %>
-
 <div class="row">
 	<div class="col-lg-3 col-xs-12">
 		<p class='text-info'>Etiqueta(s)</p>
@@ -31,6 +27,11 @@
 	</div>
 	<div class="col-lg-9">
 		<p class='text-info'>Publicaciones</p>
+
+<% if @objeto.publicaciones.count > 9 %>
+	<%= line_chart @objeto.publicaciones.group(:year).count %>
+<% end %>
+
 		<%= render partial: '0p/tabla/tabla', locals: {c: 'publicaciones'} %>
 	</div>
 </div>
