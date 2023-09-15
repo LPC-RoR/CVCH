@@ -29,7 +29,7 @@
 		<small><small><ul>
 		<% @objeto.hash_categorias.keys.sort.each do |h_key| %>
 			<li>
-				<%= h_key.to_s %> | <%= hash_categorias[h_key].length %>
+				<%= h_key.to_s %> | <%= @objeto.hash_categorias[h_key].length %>
 			</li>
 		<% end %>		
 		</ul></small></small>
