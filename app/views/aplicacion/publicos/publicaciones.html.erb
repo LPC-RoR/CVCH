@@ -26,11 +26,22 @@
 		</ul></small></small>
 	</div>
 	<div class="col-lg-9">
-		<p class='text-info'>Publicaciones</p>
 
-<% if @objeto.publicaciones.count > 9 %>
-	<%= line_chart @objeto.publicaciones.group(:year).count %>
-<% end %>
+		<p class='text-info'>
+		<% if @objeto.publicaciones.count > 9 %>
+			<a class="btn btn-primary" data-toggle="collapse" href="#collapseGraphPubs" role="button" aria-expanded="false" aria-controls="collapseGraphPubs">
+		<% end %>
+			Publicaciones
+		<% if @objeto.publicaciones.count > 9 %></a><% end %>
+		</p>
+
+		<% if @objeto.publicaciones.count > 9 %>
+			<div class="collapse" id="collapseGraphPubs">
+			  <div class="card card-body">
+				<%= line_chart @objeto.publicaciones.group(:year).count %>
+			  </div>
+			</div>
+		<% end %>
 
 		<%= render partial: '0p/tabla/tabla', locals: {c: 'publicaciones'} %>
 	</div>
