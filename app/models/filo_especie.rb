@@ -5,8 +5,6 @@
 	]
 
 	belongs_to :filo_elemento, optional: true
-#	belongs_to :filo_categoria_conservacion
-#	belongs_to :filo_tipo_especie
 
 	# *****************      CAMBIO RELACIONES
 

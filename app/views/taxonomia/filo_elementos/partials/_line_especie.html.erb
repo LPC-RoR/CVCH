@@ -1,18 +1,3 @@
 <div style="padding-left: <%= objeto.parent.blank? ? 7*2 : 8*2; %>em">
-<i class="bi bi-bug text-<%= objeto.revisar ? 'danger' : (objeto.link_fuente.present? ? 'info' : 'dark') %>"></i>
-<small><% if objeto.link_fuente.present? %><i class="bi bi-box-arrow-up-right"></i><% end %></small>
-<%= link_to objeto.filo_especie, "/publicos/especies?indice=#{objeto.id}" %>
-
-<%= link_to "/publicos/publicaciones?indice=#{objeto.id}" do %>
-	<i class="bi bi-files"></i>
-<% end %>
-
-<% unless objeto.conflictos.empty? %>
-	<i class="bi bi-flag text-danger"></i>
-<% end %>
-
-<small>
-	<%= "( #{objeto.referencia} )" %>
-	<%= ": #{objeto.especies.map { |especie| especie.publicaciones.count  }.sum}" %>
-</small>
+	<small><%= render partial: 'taxonomia/filo_especies/taxonomia/line_especie', locals: {objeto:objeto} %></small>
 </div>
