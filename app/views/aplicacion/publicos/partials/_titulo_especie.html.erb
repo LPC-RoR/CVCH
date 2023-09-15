@@ -9,6 +9,11 @@
 			<i class="bi bi-box-arrow-up-right"></i>
 		<% end %>
 	<% end %>
+	<% unless objeto.n_pubs == 0 %>
+		<%= link_to "/publicos/publicaciones?indice=#{objeto.id}" do %>
+			<i class="bi bi-files"></i>
+		<% end %>
+	<% end %>
 </h5>
 <h6 class='text-muted'>
 	<p>
