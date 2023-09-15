@@ -1,5 +1,9 @@
 <%= render partial: 'aplicacion/publicos/partials/titulo_especie', locals: {objeto: @objeto} %>
 
+<% if dog? %>
+	<%= line_chart @coleccion['publicaciones'].group(:year).count %>
+<% end %>
+
 <div class="row">
 	<div class="col-lg-3 col-xs-12">
 		<p class='text-info'>Etiqueta(s)</p>
