@@ -24,6 +24,17 @@
 			<% end %>
 		<% end %>		
 		</ul></small></small>
+
+		<p class='text-info'>Categoría(s)</p>
+		<small><small><ul>
+		<% @objeto.hash_categorias.keys.sort.each do |h_key| %>
+			<li>
+				<%= h_key.to_s %> | <%= hash_categorias[h_key].length %>
+			</li>
+		<% end %>		
+		</ul></small></small>
+
+
 	</div>
 	<div class="col-lg-9">
 

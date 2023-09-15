@@ -131,6 +131,16 @@
       Publicacion.where(id: pubs_ids)
 	end
 
+	def h_categorias
+		hash_categorias = {}
+		self.publicaciones.each do |pub|
+			pub.categorias.each do |categoria|
+				hash_categorias[categoria] => hash_categorias[categoria].blank? ? [categoria.id] : hash_categorias[categoria].union([categoria.id])
+			end
+		end
+		hash_categorias
+	end
+
 	# antiguos métodos: revisar
 	def n_keys
 		self.children.count + 1
