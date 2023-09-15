@@ -134,9 +134,9 @@
 	def h_categorias
 		hash_categorias = {}
 		self.publicaciones.each do |pub|
-#			pub.categorias.each do |categoria|
+			pub.categorias.each do |categoria|
 #				hash_categorias[categoria.categoria] => hash_categorias[categoria.categoria].blank? ? [categoria.id] : hash_categorias[categoria.categoria].union([categoria.id])
-#			end
+			end
 		end
 		hash_categorias
 	end
