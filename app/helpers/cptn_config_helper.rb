@@ -49,6 +49,10 @@ module CptnConfigHelper
 			decimales: {
 				'Pesos' => Rails.configuration.decimales_pesos,
 				'UF' => Rails.configuration.decimales_uf
+			},
+			taxonomia: {
+				elem_count: 10,
+				esp_count: 10
 			}
 		}
 	end

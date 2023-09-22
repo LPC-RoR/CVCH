@@ -14,8 +14,8 @@
 
 				<small>
 				<div class="sub-elementos" style='padding-left: 2em'>
-					<% if elemento.children.count > 15 %>
-						<small><small><i class="bi bi-sign-stop"></i> Este elemento tiene más de 15 sub elementos, para verlos acceda al elemento! </small></small>
+					<% if elemento.children.count > config[:taxonomia][:elem_count] %>
+						<small><small><i class="bi bi-sign-stop"></i> Este elemento tiene más de <%= config[:taxonomia][:elem_count] %> sub elementos, para verlos acceda al elemento! </small></small>
 					<% else %>
 						<% elemento.children.order(:filo_elemento).each do |sub_elemento| %>
 							<%= render partial: 'taxonomia/filo_elementos/taxonomia/line_elemento', locals: {objeto: sub_elemento} %>
@@ -38,8 +38,8 @@
 
 				<small>
 				<div class="sub_especies" style='padding-left: 2em'>
-					<% if especie.children.count > 15 %>
-						<small><small><i class="bi bi-sign-stop"></i> Esta especie tiene más de 15 sub especies, para verlas acceda a la especie! </small></small>
+					<% if especie.children.count > config[:taxonomia][:esp_count] %>
+						<small><small><i class="bi bi-sign-stop"></i> Esta especie tiene más de <%=config[:taxonomia][:esp_count]%> sub especies, para verlas acceda a la especie! </small></small>
 					<% else %>
 						<% especie.children.order(:filo_especies).each do |sub_especie| %>
 							<%= render partial: 'taxonomia/filo_especies/taxonomia/line_especie', locals: {objeto: sub_especie} %>
