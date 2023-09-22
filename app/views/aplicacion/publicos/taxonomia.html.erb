@@ -14,8 +14,12 @@
 
 				<small>
 				<div class="sub-elementos" style='padding-left: 2em'>
-					<% elemento.children.order(:filo_elemento).each do |sub_elemento| %>
-						<%= render partial: 'taxonomia/filo_elementos/taxonomia/line_elemento', locals: {objeto: sub_elemento} %>
+					<% if elemento.children.count > 15 %>
+						<small><small><i class="bi bi-sign-stop"></i> Este elemento tiene más de 15 sub elementos, para verlos acceda al elemento! </small></small>
+					<% else %>
+						<% elemento.children.order(:filo_elemento).each do |sub_elemento| %>
+							<%= render partial: 'taxonomia/filo_elementos/taxonomia/line_elemento', locals: {objeto: sub_elemento} %>
+						<% end %>
 					<% end %>
 				</div>
 				<div class="especies" style='padding-left: 2em'>
@@ -34,8 +38,12 @@
 
 				<small>
 				<div class="sub_especies" style='padding-left: 2em'>
-					<% especie.children.order(:filo_especies).each do |sub_especie| %>
-						<%= render partial: 'taxonomia/filo_especies/taxonomia/line_especie', locals: {objeto: sub_especie} %>
+					<% if especie.children.count > 15 %>
+						<small><small><i class="bi bi-sign-stop"></i> Esta especie tiene más de 15 sub especies, para verlas acceda a la especie! </small></small>
+					<% else %>
+						<% especie.children.order(:filo_especies).each do |sub_especie| %>
+							<%= render partial: 'taxonomia/filo_especies/taxonomia/line_especie', locals: {objeto: sub_especie} %>
+						<% end %>
 					<% end %>
 				</div>
 				</small>

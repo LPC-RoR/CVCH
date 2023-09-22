@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_09_14_173344) do
+ActiveRecord::Schema.define(version: 2023_09_22_180059) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -433,6 +433,7 @@ ActiveRecord::Schema.define(version: 2023_09_14_173344) do
     t.integer "area_id"
     t.boolean "mma_ok"
     t.boolean "revisar"
+    t.boolean "despliegue_simple"
     t.index ["area_id"], name: "index_filo_elementos_on_area_id"
     t.index ["filo_elemento"], name: "index_filo_elementos_on_filo_elemento"
     t.index ["filo_orden_id"], name: "index_filo_elementos_on_filo_orden_id"
@@ -934,6 +935,7 @@ ActiveRecord::Schema.define(version: 2023_09_14_173344) do
     t.string "ciudad_pais"
     t.string "journal"
     t.integer "app_perfil_id"
+    t.boolean "titulo_multiple"
     t.index ["app_perfil_id"], name: "index_publicaciones_on_app_perfil_id"
     t.index ["doc_type"], name: "index_publicaciones_on_doc_type"
     t.index ["estado"], name: "index_publicaciones_on_estado"

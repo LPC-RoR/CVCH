@@ -41,6 +41,10 @@
 	before_save { self.filo_especie.downcase! }
 	before_save :limpia_especie
 
+	def imagenes
+		AppImagen.where(owner_class: self.class.name, owner_id: self.id)
+	end
+
 	def limpia_especie
 		self.filo_especie.gsub(/\t|\r|\n/, ' ').strip.downcase.split(' ').join(' ')
 	end
