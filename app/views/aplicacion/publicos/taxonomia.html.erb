@@ -25,7 +25,7 @@
 					</div>
 					<div class="especies" style='padding-left: 2em'>
 						<% if elemento.filo_especies.count > config[:taxonomia][:esp_count] %>
-							<small><small><i class="bi bi-stoplights"></i> Especies no fueron desplegados para optimizar tamaño, para verlas acceda al genero/especie! </small></small>
+							<small><small><i class="bi bi-stoplights"></i> Especies no fueron desplegados para optimizar tamaño, para verlas acceda al genero! </small></small>
 						<% else %>
 							<% elemento.filo_especies.order(:filo_especies).each do |especie| %>
 								<%= render partial: 'taxonomia/filo_especies/taxonomia/line_especie', locals: {objeto: especie} %>
