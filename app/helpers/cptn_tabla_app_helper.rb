@@ -25,7 +25,7 @@ module CptnTablaAppHelper
 			when 'filo_especies'
 				controller_name == 'filo_elementos' and FiloElemento.all.empty?
 			else
-				if ['equivalentes-filo_sinonimos', 'sinonimos-filo_sinonimos', 'agregados-filo_sinonimos', 'excluidos-filo_sinonimos', 'filo_actualizaciones'].include?(controller)
+				if ['equivalentes-filo_sinonimos', 'sinonimos-filo_sinonimos', 'agregados-filo_sinonimos', 'excluidos-filo_sinonimos', 'filo_actualizaciones', 'app_imagenes'].include?(controller)
 					false
 				else
 					true

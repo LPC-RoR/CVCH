@@ -1,0 +1,8 @@
+<div class="row imagenes-list">
+	<small>
+		<%= objeto.nombre %></br>
+		<%= image_tag objeto.imagen.thumb.url, class: "img-fluid rounded-0" unless objeto.imagen.blank? %></br>
+		<small><%= objeto.credito_imagen %></small></br>
+		<%= render partial: '0p/tabla/links_e', locals: {objeto: objeto} if admin? %></br>
+	</small>
+</div>

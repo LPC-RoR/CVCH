@@ -77,6 +77,8 @@ class Aplicacion::PublicosController < ApplicationController
 
       add_tabla('filo_actualizaciones', @objeto.filo_actualizaciones.order(updated_at: :desc), false)
 
+      add_tabla('app_imagenes', @objeto.imagenes, false)
+
       regiones_para_asignar_ids = Region.all.map {|region| region.id unless @objeto.regiones.ids.include?(region.id)}.compact
       @regiones_para_asignar = Region.where(id: regiones_para_asignar_ids).order(:orden)
 
