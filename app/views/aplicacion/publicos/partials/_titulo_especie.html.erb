@@ -2,14 +2,19 @@
 	<i class="bi bi-bug text-<%= params[:indice].blank? ? 'info' : (objeto.revisar ? 'danger' : (objeto.link_fuente.present? ? 'info' : 'dark')) %>"></i>
 	<span class='text-info'>
 		<%= objeto.parent.blank? ? 'Especie' : 'Sub especie' %> | 
-		<%= "#{objeto.filo_especie} ( #{objeto.multiple_referencia} )" %>
+		<% if action_name == 'especies' %>
+			<%= objeto.filo_especie %>
+		<% else %>
+			<%= link_to objeto.filo_especie, "/publicaciones/especies?indice=#{objeto.id}" %>
+		<% end %>
+		<%= " ( #{objeto.multiple_referencia} )" %>
 	</span>
 	<% if objeto.link_fuente.present? %>
 		<%= link_to objeto.link_fuente, target: '_blank' do %>
 			<i class="bi bi-box-arrow-up-right"></i>
 		<% end %>
 	<% end %>
-	<% unless objeto.n_pubs == 0 %>
+	<% unless objeto.n_pubs == 0 or action_name == 'publicaciones' %>
 		<%= link_to "/publicos/publicaciones?indice=#{objeto.id}" do %>
 			<i class="bi bi-files"></i>
 		<% end %>
