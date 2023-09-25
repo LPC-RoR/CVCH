@@ -118,7 +118,9 @@ class Aplicacion::PublicosController < ApplicationController
 
         publicaciones.each do |pub|
           label = (pub.year.to_i/10).truncate()*10
-          @grafico[label] += 1
+          @grafico[label] += 1 unless pub.year.blank?
+            
+          end
         end
       end
     end
