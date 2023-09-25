@@ -48,7 +48,7 @@
 		<% if @objeto.publicaciones.count > 9 %>
 			<div class="collapse" id="collapseGraphPubs">
 			  <div class="card card-body">
-				<%= line_chart @objeto.publicaciones.order(:year).group(:year).count %>
+				<%#= line_chart @objeto.publicaciones.order(:year).group(:year).count %>
 				<%= bar_chart @grafico %>
 			  </div>
 			</div>
