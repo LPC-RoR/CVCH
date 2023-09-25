@@ -5,7 +5,7 @@
 		<% if action_name == 'especies' %>
 			<%= objeto.filo_especie %>
 		<% else %>
-			<%= link_to objeto.filo_especie, "/publicaciones/especies?indice=#{objeto.id}" %>
+			<%= link_to objeto.filo_especie, "/publicos/especies?indice=#{objeto.id}" %>
 		<% end %>
 		<%= " ( #{objeto.multiple_referencia} )" %>
 	</span>
