@@ -103,7 +103,24 @@ class Aplicacion::PublicosController < ApplicationController
   def publicaciones
     unless params[:indice].blank?
       @objeto = FiloEspecie.find(params[:indice])
-      init_tabla("publicaciones", @objeto.publicaciones.order(:year), true)
+      publicaciones = @objeto.publicaciones.order(:year)
+      init_tabla("publicaciones", publicaciones, true)
+
+      if publicaciones.count > 9
+        @grafico = {}
+        primero = publicaciones.first.year.to_i
+        ultimo = publicaciones.last.year.to_i
+
+        for valor in primero..ultimo do
+          label = (valor/10).truncate()*10
+          @grafico[label] = 0 if @grafico[label].blank?
+        end
+
+        publicaciones.each do |pub|
+          label = (pub.year.to_i/10).truncate()*10
+          @grafico[label] += 1
+        end
+      end
     end
   end
 
