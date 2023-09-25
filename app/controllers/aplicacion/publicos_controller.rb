@@ -103,7 +103,7 @@ class Aplicacion::PublicosController < ApplicationController
   def publicaciones
     unless params[:indice].blank?
       @objeto = FiloEspecie.find(params[:indice])
-      init_tabla("publicaciones", @objeto.publicaciones.order(:title), true)
+      init_tabla("publicaciones", @objeto.publicaciones.order(:year), true)
     end
   end
 
