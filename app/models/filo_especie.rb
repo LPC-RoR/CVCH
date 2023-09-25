@@ -210,9 +210,9 @@
 	end
 
 	def sinonimos
-		unless self.sinonimia.blank?
-			sin_arr = self.sinonimia.split(';')
-			result = []
+		result = []
+		if self.multiple_sinonimia?
+			sin_arr = self.multiple_sinonimia.split(';')
 			sin_arr.each do |sin|
 				m = sin.match(/[^\.]*(?=\.)/)
 				unless m.blank?
@@ -225,8 +225,8 @@
 					result << sin.downcase
 				end
 			end
-			result
 		end
+		result
 	end
 
 	def enlaces

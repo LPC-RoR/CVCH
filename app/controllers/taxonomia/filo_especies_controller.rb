@@ -238,7 +238,7 @@ class Taxonomia::FiloEspeciesController < ApplicationController
     end
 
     # 2DO PROCESAR LA SINONIMIA SI EXISTE
-    unless @objeto.sinonimia.blank?
+    if @objeto.multiple_sinonimia?
       @objeto.sinonimos.each do |sinonimo|
         unless @objeto.filo_especie == sinonimo
 
