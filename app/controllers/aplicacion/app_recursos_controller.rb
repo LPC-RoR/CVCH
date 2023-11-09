@@ -26,10 +26,13 @@ class Aplicacion::AppRecursosController < ApplicationController
   end
 
   def procesos
-    Area.all.each do |area|
-      if area.clasificaciones.count != area.papers.count
+    Clasificacion.all.each do |clasificacion|
+      if clasificacion.paper.blank?
+        clasificacion.delete
       end
     end
+
+    Carga.delete_all
 
 #    IndClave.all.each do |clave|
 #      if clave.ind_indices.empty?
