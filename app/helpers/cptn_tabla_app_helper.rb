@@ -43,7 +43,7 @@ module CptnTablaAppHelper
 		when 'Carpeta'
 			controller_name == 'carpetas' and objeto.app_perfil.email == perfil_activo.email
 		when 'Area'
-			controller_name == 'app_recursos' and seguridad_desde('admin')
+			seguridad_desde('admin')
 		when 'Instancia'
 			false
 		when 'Ruta'

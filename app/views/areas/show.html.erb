@@ -1,4 +1,15 @@
 <%= render partial: 'areas/header' %>
+
+<% if dog? %>
+	<%= @objeto.filo_elementos.count > 0 %>
+	<%= @objeto.cargas.count > 0 %>
+	<%= @objeto.clasificaciones.count > 0 %>
+	<%= @objeto.papers.count > 0 %>
+	<%= @objeto.esp_areas.count > 0 %>
+	<%= @objeto.especies.count > 0 %>
+<% end %>
+
+
 <div class='row'>
 	<div class='col-md-4'>
 		<%= render partial: '0p/tabla/tabla', locals: {c: 'filo_elementos'} %>
