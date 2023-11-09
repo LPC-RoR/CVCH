@@ -26,13 +26,13 @@ class Aplicacion::AppRecursosController < ApplicationController
   end
 
   def procesos
-    Clasificacion.all.each do |clasificacion|
-      if clasificacion.paper.blank?
-        clasificacion.delete
-      end
-    end
+#    Clasificacion.all.each do |clasificacion|
+#      if clasificacion.paper.blank?
+#        clasificacion.delete
+#      end
+#    end
 
-    Carga.delete_all
+#    Carga.delete_all
 
 #    IndClave.all.each do |clave|
 #      if clave.ind_indices.empty?
@@ -76,40 +76,40 @@ class Aplicacion::AppRecursosController < ApplicationController
 #    end
 
 
-#    n_especies = Especie.all.count
-#    n_sin_padre = Especie.where(filo_especie_id: nil).count
-#    n_filo_especies = FiloEspecie.all.count
-#    n_sub_especies = FiloEspecie.where(filo_elemento_id: nil).count
-#    n_cvch = FiloEspecie.where(link_fuente: nil).count
+    n_especies = Especie.all.count
+    n_sin_padre = Especie.where(filo_especie_id: nil).count
+    n_filo_especies = FiloEspecie.all.count
+    n_sub_especies = FiloEspecie.where(filo_elemento_id: nil).count
+    n_cvch = FiloEspecie.where(link_fuente: nil).count
 
 
-#    Especie.all.each do |especie|
-#      if especie.filo_especie.blank?
-#        palabras = especie.especie.split(' ')
-#        if palabras.length == 2
-#          genero = FiloElemento.find_by(filo_elemento: palabras[0].strip.downcase)
-#          unless genero.blank?
-#            filo_especie = genero.filo_especies.create(filo_especie: especie.especie.strip.downcase)
-#            filo_especie.especies << especie
-#          end
-#        elsif palabras.length == 3
-#          genero = FiloElemento.find_by(filo_elemento: palabras[0].strip.downcase)
-#          unless genero.blank?
-#            s_filo_especie = "#{palabras[0].strip.downcase} #{palabras[1].strip.downcase}"
-#            filo_especie = FiloEspecie.find_by(filo_especie: s_filo_especie)
-#            filo_especie = genero.filo_especies.create(filo_especie: s_filo_especie) if filo_especie.blank?
-#            unless filo_especie.blank?
-#              sub_especie = FiloEspecie.create(filo_especie: especie.especie.strip.downcase)
-#              filo_especie.children << sub_especie
-#              sub_especie.especies << especie
-#            end
-#          end
-#        end
-#      end
-#    end
+    Especie.all.each do |especie|
+      if especie.filo_especie.blank?
+        palabras = especie.especie.split(' ')
+        if palabras.length == 2
+          genero = FiloElemento.find_by(filo_elemento: palabras[0].strip.downcase)
+          unless genero.blank?
+            filo_especie = genero.filo_especies.create(filo_especie: especie.especie.strip.downcase)
+            filo_especie.especies << especie
+          end
+        elsif palabras.length == 3
+          genero = FiloElemento.find_by(filo_elemento: palabras[0].strip.downcase)
+          unless genero.blank?
+            s_filo_especie = "#{palabras[0].strip.downcase} #{palabras[1].strip.downcase}"
+            filo_especie = FiloEspecie.find_by(filo_especie: s_filo_especie)
+            filo_especie = genero.filo_especies.create(filo_especie: s_filo_especie) if filo_especie.blank?
+            unless filo_especie.blank?
+              sub_especie = FiloEspecie.create(filo_especie: especie.especie.strip.downcase)
+              filo_especie.children << sub_especie
+              sub_especie.especies << especie
+            end
+          end
+        end
+      end
+    end
 
-#    redirect_to root_path, notice: "#{n_especies} : #{n_sin_padre} | #{n_filo_especies} : #{n_sub_especies} : #{n_cvch}"
-    redirect_to root_path, notice: "Proceso terminado #{IndClave.all.count} : #{IndPalabra.all.count}"
+    redirect_to root_path, notice: "#{n_especies} : #{n_sin_padre} | #{n_filo_especies} : #{n_sub_especies} : #{n_cvch}"
+#    redirect_to root_path, notice: "Proceso terminado #{IndClave.all.count} : #{IndPalabra.all.count}"
   end
 
   private
