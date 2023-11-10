@@ -13,7 +13,7 @@
 		</div>
 
 		<% if dog? %>
-			<% render partial: 'taxonomia/filo_especies/taxonomia/ficha_especie', locals: {objeto: @ultima_especie} unless @ultima_especie.blank? %>
+			<%= render partial: 'taxonomia/filo_especies/taxonomia/ficha_especie', locals: {objeto: @ultima_especie} unless @ultima_especie.blank? %>
 		<% end %>
 
 		<div class="notas">
