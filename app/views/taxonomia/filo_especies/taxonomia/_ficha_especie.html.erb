@@ -1,0 +1,29 @@
+<%= render partial: 'taxonomia/filo_especies/taxonomia/line_especie', locals: {objeto: objeto} %>
+<div class="row">
+	<div class="col-xs-12 col-lg-6">
+		<%= image_tag objeto.imagenes.last.imagen.half.url, class: 'img-fluid' %>
+	</div>
+	<div class="col-lg-6">
+		<b>Clasificación de publicaciones de la espoecie</b></br>
+
+		<p class='text-info'>Sinónimo(s)</p>
+		<small><small><ul>
+		<% objeto.filo_sinonimos.each do |sino| %>
+			<% unless sino.especie.blank? %>
+			<li>
+				<%= link_to sino.filo_sinonimo, sino.especie %> | <%= sino.especie.publicaciones.count %>
+			</li>
+			<% end %>
+		<% end %>		
+		</ul></small></small>
+
+		<p class='text-info'>Categoría(s)</p>
+		<small><small><ul>
+		<% objeto.h_categorias.keys.sort.each do |h_key| %>
+			<li>
+				<%= h_key.to_s %> | <%= objeto.h_categorias[h_key].length %>
+			</li>
+		<% end %>		
+		</ul></small></small>
+	</div>
+</div>

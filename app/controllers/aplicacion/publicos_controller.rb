@@ -7,6 +7,8 @@ class Aplicacion::PublicosController < ApplicationController
     ultimos_ids = Publicacion.where(estado: 'publicada').order(created_at: :asc).last(10).map {|pub| pub.id}
     init_tabla( 'publicaciones', Publicacion.where(id: ultimos_ids).order(sort_column + " " + sort_direction), false )
     add_tabla( 'tema_ayudas', TemaAyuda.where(tipo: 'inicio').where(activo: true).order(:orden), false )
+
+    @ultima_especie = FiloEspecie.find_by(id: 478)
   end
 
   def taxonomia

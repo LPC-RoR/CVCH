@@ -19,7 +19,8 @@ module CptnMenuAppHelper
 	        ["Revisiones",     "/revisiones",         'admin',   'file-check'],
 #	        ["Cargas",         "/cargas",             'admin',   'upload'],
 	        [nil,              "/ind_estructuras",    'dog',     'binoculars'],
-	        [nil,              "/blg_articulos",      'nomina',  controller_icon['blg_articulos'], 'Blogs']
+	        [nil,              "/blg_articulos",      'nomina',  controller_icon['blg_articulos'], 'Blogs'],
+	        [nil,              "/publicos/huerfanas", 'admin',   'bug', 'Especies Huerfanas']
 	    ]
 
 	end

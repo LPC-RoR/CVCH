@@ -1,5 +1,5 @@
 <small>
-	<i class="bi bi-diagram-3"></i> <%= objeto.filo_elemento %></br>
+	<i class="bi bi-diagram-3"></i> [ <b><%= objeto.filo_orden.filo_orden %></b> ] <%= objeto.filo_elemento %></br>
 	<% objeto.filo_especies.each do |especie| %>
 		<div class="especies" style="padding-left: 1em">
 			<i class="bi bi-bug"></i> <%= especie.filo_especie %> | 
