@@ -4,10 +4,9 @@
 		<%= image_tag objeto.imagenes.last.imagen.half.url, class: 'img-fluid' %>
 	</div>
 	<div class="col-lg-6">
-		<b>Clasificación de publicaciones de la espoecie</b></br>
-
+		<small><small>
 		<p class='text-info'>Sinónimo(s)</p>
-		<small><small><ul>
+		<ul>
 		<% objeto.filo_sinonimos.each do |sino| %>
 			<% unless sino.especie.blank? %>
 			<li>
@@ -17,8 +16,9 @@
 		<% end %>		
 		</ul></small></small>
 
+		<small><small>
 		<p class='text-info'>Categoría(s)</p>
-		<small><small><ul>
+		<ul>
 		<% objeto.h_categorias.keys.sort.each do |h_key| %>
 			<li>
 				<%= h_key.to_s %> | <%= objeto.h_categorias[h_key].length %>
