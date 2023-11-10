@@ -6,7 +6,7 @@
 		<% unless objeto.children.empty? %>
 			<div class="sub_especie" style="padding-left: 1em">
 				<% objeto.children.each do |sub_especie| %>
-					<small><%= render partial: 'taxonomia/filo_especies/taxonomia/titulo_ficha_especie', locals: {objeto: sub_especie} %></small>
+					<small><%= render partial: 'taxonomia/filo_especies/taxonomia/titulo_ficha_especie', locals: {objeto: sub_especie} %></small></br>
 				<% end %>
 			</div>
 		<% end %>
