@@ -6,6 +6,9 @@
 			<% if especie.especies.any? %>
 				<%= link_to especie.especies.first, title: 'etiqueta', 'data-toggle' => 'tooltip', 'data-placement' => 'right' do %>
 					<i class="bi bi-tag"></i>
+					<% if especie.especies.first.filo_sinonimo.present? %>
+						<i class="bi bi-back text-primary"></i>
+					<% end %>
 				<% end %>
 			<% end %> | 
 			<% unless especie.especies.count == 0 %>
@@ -18,6 +21,9 @@
 					<% if sub_especie.especies.any? %>
 						<%= link_to sub_especie.especies.first, title: 'etiqueta', 'data-toggle' => 'tooltip', 'data-placement' => 'right' do %>
 							<i class="bi bi-tag"></i>
+							<% if sub_especie.especies.first.filo_sinonimo.present? %>
+								<i class="bi bi-back text-primary"></i>
+							<% end %>
 						<% end %>
 					<% end %> | 
 					<% unless sub_especie.especies.count == 0 %>
