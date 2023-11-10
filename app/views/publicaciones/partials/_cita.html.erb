@@ -7,8 +7,8 @@
 	<p class="text-danger">Esta publicación puede ya existir en la colección!: la colección contiene publicación(nes) con el mismo <i>doi</i></p>
 	<small>
 	<ul>
-		<% @duplicados.each do |duplicado| %>
-			<li><%= link_to duplicado.m_quote, duplicado %></li>
+		<% @duplicados_doi.each do |duplicado| %>
+			<li><i class="bi bi-exclamation-triangle text-danger"></i> <%= link_to duplicado.m_quote, duplicado %></li>
 		<% end %>
 	</ul>
 	</small>
@@ -19,7 +19,12 @@
 	<small>
 	<ul>
 		<% @duplicados_t_sha1.each do |duplicado| %>
-			<li><%= link_to duplicado.m_quote, duplicado %></li>
+			<li>
+				<% if duplicado.m_quote == @objeto.m_quote %>
+					<i class="bi bi-exclamation-triangle text-danger"></i>
+				<% end %> 
+				<%= link_to duplicado.m_quote, duplicado %>
+			</li>
 		<% end %>
 	</ul>
 	</small>
