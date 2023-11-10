@@ -2,7 +2,7 @@
 
 <div class="row">
 	<div class="col-xs-12 col-lg-6">
-		<%= render partial: 'taxonomia/filo_especies/taxonomia/titulo_ficha_especie', locals: {objeto: objeto} %>
+		<h5><%= render partial: 'taxonomia/filo_especies/taxonomia/titulo_ficha_especie', locals: {objeto: objeto} %></h5>
 		<% unless objeto.children.empty? %>
 			<div class="sub_especie" style="padding-left: 1em">
 				<% objeto.children.each do |sub_especie| %>
