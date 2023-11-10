@@ -12,6 +12,7 @@
 		<% end %>
 		<%= image_tag objeto.imagenes.last.imagen.half.url, class: 'img-fluid' %>
 	</div>
+	</br>
 	<div class="col-lg-6">
 		<small>
 		<p class='text-info'>Sinónimo(s)</p>
@@ -38,6 +39,7 @@
 		</ul></small></small>
 	</div>
 </div>
-<p class="text-info">Publicaciones por año</p>
+
+<p class="text-info">Publicaciones de la especie por año</p>
 <%= bar_chart @grafico %>
 <hr>
