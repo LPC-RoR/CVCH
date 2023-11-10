@@ -1,0 +1,32 @@
+<h5>
+<i class="bi bi-bug text-<%= objeto.revisar ? 'danger' : (objeto.link_fuente.present? ? 'info' : 'dark') %>"></i>
+
+<%= link_to objeto.filo_especie, "/publicos/especies?indice=#{objeto.id}", title: 'Ficha especie', 'data-toggle' => 'tooltip', 'data-placement' => 'right' %>
+
+<small>
+<% if objeto.link_fuente.present? %>
+	<%= link_to objeto.link_fuente, target: '_blank', title: 'MMA', 'data-toggle' => 'tooltip', 'data-placement' => 'right' do %>
+		<i class="bi bi-box-arrow-up-right"></i>
+	<% end %>
+<% end %>
+
+<% unless objeto.n_pubs == 0 %>
+	<%= link_to "/publicos/publicaciones?indice=#{objeto.id}", title: 'Publicaciones especie', 'data-toggle' => 'tooltip', 'data-placement' => 'right' do %>
+		<i class="bi bi-files"></i>
+	<% end %>
+<% end %>
+
+<% if objeto.especie_sinonimo? %>
+	<i class="bi bi-question-diamond text-danger"></i>
+<% end %>
+
+<%= ": #{objeto.n_pubs}" %>
+
+<% unless objeto.sinonimia.blank? %>
+	<i class="bi bi-collection text-<%= objeto.filo_sinonimos.empty? ? 'danger' : 'info'%>"></i>
+<% end %>
+<% unless objeto.children.empty? %>
+	<i class="bi bi-bug text-info"></i>
+<% end %>
+</small>
+</h5>
