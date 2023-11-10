@@ -36,13 +36,12 @@ class PublicacionesController < ApplicationController
     @categorias_disponibles = Categoria.where(id: categorias_disponibles_ids)
 
     # ********************** DUPLICADOS *****************************
+    duplicados_doi_ids = @objeto.doi.present? ? (Publicacion.where(doi: @objeto.doi).ids - [@objeto.id]) : []
+    duplicados_t_sha1_ids = @objeto.title.present? ? (Publicacion.where(t_sha1: @objeto.t_sha1).ids - [@objeto.id]) : []
 
-    @duplicados_doi_ids = @objeto.doi.present? ? (Publicacion.where(doi: @objeto.doi).ids - [@objeto.id]) : []
-    @duplicados_t_sha1_ids = @objeto.title.present? ? (Publicacion.where(t_sha1: @objeto.t_sha1).ids - [@objeto.id]) : []
-
-    @duplicados_ids = @duplicados_doi_ids.union(@duplicados_t_sha1_ids)
-
-    @duplicados = @duplicados_ids.empty? ? nil : Publicacion.where(id: @duplicados_ids)
+    @duplicados_doi = Publicacion.where(id: duplicados_doi_ids)
+    @duplicados_t_sha1 = Publicacion.where(id: duplicados_t_sha1_ids)
+    # ********************** DUPLICADOS *****************************
 
     @coleccion = {}
     @coleccion['app_observaciones'] = @objeto.observaciones.order(created_at: :desc)
