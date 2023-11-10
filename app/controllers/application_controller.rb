@@ -11,6 +11,8 @@ class ApplicationController < ActionController::Base
 
 	include ProcesaEstructura
 
+	include Taxonomia
+
 	before_action :init_bandejas, only: %i[ new edit show index create tablas update]
 
 	helper_method :dog?, :admin?, :nomina?, :general?, :anonimo?, :seguridad_desde, :dog_email, :dog_name, :perfil?, :perfil_activo, :perfil_activo_id, :mi_seguridad?, :publico?
@@ -18,6 +20,8 @@ class ApplicationController < ActionController::Base
 	helper_method :uf_del_dia, :uf_fecha, :limpia_nombre
 
 	helper_method :lexer
+
+	helper_method :especie_a_estructura
 
 	# ************************************************************************** COLECCINES DE ESTADOS
  

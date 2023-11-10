@@ -96,9 +96,10 @@ class EspeciesController < ApplicationController
     unless params[:especie_base][:especie].blank?
       especie_name = params[:especie_base][:especie].gsub(/\t|\r|\n/, ' ').strip.downcase
       especie      = Especie.find_by(especie: especie_name)
-
+      
       if especie.blank?
-        especie    = Especie.create(especie: especie_name)
+        especie    = Especie.create(especie: especie_name) 
+        especie_a_estructura(especie)
       end
 
       unless elemento.especies.ids.include?(especie.id)
@@ -107,6 +108,7 @@ class EspeciesController < ApplicationController
         etiqueta = Etiqueta.where(publicacion_id: elemento.id).find_by(especie_id: especie.id)
         etiqueta.asociado_por = perfil_activo_id
         etiqueta.save
+
         noticia = "Se ha etiquetado exitósamente esta publicación"
       else
         noticia = "Error de etiquetado: Especie ya fue etiquetada en esta publicacion"
