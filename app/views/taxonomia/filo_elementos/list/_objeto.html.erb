@@ -2,7 +2,12 @@
 	<i class="bi bi-diagram-3"></i> [ <b><%= objeto.filo_orden.filo_orden %></b> ] <%= objeto.filo_elemento %></br>
 	<% objeto.filo_especies.each do |especie| %>
 		<div class="especies" style="padding-left: 1em">
-			<i class="bi bi-bug"></i> <%= especie.filo_especie %> | 
+			<i class="bi bi-bug"></i> <%= especie.filo_especie %> 
+			<% if especie.especies.any? %>
+				<%= link_to especie.especies.first, title: 'etiqueta', 'data-toggle' => 'tooltip', 'data-placement' => 'right' do %>
+					<i class="bi bi-tag"></i>
+				<% end %>
+			<% end %> | 
 			<% unless especie.especies.count == 0 %>
 				<%= especie.especies.first.publicaciones.count %>
 			<% end %>
