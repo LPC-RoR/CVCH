@@ -14,7 +14,12 @@
 			</br>
 			<% especie.children.each do |sub_especie| %>
 				<div class="sub_especies" style="padding-left: 2em">
-					<i class="bi bi-bug-fill"></i> <%= sub_especie.filo_especie %> | 
+					<i class="bi bi-bug-fill"></i> <%= sub_especie.filo_especie %>
+					<% if sub_especie.especies.any? %>
+						<%= link_to sub_especie.especies.first, title: 'etiqueta', 'data-toggle' => 'tooltip', 'data-placement' => 'right' do %>
+							<i class="bi bi-tag"></i>
+						<% end %>
+					<% end %> | 
 					<% unless sub_especie.especies.count == 0 %>
 						<%= sub_especie.especies.first.publicaciones.count %>
 					<% end %>
