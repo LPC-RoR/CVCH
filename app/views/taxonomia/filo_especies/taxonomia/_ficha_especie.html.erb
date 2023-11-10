@@ -1,9 +1,10 @@
-<h4 class="text-info">Especie destacada de nuestra coleccion Taxonomía</h4>
+<h5 class="text-info">Especie destacada de nuestra coleccion Taxonomía</h5>
 
 <div class="row">
 	<div class="col-xs-12 col-lg-6">
 		<%= render partial: 'taxonomia/filo_especies/taxonomia/titulo_ficha_especie', locals: {objeto: objeto} %>
 		<%= image_tag objeto.imagenes.last.imagen.half.url, class: 'img-fluid' %>
+		<%= bar_chart @grafico %>
 	</div>
 	<div class="col-lg-6">
 		<small>
@@ -32,3 +33,4 @@
 	</div>
 </div>
 <%= bar_chart @grafico %>
+<hr>
