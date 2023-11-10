@@ -83,28 +83,30 @@ class Aplicacion::AppRecursosController < ApplicationController
     n_cvch = FiloEspecie.where(link_fuente: nil).count
 
 
-    Especie.all.each do |especie|
-      if especie.filo_especie.blank?
-        palabras = especie.especie.split(' ')
-        if palabras.length == 2
-          genero = FiloElemento.find_by(filo_elemento: palabras[0].strip.downcase)
-          unless genero.blank?
-            filo_especie = genero.filo_especies.create(filo_especie: especie.especie.strip.downcase)
-            filo_especie.especies << especie
-          end
-        elsif palabras.length == 3
-          genero = FiloElemento.find_by(filo_elemento: palabras[0].strip.downcase)
-          unless genero.blank?
-            s_filo_especie = "#{palabras[0].strip.downcase} #{palabras[1].strip.downcase}"
-            filo_especie = FiloEspecie.find_by(filo_especie: s_filo_especie)
-            filo_especie = genero.filo_especies.create(filo_especie: s_filo_especie) if filo_especie.blank?
-            unless filo_especie.blank?
-              sub_especie = FiloEspecie.create(filo_especie: especie.especie.strip.downcase)
-              filo_especie.children << sub_especie
-              sub_especie.especies << especie
-            end
-          end
+    Especie.where(filo_especie_id: nil).each do |especie|
+      nombre_especie = especie.especie.downcase.strip
+      filo_especie = FiloEspecie.find_by(filo_especie: nombre_especie)
+      if filo_especie.blank?
+        palabras = especie.especie.downcase.split(' ')
+        genero = FiloElemento.find_by(filo_elemento: palabras[0])
+        if genero.blank?
+          orden_id = FiloOrden.find_by(filo_orden: 'Género').id
+          genero = FiloElemento.create(filo_orden_id: orden_id, filo_elemento: palabras[0], revisar: true)
         end
+        if palabras.length == 2
+          filo_especie = genero.filo_especies.create(filo_especie: nombre_especie)
+          filo_especie.especies << especie
+        else
+          s_filo_especie = "#{palabras[0]} #{palabras[1]}"
+          filo_especie = FiloEspecie.find_by(filo_especie: s_filo_especie)
+          filo_especie = genero.filo_especies.create(filo_especie: s_filo_especie) if filo_especie.blank?
+
+          sub_especie = FiloEspecie.create(filo_especie: nombre_especie)
+          filo_especie.children << sub_especie
+          sub_especie.especies << especie
+        end
+      else
+        filo_especie.especies << especie
       end
     end
 

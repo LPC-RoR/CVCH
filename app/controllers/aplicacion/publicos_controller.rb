@@ -11,7 +11,7 @@ class Aplicacion::PublicosController < ApplicationController
 
   def taxonomia
     if params[:indice].blank?
-      base_ids = FiloElemento.all.map {|fe| fe.id unless fe.parent.present?}.compact
+      base_ids = FiloElemento.all.map {|fe| fe.id unless (fe.parent.present? or fe.revisar == true)}.compact
       init_tabla('base-filo_elementos', FiloElemento.where(id: base_ids).order(:filo_elemento), false)
       @padres_ids = nil
     else
@@ -37,6 +37,11 @@ class Aplicacion::PublicosController < ApplicationController
       @hermanos = FiloElemento.where(id: hermanos_ids).order(:filo_elemento)
 
     end      
+  end
+
+  def huerfanas
+      base_ids = FiloElemento.all.map {|fe| fe.id unless (fe.parent.present? or fe.revisar == false)}.compact
+      init_tabla('filo_elementos', FiloElemento.where(id: base_ids).order(:filo_elemento), true)
   end
 
   def especies

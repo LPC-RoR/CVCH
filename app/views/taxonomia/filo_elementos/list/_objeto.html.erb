@@ -1,0 +1,13 @@
+<small>
+	<i class="bi bi-diagram-3"></i> <%= objeto.filo_elemento %></br>
+	<% objeto.filo_especies.each do |especie| %>
+		<div class="especies" style="padding-left: 1em">
+			<i class="bi bi-bug"></i> <%= especie.filo_especie %></br>
+			<% especie.children.each do |sub_especie| %>
+				<div class="sub_especies" style="padding-left: 2em">
+					<i class="bi bi-bug-fill"></i> <%= sub_especie.filo_especie %></br>
+				</div>
+			<% end %>
+		</div>
+	<% end %>
+</small>
