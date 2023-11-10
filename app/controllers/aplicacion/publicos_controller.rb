@@ -9,6 +9,22 @@ class Aplicacion::PublicosController < ApplicationController
     add_tabla( 'tema_ayudas', TemaAyuda.where(tipo: 'inicio').where(activo: true).order(:orden), false )
 
     @ultima_especie = FiloEspecie.find_by(id: 478)
+    unless @ultima_especie.blank?
+      publicaciones = @ultima_especie.publicaciones.order(:year)
+      @grafico = {}
+      primero = publicaciones.first.year.to_i
+      ultimo = publicaciones.last.year.to_i
+
+      for valor in primero..ultimo do
+        label = (valor/10).truncate()*10
+        @grafico[label] = 0 if @grafico[label].blank?
+      end
+
+      publicaciones.each do |pub|
+        label = (pub.year.to_i/10).truncate()*10
+        @grafico[label] += 1 unless pub.year.blank?
+      end
+    end
   end
 
   def taxonomia
