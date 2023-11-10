@@ -12,9 +12,7 @@
 			<hr>
 		</div>
 
-		<% if dog? %>
-			<%= render partial: 'taxonomia/filo_especies/taxonomia/ficha_especie', locals: {objeto: @ultima_especie} unless @ultima_especie.blank? %>
-		<% end %>
+		<%= render partial: 'taxonomia/filo_especies/taxonomia/ficha_especie', locals: {objeto: @ultima_especie} unless @ultima_especie.blank? %>
 
 		<div class="notas">
 			<%= render partial: '0blog/nota_h', locals: {articulo: BlgArticulo.find_by(blg_articulo: 'CVCh')} %>
