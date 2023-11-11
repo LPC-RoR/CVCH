@@ -3,6 +3,9 @@
 	<% objeto.filo_especies.each do |especie| %>
 		<div class="especies" style="padding-left: 1em">
 			<i class="bi bi-bug"></i> <%= especie.filo_especie %> 
+			<% if especie.especies.first.present? and especie.especies.first.filo_sinonimo.present? %>
+				[ <%= link_to especie.especies.first.filo_sinoonimo.filo_especie.filo_especie, "/taxonomia/especie?indice=#{especie.especies.first.filo_sinoonimo.filo_especie.id}" %> ]
+			<% end %> 
 			<% if especie.especies.any? %>
 				<%= link_to especie.especies.first, title: 'etiqueta', 'data-toggle' => 'tooltip', 'data-placement' => 'right' do %>
 					<i class="bi bi-tag"></i>
@@ -18,6 +21,9 @@
 			<% especie.children.each do |sub_especie| %>
 				<div class="sub_especies" style="padding-left: 2em">
 					<i class="bi bi-bug-fill"></i> <%= sub_especie.filo_especie %>
+					<% if sub_especie.especies.first.present? and sub_especie.especies.first.filo_sinonimo.present? %>
+						[ <%= link_to sub_especie.especies.first.filo_sinoonimo.filo_especie.filo_especie, "/taxonomia/especie?indice=#{sub_especie.especies.first.filo_sinoonimo.filo_especie.id}" %> ]
+					<% end %> 
 					<% if sub_especie.especies.any? %>
 						<%= link_to sub_especie.especies.first, title: 'etiqueta', 'data-toggle' => 'tooltip', 'data-placement' => 'right' do %>
 							<i class="bi bi-tag"></i>
