@@ -1,19 +1,3 @@
 <%= render partial: 'especies/header' %>
 
-<div class='row'>
-	<div class='col-md-6'>
-		<%= render partial: '0p/tabla/tabla', locals: {c: 'publicaciones'} %>
-	</div>
-	<div class='col-md-6'>
-		<div class='row'>
-			<div class='col-md-6'>
-				<%#= render partial: '0p/list/action_list', locals: {nombre: 'Asignadas', gly: 'card-checklist', clr: 'info', coleccion: @coleccion['areas'], field: 'area', link: '/desasignar', gly_link: 'x-circle', base: true, action: seguridad_desde('admin')} %>
-			</div>
-			<div class='col-md-6'>
-				<% if seguridad_desde('admin') %>
-					<%#= render partial: '0p/list/action_list', locals: {nombre: 'Disponibles', gly: 'card-list', clr: 'info', coleccion: @areas_seleccion, field: 'area', link: '/asigna', gly_link: 'plus-circle', base: true, action: true} %>
-				<% end %>
-			</div>
-		</div>
-	</div>
-</div>
+<%= render partial: '0p/tabla/tabla', locals: {c: 'publicaciones'} %>

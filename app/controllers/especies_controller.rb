@@ -35,19 +35,6 @@ class EspeciesController < ApplicationController
     @options = {'tab' => @tab}
 
     init_tabla('publicaciones', @objeto.publicaciones.where(estado: 'publicada').order(sort_column + " " + sort_direction), true)
-#    @coleccion = {}
-#    @coleccion['publicaciones'] = @objeto.publicaciones.where(estado: 'publicada').order(sort_column + " " + sort_direction).page(params[:page])
-
-    #aqui tengo que acceder a la lista de áreas disponibles para una especie
-    areas_seleccion = []
-    @objeto.publicaciones.each do |publicacion|
-      areas_seleccion << publicacion.areas.map {|a| a.area}
-    end
-
-    @areas_seleccion = Area.find(Area.all.ids - @objeto.areas.ids)
-
-    add_tabla('areas', @objeto.areas, false)
-#    @coleccion['areas'] = @objeto.areas
   end
 
   # GET /especies/new
