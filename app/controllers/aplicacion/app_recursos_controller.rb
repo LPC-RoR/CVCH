@@ -82,15 +82,15 @@ class Aplicacion::AppRecursosController < ApplicationController
     n_sub_especies = FiloEspecie.where(filo_elemento_id: nil).count
     n_cvch = FiloEspecie.where(link_fuente: nil).count
 
-    base_ids = FiloElemento.all.map {|fe| fe.id unless (fe.parent.present? or fe.revisar == false)}.compact
-    FiloElemento.where(id: base_ids).each do |genero|
-      genero.delete if genero.filo_especies.empty?
+#    base_ids = FiloElemento.all.map {|fe| fe.id unless (fe.parent.present? or fe.revisar == false)}.compact
+#    FiloElemento.where(id: base_ids).each do |genero|
+#      genero.delete if genero.filo_especies.empty?
 #      genero.filo_especies.each do |filo_especie|
 #        filo_especie.delete if filo_especie.especies.empty?
 #      end
-    end
+#    end
 
-    Especie.all.each do |especie|
+    Especie.where(filo_especie_id: nil).each do |especie|
       if especie.publicaciones.empty?
         especie.delete
       else
