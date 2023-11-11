@@ -83,8 +83,12 @@ class Aplicacion::AppRecursosController < ApplicationController
     n_cvch = FiloEspecie.where(link_fuente: nil).count
 
 
-    Especie.where(filo_especie_id: nil).each do |especie|
-      especie_a_estructura(especie)
+    Especie.all.each do |especie|
+      if especie.publicaciones.empty?
+        especie.delete
+      else
+        especie_a_estructura(especie)
+      end
     end
 
     redirect_to root_path, notice: "#{n_especies} : #{n_sin_padre} | #{n_filo_especies} : #{n_sub_especies} : #{n_cvch}"
