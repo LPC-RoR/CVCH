@@ -3,6 +3,7 @@ module Taxonomia
 
 	def especie_a_estructura(especie)
 		if especie.publicaciones.empty?
+			especie.etiquetas.delete_all
 			filo_especie = especie.filo_especie
 			especie.delete
 			unless filo_especie.blank?

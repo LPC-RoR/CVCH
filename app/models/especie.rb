@@ -18,9 +18,6 @@ class Especie < ApplicationRecord
 	has_many :etiquetas
 	has_many :publicaciones, through: :etiquetas
 
-	has_many :esp_areas
-	has_many :areas, through: :esp_areas
-
 	# ************************* Taxonomia
 	def propia?
 		self.filo_especie.blank? ? false : self.especie == self.filo_especie.filo_especie
