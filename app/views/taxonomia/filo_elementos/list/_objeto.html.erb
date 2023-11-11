@@ -4,7 +4,7 @@
 		<div class="especies" style="padding-left: 1em">
 			<i class="bi bi-bug"></i> <%= especie.filo_especie %> 
 			<% if especie.especies.first.present? and especie.especies.first.filo_sinonimo.present? %>
-				<b>[ <i class="bi bi-arrow-right"></i> <%= especie.especies.first.filo_sinonimo.filo_especies.map {|esp| esp.filo_especie}.join('+') %> ]</b>
+				<b>[ <i class="bi bi-arrow-right"></i> <%= especie.especies.first.filo_sinonimo.filo_especies.map {|esp| esp.filo_especie}.join(' + ') %> ]</b>
 			<% end %> 
 			<% if especie.especies.any? %>
 				<%= link_to especie.especies.first, title: 'etiqueta', 'data-toggle' => 'tooltip', 'data-placement' => 'right' do %>
@@ -22,7 +22,7 @@
 				<div class="sub_especies" style="padding-left: 2em">
 					<i class="bi bi-bug-fill"></i> <%= sub_especie.filo_especie %>
 					<% if sub_especie.especies.first.present? and sub_especie.especies.first.filo_sinonimo.present? %>
-						<b>[ <i class="bi bi-arrow-right"></i> <%= sub_especie.especies.first.filo_sinonimo.filo_especies.map {|esp| esp.filo_especie}.join('+') %> ]</b>
+						<b>[ <i class="bi bi-arrow-right"></i> <%= sub_especie.especies.first.filo_sinonimo.filo_especies.map {|esp| esp.filo_especie}.join(' + ') %> ]</b>
 					<% end %> 
 					<% if sub_especie.especies.any? %>
 						<%= link_to sub_especie.especies.first, title: 'etiqueta', 'data-toggle' => 'tooltip', 'data-placement' => 'right' do %>
