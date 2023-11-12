@@ -3,3 +3,8 @@
 <%= objeto.especie %> [ <%= objeto.filo_sinonimo.tipo %> ]
 </small>
 </br>
+<% objeto.filo_sinonimo.filo_especies.each do |filo_especie| %>
+	<div class="filo_especies_sinonimo" style="padding-left: 1em;">
+		<i class="bi bi-bug"></i> <%= filo_especie.filo_especie %></br>
+	</div>
+<% end %>
