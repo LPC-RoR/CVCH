@@ -91,6 +91,7 @@ class Aplicacion::AppRecursosController < ApplicationController
     end
 
     Especie.where(filo_especie_id: nil).each do |especie|
+#    Especie.all.each do |especie|
       if especie.publicaciones.empty?
         especie.delete
       else
