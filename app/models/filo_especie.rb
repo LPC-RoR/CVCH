@@ -148,7 +148,7 @@
 	def huerfana?
 		if self.parent.present?
 			self.parent.filo_elemento.parent.blank?
-		elsif self.filo_elemento.present
+		elsif self.filo_elemento.present?
 			self.filo_elemento.parent.blank?
 		end
 	end
