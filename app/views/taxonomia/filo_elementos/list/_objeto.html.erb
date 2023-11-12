@@ -18,9 +18,11 @@
 
 			<% if especie.especies.any? %>
 				<% if especie.especies.first.filo_sinonimo.present? %>
-					<% especie.especies.first.filo_sinonimo.filo_especies.each do |fe_base| %>
-						<b><i class="bi bi-arrow-right"></i> <%= link_to fe_base.filo_especie, "/taxonomia/especie?indice=#{fe_base.id}" %></b></br>
-					<% end %>
+					<div class="especie_base" style="padding-left: 2em">
+						<% especie.especies.first.filo_sinonimo.filo_especies.each do |fe_base| %>
+							<b><i class="bi bi-arrow-right"></i> <%= link_to fe_base.filo_especie, "/taxonomia/especies?indice=#{fe_base.id}" %></b></br>
+						<% end %>
+					</div>
 				<% end %>
 			<% end %>
 
