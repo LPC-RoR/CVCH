@@ -84,10 +84,10 @@ class Aplicacion::AppRecursosController < ApplicationController
 
     base_ids = FiloElemento.all.map {|fe| fe.id unless (fe.parent.present? or fe.revisar == false)}.compact
     FiloElemento.where(id: base_ids).each do |genero|
-      genero.delete if genero.filo_especies.empty?
       genero.filo_especies.each do |filo_especie|
         filo_especie.delete if filo_especie.especies.empty?
       end
+      genero.delete if genero.filo_especies.empty?
     end
 
     Especie.where(filo_especie_id: nil).each do |especie|
