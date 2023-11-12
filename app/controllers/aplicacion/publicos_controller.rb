@@ -61,7 +61,7 @@ class Aplicacion::PublicosController < ApplicationController
       base_ids = FiloElemento.all.map {|fe| fe.id unless (fe.parent.present? or fe.revisar == false)}.compact
       init_tabla('filo_elementos', FiloElemento.where(id: base_ids).order(:filo_elemento), true)
 
-      add_tabla('especies', Especie.where.not(filo_sinonimo_id: nil), false)
+      add_tabla('especies', Especie.where.not(filo_sinonimo_id: nil).order(:especie), false)
   end
 
   def especies

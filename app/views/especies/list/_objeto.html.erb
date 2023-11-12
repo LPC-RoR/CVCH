@@ -1,10 +1,10 @@
 <small>
 <i class="bi bi-tag"></i> 
-<%= objeto.especie %> [ <%= objeto.filo_sinonimo.tipo %> ]
+<%= objeto.especie %>
 </br>
-<% objeto.filo_sinonimo.filo_especies.each do |filo_especie| %>
+<% objeto.filo_sinonimo.filo_esp_sinos.each do |rel| %>
 	<div class="filo_especies_sinonimo" style="padding-left: 1em;">
-		<i class="bi bi-arrow-right"></i> <i class="bi bi-bug"></i> <%= filo_especie.filo_especie %></br>
+		<i class="bi bi-arrow-right"></i> <i class="bi bi-bug"></i> <%= rel.filo_especie.filo_especie %> [ <%= rel.tipo %> ]</br>
 	</div>
 <% end %>
 </small>
