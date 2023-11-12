@@ -4,7 +4,7 @@
 </br>
 <% objeto.filo_sinonimo.filo_esp_sinos.each do |rel| %>
 	<div class="filo_especies_sinonimo" style="padding-left: 1em;">
-		<i class="bi bi-arrow-right"></i> <i class="bi bi-bug"></i></br>
+		<i class="bi bi-arrow-right"></i> <i class="bi bi-bug"></i> <%= rel.filo_sinonimo.filo_especie.filo_especie %></br>
 	</div>
 <% end %>
 </small>
