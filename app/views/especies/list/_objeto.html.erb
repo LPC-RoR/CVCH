@@ -1,10 +1,10 @@
 <small>
 <i class="bi bi-tag"></i> 
-<%= objeto.especie %> [ <%= objeto.filo_sinonimo.filo_esp_sinos.map {|fes| fes.tipo}.uniq.join(' + ') %> ]
+<%= link_to objeto.especie, objeto %> [ <%= objeto.filo_sinonimo.filo_esp_sinos.map {|fes| fes.tipo}.uniq.join(' + ') %> ]
 </br>
 <% objeto.filo_sinonimo.filo_esp_sinos.each do |rel| %>
 	<div class="filo_especies_sinonimo" style="padding-left: 1em;">
-		<i class="bi bi-arrow-right"></i> <i class="bi bi-bug"></i> <%= rel.filo_especie.filo_especie %></br>
+		<i class="bi bi-arrow-right"></i> <i class="bi bi-bug"></i> <%= link_to rel.filo_especie.filo_especie, "/publicos/especies?indice=#{rel.filo_especie.id}" %></br>
 	</div>
 <% end %>
 </small>
