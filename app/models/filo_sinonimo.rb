@@ -14,7 +14,7 @@ class FiloSinonimo < ApplicationRecord
 	end
 
 	def sinonimo_especie?
-		self.especie.blank? ? false : self.especie.filo_especie.present?
+		self.especie.blank? ? false : ( self.especie.filo_especie.present? and (not self.especie.filo_especie.huerfana?) )
 	end
 
 	def nombre
