@@ -35,6 +35,6 @@
 <% if objeto.especie_sinonimo? %>
 	<h6 class='text-danger'>
 		<i class="bi bi-exclamation-diamond"></i>
-		Esta especie esta en la sinonimia de la especie <%= objeto.especie_padre.filo_especie %>
+		Esta especie esta en la sinonimia de la especie <%= link_to objeto.especie_padre.filo_especie, objeto.especie_padre %>
 	</h6>
 <% end %>
