@@ -1,6 +1,6 @@
 <small>
 <i class="bi bi-tag"></i> 
-<%= link_to objeto.especie, objeto %> [ <%= objeto.filo_sinonimo.filo_esp_sinos.map {|fes| fes.tipo}.uniq.join(' + ') %> ]
+[ <%= objeto.filo_sinonimo.filo_esp_sinos.map {|fes| fes.tipo}.uniq.join(' + ') %> ] <%= link_to objeto.especie, objeto %>
 </br>
 <% objeto.filo_sinonimo.filo_esp_sinos.each do |rel| %>
 	<div class="filo_especies_sinonimo" style="padding-left: 1em;">
