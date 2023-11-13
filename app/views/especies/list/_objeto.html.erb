@@ -5,9 +5,11 @@
 <% end %>
 <%= link_to objeto.especie, objeto %></b>
 </br>
-<% objeto.filo_sinonimo.filo_esp_sinos.each do |rel| %>
-	<div class="filo_especies_sinonimo" style="padding-left: 1em;">
-		<i class="bi bi-arrow-right"></i> <i class="bi bi-bug"></i> <%= link_to rel.filo_especie.filo_especie, "/publicos/especies?indice=#{rel.filo_especie.id}" %></br>
-	</div>
+<% unless objeto.filo_sinonimo.blank? %>
+	<% objeto.filo_sinonimo.filo_esp_sinos.each do |rel| %>
+		<div class="filo_especies_sinonimo" style="padding-left: 1em;">
+			<i class="bi bi-arrow-right"></i> <i class="bi bi-bug"></i> <%= link_to rel.filo_especie.filo_especie, "/publicos/especies?indice=#{rel.filo_especie.id}" %></br>
+		</div>
+	<% end %>
 <% end %>
 </small>
