@@ -60,9 +60,13 @@ class Aplicacion::PublicosController < ApplicationController
   def huerfanas
 #      base_ids = FiloElemento.all.map {|fe| fe.id unless (fe.parent.present? or fe.revisar == false)}.compact
 #      init_tabla('filo_elementos', FiloElemento.where(id: base_ids).order(:filo_elemento), true)
-      init_tabla('huerfanas-especies', Especie.where(filo_sinonimo_id:nil, filo_especie_id: nil).order(:especie), false)
+    init_tab( { tab: ['Etiquetas por clasificar', 'Etiquetas de sinónimos'] }, true )
 
-      add_tabla('sinonimos-especies', Especie.where.not(filo_sinonimo_id: nil).order(:especie), false)
+    if @options[:tab] == 'Etiquetas por clasificar'
+      init_tabla('huerfanas-especies', Especie.where(filo_sinonimo_id:nil, filo_especie_id: nil).order(:especie), true)
+    elsif @options[:tab] == 'Etiquetas de sinónimos'
+      init_tabla('sinonimos-especies', Especie.where.not(filo_sinonimo_id: nil).order(:especie), true)
+    end
   end
 
   def especies
