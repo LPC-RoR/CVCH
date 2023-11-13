@@ -58,9 +58,9 @@ class Aplicacion::PublicosController < ApplicationController
   end
 
   def huerfanas
-#      base_ids = FiloElemento.all.map {|fe| fe.id unless (fe.parent.present? or fe.revisar == false)}.compact
-#      init_tabla('filo_elementos', FiloElemento.where(id: base_ids).order(:filo_elemento), true)
-      init_tabla('huerfanas-especies', Especie.where(filo_sinonimo_id:nil, filo_especie_id: nil), true)
+      base_ids = FiloElemento.all.map {|fe| fe.id unless (fe.parent.present? or fe.revisar == false)}.compact
+      init_tabla('filo_elementos', FiloElemento.where(id: base_ids).order(:filo_elemento), true)
+      add_tabla('huerfanas-especies', Especie.where(filo_sinonimo_id:nil, filo_especie_id: nil), false)
 
       add_tabla('sinonimos-especies', Especie.where.not(filo_sinonimo_id: nil).order(:especie), false)
   end
