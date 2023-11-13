@@ -51,6 +51,10 @@
 
 	# **** TAXOMOMÍA
 
+	def genero
+		self.parent.blank? ? self.filo_elemento : self.parent.filo_elemento
+	end
+
 	def fs_equivalentes
 		e_ids = self.filo_esp_sinos.where(tipo: 'equivalente').map {|fes| fes.filo_sinonimo.id}
 		FiloSinonimo.where(id: e_ids)

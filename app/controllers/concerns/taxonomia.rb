@@ -13,6 +13,27 @@ module Taxonomia
 					genero.delete if genero.parent.blank?
 				end
 			end
+		elsif especie.filo_sinonimo.present? and especie.filo_especie.present?
+			if especie.filo_especie.genero.filo_elemento.blank? and especie.filo_especie.genero.revisar == true
+				filo_especie = especie.filo_especie
+				filo.especie.especies.delete(especie)
+				if filo_especie.parent.present?
+					especie_padre = filo_especie.parent
+					filo_especie.delete
+					genero = especie_padre.filo_elemento
+					especie_padre.delete if especie_padre.children.empty?
+				else
+					genero = filo_especie.filo_elemento
+					filo_especie.delete
+				end
+				genero.delete if genero.filo_especies.empty?
+			else
+				filo_especie = especie.filo_especie
+				if filo_especie.children.empty? and filo_especie.link_fuente.blank?
+					filo_especie.especies.delete(especie)
+					filo_especie.delete
+				end
+			end
 		else
 			nombre_especie = especie.especie.downcase.strip
 			filo_especie = FiloEspecie.find_by(filo_especie: nombre_especie)
