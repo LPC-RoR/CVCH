@@ -82,6 +82,25 @@ class Aplicacion::AppRecursosController < ApplicationController
     n_sub_especies = FiloEspecie.where(filo_elemento_id: nil).count
     n_cvch = FiloEspecie.where(link_fuente: nil).count
 
+    base_ids = FiloElemento.all.map {|fe| fe.id unless (fe.parent.present? or fe.revisar == false)}.compact
+    FiloElemento.where(id: base_ids).each do |genero_huerfano|
+      genero_huerfano.filo_especies.each do |f_especie|
+        f_especie.children.each do |f_sub_especie|
+          f_sub_especie.especies.each do |especie|
+            f_sub_especie.especies.delete(especie)
+          end
+          f_especie.children.delete(f_sub_especie)
+          f_sub_especie.delete
+        end
+
+        f_especie.especies.each do |especie|
+          f_especie.especies.delete(especie)
+        end
+        f_especie.delete
+      end
+      genero_huerfano.delete
+    end
+
 #    Especie.where(filo_especie_id: nil).each do |especie|
     Especie.all.each do |especie|
       if especie.publicaciones.empty?
