@@ -14,7 +14,7 @@ module Taxonomia
 				end
 			end
 		elsif especie.filo_sinonimo.present? and especie.filo_especie.present?
-			if especie.filo_especie.genero.filo_elemento.blank? and especie.filo_especie.genero.revisar == true
+			if especie.filo_especie.genero.present? and especie.filo_especie.genero.filo_elemento.blank? and especie.filo_especie.genero.revisar == true
 				filo_especie = especie.filo_especie
 				filo.especie.especies.delete(especie)
 				if filo_especie.parent.present?
