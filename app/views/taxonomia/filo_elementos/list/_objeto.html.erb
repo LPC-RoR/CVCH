@@ -1,5 +1,12 @@
 <small>
-	<b><i class="bi bi-diagram-3 <%= 'text-danger' if objeto.revisar %>"></i> [ <%= objeto.filo_orden.filo_orden %> ] <%= objeto.filo_elemento %></b></br>
+	<b>
+		<i class="bi bi-diagram-3 <%= 'text-danger' if objeto.revisar %>"></i> 
+		[ <%= objeto.filo_orden.filo_orden %> ] 
+		<%= objeto.filo_elemento %> 
+		<% if dog? %>
+			<small><%= render partial: '0p/tabla/links_e', locals: {objeto: objeto} %></small>
+		<% end %>
+	</b></br>
 	<% objeto.filo_especies.each do |especie| %>
 		<div class="especies" style="padding-left: 1em">
 			<i class="bi bi-bug"></i> <%= especie.filo_especie %> 

@@ -55,7 +55,7 @@ module CptnTablaAppHelper
 		when 'Especie'
 			false
 		when 'FiloElemento'
-			['especies', 'filo_elementos'].include?(controller_name)
+			['especies', 'filo_elementos', 'publicos'].include?(controller_name)
 		when 'FiloEspecie'
 			case btn
 			when 'Eliminar'
