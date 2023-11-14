@@ -41,6 +41,9 @@
 	   				<i class="bi bi-bug"></i>
 	   			<% end %>
 	   		<% end %>
+	   		<% unless especie.filo_sinonimo.blank? %>
+	   			<i class="bi bi-bookmarks"></i>
+	   		<% end %>
 	   		<%= link_to especie.especie, especie %>
 	   	</li>
 	<% end %>
