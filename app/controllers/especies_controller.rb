@@ -81,16 +81,12 @@ class EspeciesController < ApplicationController
   def asigna
 
     elemento = params[:class_name].constantize.find(params[:objeto_id])
+    nombre_especie = params[:especie_base][:especie].gsub(/\t|\r|\n/, ' ').strip.downcase
 
-    unless params[:especie_base][:especie].blank?
+    unless nombre_especie.blank?
 
-      especie_name = params[:especie_base][:especie].gsub(/\t|\r|\n/, ' ').strip.downcase
-      especie      = Especie.find_by(especie: especie_name)
-      
-      if especie.blank?
-        especie    = Especie.create(especie: especie_name) 
-        especie_a_estructura(especie)
-      end
+      especie = Especie.find_by(especie: nombre_especie)
+      especie = Especie.create(especie: nombre_especie) if especie.blank?
 
       unless elemento.especies.ids.include?(especie.id)
         elemento.especies << especie
@@ -104,11 +100,14 @@ class EspeciesController < ApplicationController
         noticia = "Error de etiquetado: Especie ya fue etiquetada en esta publicacion"
       end
 
+      especie_a_estructura(especie)
+
     else
       noticia = "Error de etiquetado: Etiqueta no especificada"
     end
 
     redirect_to "/publicaciones/#{elemento.id}", notice: noticia
+
   end
 
   def desasignar

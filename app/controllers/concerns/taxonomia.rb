@@ -34,6 +34,9 @@ module Taxonomia
 					filo_especie.delete
 				end
 			end
+		elsif especie.filo_sinonimo.blank? and especie.filo_especie.blank?
+			fsin = FiloSinonimo.find_by(filo_sinonimo: especie.especie)
+			fsin.especies << fsin unless fsin.blank?
 		else
 #			nombre_especie = especie.especie.downcase.strip
 #			filo_especie = FiloEspecie.find_by(filo_especie: nombre_especie)
