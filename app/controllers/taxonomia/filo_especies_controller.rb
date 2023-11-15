@@ -236,7 +236,7 @@ class Taxonomia::FiloEspeciesController < ApplicationController
     if @objeto.multiple_sinonimia?
       # sinonimos entrega un arreglo con las sinonimias multiples o no
       @objeto.sinonimos.each do |sinonimo|
-        agregar_filo_sinonimo(@objeto, sinonimo, false)
+        agrega_filo_sinonimo(@objeto, sinonimo, false)
       end
     end
 
