@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_09_22_180059) do
+ActiveRecord::Schema.define(version: 2023_11_15_142638) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -503,6 +503,7 @@ ActiveRecord::Schema.define(version: 2023_09_22_180059) do
     t.boolean "rara"
     t.boolean "en_desuso"
     t.string "link_fuente"
+    t.boolean "feh"
     t.index ["especie_id"], name: "index_filo_especies_on_especie_id"
     t.index ["filo_categoria_conservacion_id"], name: "index_filo_especies_on_filo_categoria_conservacion_id"
     t.index ["filo_elemento_id"], name: "index_filo_especies_on_filo_elemento_id"

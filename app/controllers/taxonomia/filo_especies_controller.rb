@@ -227,49 +227,64 @@ class Taxonomia::FiloEspeciesController < ApplicationController
   end
 
   def buscar_etiquetas
-    # 1ro PROCESAR LA ESPECIE
-    # variables de la especie, ids_existentes y especie de la filo_especie
+    # busca ESPECIE de FILO_ESPECIE (@objeto)
     ids_existentes = @objeto.especies.ids
     fe=Especie.find_by(especie: @objeto.filo_especie)
-    fe_n_words = @objeto.filo_especie.strip.split(' ').length
+
+    fe_split = @objeto.filo_especie.strip.split(' ')
+    fe_n_words = fe_split.length
+    fe_especie = "#{fe_split[0]} #{fe_split[1]}"
     # Tratándose de una especie propia, No se relaciona a través de un filo_sinonimo
     unless fe.blank?
         @objeto.especies << fe unless ids_existentes.include?(fe.id)
     end
 
     # 2DO PROCESAR LA SINONIMIA SI EXISTE
+    # multiple_sinonimia? verifica si filo_especie tiene sinonimia o tiene actualizaciones que la tengan
     if @objeto.multiple_sinonimia?
+      # sinonimos entrega un arreglo con las sinonimias multiples o no
       @objeto.sinonimos.each do |sinonimo|
+        # evita procesar sinonimias que coincidan con filo_especie
         unless @objeto.filo_especie == sinonimo
 
           # Si el sinonimo no  existe lo crea, ya puede existir como sinonimo de otra especie
           fsin=FiloSinonimo.find_by(filo_sinonimo: sinonimo)
           fsin=FiloSinonimo.create(filo_sinonimo: sinonimo) if fsin.blank?
-          fsin_n_words = sinonimo.strip.split(' ').length
+          # cuál es la diferencia entre manual {true / false}?
           if fsin.manual == true
-            fsin = false
+            fsin.manual = false
             fsin.save
           end
+
+          fsin_split = sinonimo.split(' ')
+          fsin_n_words = fsin_split.length
+          fsin_especie = "#{fsin_split[0]} #{fsin_split[1]}"
+
+          fe_sin = FiloEspecie.find_by(filo_especie: sinonimo)
+          unless fe_sin.blank?
+            if fe_sin.link_fuente.blank? and fe_sin.children.empty? and fe_sin.filo_sinonimos.empty?
+              fe_sin.especies.each do |especie|
+                fe_sin.especies.delete(especie)
+              end
+              fe_sin.delete
+            else
+              if fe_sin.parent == @objeto
+                fe_sin.feh = true
+                fe_sin.save
+              elsif @objeto.parent == fe_sin
+                @objeto.feh = true
+                @objeto.save
+              end
+            end
+          end
+
           # lo agrega como sinonimo si ya no está agregado como sinonimo
           @objeto.filo_sinonimos << fsin unless @objeto.filo_sinonimos.ids.include?(fsin.id)
           # si el sinónimo es su especie padre, marca el sinonimo como excluido : si no lo marca com sinónimo
           fes=fsin.filo_esp_sinos.find_by(filo_especie_id: @objeto.id)
-          if fe_n_words > fsin_n_words
-            fe_genero = @objeto.filo_especie.strip.split(' ')[0]
-            fsin_genero = sinonimo.strip.split(' ')[0]
-            fe_nombre = @objeto.filo_especie.strip.split(' ')[1]
-            fsin_nombre = sinonimo.strip.split(' ')[1]
-            if fe_genero == fsin_genero and fe_nombre == fsin_nombre
-              unless fes.blank?
-                fes.tipo = 'excluido'
-                fes.save
-              end
-            end
-          else
-            unless fes.blank?
-              fes.tipo = 'sinónimo'
-              fes.save
-            end
+          unless fes.blank?
+            fes.tipo = 'sinónimo'
+            fes.save
           end
 
           sin=Especie.find_by(especie: sinonimo)

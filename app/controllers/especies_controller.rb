@@ -76,11 +76,14 @@ class EspeciesController < ApplicationController
     end
   end
 
+  # POST
+  # Asigna especie a una publicación de publicacion#show
   def asigna
 
     elemento = params[:class_name].constantize.find(params[:objeto_id])
 
     unless params[:especie_base][:especie].blank?
+
       especie_name = params[:especie_base][:especie].gsub(/\t|\r|\n/, ' ').strip.downcase
       especie      = Especie.find_by(especie: especie_name)
       
@@ -100,6 +103,7 @@ class EspeciesController < ApplicationController
       else
         noticia = "Error de etiquetado: Especie ya fue etiquetada en esta publicacion"
       end
+
     else
       noticia = "Error de etiquetado: Etiqueta no especificada"
     end
