@@ -366,7 +366,7 @@ class Taxonomia::FiloEspeciesController < ApplicationController
         sin=Especie.find_by(especie: sinonimo)
         unless sin.blank?
           fsin.especie = sin unless fsin.especie.present?
-          filo_especie.especies.delete(sin) if ids_existentes.include?(sin.id) and sin.id != fe.id
+          filo_especie.especies.delete(sin) if filo_especie.especies.ids.include?(sin.id) and sin.id != fe.id
         end
 
       end
