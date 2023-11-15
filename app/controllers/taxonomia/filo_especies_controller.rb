@@ -87,16 +87,11 @@ class Taxonomia::FiloEspeciesController < ApplicationController
     redirect_to "/publicos/especies?indice=#{@objeto.id}"
   end
 
+  # POST
+  # agrega sinónimos filo_especie
   def agrega_sinonimo
-    unless params[:nuevo_sinonimo][:filo_sinonimo].blank?
-      fs=@objeto.filo_sinonimos.create(filo_sinonimo: params[:nuevo_sinonimo][:filo_sinonimo])
-      fes=@objeto.filo_esp_sinos.find_by(filo_sinonimo_id: fs.id)
-      fes.tipo = 'sinónimo'
-      fes.save
-
-      e=Especie.find_by(especie: fs.filo_sinonimo)
-      fs.especie = e unless e.blank?
-    end
+    sinonimo = params[:nuevo_sinonimo][:filo_sinonimo]
+    agrega_filo_sinonimo(@objeto, sinonimo, true)
 
     redirect_to "/publicos/especies?indice=#{@objeto.id}", notice: 'Sinónimo ha sido exitósamente creado'
   end
@@ -231,9 +226,6 @@ class Taxonomia::FiloEspeciesController < ApplicationController
     ids_existentes = @objeto.especies.ids
     fe=Especie.find_by(especie: @objeto.filo_especie)
 
-    fe_split = @objeto.filo_especie.strip.split(' ')
-    fe_n_words = fe_split.length
-    fe_especie = "#{fe_split[0]} #{fe_split[1]}"
     # Tratándose de una especie propia, No se relaciona a través de un filo_sinonimo
     unless fe.blank?
         @objeto.especies << fe unless ids_existentes.include?(fe.id)
@@ -244,56 +236,7 @@ class Taxonomia::FiloEspeciesController < ApplicationController
     if @objeto.multiple_sinonimia?
       # sinonimos entrega un arreglo con las sinonimias multiples o no
       @objeto.sinonimos.each do |sinonimo|
-        # evita procesar sinonimias que coincidan con filo_especie
-        unless @objeto.filo_especie == sinonimo
-
-          # Si el sinonimo no  existe lo crea, ya puede existir como sinonimo de otra especie
-          fsin=FiloSinonimo.find_by(filo_sinonimo: sinonimo)
-          fsin=FiloSinonimo.create(filo_sinonimo: sinonimo) if fsin.blank?
-          # cuál es la diferencia entre manual {true / false}?
-          if fsin.manual == true
-            fsin.manual = false
-            fsin.save
-          end
-
-          fsin_split = sinonimo.split(' ')
-          fsin_n_words = fsin_split.length
-          fsin_especie = "#{fsin_split[0]} #{fsin_split[1]}"
-
-          fe_sin = FiloEspecie.find_by(filo_especie: sinonimo)
-          unless fe_sin.blank?
-            if fe_sin.link_fuente.blank? and fe_sin.children.empty? and fe_sin.filo_sinonimos.empty?
-              fe_sin.especies.each do |especie|
-                fe_sin.especies.delete(especie)
-              end
-              fe_sin.delete
-            else
-              if fe_sin.parent == @objeto
-                fe_sin.feh = true
-                fe_sin.save
-              elsif @objeto.parent == fe_sin
-                @objeto.feh = true
-                @objeto.save
-              end
-            end
-          end
-
-          # lo agrega como sinonimo si ya no está agregado como sinonimo
-          @objeto.filo_sinonimos << fsin unless @objeto.filo_sinonimos.ids.include?(fsin.id)
-          # si el sinónimo es su especie padre, marca el sinonimo como excluido : si no lo marca com sinónimo
-          fes=fsin.filo_esp_sinos.find_by(filo_especie_id: @objeto.id)
-          unless fes.blank?
-            fes.tipo = 'sinónimo'
-            fes.save
-          end
-
-          sin=Especie.find_by(especie: sinonimo)
-          unless sin.blank?
-            fsin.especie = sin unless fsin.especie.present?
-            @objeto.especies.delete(sin) if ids_existentes.include?(sin.id) and sin.id != fe.id
-          end
-
-        end
+        agregar_filo_sinonimo(@objeto, sinonimo, false)
       end
     end
 
@@ -381,6 +324,53 @@ class Taxonomia::FiloEspeciesController < ApplicationController
   end
 
   private
+
+    def agrega_filo_sinonimo(filo_especie, sinonimo, manual)
+      existentes = filo_especie.filo_sinonimos.map {|fs| fs.filo_sinonimo}
+      # no crea sinonimos de si mismo o ya existentes
+      unless filo_especie.filo_especie == sinonimo or existentes.include?(sinonimo)
+
+        # Si el sinonimo no  existe lo crea, ya puede existir como sinonimo de otra especie
+        fsin=FiloSinonimo.find_by(filo_sinonimo: sinonimo)
+        fsin=FiloSinonimo.create(filo_sinonimo: sinonimo) if fsin.blank?
+        # cuál es la diferencia entre manual {true / false}?
+        fsin.manual = manual
+        fsin.save
+
+        fe_sin = FiloEspecie.find_by(filo_especie: sinonimo)
+        unless fe_sin.blank?
+          if fe_sin.link_fuente.blank? and fe_sin.children.empty? and fe_sin.filo_sinonimos.empty?
+            fe_sin.especies.each do |especie|
+              fe_sin.especies.delete(especie)
+            end
+            fe_sin.delete
+          else
+            if fe_sin.parent == filo_especie
+              fe_sin.feh = true
+              fe_sin.save
+            elsif filo_especie.parent == fe_sin
+              filo_especie.feh = true
+              filo_especie.save
+            end
+          end
+        end
+
+        filo_especie.filo_sinonimos << fsin
+
+        fes=fsin.filo_esp_sinos.find_by(filo_especie_id: filo_especie.id)
+        unless fes.blank?
+          fes.tipo = (manual ? 'agregado' : 'sinónimo')
+          fes.save
+        end
+
+        sin=Especie.find_by(especie: sinonimo)
+        unless sin.blank?
+          fsin.especie = sin unless fsin.especie.present?
+          filo_especie.especies.delete(sin) if ids_existentes.include?(sin.id) and sin.id != fe.id
+        end
+
+      end
+    end
 
     def sort_column
       Publicacion.column_names.include?(params[:sort]) ? params[:sort] : "Author"
