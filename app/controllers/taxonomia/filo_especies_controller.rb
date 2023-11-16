@@ -209,18 +209,6 @@ class Taxonomia::FiloEspeciesController < ApplicationController
     redirect_to "/publicos/especies?indice=#{@objeto.id}"
   end
 
-  def borra_especie_sinonimo
-    especie = @objeto.especies.find_by(especie: @objeto.filo_especie)
-    filo_especie_padre = especie.filo_sinonimo.filo_especies.first
-
-    especie.filo_especie_id = nil
-    especie.save
-
-    @objeto.delete
-
-    redirect_to "/publicos/especies?indice=#{filo_especie_padre.id}"
-  end
-
   def buscar_etiquetas
     # busca ESPECIE de FILO_ESPECIE (@objeto)
     ids_existentes = @objeto.especies.ids
