@@ -17,11 +17,12 @@
 				<i class="bi bi-bug text-<%= params[:indice].blank? ? 'info' : (objeto.revisar ? 'danger' : (objeto.link_fuente.present? ? 'info' : 'dark')) %>"></i>
 				<span class='text-info'>
 					<%= objeto.parent.blank? ? 'Especie' : 'Sub especie' %>
-					<i class="bi bi-bug"></i>
 					<% if action_name == 'especies' %>
 						<%= objeto.filo_especie %>
 					<% else %>
-						<%= link_to objeto.filo_especie, "/publicos/especies?indice=#{objeto.id}" %>
+						<%= render layout: '0p/layout/tooltip_link', locals: {link: "/publicos/especies?indice=#{objeto.id}", tooltip: 'Ver Especie'} do %>
+							<%#= link_to objeto.filo_especie, "/publicos/especies?indice=#{objeto.id}" %>
+							<%= objeto.filo_especie %>
 					<% end %>
 					<% unless objeto.multiple_referencia.blank? %>
 						( <%= objeto.multiple_referencia %> )

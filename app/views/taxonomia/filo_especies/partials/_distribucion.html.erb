@@ -1,17 +1,18 @@
 <%= render partial: 'taxonomia/filo_especies/partials/titulo_distribucion', locals: {objeto: objeto} %>
 
 <small><small>
-<ul>
-	<% objeto.regiones.order(:orden).each do |region| %>
-		<li>
+	<div class="row">
+		<div class="col-9">
 			<i class="bi bi-check-all"></i>
 			<%= region.region %>
+		</div>
+		<div class="col-3" align='right'>
 			<% if admin? %>
-				<%= link_to "/regiones/#{region.id}/desasigna?o=#{objeto.class.name}&indice=#{objeto.id}" do %>
+				<%= render layout: '0p/lauout/tooltip_link', locals: {link: "/regiones/#{region.id}/desasigna?o=#{objeto.class.name}&indice=#{objeto.id}", tooltip: 'Sacar región de la distribución'} do %>
+				<%#= link_to "/regiones/#{region.id}/desasigna?o=#{objeto.class.name}&indice=#{objeto.id}" do %>
 					<i class="bi bi-trash"></i>
 				<% end %>
 			<% end %>
-		</li>
-	<% end %>
-</ul>
+		</div>
+	</div>
 </small></small>
