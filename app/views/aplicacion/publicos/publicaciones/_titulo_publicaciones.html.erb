@@ -31,7 +31,7 @@
 		</div>
 		<div class="col-4" align='right'>
 			<% if @objeto.publicaciones.count > 9 %>
-				<%= render layout: '0p/collapse/link', locals: {label: 'Grafica', objeto: nil} do %>
+				<%= render layout: '0p/collapse/link', locals: {label: 'Grafica', objeto: nil, tooltip: 'Muestras gráfico publicaciones históricas'} do %>
 					<i class="bi bi-bar-chart-line"></i>
 				<% end %>
 			<% end %>
