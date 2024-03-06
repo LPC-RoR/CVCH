@@ -1,64 +1,65 @@
-<%= render partial: 'taxonomia/filo_elementos/taxonomia/link_padres', locals: {padres_ids: @padres_ids} unless params[:indice].blank? %>
+<%= render partial: 'taxonomia/filo_elementos/partials/titulo_elemento', locals: {objeto: @objeto, padres_ids: @padres_ids} %>
+<%= render partial: 'taxonomia/filo_elementos/partials/cllps_display_all', locals: {objeto: @objeto} %>
 
-<%= render partial: 'aplicacion/publicos/partials/titulo_elemento', locals: {objeto: @objeto} %>
+<div class="tax-box">
 
-<div class="row">
-	<div class="col-lg-6 col-xs-12">
+	<div class="row">
+		<div class="col-lg-6 col-xs-12">
 
-		<%= render partial: 'taxonomia/filo_elementos/taxonomia/menu_elemento', locals: {objeto: @objeto} if admin? %>
-		
+			<% @coleccion['base-filo_elementos'].each do |elemento| %>
+				<div class="elemento">
+					<%= render partial: 'taxonomia/filo_elementos/partials/line_elemento', locals: {objeto: elemento} %>
+					<%#= render partial: 'taxonomia/filo_elementos/taxonomia/line_elemento', locals: {objeto: elemento} %>
 
-		<% @coleccion['base-filo_elementos'].each do |elemento| %>
-			<div class="elemento">
-				<%= render partial: 'taxonomia/filo_elementos/taxonomia/line_elemento', locals: {objeto: elemento} %>
-
-				<% unless @coleccion['base-filo_elementos'].count > config[:taxonomia][:elem_count] %>
-					<small>
-					<div class="sub-elementos" style='padding-left: 2em'>
-						<% if elemento.children.count > config[:taxonomia][:elem_count] %>
-							<small><i class="bi bi-stoplights"></i> Sub elementos no fueron desplegados para optimizar tamaño, para verlos acceda al elemento! </small>
-						<% else %>
-							<% elemento.children.order(:filo_elemento).each do |sub_elemento| %>
-								<%= render partial: 'taxonomia/filo_elementos/taxonomia/line_elemento', locals: {objeto: sub_elemento} %>
+					<% unless @coleccion['base-filo_elementos'].count > config[:taxonomia][:elem_count] %>
+						<small>
+						<div style='padding-left: 2em'>
+							<% if elemento.children.count > config[:taxonomia][:elem_count] %>
+								<small><i class="bi bi-stoplights"></i> Sub elementos no fueron desplegados para optimizar tamaño, para verlos acceda al elemento! </small>
+							<% else %>
+								<% elemento.children.order(:filo_elemento).each do |sub_elemento| %>
+									<%= render partial: 'taxonomia/filo_elementos/partials/line_elemento', locals: {objeto: sub_elemento} %>
+								<% end %>
 							<% end %>
-						<% end %>
-					</div>
-					<div class="especies" style='padding-left: 2em'>
-						<% if elemento.filo_especies.count > config[:taxonomia][:esp_count] %>
-							<small><i class="bi bi-stoplights"></i> Especies no fueron desplegadas para optimizar tamaño, para verlas acceda al genero! </small>
-						<% else %>
-							<% elemento.filo_especies.order(:filo_especies).each do |especie| %>
-								<%= render partial: 'taxonomia/filo_especies/taxonomia/line_especie', locals: {objeto: especie} %>
+						</div>
+						<div style='padding-left: 2em'>
+							<% if elemento.filo_especies.count > config[:taxonomia][:esp_count] %>
+								<small><i class="bi bi-stoplights"></i> Especies no fueron desplegadas para optimizar tamaño, para verlas acceda al genero! </small>
+							<% else %>
+								<% elemento.filo_especies.order(:filo_especies).each do |especie| %>
+									<%= render partial: 'taxonomia/filo_especies/partials/line_especie', locals: {objeto: especie} %>
+								<% end %>
 							<% end %>
-						<% end %>
-					</div>
-					</small>
-				<% end %>
-			</div>
-		<% end %>
+						</div>
+						</small>
+					<% end %>
+				</div>
+			<% end %>
 
-		<% unless params[:indice].blank? %>
-			<% @coleccion['filo_especies'].each do |especie| %>
-				<%= render partial: 'taxonomia/filo_especies/taxonomia/line_especie', locals: {objeto: especie} %>
+			<% unless @objeto.blank? %>
+				<% @coleccion['filo_especies'].each do |especie| %>
+					<%= render partial: 'taxonomia/filo_especies/partials/line_especie', locals: {objeto: especie} %>
 
 
-				<% unless @coleccion['filo_especies'].count > config[:taxonomia][:esp_count] %>
-					<small>
-					<div class="sub_especies" style='padding-left: 2em'>
-						<% if especie.children.count > config[:taxonomia][:esp_count] %>
-							<small><i class="bi bi-stoplights"></i> Sub especies no fueron desplegados para optimizar tamaño, para verlas acceda a la especie! </small>
-						<% else %>
-							<% especie.children.order(:filo_especies).each do |sub_especie| %>
-								<%= render partial: 'taxonomia/filo_especies/taxonomia/line_especie', locals: {objeto: sub_especie} %>
+					<% unless @coleccion['filo_especies'].count > config[:taxonomia][:esp_count] %>
+						<small>
+						<div class="sub_especies" style='padding-left: 2em'>
+							<% if especie.children.count > config[:taxonomia][:esp_count] %>
+								<small><i class="bi bi-stoplights"></i> Sub especies no fueron desplegados para optimizar tamaño, para verlas acceda a la especie! </small>
+							<% else %>
+								<% especie.children.order(:filo_especies).each do |sub_especie| %>
+									<%= render partial: 'taxonomia/filo_especies/partials/line_especie', locals: {objeto: sub_especie} %>
+								<% end %>
 							<% end %>
-						<% end %>
-					</div>
-					</small>
+						</div>
+						</small>
+					<% end %>
+
 				<% end %>
 
 			<% end %>
-
-		<% end %>
+		</div>
+		<div class="col-lg-6 col-xs-12"></div>
 	</div>
-	<div class="col-lg-6 col-xs-12"></div>
+
 </div>

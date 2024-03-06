@@ -1,5 +1,19 @@
 module CptnHelper
 
+# ******************************************************************** LAYOUTS 
+
+	def no_banner_display?
+		controller_name == 'servicios' and action_name == 'aprobacion'
+	end
+
+	def footless_controllers
+		['servicios']
+	end
+
+	def footless_controller?(controller)
+		footless_controllers.include?(controller)
+	end
+
 # ******************************************************************** CONSTANTES 
 
 	# DEPRECATED
@@ -61,10 +75,15 @@ module CptnHelper
 
 def controller_icon
 		{
-			'sb_listas' => 'list-nested',
+			'usuarios' => 'person',
+			'app_nominas' => 'person-workspace',
+			'st_modelos' => 'box',
+			'tablas' => 'table',
+			'app_versiones' => 'gear',
+			'app_observaciones' => 'chat',
+			'app_mejoras' => 'exclamation-diamond',
 			'app_empresas' => 'buildings',
 			'app_administradores' => 'person-square',
-			'app_nominas' => 'person-vcard',
 			'app_repos' => 'archive',
 			'app_directorios' => 'folder',
 			'app_documentos' => 'journal',
@@ -79,6 +98,7 @@ def controller_icon
 			'blg_articulos' => 'file-earmark-richtext',
 			'blg_temas' => 'list-stars'
 #			'ld_parrafos' => 'blockquote-left'
+#			'sb_listas' => 'list-nested',
 		}
 	end
 

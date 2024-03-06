@@ -9,11 +9,9 @@ class CargasController < ApplicationController
   # GET /cargas
   # GET /cargas.json
   def index
-    @activo = AppPerfil.find(perfil_activo_id)
+    @activo = AppPerfil.find(perfil_activo.id)
 
-    init_tabla('cargas', @activo.cargas, false)
-#    @coleccion = {}
-#    @coleccion['cargas'] = @activo.cargas
+    set_tabla('cargas', @activo.cargas, false)
   end
 
   def sel_archivo
@@ -41,7 +39,7 @@ class CargasController < ApplicationController
 
   # GET /cargas/new
   def new         
-    @objeto  = Carga.new(estado: 'ingreso', app_perfil_id: perfil_activo_id)
+    @objeto  = Carga.new(estado: 'ingreso', app_perfil_id: perfil_activo.id)
   end
 
   # GET /cargas/1/edit

@@ -1,20 +1,22 @@
-<%= render partial: '0p/general/icon_text', locals: {text: 'Links', gly: 'box-arrow-up-right', clr: 'info'} %>
-<small>
+<div class="objeto-box">
+	<%= render partial: '0p/general/icon_text', locals: {text: 'Links', gly: 'box-arrow-up-right', clr: 'info'} %>
+	<small>
 
-<% if @objeto.revista.present? %>
-	<%= link_to @objeto.revista do %>
-		<i class="bi bi-journal-arrow-up"></i>
-		<%= @objeto.revista.revista %>
+	<% if @objeto.revista.present? %>
+		<%= link_to @objeto.revista do %>
+			<i class="bi bi-journal-arrow-up"></i>
+			<%= @objeto.revista.revista %>
+		<% end %>
+	<% else %>
+		<h6 class='text-muted'>Publicación sin información de Revista</h6>
 	<% end %>
-<% else %>
-	<h6 class='text-muted'>Publicación sin información de Revista</h6>
-<% end %>
-</br>
-<% @objeto.investigadores.each do |investigador| %>
-	<%= link_to investigador do %>
-		<i class="bi bi-person-lines-fill"></i>
-		<small><%= investigador.investigador %></small>
+	</br>
+	<% @objeto.investigadores.each do |investigador| %>
+		<%= link_to investigador do %>
+			<i class="bi bi-person-lines-fill"></i>
+			<small><%= investigador.investigador %></small>
+		<% end %>
 	<% end %>
-<% end %>
 
-</small>
+	</small>
+</div>

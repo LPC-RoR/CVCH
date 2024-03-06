@@ -1,0 +1,17 @@
+<div class='row justify-content-center'>
+	<div class='col-md-4'>
+		<%= render layout: '0p/collapse/display', locals: {label: 'NuevoElemento', objeto: nil} do %>
+			<%= render partial: 'taxonomia/filo_elementos/partials/form_nuevo_child', locals: {objeto: objeto} %>
+		<% end %>
+
+		<% unless params[:indice].blank? %>
+			<%= render layout: '0p/collapse/display', locals: {label: 'NuevaEspecie', objeto: nil} do %>
+				<%= render partial: 'taxonomia/filo_especies/partials/form_nueva_especie', locals: {objeto: objeto} %>
+			<% end %>
+
+			<%= render layout: '0p/collapse/display', locals: {label: 'MueveElemento', objeto: nil} do %>
+				<%= render partial: 'taxonomia/filo_elementos/partials/mueve_elemento', locals: {objeto: objeto} %>
+			<% end %>
+		<% end %>
+	</div>
+</div>

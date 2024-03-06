@@ -12,9 +12,7 @@ class AutoresController < ApplicationController
   # GET /autores/1
   # GET /autores/1.json
   def show
-#    @coleccion = {}
-#    @coleccion['publicaciones'] = @objeto.publicaciones.where(estado: 'publicada').page(params[:page])
-    init_tabla('publicaciones', @objeto.publicaciones.where(estado: 'publicada'), true)
+    set_tabla('publicaciones', @objeto.publicaciones.where(estado: 'publicada'), true)
   end
 
   # GET /autores/new

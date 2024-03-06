@@ -2,7 +2,7 @@ module CptnMenuAppHelper
 
 	def menu_base
 	    [
-	        ['',           '/app_recursos/administracion', 'admin', 'person-rolodex'],
+	        ['',           '/tablas', 'admin', 'person-rolodex'],
 #	        ["Contenido",  "/tema_ayudas",                 'admin', 'stack'],
 	        ["Procesos",   "/app_recursos/procesos",       'dog',   'radioactive']
 	    ]

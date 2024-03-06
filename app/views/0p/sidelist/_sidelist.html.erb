@@ -1,7 +1,7 @@
 <h4><%= render partial: '0p/general/icon_text', locals: {gly: 'list-nested', text: name_list, clr: config[:color][:app]} %></h4>
 
 <% sb_list.each do |elemento| %>
-	<% if seguridad_desde(elemento.acceso) %>
+	<% if seguridad(elemento.acceso) %>
 		<small>
 			<div class='row'>
 				<div class="col-md-<%= elemento.nivel-1%>"></div>

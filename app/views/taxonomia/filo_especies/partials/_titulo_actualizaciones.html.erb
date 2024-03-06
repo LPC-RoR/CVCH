@@ -1,0 +1,20 @@
+<small class="text-info">
+<div class="row">
+	<div class="col-10">
+		<i class="bi bi-pencil-square"></i>  
+		Actualizaciones
+	</div>
+	<div class="col-2" align='right'>
+		<% if admin? %>
+			<%= render layout: '0p/layout/tooltip_link', locals: {link: "/filo_actualizaciones/new?indice=#{@objeto.id}", tooltip: 'Agrega actualización'} do %>
+				<i class="bi bi-plus-circle"></i>
+			<% end %>
+		<% end %>
+	</div>
+</div>
+
+<%= render layout: '0p/collapse/display', locals: {label: 'Distribucion', objeto: nil} do %>
+	<%= render partial: 'taxonomia/filo_especies/partials/agrega_distribuciones', locals: {objeto: objeto} %>
+<% end %>
+
+</small>

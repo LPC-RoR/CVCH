@@ -1,0 +1,22 @@
+<div class="lmenu-box">
+	<h6 class="text-info"><i class="bi bi-share"></i> Compartidas</h6>
+	<% @sel_compartidas.each do |compartida| %>
+		<small>
+		<div class="row">
+			<div class="col-10">
+				<div style="padding-left: 1em;">
+					<% if @modelo == compartida[0].class.name and @id == compartida[0].id %>
+						<b class='text-muted'><%= compartida[0].carpeta %></b></br>
+					<% else %>
+						<%= link_to compartida[0].carpeta, "vistas?html_options[modelo]=#{compartida[0].class.name}&html_options[id]=#{compartida[0].id}" %>
+					<% end %>
+				</div>
+			</div>
+			<div class="col-2" align="right" style="padding-right: 1em;">
+				<%= compartida[1] == 0 ? '-' : compartida[1] %>
+			</div>
+		</div>
+		</small>
+
+	<% end %>
+</div>

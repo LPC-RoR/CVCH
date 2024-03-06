@@ -1,32 +1,28 @@
 module Seguridad
 	extend ActiveSupport::Concern
 
+	def version_activa
+		AppVersion.last
+	end
+
 	def dog_name
-		'Hugo Chinga G.'
+		AppVersion::DOG_NAME
 	end
 
 	def dog_email
-		'hugo.chinga.g@gmail.com'
+		AppVersion::DOG_EMAIL
 	end
 
-	def perfil?
-		if ActiveRecord::Base.connection.table_exists? 'app_perfiles'
-			usuario_signed_in? ? AppPerfil.find_by(email: current_usuario.email).present? : false
-		else
-			usuario_signed_in? ? Perfil.find_by(email: current_usuario.email).present? : false
-		end
+	def nomina_activa
+		usuario_signed_in? ? AppNomina.find_by(email: current_usuario.email) : nil
+	end
+
+	def perfil_activo?
+		usuario_signed_in? ? AppPerfil.find_by(email: current_usuario.email).present? : false
 	end
 
 	def perfil_activo
-		if ActiveRecord::Base.connection.table_exists? 'app_perfiles'
-			usuario_signed_in? ? AppPerfil.find_by(email: current_usuario.email) : nil
-		else
-			usuario_signed_in? ? Perfil.find_by(email: current_usuario.email) : nil
-		end
-	end
-
-	def perfil_activo_id
-		usuario_signed_in? ? (perfil_activo.blank? ? nil : perfil_activo.id) : nil
+		usuario_signed_in? ? AppPerfil.find_by(email: current_usuario.email) : nil
 	end
 
 	def dog?
@@ -34,25 +30,46 @@ module Seguridad
 	end
 
 	def admin?
-		usuario_signed_in? ? AppAdministrador.find_by(email: current_usuario.email).present? : false
+		es_admin = usuario_signed_in? ? ( nomina_activa.blank? ? false : ( nomina_activa.tipo == 'Admin' ) ) : false
+		es_admin or dog?
 	end
 
+	def usuario?
+		es_usuario = usuario_signed_in? ? ( nomina_activa.blank? ? false : ( nomina_activa.tipo == 'Usuario' ) ) : false
+		es_usuario or dog?
+	end
+
+	# DEPRECATED : A futuro se introduce la categoría 'servicio para regular el acceco a los controladores de servicios.'
 	def nomina?
 		usuario_signed_in? ? AppNomina.find_by(email: current_usuario.email).present? : false
-	end
-
-	def general?
-		usuario_signed_in? and not admin? and not nomina?
-	end
-
-	def anonimo?
-		not usuario_signed_in?
 	end
 
 	def publico?
 		['publicos', 'vistas', 'contribuciones'].include?(controller_name) or controller_name.match(/^blg_*/)
 	end
 
+	def seguridad(nivel)
+		if nivel.blank?
+			admin?
+		else
+			case nivel
+			when 'dog'
+				dog?
+			when 'admin'
+				admin?
+			when 'usuario'
+				usuario?
+			when 'nomina'
+				admin? or nomina?
+			when 'excluir'
+				false
+			else
+				true
+			end
+		end
+	end
+
+	# DEPRECATED Acá se usa pero hay que corregir
 	def mi_seguridad?
 		if current_usuario.email == dog_email
 			:dog
@@ -64,25 +81,6 @@ module Seguridad
 			:general
 		else
 			:anonimo
-		end
-	end
-
-	def seguridad_desde(tipo_usuario)
-		if tipo_usuario.blank?
-			dog? or admin?
-		else
-			case tipo_usuario
-			when 'dog'
-				dog?
-			when 'admin'
-				dog? or admin?
-			when 'nomina'
-				dog? or admin? or nomina?
-			when 'general'
-				dog? or admin? or nomina? or general?
-			when 'anonimo'
-				true
-			end
 		end
 	end
 

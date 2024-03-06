@@ -29,14 +29,13 @@ module Map
 		if bandeja_display?
 			if usuario_signed_in?
 				# PRECAUCION @bandejas puede seu una lista de dos clases distintas
-				if seguridad_desde('admin')
+				if admin?
 					@bandejas = StModelo.all.order(:st_modelo)
-				elsif seguridad_desde('nomina')
+				elsif usuario?
 					@bandejas = AppNomina.find_by(email: perfil_activo.email).st_perfil_modelos.order(:st_perfil_modelo)
 				else
 					@bandejas = nil
 				end
-#				@bandejas = (seguridad_desde('admin') ? StModelo.all.order(:st_modelo) : AppNomina.find_by(email: perfil_activo.email).st_perfil_modelos.order(:st_perfil_modelo))
 
 				#inicializa despliegue
 				unless @bandejas.empty?

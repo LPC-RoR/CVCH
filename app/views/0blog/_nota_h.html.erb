@@ -4,10 +4,11 @@
 		<%= image_tag articulo.imagen.half.url, class: 'img-fluid' %>
 	</div>
 	<div class="col-lg-6" blg-nota>
-		<b><%= articulo.blg_articulo %></b></br>
-		<div class='text-muted'><small><%= articulo.autor %> | <%= dma(articulo.created_at) %></small></div>
-		<p class="text-muted"><small><small><%= sanitize simple_format(articulo.articulo) %></small></small></p>
+		<div style="padding: 1em;">
+			<b><%= articulo.blg_articulo %></b></br>
+			<div class='text-muted'><small><%= articulo.autor %> | <%= dma(articulo.created_at) %></small></div>
+			<p class="text-muted"><small><small><%= sanitize simple_format(articulo.articulo) %></small></small></p>
+		</div>
 	</div>
 </div>
-<hr>
 <% end %>

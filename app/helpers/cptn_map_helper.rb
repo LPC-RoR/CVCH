@@ -1,5 +1,9 @@
 module CptnMapHelper
 
+	def devise_controllers
+		['confirmations', 'mailer', 'passwords', 'registrations', 'sessions', 'unlocks']
+	end
+
 	## ------------------------------------------------------- LAYOUTS
 
 	def get_layout
@@ -23,11 +27,35 @@ module CptnMapHelper
 		"#{scp}#{controller}/#{dir}"
 	end
 
+	def controller_match(controller, scope)
+		controller == scope or ( scope.split('/').length == 2 and controller == scope.split('/')[1] )
+	end
+
+	def with_scope(controller)
+		if ['layouts', '0capitan', '0p'].include?(controller)
+			controller
+		else
+			coincidencias = Rails.application.routes.routes.map do |route|
+			  route.defaults[:controller]
+			end.uniq.compact.map {|scope| scope if controller_match(controller, scope)}.compact[0]
+		end
+	end
+
 	# Este helper pergunta si hay un partial con un nombre particular en el directorio del controlador
 	# tipo: {nil='controlador', 'partials', (ruta-adicional)}
-	def partial?(controller, dir, partial)
-#		File.exist?("app/views/#{(scope_controller(controller).blank? ? '' : "#{scope_controller(controller)}/")}#{controller}/_#{partial}.html.erb")
-		File.exist?("app/views/#{get_partial_dir(controller, dir)}_#{partial}.html.erb")
+	def partial?(controller, subdir, partial)
+		File.exist?("app/views/#{partial_dir(controller, subdir)}_#{partial}.html.erb")
+	end
+
+	# actual, se usa para no repetir código del subdirectorio
+	def partial_dir(controller, subdir)
+		"#{with_scope(controller)}#{"/"+subdir unless subdir.blank?}/"
+	end
+
+	# nombre del patial SIN underscore
+	# antiguo 'get_partial'
+	def partial_name(controller, subdir, partial)
+		"#{partial_dir(controller, subdir)}#{partial}"
 	end
 
 	def get_partial(controller, dir, partial)

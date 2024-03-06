@@ -10,8 +10,8 @@ class Taxonomia::FiloElementosController < ApplicationController
   # GET /filo_elementos/1
   # GET /filo_elementos/1.json
   def show
-    init_tabla('filo_elementos', @objeto.children, false)
-    add_tabla('filo_especies', @objeto.filo_especies, false)
+    set_tabla('filo_elementos', @objeto.children, false)
+    set_tabla('filo_especies', @objeto.filo_especies, false)
   end
 
   # GET /filo_elementos/new
@@ -198,7 +198,7 @@ class Taxonomia::FiloElementosController < ApplicationController
     end
 
     def set_redireccion
-      @redireccion = @objeto.parent.blank? ? '/publicos/taxonomia' : "/publicos/taxonomia?indice=#{@objeto.parent.id}"
+      @redireccion = "/publicos/taxonomia?indice=#{@objeto.id}"
     end
 
     # Only allow a list of trusted parameters through.

@@ -5,24 +5,37 @@ module CptnTablaHelper
 		['directorios', 'documentos', 'archivos', 'imagenes'] + app_no_th_controllers
 	end
 
+	## ------------------------------------------------------- FORM
+	# Este helper encuentra el partial que se debe desplegar como form
+	# originalmente todos llegaban a _form
+	# ahora pregunta si hay un partial llamado _datail en el directorio de las vistas del modelo
+	def detail_partial(controller)
+		# partial?(controlller, dir, partial)
+		if partial?(controller, nil, 'detail')
+			partial_name(controller, nil, 'detail')
+		else
+			'0p/form/detail'
+		end
+	end
+
 	# ADMIN AREA
 	# condiciones bajo las cuales se despliega una tabla
 	def new_button_conditions(controller)
 		aliasness = get_controller(controller)
 		if ['app_administradores', 'app_nominas', 'hlp_tutoriales', 'hlp_pasos'].include?(aliasness)
-				seguridad_desde('admin')
+				admin?
 		elsif ['app_perfiles', 'usuarios', 'ind_palabras', 'app_contactos', 'app_directorios', 'app_documentos', 'app_archivos', 'app_enlaces'].include?(controller)
 			false
 		elsif ['app_mensajes'].include?(aliasness)
 			action_name == 'index' and @e == 'ingreso'
 		elsif ['sb_listas'].include?(aliasness)
-				seguridad_desde('admin')
+				admin?
 		elsif ['sb_elementos'].include?(aliasness)
-				(@objeto.acceso == 'dog' ? dog? : seguridad_desde('admin'))
+				(@objeto.acceso == 'dog' ? dog? : admin?)
 		elsif ['st_modelos'].include?(aliasness)
 				dog?
 		elsif ['st_estados'].include?(aliasness)
-				seguridad_desde('admin')
+				admin?
 		else
 			app_new_button_conditions(controller)
 		end
@@ -36,15 +49,15 @@ module CptnTablaHelper
 
 	def crud_conditions(objeto, btn)
 		if ['AppAdministrador', 'AppNomina', 'HlpTutorial', 'HlpPaso'].include?(objeto.class.name)
-				seguridad_desde('admin')
+				admin?
 		elsif ['AppPerfil', 'Usuario', 'AppMensaje' ].include?(objeto.class.name)
 			false
 		elsif ['SbLista', 'SbElemento'].include?(objeto.class.name)
-			(usuario_signed_in? and seguridad_desde(objeto.acceso))
+			(usuario_signed_in? and seguridad(objeto.acceso))
 		elsif ['st_modelos'].include?(controller)
 				dog?
 		elsif ['st_estados'].include?(controller)
-				seguridad_desde('admin')
+				admin?
 		elsif ['AppObservacion', 'AppMejora'].include?(objeto.class.name)
 			(usuario_signed_in? and objeto.app_perfil.id == current_usuario.id)
 		else
@@ -63,7 +76,7 @@ module CptnTablaHelper
 		when 'Carpeta'
 			controller_name == 'carpetas' and objeto.app_perfil.email == perfil_activo.email
 		when 'Area'
-			(not Area::NOT_MODIFY.include?(objeto.area)) and controller_name == 'recursos' and seguridad_desde('admin')
+			(not Area::NOT_MODIFY.include?(objeto.area)) and controller_name == 'recursos' and admin?
 		when 'Instancia'
 			false
 		when 'Ruta'
@@ -71,7 +84,7 @@ module CptnTablaHelper
 		when 'Propuesta'
 			false
 		when 'Categoria'
-			(usuario_signed_in? and objeto.perfil_id == perfil_activo_id) or (admin? and controller_name == 'app_recursos')
+			(usuario_signed_in? and objeto.perfil_id == perfil_activo.id) or (admin? and controller_name == 'app_recursos')
 		when 'Especie'
 			false
 		when 'FiloElemento'
@@ -79,7 +92,7 @@ module CptnTablaHelper
 		when 'FiloEspecie'
 			case btn
 			when 'Eliminar'
-				['filo_especies', 'filo_elementos', 'especies'].include?(controller_name) and seguridad_desde('admin')
+				['filo_especies', 'filo_elementos', 'especies'].include?(controller_name) and admin?
 			when 'Editar'
 				false
 			end

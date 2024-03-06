@@ -1,5 +1,5 @@
 <% if @paginate[c] %>
-	<% if location == 'abajo' %><small><small><%= page_entries_info(@coleccion[c]) %></small></small><% end %>
-	<%= paginate @coleccion[c] %>
-	<% if location == 'arriba' %><small><small><%= page_entries_info(@coleccion[c]) %></small></small><% end %>
+	<% if location == 'abajo' %><div class="paginate-box"><small><small><%= page_entries_info(@coleccion[c]) %></small></small></div><% end %>
+		<%= paginate @coleccion[c] %>
+	<% if location == 'arriba' %><div class="paginate-box"><small><small><%= page_entries_info(@coleccion[c]) %></small></small></div><% end %>
 <% end %>

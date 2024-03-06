@@ -43,7 +43,7 @@ module CptnTablaAppHelper
 		when 'Carpeta'
 			controller_name == 'carpetas' and objeto.app_perfil.email == perfil_activo.email
 		when 'Area'
-			seguridad_desde('admin')
+			admin?
 		when 'Instancia'
 			false
 		when 'Ruta'
@@ -51,7 +51,7 @@ module CptnTablaAppHelper
 		when 'Propuesta'
 			false
 		when 'Categoria'
-			(usuario_signed_in? and objeto.perfil_id == perfil_activo_id) or (admin? and controller_name == 'app_recursos')
+			(usuario_signed_in? and objeto.perfil_id == perfil_activo.id) or (admin? and controller_name == 'app_recursos')
 		when 'Especie'
 			false
 		when 'FiloElemento'
@@ -59,7 +59,7 @@ module CptnTablaAppHelper
 		when 'FiloEspecie'
 			case btn
 			when 'Eliminar'
-				['filo_especies', 'filo_elementos', 'especies'].include?(controller_name) and seguridad_desde('admin')
+				['filo_especies', 'filo_elementos', 'especies'].include?(controller_name) and admin?
 			when 'Editar'
 				false
 			end

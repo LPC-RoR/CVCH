@@ -1,0 +1,20 @@
+<small class="text-info">
+<div class="row">
+	<div class="col-10">
+		<i class="bi bi-geo-alt"></i> 
+		Distribución
+	</div>
+	<div class="col-2" align='right'>
+		<% if admin? %>
+			<%= render layout: '0p/collapse/link', locals: {label: 'Distribucion', objeto: nil, tooltip: 'Actualiza distribución'} do %>
+				<i class="bi bi-geo-alt"></i>
+			<% end %>
+		<% end %>
+	</div>
+</div>
+
+<%= render layout: '0p/collapse/display', locals: {label: 'Distribucion', objeto: nil} do %>
+	<%= render partial: 'taxonomia/filo_especies/partials/agrega_distribuciones', locals: {objeto: objeto} %>
+<% end %>
+
+</small>

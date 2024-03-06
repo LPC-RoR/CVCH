@@ -83,7 +83,7 @@ class Help::MensajesController < ApplicationController
   # GET /mensajes/new
   def new
     if usuario_signed_in?
-      perfil_id = perfil_activo_id
+      perfil_id = perfil_activo.id
       tipo      = admin? ? 'administrador' : 'usuario'
       estado    = 'ingreso'
     else
@@ -102,7 +102,7 @@ class Help::MensajesController < ApplicationController
 
   def respuesta
     @padre = Mensaje.find(params[:padre_id])
-    perfil_id = perfil_activo_id
+    perfil_id = perfil_activo.id
     tipo      = admin? ? 'administrador' : 'usuario'
     estado    = 'enviado'
     mensaje = params[:mensaje_base][:mensaje]

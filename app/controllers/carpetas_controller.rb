@@ -7,8 +7,8 @@ class CarpetasController < ApplicationController
   # GET /carpetas
   # GET /carpetas.json
   def index
-    init_tabla('carpetas', perfil_activo.carpetas.order(:carpeta), false)
-    add_tabla('ext-carpetas', perfil_activo.compartidas.order(:carpeta), false)
+    set_tabla('carpetas', perfil_activo.carpetas.order(:carpeta), false)
+    set_tabla('ext-carpetas', perfil_activo.compartidas.order(:carpeta), false)
   end
 
   # GET /carpetas/1
@@ -18,8 +18,8 @@ class CarpetasController < ApplicationController
       @objeto.sha1 = Digest::SHA1.hexdigest("#{perfil_activo} #{@objeto.carpeta}")
       @objeto.save
     end
-    init_tabla('publicaciones', @objeto.publicaciones.order(sort_column + " " + sort_direction), true)
-    add_tabla('filo_especies', @objeto.filo_especies.order(:filo_especie), false)
+    set_tabla('publicaciones', @objeto.publicaciones.order(sort_column + " " + sort_direction), true)
+    set_tabla('filo_especies', @objeto.filo_especies.order(:filo_especie), false)
   end
 
   # GET /carpetas/new

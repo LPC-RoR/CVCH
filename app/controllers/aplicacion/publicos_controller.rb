@@ -1,12 +1,13 @@
 class Aplicacion::PublicosController < ApplicationController
   before_action :set_publico, only: [:show, :edit, :update, :destroy]
+  before_action :inicia_sesion, only: [:home]
 
   helper_method :sort_column, :sort_direction
   
   def home
     ultimos_ids = Publicacion.where(estado: 'publicada').order(created_at: :asc).last(10).map {|pub| pub.id}
-    init_tabla( 'publicaciones', Publicacion.where(id: ultimos_ids).order(sort_column + " " + sort_direction), false )
-    add_tabla( 'tema_ayudas', TemaAyuda.where(tipo: 'inicio').where(activo: true).order(:orden), false )
+    set_tabla( 'publicaciones', Publicacion.where(id: ultimos_ids).order(sort_column + " " + sort_direction), false )
+    set_tabla( 'tema_ayudas', TemaAyuda.where(tipo: 'inicio').where(activo: true).order(:orden), false )
 
     @ultima_especie = FiloEspecie.find_by(id: 478)
     unless @ultima_especie.blank?
@@ -30,7 +31,7 @@ class Aplicacion::PublicosController < ApplicationController
   def taxonomia
     if params[:indice].blank?
       base_ids = FiloElemento.all.map {|fe| fe.id unless (fe.parent.present? or fe.revisar == true)}.compact
-      init_tabla('base-filo_elementos', FiloElemento.where(id: base_ids).order(:filo_elemento), false)
+      set_tabla('base-filo_elementos', FiloElemento.where(id: base_ids).order(:filo_elemento), false)
       @padres_ids = nil
     else
       @objeto = FiloElemento.find(params[:indice])
@@ -43,8 +44,8 @@ class Aplicacion::PublicosController < ApplicationController
         end
       end
 
-      init_tabla('base-filo_elementos', @objeto.children.order(:filo_elemento), false)
-      add_tabla('filo_especies', @objeto.filo_especies.order(:filo_especie), false)
+      set_tabla('base-filo_elementos', @objeto.children.order(:filo_elemento), false)
+      set_tabla('filo_especies', @objeto.filo_especies.order(:filo_especie), false)
       @padres_ids = @objeto.padres_ids.reverse()
 
       if @objeto.parent.blank?
@@ -58,14 +59,12 @@ class Aplicacion::PublicosController < ApplicationController
   end
 
   def huerfanas
-#      base_ids = FiloElemento.all.map {|fe| fe.id unless (fe.parent.present? or fe.revisar == false)}.compact
-#      init_tabla('filo_elementos', FiloElemento.where(id: base_ids).order(:filo_elemento), true)
-    init_tab( { tab: ['Etiquetas por clasificar', 'Etiquetas de sinónimos'] }, true )
+    set_tab( :tab, ['Etiquetas por clasificar', 'Etiquetas de sinónimos'] )
 
     if @options[:tab] == 'Etiquetas por clasificar'
-      init_tabla('huerfanas-especies', Especie.where(filo_sinonimo_id:nil, filo_especie_id: nil).order(:especie), true)
+      set_tabla('huerfanas-especies', Especie.where(filo_sinonimo_id:nil, filo_especie_id: nil).order(:especie), true)
     elsif @options[:tab] == 'Etiquetas de sinónimos'
-      init_tabla('sinonimos-especies', Especie.where.not(filo_sinonimo_id: nil).order(:especie), true)
+      set_tabla('sinonimos-especies', Especie.where.not(filo_sinonimo_id: nil).order(:especie), true)
     end
   end
 
@@ -98,16 +97,16 @@ class Aplicacion::PublicosController < ApplicationController
         @objeto.filo_sinonimos.delete(misma)
       end
 
-      init_tabla('filo_especies', @objeto.children.order(:filo_especie), false)
+      set_tabla('filo_especies', @objeto.children.order(:filo_especie), false)
 
-      add_tabla('equivalentes-filo_sinonimos', @objeto.fs_equivalentes, false)
-      add_tabla('sinonimos-filo_sinonimos', @objeto.fs_sinonimos, false)
-      add_tabla('excluidos-filo_sinonimos', @objeto.fs_excluidos, false)
-      add_tabla('agregados-filo_sinonimos', @objeto.fs_agregados, false)
+      set_tabla('equivalentes-filo_sinonimos', @objeto.fs_equivalentes, false)
+      set_tabla('sinonimos-filo_sinonimos', @objeto.fs_sinonimos, false)
+      set_tabla('excluidos-filo_sinonimos', @objeto.fs_excluidos, false)
+      set_tabla('agregados-filo_sinonimos', @objeto.fs_agregados, false)
 
-      add_tabla('filo_actualizaciones', @objeto.filo_actualizaciones.order(updated_at: :desc), false)
+      set_tabla('filo_actualizaciones', @objeto.filo_actualizaciones.order(updated_at: :desc), false)
 
-      add_tabla('app_imagenes', @objeto.imagenes, false)
+      set_tabla('app_imagenes', @objeto.imagenes, false)
 
       regiones_para_asignar_ids = Region.all.map {|region| region.id unless @objeto.regiones.ids.include?(region.id)}.compact
       @regiones_para_asignar = Region.where(id: regiones_para_asignar_ids).order(:orden)
@@ -121,8 +120,10 @@ class Aplicacion::PublicosController < ApplicationController
         sustituto.filo_especies << @objeto
       end
 
+      @padres_ids = @objeto.filo_elemento.present? ? @objeto.filo_elemento.padres_ids : @objeto.parent.filo_elemento.padres_ids
+
       @padre = @objeto.parent.present? ? @objeto.parent : @objeto.filo_elemento
-      @abuelo = @objeto.parent.present? ? @padre.filo_elemento : @padre.parent
+#      @abuelo = @objeto.parent.present? ? @padre.filo_elemento : @padre.parent
 
       # En este caso puede haber HERMANOS ELEMENTOS/ESPECIES
       @hermanos_elementos = @objeto.parent.present? ? nil : @padre.children
@@ -134,7 +135,7 @@ class Aplicacion::PublicosController < ApplicationController
     unless params[:indice].blank?
       @objeto = FiloEspecie.find(params[:indice])
       publicaciones = @objeto.publicaciones.order(:year)
-      init_tabla("publicaciones", publicaciones, true)
+      set_tabla("publicaciones", publicaciones, true)
 
       if publicaciones.count > 9
         @grafico = {}

@@ -1,14 +1,21 @@
 <small><small>
-<div class="list-item" style='padding-left: 1em; padding-top: 1em; margin-bottom: 1em;'>
 	<div class="row">
 		<div class="col-10">
-			<%= objeto.doc_type %> | <%= objeto.year %> | <%= objeto.revista.revista unless objeto.revista.blank? %> | <%= objeto.d_ace %></br>
+			<%= objeto.doc_type %>
+			<% unless objeto.year.blank? %>
+				<i class="bi bi-dot"></i>
+				<%= objeto.year %>
+			<% end %>
+			<% unless objeto.revista.blank? %>
+				<i class="bi bi-dot"></i>
+				<%= objeto.revista.revista %>
+			<% end %>
+			<%= objeto.d_ace %></br>
 			<b><%= link_to objeto.title, objeto %></b></br>
 			<i><small>- <%= objeto.author %></small></i>
 		</div>
-		<div class="col-2">
-			<%= render partial: '0p/tabla/btns', locals: {objeto: objeto} %>
+		<div class="col-2" align="right">
+			<%= render partial: '0p/tabla/links_e', locals: {objeto: objeto} %>
 		</div>
 	</div>
-</div>
 </small></small>

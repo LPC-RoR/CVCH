@@ -1,10 +1,11 @@
-<h4 class='text-center text-info'>
-	<%= @objeto.title %>
-</h4>
+<div class="objeto-box">
+	<h4 class='text-center text-info'>
+		<%= objeto.title %>
+	</h4>
 
-<h6 class='text-center text-info'>
-	<small>
-		<%= @objeto.author %>
-	</small>
-</h6>
-
+	<h6 class='text-center text-info'>
+		<small>
+			<%= objeto.author.blank? ? 'sin autor registrado' : objeto.author %>
+		</small>
+	</h6>
+</div>

@@ -16,7 +16,7 @@ class CategoriasController < ApplicationController
   # GET /categorias/1
   # GET /categorias/1.json
   def show
-    init_tabla('publicaciones', @objeto.publicaciones.where(estado: 'publicada').order(sort_column + " " + sort_direction), true)
+    set_tabla('publicaciones', @objeto.publicaciones.where(estado: 'publicada').order(sort_column + " " + sort_direction), true)
 #    @coleccion = {}
 #    @coleccion['publicaciones'] = @objeto.publicaciones.where(estado: 'publicada').order(sort_column + " " + sort_direction).page(params[:page])
 #    @paginate = true
@@ -71,7 +71,7 @@ class CategoriasController < ApplicationController
 
     etiqueta = Etiqueta.where(publicacion_id: elemento.id).find_by(categoria_id: @objeto.id)
     unless etiqueta.blank?
-      etiqueta.asociado_por = perfil_activo_id
+      etiqueta.asociado_por = perfil_activo.id
       etiqueta.save
     end
 
@@ -135,7 +135,7 @@ class CategoriasController < ApplicationController
     end
 
     def set_redireccion
-      @redireccion = "/app_recursos/administracion?id=#{get_elemento_id(controller_name, 'Categorias')}" 
+      @redireccion = "/tablas?tb=#{tb_index(:admin, 'areas_categorias')}"
     end
 
     # Only allow a list of trusted parameters through.

@@ -1,0 +1,15 @@
+<% if notice or alert %>
+<div class="navbar-box">
+	<% if notice %>
+		<div  class="noticia p-2 bg-info text-white">
+			<i class="bi bi-bell"></i> <%= notice %>
+		</div>
+	<% end %>
+
+	<% if alert %>
+		<div  class="noticia p-2 bg-danger text-white">
+			<i class="bi bi-exclamation-diamond"></i> <%= alert %>
+		</div>
+	<% end %>
+</div>
+<% end %>

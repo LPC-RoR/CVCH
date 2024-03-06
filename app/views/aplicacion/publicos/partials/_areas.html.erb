@@ -1,8 +1,0 @@
-<ul class="list-group">
-	<li class="list-group-item"><b>Áreas</b></li>
-	<small>
-	<% Area.all.order(:area).each do |area| %>
-		<li class="list-group-item"><%= area.area %></li>
-	<% end %>
-	</small>
-</ul>

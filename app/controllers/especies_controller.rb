@@ -8,18 +8,17 @@ class EspeciesController < ApplicationController
   # GET /especies.json
   def index
 
-    init_tab({menu: ['Especies y etiquetas', 'Estructura']}, true)
+    set_tab( :menu, ['Especies y etiquetas', 'Estructura'] )
 
     if @options[:menu] == 'Estructura'
 
-      init_tabla('filo_elementos', FiloElemento.all.order(:filo_elemento), true)
-      add_tabla('filo_ordenes', FiloOrden.all.order(:orden), false)
+      set_tabla('filo_elementos', FiloElemento.all.order(:filo_elemento), true)
+      set_tabla('filo_ordenes', FiloOrden.all.order(:orden), false)
     else
       @coleccion = {}
       esp_ids = Especie.all.map {|esp| esp.id if esp.filo_especie_id.blank?}.compact
-      init_tabla('especies', Especie.where(id: esp_ids).order(:especie), true)
-#      add_tabla('filo_elementos', (@filo_elemento.blank? ? FiloElemento.where(false) :  @filo_elemento.children), false)
-      add_tabla('filo_especies', FiloEspecie.all.order(:filo_especie), true)
+      set_tabla('especies', Especie.where(id: esp_ids).order(:especie), true)
+      set_tabla('filo_especies', FiloEspecie.all.order(:filo_especie), true)
     end
 
   end
@@ -34,7 +33,7 @@ class EspeciesController < ApplicationController
     end
     @options = {'tab' => @tab}
 
-    init_tabla('publicaciones', @objeto.publicaciones.where(estado: 'publicada').order(sort_column + " " + sort_direction), true)
+    set_tabla('publicaciones', @objeto.publicaciones.where(estado: 'publicada').order(sort_column + " " + sort_direction), true)
   end
 
   # GET /especies/new
@@ -92,7 +91,7 @@ class EspeciesController < ApplicationController
         elemento.especies << especie
 
         etiqueta = Etiqueta.where(publicacion_id: elemento.id).find_by(especie_id: especie.id)
-        etiqueta.asociado_por = perfil_activo_id
+        etiqueta.asociado_por = perfil_activo.id
         etiqueta.save
 
         noticia = "Se ha etiquetado exitósamente esta publicación"

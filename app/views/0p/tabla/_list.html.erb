@@ -1,6 +1,21 @@
-<hr>
-<% unless coleccion.empty? %>
-	<% coleccion.each do |objeto| %>
-		<%= render partial: get_partial(objeto.class.name.tableize, 'list', 'objeto') , locals: {objeto: objeto} %>
+<% if tipo == 'list' %>
+	<div class="list-box">
+		<div class="row">
+<% end %>
+
+<% coleccion.each do |objeto| %>
+	<% if tipo == 'objeto' %>
+		<div class="objeto-box">
 	<% end %>
+
+		<%= render partial: partial_name(objeto.class.name.tableize, 'list', "#{tipo == 'list' ? 'lobjeto' : 'objeto'}") , locals: {objeto: objeto} %>
+
+	<% if tipo == 'objeto' %>
+		</div>
+	<% end %>
+<% end %>
+
+<% if tipo == 'list' %>
+		</div>
+	</div>
 <% end %>

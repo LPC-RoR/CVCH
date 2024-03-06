@@ -1,0 +1,16 @@
+<% menu_tablas[sym].each_with_index do |elem, indice| %>
+	<div class="menu_tablas_elemento" style= 'padding-left: <%=elem[2]-1%>em; line-height: 19px;'>
+		<% unless elem[1].blank? %>
+			<% if indice == @indice %>
+				<i class="bi bi-arrow-right"></i> <b><%= elem[0] %></b>
+			<% else %>
+				<%= link_to "/tablas?tb=#{tb_index(sym, elem[1])}" do %>
+					<div class='text-muted'><%= elem[0] %></div>
+				<% end %>
+			<% end %>
+		<% else %>
+			<i class="bi bi-arrow-return-right"></i>
+			<b class='text-muted'><%= elem[0] %></b></br>
+		<% end %>
+	</div>
+<% end %>

@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  o_clss: MyString
+  o_id: 1
+  orden: 1
+  nombre: MyString
+  descripcion: MyString
+  tipo: MyString
+  control: MyString
+
+two:
+  o_clss: MyString
+  o_id: 1
+  orden: 1
+  nombre: MyString
+  descripcion: MyString
+  tipo: MyString
+  control: MyString

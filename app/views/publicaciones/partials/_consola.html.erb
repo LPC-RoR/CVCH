@@ -1,0 +1,5 @@
+<% if admin? or ['ingreso', 'contribucion'].include?(@objeto.estado) %>
+	<div class="objeto-box">
+		<%= render partial: 'publicaciones/partials/state_buttons', locals: {objeto: @objeto, clr: 'info'} %>
+	</div>
+<% end %>

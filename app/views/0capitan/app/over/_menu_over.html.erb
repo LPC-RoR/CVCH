@@ -1,0 +1,30 @@
+<div class="row">
+	<div class="col-xs-12 col-lg-3">
+		<%= render partial: '0capitan/app/over/item', locals: {text: nil, link: root_path, gly: 'house'} %>
+		<%= render partial: '0capitan/app/over/item', locals: {text: 'AYUDA', link: 'publicos/ayuda', gly: nil} %>
+		<%= render partial: '0capitan/app/over/item', locals: {text: 'CONTACTO', link: 'publicos/contacto', gly: nil} %>
+		<%= render partial: '0capitan/app/over/item', locals: {text: 'ACERCA', link: 'publicos/acerca', gly: nil} %>
+	</div>
+	<div class=" col-xs-12 col-lg-6" align='center'>
+		<%#= render partial: '0capitan/app/over/item', locals: {text: nil, link: root_path, gly: 'instagram'} %>
+	</div>
+	<div class="col-lg-3" align='right'>
+
+		<div style="padding-right: .5em;">
+        <% if usuario_signed_in? %>
+
+			<span><%= render partial: '0capitan/app/over/item', locals: {text: nil, link: destroy_usuario_session_path, method: :delete, gly: 'door-open'} %></span>
+
+        <% else %>
+
+			<span><%= render partial: '0capitan/app/over/item', locals: {text: nil, link: new_usuario_session_path, method: :delete, gly: 'person'} %></span>
+
+			<span><%= render partial: '0capitan/app/over/item', locals: {text: nil, link: new_usuario_registration_path, method: :delete, gly: 'person-plus'} %></span>
+      
+        <% end %>
+    	</div>
+	
+	</div>
+</div>
+
+<hr style='margin-top: 0em; margin-bottom: 0em'>

@@ -9,9 +9,9 @@ class RevisionesController < ApplicationController
   # GET /revisiones.json
   def index
 
-    init_tab({menu: ['Cargas', 'Contribuciones', 'Formatos', 'Duplicados', 'Papelera']}, true)
+    set_tab( :menu, ['Cargas', 'Contribuciones', 'Formatos', 'Duplicados', 'Papelera'] )
 
-    init_tabla('publicaciones', (@options[:menu] == 'Contribuciones' ? Publicacion.where(estado: 'contribucion').order(sort_column + " " + sort_direction) : Publicacion.where(estado: @options[:menu].singularize.downcase).order(sort_column + " " + sort_direction)), true)
+    set_tabla('publicaciones', (@options[:menu] == 'Contribuciones' ? Publicacion.where(estado: 'contribucion').order(sort_column + " " + sort_direction) : Publicacion.where(estado: @options[:menu].singularize.downcase).order(sort_column + " " + sort_direction)), true)
 
   end
 

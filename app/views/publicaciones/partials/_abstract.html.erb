@@ -1,2 +1,4 @@
-<%= render partial: '0p/general/icon_text', locals: {text: 'Abstract', gly: 'blockquote-left', clr: 'info'} %>
-<small><h6 class='text-muted'><%= sanitize simple_format(@objeto.abstract)  %></h6></small>
+<div class="objeto-box">
+	<%= render partial: '0p/general/icon_text', locals: {text: 'Abstract', gly: 'blockquote-left', clr: 'info'} %>
+	<small><h6 class='text-muted'><%=@objeto.abstract.blank? ? 'Abstract no registrado' : (sanitize simple_format(@objeto.abstract))  %></h6></small>
+</div>

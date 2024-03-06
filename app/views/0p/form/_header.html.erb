@@ -1,0 +1,11 @@
+<div class='text-<%=config[:color][:app]%>'>
+<h<%=size%>>
+	<% if action_name == 'new' %>
+		<i class="bi bi-plus-circle"></i>
+	<% end %>
+	<% if action_name == 'edit' %>
+		<i class="bi bi-pencil"></i>
+	<% end %>
+	</i> <%=text%>
+</h<%=size%>>
+</div>

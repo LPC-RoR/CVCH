@@ -1,38 +1,45 @@
-<p class='text-info'>
-	<i class="bi bi-file-check"></i>
-	Categorías
-	<% if admin? %>
-		<a data-toggle="collapse" href="#collapseCategorias" role="button" aria-expanded="false" aria-controls="collapseCategorias">
-			<i class="bi bi-plus-circle"></i>
-		</a>
-  	<% end %>
-</p>
-
-<% if admin? %>
-	<div class="collapse" id="collapseCategorias">
-		<div class="card card-body">
-			<small>
-			<ul>
-				<% @categorias_disponibles.each do |categoria_objeto| %>
-					<li><%= link_to categoria_objeto.categoria, "/categorias/#{categoria_objeto.id}/asigna?class_name=Publicacion&objeto_id=#{@objeto.id}" %></li>
+<div class="lmenu-box">
+	<div class="row">
+		<div class="col-10 text-info">
+			<i class="bi bi-check-square"></i> Categorías
+		</div>
+		<div class="col-2">
+			<% if admin? %>
+				<%= render layout: '0p/collapse/link', locals: {label: 'SelCategoria', objeto: nil, tooltip: 'Agregar Categoría'} do %>
+					<i class="bi bi-plus-circle"></i>
 				<% end %>
-			</ul>
-			</small>
+		  	<% end %>
 		</div>
 	</div>
-<% end %>
 
-<small>
-<ul>
-	<% @objeto.categorias.order(:categoria).each do |categoria| %>
-	   	<li>
-	   		<% if admin? and @objeto.categorias.count > 1 %>
-		   		<%= link_to "/categorias/#{categoria.id}/desasignar?class_name=Publicacion&objeto_id=#{@objeto.id}" do %>
-		   			<i class="bi bi-x-circle"></i>
-		   		<% end %>
-	   		<% end %>
-	   		<%= link_to categoria.categoria, "/vistas?html_options[modelo]=Categoria&html_options[id]=#{categoria.id}" %>
-	   	</li>
+	<% if admin? %>
+		<%= render layout: '0p/collapse/display', locals: {label: 'SelCategoria', objeto: nil} do %>
+			<small class="text-info"><b>Seleccionar Categoría</small></b></br>
+			<div class="collapse-display-list">
+				<% @categorias_disponibles.each do |categoria_objeto| %>
+					<small><%= link_to categoria_objeto.categoria, "/categorias/#{categoria_objeto.id}/asigna?class_name=Publicacion&objeto_id=#{@objeto.id}" %></small></br>
+				<% end %>
+			</div>
+		<% end %>
 	<% end %>
-</ul>
-</small>
+
+	<small>
+	<div style="padding-left: 1em; padding-right: 2em; line-height: 15px;">
+		<% @objeto.categorias.order(:categoria).each do |categoria| %>
+			<div class="row">
+				<div class="col-10">
+					<%= link_to categoria.categoria, "/vistas?html_options[modelo]=Categoria&html_options[id]=#{categoria.id}" %>
+				</div>
+				<div class="col-2">
+			   		<% if admin? and @objeto.categorias.count > 1 %>
+			   			<%= render layout: '0p/layout/tooltip_link', locals: {link: "/categorias/#{categoria.id}/desasignar?class_name=Publicacion&objeto_id=#{@objeto.id}", tooltip: 'Desasigna categoria'} do %>
+				   			<i class="bi bi-trash"></i>
+				   		<% end %>
+			   		<% end %>
+				</div>
+			</div>
+		<% end %>
+	</div>
+	</small>
+
+</div>

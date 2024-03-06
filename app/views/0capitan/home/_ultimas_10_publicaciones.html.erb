@@ -1,0 +1,12 @@
+<div class='titulo text-info', align='center'>
+	ULTIMAS 10 ACTUALIZACIONES
+</div>
+<% @coleccion['publicaciones'].each do |publicacion| %>
+	<small>
+	<div class='objeto-box'>
+		<small><b><%= publicacion.doc_type %></b> | <%= publicacion.year %> : <%= publicacion.journal %></small></br>
+		<small><%= link_to publicacion.title, publicacion %></small><br>
+		<small><small><small class='text-muted'><%= publicacion.author %></small></small></small>
+	</div>
+	</small>
+<% end %>

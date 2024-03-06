@@ -17,8 +17,8 @@ class AreasController < ApplicationController
   # GET /areas/1
   # GET /areas/1.json
   def show
-    init_tabla('publicaciones', @objeto.papers.where(estado: 'publicada').order(sort_column + " " + sort_direction), true)
-    add_tabla('filo_elementos', @objeto.filo_elementos.order(:filo_elemento), false)
+    set_tabla('publicaciones', @objeto.papers.where(estado: 'publicada').order(sort_column + " " + sort_direction), true)
+    set_tabla('filo_elementos', @objeto.filo_elementos.order(:filo_elemento), false)
   end
 
   # GET /areas/new
@@ -113,7 +113,7 @@ class AreasController < ApplicationController
     end
 
     def set_redireccion
-      @redireccion = "/app_recursos/administracion?id=#{get_elemento_id(controller_name, 'Áreas')}" 
+      @redireccion = "/tablas?tb=#{tb_index(:admin, 'areas_categorias')}"
     end
 
     # Only allow a list of trusted parameters through.

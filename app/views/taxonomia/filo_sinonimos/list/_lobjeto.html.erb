@@ -1,0 +1,36 @@
+<small><small>
+	<div class="row">
+		<div class="col-10">
+			<div style="padding-left: 2em;">
+			<i class="bi bi-collection"></i>
+			<% unless objeto.correccion.blank? %>
+				<i class="bi bi-arrow-repeat text-info"></i>
+			<% end %>
+			<% if objeto.especie.present? %>
+				<%= link_to objeto.nombre, objeto.especie %> 
+			<% else %>
+				<%= objeto.nombre %> 
+			<% end %>
+			( <%= objeto.especie.present? ? objeto.especie.publicaciones.count : 0 %> ) 
+
+			<% if objeto.sinonimo_especie? %><i class="bi bi-flag text-danger"></i><% end %>
+			<% if objeto.multiple? %><i class="bi bi-intersect text-danger"></i><% end %>
+			</div>
+		</div>
+		<div class="col-2" align='right'>
+			<% if admin? %>
+				<%= render layout: '0p/collapse/link', locals: {label: 'ModificaSinonimo', objeto: objeto, tooltip: 'Modifica Sinonimia'} do %>
+					<i class="bi bi-collection"></i>
+				<% end %>
+				<% if objeto.especie.blank? %>
+					<%= render layout: '0p/layout/tooltip_link', locals: {link: "/filo_sinonimos/#{objeto.id}/borrar?indice=#{@objeto.id}", tooltip: 'Elimina Sinonimia'} do %>
+						<i class="bi bi-trash"></i>
+					<% end %>
+				<% end %>
+			<% end %>
+		</div>
+	</div>
+	<%= render layout: '0p/collapse/display', locals: {label: 'ModificaSinonimo', objeto: objeto} do %>
+		<%= render partial: 'taxonomia/filo_sinonimos/list/form_set_sinonimo', locals: {objeto: objeto} %>
+	<% end %>
+</small></small>

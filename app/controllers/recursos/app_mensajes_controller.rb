@@ -15,9 +15,9 @@ class Recursos::AppMensajesController < ApplicationController
 
     # Despliegue
     if @e == 'ingreso' and admin?
-      init_tabla('app_mensajes', coleccion_base.where(id: ids_administrativos).where(estado: 'ingreso').order(fecha_envio: :desc), true)
+      set_tabla('app_mensajes', coleccion_base.where(id: ids_administrativos).where(estado: 'ingreso').order(fecha_envio: :desc), true)
     elsif @e == 'cerrado'
-      init_tabla('app_mensajes', encabezados.where(estado: 'cerrado'), true)
+      set_tabla('app_mensajes', encabezados.where(estado: 'cerrado'), true)
     else
       enviados = encabezados.where(estado: 'enviado')
 
@@ -25,7 +25,7 @@ class Recursos::AppMensajesController < ApplicationController
       ids_sin_respuesta = enviados.map {|pend| pend.id if pend.children.empty?}.compact
 
       if @e == 'enviado'
-        init_tabla('app_mensajes', enviados.where(id: ids_administrativos).order(fecha_envio: :desc), true)
+        set_tabla('app_mensajes', enviados.where(id: ids_administrativos).order(fecha_envio: :desc), true)
       elsif @e == 'recibido'
         ids_usuario_sin_respuesta = (ids_sin_respuesta - ids_administrativos)
         ids_usuario_con_respuesta = (ids_con_respuesta - ids_administrativos)
@@ -42,14 +42,14 @@ class Recursos::AppMensajesController < ApplicationController
           ids_usuario_con_respuesta_admin = usuario_con_respuesta.map {|msg| msg.id if msg.children.order(fecha_envio: :desc).first.perfil.administrador.present?}.compact
           ids_coleccion = (ids_enviados_adm | ids_usuario_con_respuesta_admin)
         end
-        init_tabla('app_mensajes', coleccion_base.where(id: ids_coleccion).order(fecha_envio: :desc), true)
+        set_tabla('app_mensajes', coleccion_base.where(id: ids_coleccion).order(fecha_envio: :desc), true)
       end
 
-      init_tabla('app_mensajes', AppMensaje.where(estado: @e).order(:created_at), false)
+      set_tabla('app_mensajes', AppMensaje.where(estado: @e).order(:created_at), false)
     end
 
     # No me queda clara su función, lo dejo para revisión más detallada
-    @nomina = AppNomina.find_by(email: perfil_activo.email) unless seguridad_desde('admin')
+    @nomina = AppNomina.find_by(email: perfil_activo.email) unless admin?
 
   end
 
@@ -60,7 +60,7 @@ class Recursos::AppMensajesController < ApplicationController
   # GET /app_mensajes/new
   def new
     if usuario_signed_in?
-      perfil_id = perfil_activo_id
+      perfil_id = perfil_activo.id
       tipo      = admin? ? 'administrador' : 'usuario'
       estado    = 'ingreso'
     else
@@ -69,7 +69,7 @@ class Recursos::AppMensajesController < ApplicationController
       estado    = 'enviado'
     end
 
-    perfil_id = (usuario_signed_in? ? perfil_activo_id : nil)
+    perfil_id = (usuario_signed_in? ? perfil_activo.id : nil)
     tipo = (usuario_signed_in? ? ( admin? ? 'administrador' : 'usuario') : 'anónimo')
     estado = (usuario_signed_in? ? 'ingreso' : 'enviado')
     
@@ -98,7 +98,7 @@ class Recursos::AppMensajesController < ApplicationController
 
   def respuesta
     @padre = AppMensaje.find(params[:padre_id])
-    perfil_id = perfil_activo_id
+    perfil_id = perfil_activo.id
     tipo      = admin? ? 'administrador' : 'usuario'
     estado    = 'enviado'
     mensaje = params[:mensaje_base][:mensaje]

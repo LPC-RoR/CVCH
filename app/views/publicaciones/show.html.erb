@@ -1,5 +1,4 @@
-<%= render partial: 'publicaciones/partials/header' %>
-<hr>
+<%= render partial: 'publicaciones/partials/header', locals: {objeto: @objeto} %>
 <div class='row'>
 	<div class='col-md-3'>
 
@@ -8,47 +7,45 @@
 
 		<% if @objeto.estado == 'publicada' %>
 			<% if usuario_signed_in? %>
-				<%= render partial: 'publicaciones/partials/carpetas', locals: {titulo: 'Carpetas', coleccion: perfil_activo.carpetas.order(:carpeta), tag: 'Carpetas' } %>
-				<%= render partial: 'publicaciones/partials/carpetas', locals: {titulo: 'Carpetas compartidas', coleccion: perfil_activo.compartidas.order(:carpeta), tag: 'Compartidas' } %>
+				<%= render partial: 'publicaciones/partials/carpetas' %>
+				<%= render partial: 'publicaciones/partials/compartidas' %>
 			<% end %>
 
 			<%= render partial: 'publicaciones/partials/especies' %>
 		<% end %>
 
 	</div>
-	<div class='col-md-7'>
+	<div class='col-md-9'>
 
-		<%= render partial: 'publicaciones/partials/links' %>
-		<hr>
+		<%= render partial: 'publicaciones/partials/consola' %>
+		<%= render partial: 'publicaciones/partials/refs', locals: {objeto: @objeto, clr: 'dark'} %>
 		<%= render partial: 'publicaciones/partials/cita' %>
-		<hr>
 		<%= render partial: 'publicaciones/partials/abstract' %>
+
+	</div>
+</div>
+
+<% unless usuario_signed_in?.blank? %>
+	<hr>
+	<div class='row'>
+		<div class='col-md-6'>
+			<%= render partial: '0capitan/general/titulo_tabla', locals: {c: 'app_observaciones', title: 'Observaciones', link_new: "/app_observaciones/new?class_name=#{@objeto.class.name}&objeto_id=#{@objeto.id}"} %>
+			<%= render partial: 'recursos/app_observaciones/index' %>
+		</div>
+		<div class='col-md-6'>
+			<%= render partial: '0capitan/general/titulo_tabla', locals: {c: 'app_mejoras', title: 'Mejoras', link_new: "/app_mejoras/new?class_name=#{@objeto.class.name}&objeto_id=#{@objeto.id}"} %>
+			<%= render partial: 'recursos/app_mejoras/index' %>
+		</div>
+	</div>
+
+	<% if dog? %>
 		<hr>
-		<%#= render partial: 'publicaciones/partials/indices' if admin? %>
-
-		<% if dog? %>
-			<hr>
-			<small>
-			<%= "Número de índices: #{@objeto.indices.count}" %></br>
-			<%= @objeto.author_email %></br>
-			<% @objeto.indices.each do |indice| %>
-				<%= indice.ind_clave.ind_clave unless indice.ind_clave.blank? %> | <%= indice.ind_palabra.ind_palabra unless indice.ind_palabra_id.blank? %></br>
-			<% end %>
-			</small>
+		<small>
+		<%= "Número de índices: #{@objeto.indices.count}" %></br>
+		<%= @objeto.author_email %></br>
+		<% @objeto.indices.each do |indice| %>
+			<%= indice.ind_clave.ind_clave unless indice.ind_clave.blank? %> | <%= indice.ind_palabra.ind_palabra unless indice.ind_palabra_id.blank? %></br>
 		<% end %>
-
-	</div>
-</div>
-<hr>
-<div class='row'>
-	<div class='col-md-6'>
-		<%= render partial: '0p/general/icon_text', locals: {text: 'Observaciones', gly: 'chat', clr: 'success'} %>
-		<%= render partial: 'recursos/app_observaciones/index' %>
-		<%= render partial: '0p/tabla/ext_btn_nuevo', locals: {o: @objeto, c: 'app_observaciones', clr: 'info', gly: 'plus-circle'} %>
-	</div>
-	<div class='col-md-6'>
-		<%= render partial: '0p/general/icon_text', locals: {text: 'Mejoras', gly: 'exclamation-diamond', clr: 'info'} %>
-		<%= render partial: 'recursos/app_mejoras/index' %>
-		<%= render partial: '0p/tabla/ext_btn_nuevo', locals: {o: @objeto, c: 'app_mejoras', clr: 'info', gly: 'plus-circle'} %>
-	</div>
-</div>
+		</small>
+	<% end %>
+<% end %>

@@ -1,3 +1,31 @@
+/* MENU OVER */
+.menu-over-box {
+    box-shadow: 10px 10px 18px -12px rgba(166,153,166,1);
+    background-color: #ffffff;
+    border: 1px solid #f2f4f4;
+    margin-bottom: 1px;
+    border-radius: 3px 3px 3px 3px;
+    font-family: 'Raleway', sans-serif;
+}
+.menu-over-item {
+    padding-left: 10px;
+}
+
+.menu-over-item a {
+    text-decoration: none;
+}
+
+/* BANNER */
+
+.banner-box {
+    box-shadow: 10px 10px 18px -12px rgba(166,153,166,1);
+    background-color: #ffffff;
+    margin-bottom: -8px;
+    border: 1px solid #f2f4f4;
+    border-radius: 3px 3px 3px 3px;
+    font-family: 'Raleway', sans-serif;
+}
+
 .texto-banner {
 	font-family: 'Raleway', sans-serif;
 	padding-left: 1em;
@@ -5,57 +33,168 @@
 	color: black;
 }
 
-.link-item span a {
-	font-family: 'Raleway', sans-serif;
-    text-decoration: none;
-    &:hover{
-        text-decoration: none;
-        color: red;
-    }
-}
+/* NAVBAR */
 
-span + span {
-    margin-left: 10px;
-}
-
-.pub-1 {
-    font-family: 'Lexend', sans-serif;
-}
-
-.bajada {
-    font-family: 'Lexend', sans-serif;
-}
-
-.titulo-seccion {
-    font-family: 'Lexend', sans-serif;
-    background-color:  white;
-
-    position: relative;
-    z-index: 1;
-    
-    &:before {
-        border-top: 2px solid #dfdfdf;
-        content:"";
-        margin: 0 auto; /* this centers the line to the full width specified */
-        position: absolute; /* positioning must be absolute here, and relative positioning must be applied to the parent */
-        top: 50%; left: 0; right: 0; bottom: 0;
-        width: 95%;
-        z-index: -1;
-    }
-
-    p { 
-        /* to hide the lines from behind the text, you have to set the background color the same as the container */ 
-        background: #fff; 
-        padding: 0 15px; 
-    }
-}
-
-.home-estructura {
-    font-family: 'Lexend', sans-serif;
-}
-
-.list-item {
+.navbar-box {
+    box-shadow: 10px 10px 18px -12px rgba(166,153,166,1);
+    margin-bottom: 1px;
+    border-color: #000000;
+    border-radius: 3px 3px 3px 3px;
     font-family: 'Raleway', sans-serif;
-    background-color:     #eaf2f8;
-    padding-bottom: 1em;    
+}
+
+.nav-item a {
+    color: white;
+}
+
+/* DEVISE */
+
+.devise-box {
+    box-shadow: 10px 10px 18px -12px rgba(166,153,166,1);
+    padding: 1em;
+    margin-bottom: 1px;
+    border: 1px solid #f2f4f4;
+    border-radius: 3px 3px 3px 3px;
+    font-family: 'Raleway', sans-serif;
+    font-size: 15px;
+}
+
+/* LMENU */
+
+.lmenu-box {
+    box-shadow: 10px 10px 18px -12px rgba(166,153,166,1);
+    padding: 1em;
+    margin-bottom: 2px;
+    border: 1px solid #d1f2eb;
+    border-radius: 3px 3px 3px 3px;
+    background-color: #e8f8f5;
+    font-family: 'Raleway', sans-serif;
+    font-size: 15px;
+}
+
+.lmenu-list {
+    box-shadow: 10px 10px 18px -12px rgba(166,153,166,1);
+    padding: 1em;
+    margin-bottom: 2px;
+    border: 1px solid #d1f2eb;
+    border-radius: 3px 3px 3px 3px;
+    font-family: 'Raleway', sans-serif;
+    font-size: 15px;
+    line-height: 15px;
+}
+
+/* COLLAPSE */
+
+.collapse-display-list {
+    padding-left: 2em; padding-right: 1em;
+    padding: 1em;
+    margin-top: 2px;
+    margin-bottom: 2px;
+    border: 1px solid #d1f2eb;
+    border-radius: 3px 3px 3px 3px;
+    font-family: 'Raleway', sans-serif;
+    font-size: 15px;
+    line-height: 15px;
+}
+
+/* TABS */
+
+/* NO FUNCIONAN LOS COLORES PERO EVITA QUE SEA BLANCO COMO EN NAVBAR */
+.nav-tabs > li.active > a {
+  color: #0b5345;
+  font-size: 16px;
+}
+
+.nav-tabs > li > a {
+  color: #575757;
+}
+
+/* TABLA - LIST - OBJETO */
+
+.list-box {
+    padding: 1em;
+    box-shadow: 10px 10px 18px -12px rgba(166,153,166,1);
+    background-color: #ffffff;
+    margin-bottom: -8px;
+    border: 1px solid #f2f4f4;
+    border-radius: 3px 3px 3px 3px;
+    font-family: 'Raleway', sans-serif;
+}
+
+.objeto-box {
+    padding: 1em;
+    box-shadow: 10px 10px 18px -12px rgba(166,153,166,1);
+    background-color: #f8f9f9;
+    margin-bottom: 2px;
+    border: 1px solid #f2f4f4;
+    border-radius: 3px 3px 3px 3px;
+    font-family: 'Raleway', sans-serif;
+}
+
+
+
+.paginate-box {
+    padding-left: 1em; padding-right: 1em;
+    box-shadow: 10px 10px 18px -12px rgba(166,153,166,1);
+    background-color: #a2d9ce;
+    margin-bottom: 2px;
+    border: 1px solid #f2f4f4;
+    border-radius: 3px 3px 3px 3px;
+    font-family: 'Raleway', sans-serif;
+}
+
+/* FORM */
+
+.form-box {
+    padding: 1em;
+    margin-bottom: .5em;
+    box-shadow: 10px 10px 18px -12px rgba(166,153,166,1);
+    background-color: #f8f9f9;
+    border: 1px solid #f2f4f4;
+    border-radius: 3px 3px 3px 3px;
+    font-family: 'Raleway', sans-serif;
+}
+
+/* ELEMENTO */
+
+.elemento-box {
+    padding: 1em;
+    margin-bottom: .5em;
+    box-shadow: 10px 10px 18px -12px rgba(166,153,166,1);
+    background-color: #f8f9f9;
+    border: 1px solid #f2f4f4;
+    border-radius: 3px 3px 3px 3px;
+    font-family: 'Raleway', sans-serif;
+}
+
+/* BLOG */
+
+.foto-box {
+    box-shadow: 10px 10px 18px -12px rgba(166,153,166,1);
+    background-color: #ffffff;
+    margin-bottom: -8px;
+    border: 1px solid #f2f4f4;
+    border-radius: 3px 3px 3px 3px;
+    font-family: 'Raleway', sans-serif;
+}
+
+/* TAXONOMIA */
+
+.tax-titulo {
+    padding: 1em;
+    box-shadow: 10px 10px 18px -12px rgba(166,153,166,1);
+    background-color: #eafaf1;
+    border-color: #000000;
+    margin-bottom: 1em;
+    border-radius: 3px 3px 3px 3px;
+    font-family: 'Lexend', sans-serif;
+}
+
+.tax-box {
+    padding: 1em;
+    margin-bottom: 4px;
+    box-shadow: 10px 10px 18px -12px rgba(166,153,166,1);
+    background-color: #eafaf1;
+    border-radius: 3px 3px 3px 3px;
+    font-family: 'Raleway', sans-serif;
 }

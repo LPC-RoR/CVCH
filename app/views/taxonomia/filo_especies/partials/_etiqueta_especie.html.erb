@@ -1,0 +1,14 @@
+	<small class="text-info">
+		<%= render partial: '0p/general/gly', locals: {gly: 'tag'} %>
+		Etiqueta de la especie
+	</small></br>
+
+	<div style="padding-left: 1em;">
+		<small><small>
+		<% if Especie.find_by(especie: objeto.filo_especie).blank? %>
+			<div class='text-danger'><i class="bi bi-cone-striped"></i> No se encontró etiqueta para esta especie.</div>
+		<% else %>
+			<div class='text-info'><i class="bi bi-tag"></i> <%= link_to objeto.filo_especie, Especie.find_by(especie: objeto.filo_especie) %> ( <%=Especie.find_by(especie: objeto.filo_especie).publicaciones.count %> )</div>
+		<% end %>
+		</small></small>
+	</div>

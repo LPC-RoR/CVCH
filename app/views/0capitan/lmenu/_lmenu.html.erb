@@ -1,0 +1,23 @@
+<div class="lmenu-box">
+
+	<%= render partial: '0capitan/lmenu/app_header' %>
+
+	<% menu_left[sym].each do |area_menu| %>
+		<% if area_menu[:condicion] %>
+			<% unless area_menu[:titulo] == 'Tablas' %>
+				<div class="text-info text-center"><%=area_menu[:titulo] %></div>
+				<% area_menu[:items].each do |modelo| %>
+					<%= render partial: '0capitan/lmenu/display_item_modelo', locals: {modelo: modelo} %>
+				<% end %>
+			<% else %>
+				<small>
+				<i class="bi bi-<%=controller_icon['tablas']%>"></i> 
+				<b class="text-muted"><%= modelo_item('Tabla') %></b>
+				<%= render partial: 'aplicacion/tablas/menu_tablas', locals: {sym: sym} %>
+				</small>
+				</br>
+			<% end %>
+		<% end %>
+	<% end %>
+
+</div>

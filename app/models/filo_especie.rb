@@ -51,6 +51,10 @@
 
 	# **** TAXOMOMÍA
 
+	def n_indent
+		self.filo_elemento.present? ? (self.filo_elemento.n_indent + 2) : (self.parent.present? ? (self.parent.n_indent + 2) : 2 )
+	end
+
 	def genero
 		self.parent.blank? ? self.filo_elemento : self.parent.filo_elemento
 	end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_11_15_142638) do
+ActiveRecord::Schema.define(version: 2024_02_29_141147) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -137,9 +137,23 @@ ActiveRecord::Schema.define(version: 2023_11_15_142638) do
     t.integer "app_administrador_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "o_clss"
+    t.integer "o_id"
     t.index ["app_administrador_id"], name: "index_app_perfiles_on_app_administrador_id"
     t.index ["email"], name: "index_app_perfiles_on_email"
+    t.index ["o_clss"], name: "index_app_perfiles_on_o_clss"
+    t.index ["o_id"], name: "index_app_perfiles_on_o_id"
     t.index ["usuario_id"], name: "index_app_perfiles_on_usuario_id"
+  end
+
+  create_table "app_versiones", force: :cascade do |t|
+    t.string "app_nombre"
+    t.string "app_sigla"
+    t.string "app_logo"
+    t.string "app_banner"
+    t.string "dog_email"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "areas", force: :cascade do |t|
@@ -255,6 +269,23 @@ ActiveRecord::Schema.define(version: 2023_11_15_142638) do
     t.index ["perfil_id"], name: "index_categorias_on_perfil_id"
   end
 
+  create_table "cfg_valores", force: :cascade do |t|
+    t.string "cfg_valor"
+    t.string "tipo"
+    t.decimal "numero"
+    t.string "palabra"
+    t.string "texto"
+    t.date "fecha"
+    t.datetime "fecha_hora"
+    t.integer "app_version_id"
+    t.boolean "check_box"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["app_version_id"], name: "index_cfg_valores_on_app_version_id"
+    t.index ["cfg_valor"], name: "index_cfg_valores_on_cfg_valor"
+    t.index ["tipo"], name: "index_cfg_valores_on_tipo"
+  end
+
   create_table "clasificaciones", force: :cascade do |t|
     t.integer "carpeta_id"
     t.integer "publicacion_id"
@@ -277,6 +308,24 @@ ActiveRecord::Schema.define(version: 2023_11_15_142638) do
     t.index ["administracion"], name: "index_conceptos_on_administracion"
     t.index ["concepto"], name: "index_conceptos_on_concepto"
     t.index ["perfil_id"], name: "index_conceptos_on_perfil_id"
+  end
+
+  create_table "control_documentos", force: :cascade do |t|
+    t.string "o_clss"
+    t.integer "o_id"
+    t.integer "orden"
+    t.string "nombre"
+    t.string "descripcion"
+    t.string "tipo"
+    t.string "control"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["control"], name: "index_control_documentos_on_control"
+    t.index ["nombre"], name: "index_control_documentos_on_nombre"
+    t.index ["o_clss"], name: "index_control_documentos_on_o_clss"
+    t.index ["o_id"], name: "index_control_documentos_on_o_id"
+    t.index ["orden"], name: "index_control_documentos_on_orden"
+    t.index ["tipo"], name: "index_control_documentos_on_tipo"
   end
 
   create_table "departamentos", force: :cascade do |t|
@@ -1018,6 +1067,27 @@ ActiveRecord::Schema.define(version: 2023_11_15_142638) do
     t.boolean "activa"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "st_estados", force: :cascade do |t|
+    t.integer "orden"
+    t.string "st_estado"
+    t.string "destinos"
+    t.string "destinos_admin"
+    t.integer "st_modelo_id"
+    t.boolean "aprobacion"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["orden"], name: "index_st_estados_on_orden"
+    t.index ["st_estado"], name: "index_st_estados_on_st_estado"
+    t.index ["st_modelo_id"], name: "index_st_estados_on_st_modelo_id"
+  end
+
+  create_table "st_modelos", force: :cascade do |t|
+    t.string "st_modelo"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["st_modelo"], name: "index_st_modelos_on_st_modelo"
   end
 
   create_table "suscripciones", force: :cascade do |t|

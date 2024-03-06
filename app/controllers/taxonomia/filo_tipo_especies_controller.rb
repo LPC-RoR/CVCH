@@ -74,7 +74,7 @@ class Taxonomia::FiloTipoEspeciesController < ApplicationController
     end
 
     def set_redireccion
-      @redireccion = "/app_recursos/administracion?id=#{get_elemento_id(controller_name, 'Tipos de Especie')}" 
+      @redireccion = "/tablas?tb=#{tb_index(:admin, 'tipos')}"
     end
 
     # Only allow a list of trusted parameters through.

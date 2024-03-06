@@ -3,7 +3,7 @@
 <%= form_for :set_sinonimo, url: "/filo_sinonimos/#{objeto.id}/set_sinonimo?indice=#{@objeto.id}" do |form| %>
 
 	<%= render partial: '0p/form_fields/label', locals: { form: form, label: 'Tipo de sinónimo', v: false } %>
-	<%= render partial: '0p/form_fields/select', locals: { form: form, token: :tipo, sel_list: ['equivalente', 'sinónimo', 'agregado', 'excluido'], label: 'Tipo' } %></br>
+	<%= render partial: '0p/form_fields/select', locals: { form: form, token: :tipo, sel_list: ['equivalente', 'sinónimo', 'agregado'], label: 'Tipo' } %></br>
 
 	<p><%= render partial: '0p/form_fields/check_box', locals: { form: form, token: :borrar, label: 'Borrar corrección', v: false } %></p>
 

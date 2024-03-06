@@ -1,28 +1,34 @@
 module Inicia
 	extend ActiveSupport::Concern
 
-	def verifica_primer_acceso
-		if ActiveRecord::Base.connection.table_exists? 'app_administradores'
-			@dog = AppAdministrador.find_by(email: dog_email)
-			@dog = AppAdministrador.create(administrador: dog_name, email: dog_email) if @dog.blank?
+	def dog_wanted
+		dog_forgoted = AppPerfil.find_by(email: dog_email)
+		if dog_forgoted.blank?
+			AppPerfil.create(o_clss: 'AppVersion', o_id: version_activa.id, email: dog_email)
 		else
-			@dog = Administrador.find_by(email: dog_email)
-			@dog = Administrador.create(administrador: dog_name, email: dog_email) if @dog.blank?
+			dog_forgoted.o_clss = 'AppVersion'
+			dog_forgoted.o_id = version_activa.id
+			dog_forgoted.save
 		end
-
 	end
 
 	def inicia_sesion
 
-		# se hace para no llamar a cada rato a la base de datos
-		perfil = perfil_activo
+		# Verifica registros BASE
+		AppVersion.create(dog_email: dog_email) if version_activa.blank?
+		dog_wanted if version_activa.dog_perfil.blank?
+
+		# MIGRACION -----------
+		version = version_activa
+		if version.app_nombre.blank? or version.app_sigla.blank?
+			version.app_nombre = 'Repositorio de citas bibliográficas de vertebrados de Chile'
+			version.app_sigla = 'cvch'
+			version.save
+		end
 
 		# si hay USUARIO AUTENTICADO pero el usuario NO TIENE PERFIL}
 		# ocurre si es el primer acceso a la aplicación o si el usuario recién se creo
-		if usuario_signed_in? and perfil.blank?
-
-			# INICIALIZA VARIBLES EN PRIMER ACCESO
-			verifica_primer_acceso
+		if usuario_signed_in? and perfil_activo.blank?
 
 			# crea perfil si está en archivo de administradores o en nómina o aplicación es de libre registro
 			administrador = AppAdministrador.find_by(email: current_usuario.email)

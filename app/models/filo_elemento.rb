@@ -58,6 +58,6 @@ class FiloElemento < ApplicationRecord
 	end
 
 	def n_indent
-		self.filo_orden.blank? ? 0 : self.filo_orden.orden.to_i
+		self.filo_orden.blank? ? 0 : self.filo_orden.orden.to_i * 2
 	end
 end

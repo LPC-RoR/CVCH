@@ -1,20 +1,25 @@
-<% if ['Bandejas', 'Menu', 'Mensajes'].include?(get_layout) %>
-	<div class='row'>
-		<div class='col-md-2'>
-			<% case get_layout %>
-			<% when 'Bandejas' %>
-				<%= render partial: get_partial('st_bandejas', 'partials', 'bandeja') %>
-			<% when 'Menu' %>
-				<%= render partial: get_partial('sidebar', 'partials', 'menu_display'), locals: {sb_list: @sb_elementos, name_list: @sb_name, sb_link: @sb_link } %>
-			<% when 'Mensajes' %>
-				<%= render partial: get_partial('app_mensajes', 'partials', 'bandeja') %>
-			<% end %>
-		</div>
-		<div class='col-md-10'>
-			<%= yield %>
-		</div>
-	</div>
+<div class="container-fluid">
+	<div class="app_body" style="padding-left: <%=lyt_body_padd%>%; padding-right: <%=lyt_body_padd%>%; margin-bottom: 1px;">
 
-<% else %>
-    <%= yield %>
-<% end %>
+		<%= render partial: 'layouts/partials/notice_alert' %>
+
+		<!-- DESPLIEGA PÁGINA SÓLO SI EL PERFIL ESTÁ ACTIVO, ES UNA PÁGINA PÚBLICA O DE DEVISE -->
+		<% if perfil_activo.present? or ['publicos', 'vistas', 'publicaciones'].include?(controller_name) or devise_controllers.include?(controller_name)  %>
+			<% unless controller_menu_left(controller_name).blank? %>
+				<div class="row">
+					<div class="col-2">
+						<%= render partial: '0capitan/lmenu/lmenu', locals: { sym: controller_menu_left(controller_name) } %>
+					</div>
+					<div class="col-10">
+						<%= yield %>
+					</div>
+				</div>
+			<% else %>
+				<%= yield %>
+			<% end %>
+		<% else %>
+			Usuario sin perfil activo, comuniquese con el administrador de la plataforma.
+		<% end %>
+
+	</div>
+</div>

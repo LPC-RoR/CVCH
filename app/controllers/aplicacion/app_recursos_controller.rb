@@ -12,8 +12,8 @@ class Aplicacion::AppRecursosController < ApplicationController
 
   def home
     ultimos_ids = Publicacion.where(estado: 'publicada').order(created_at: :asc).last(10).map {|pub| pub.id}
-    init_tabla( 'publicaciones', Publicacion.where(id: ultimos_ids).order(sort_column + " " + sort_direction), false )
-    add_tabla( 'tema_ayudas', TemaAyuda.where(tipo: 'inicio').where(activo: true).order(:orden), false )
+    set_tabla( 'publicaciones', Publicacion.where(id: ultimos_ids).order(sort_column + " " + sort_direction), false )
+    set_tabla( 'tema_ayudas', TemaAyuda.where(tipo: 'inicio').where(activo: true).order(:orden), false )
   end
 
   def ayuda
@@ -26,6 +26,12 @@ class Aplicacion::AppRecursosController < ApplicationController
   end
 
   def procesos
+    AppAdministrador.all.each do |admin|
+      nomina = AppNomina.find_by(email: admin.email)
+      if nomina.blank?
+        AppNomina.create(nombre: admin.administrador, email: admin.email, tipo: 'Admin')
+      end
+    end
 #    Clasificacion.all.each do |clasificacion|
 #      if clasificacion.paper.blank?
 #        clasificacion.delete
@@ -75,43 +81,44 @@ class Aplicacion::AppRecursosController < ApplicationController
 #        pub.save
 #    end
 
+# ------------------------------------------------------------------------
+#    n_especies = Especie.all.count
+#    n_sin_padre = Especie.where(filo_especie_id: nil).count
+#    n_filo_especies = FiloEspecie.all.count
+#    n_sub_especies = FiloEspecie.where(filo_elemento_id: nil).count
+#    n_cvch = FiloEspecie.where(link_fuente: nil).count
 
-    n_especies = Especie.all.count
-    n_sin_padre = Especie.where(filo_especie_id: nil).count
-    n_filo_especies = FiloEspecie.all.count
-    n_sub_especies = FiloEspecie.where(filo_elemento_id: nil).count
-    n_cvch = FiloEspecie.where(link_fuente: nil).count
+#    base_ids = FiloElemento.all.map {|fe| fe.id unless (fe.parent.present? or fe.revisar == false)}.compact
+#    FiloElemento.where(id: base_ids).each do |genero_huerfano|
+#      genero_huerfano.filo_especies.each do |f_especie|
+#        f_especie.children.each do |f_sub_especie|
+#          f_sub_especie.especies.each do |especie|
+#            f_sub_especie.especies.delete(especie)
+#          end
+#          f_especie.children.delete(f_sub_especie)
+#          f_sub_especie.delete
+#        end
 
-    base_ids = FiloElemento.all.map {|fe| fe.id unless (fe.parent.present? or fe.revisar == false)}.compact
-    FiloElemento.where(id: base_ids).each do |genero_huerfano|
-      genero_huerfano.filo_especies.each do |f_especie|
-        f_especie.children.each do |f_sub_especie|
-          f_sub_especie.especies.each do |especie|
-            f_sub_especie.especies.delete(especie)
-          end
-          f_especie.children.delete(f_sub_especie)
-          f_sub_especie.delete
-        end
-
-        f_especie.especies.each do |especie|
-          f_especie.especies.delete(especie)
-        end
-        f_especie.delete
-      end
-      genero_huerfano.delete
-    end
+#        f_especie.especies.each do |especie|
+#          f_especie.especies.delete(especie)
+#        end
+#        f_especie.delete
+#      end
+#      genero_huerfano.delete
+#    end
 
 #    Especie.where(filo_especie_id: nil).each do |especie|
-    Especie.all.each do |especie|
-      if especie.publicaciones.empty?
-        especie.delete
-      else
-        especie_a_estructura(especie)
-      end
-    end
+#    Especie.all.each do |especie|
+#      if especie.publicaciones.empty?
+#        especie.delete
+#      else
+#        especie_a_estructura(especie)
+#      end
+#    end
 
-    redirect_to root_path, notice: "#{n_especies} : #{n_sin_padre} | #{n_filo_especies} : #{n_sub_especies} : #{n_cvch}"
+#    redirect_to root_path, notice: "#{n_especies} : #{n_sin_padre} | #{n_filo_especies} : #{n_sub_especies} : #{n_cvch}"
 #    redirect_to root_path, notice: "Proceso terminado #{IndClave.all.count} : #{IndPalabra.all.count}"
+    redirect_to root_path
   end
 
   private

@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  resources :cfg_valores
   resources :regiones do
     match :arriba, via: :get, on: :member
     match :abajo, via: :get, on: :member
@@ -19,11 +20,14 @@ Rails.application.routes.draw do
 # SCOPES *********************************************************
   scope module: 'autenticacion' do
     resources :app_administradores
-    resources :app_nominas
+    resources :app_nominas do
+      match :set_admin, via: :get, on: :member
+    end
     resources :app_perfiles do
       # recurso SOLO si hay manejo de ESTADOS
 #      resources :st_perfil_modelos
     end
+    resources :app_versiones
   end
 
   scope module: 'recursos' do
@@ -50,6 +54,12 @@ Rails.application.routes.draw do
 #    resources :app_documentos
 #    resources :app_archivos
     resources :app_imagenes
+
+    resources :control_documentos do
+      match :crea_documento_controlado, via: :get, on: :member
+      match :arriba, via: :get, on: :member
+      match :abajo, via: :get, on: :member
+    end
   end
 
   scope module: 'aplicacion' do
@@ -68,14 +78,27 @@ Rails.application.routes.draw do
         match :procesos, via: :get
       end
     end
+    resources :tablas
   end
 
   scope module: 'home' do
     resources :h_imagenes
     resources :h_links
     resources :h_temas
-    end
+  end
   
+  scope module: 'estados' do
+    resources :st_estados do
+      match :asigna, via: :get, on: :member
+      match :arriba, via: :get, on: :member
+      match :abajo, via: :get, on: :member
+    end
+    resources :st_modelos do 
+      resources :st_estados
+      match :asigna, via: :get, on: :member
+    end
+  end
+
   scope module: 'sidebar' do
     resources :sb_elementos do
       match :arriba, via: :get, on: :member
@@ -141,7 +164,8 @@ Rails.application.routes.draw do
   resources :suscripciones
   resources :relaciones
   resources :areas do 
-    resources :filo_elementos
+#    Al mezclar una instancia con SCOPE y otro sin, hay problemas Hay que ver si poniendolo después del scope se arregla
+#    resources :filo_elementos
     match :asigna, via: :get, on: :member
     match :desasignar, via: :get, on: :member
   end

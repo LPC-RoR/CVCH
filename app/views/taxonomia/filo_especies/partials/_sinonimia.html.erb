@@ -1,0 +1,37 @@
+<%= render partial: 'taxonomia/filo_especies/partials/titulo_sinonimia', locals: {objeto: objeto} %>
+<%= render partial: 'taxonomia/filo_especies/partials/cllps_sinonimia_display_all', locals: {objeto: objeto} %>
+
+<% unless @coleccion['equivalentes-filo_sinonimos'].empty? %>
+	<p class='text-info'><small>Equivalentes</small></p>
+	<%= render partial: 'taxonomia/filo_sinonimos/list/list_sinonimia', locals: {coleccion: @coleccion['equivalentes-filo_sinonimos']} %>
+<% end %>
+<% unless @coleccion['sinonimos-filo_sinonimos'].empty? %>
+	<div class='text-info'><small>Sinónimos</small></div>
+	<%= render partial: 'taxonomia/filo_sinonimos/list/list_sinonimia', locals: {coleccion: @coleccion['sinonimos-filo_sinonimos']} %>
+<% end %>
+<% unless @coleccion['agregados-filo_sinonimos'].empty? %>
+	<div class='text-info'><small>Agregados</small></div>
+	<%= render partial: 'taxonomia/filo_sinonimos/list/list_sinonimia', locals: {coleccion: @coleccion['agregados-filo_sinonimos']} %>
+<% end %>
+
+
+<% if dog? %>
+	<% unless objeto.especies.empty? %>
+		<small>
+			<div class="text-info">Etiquetas no propias de la especie.</div>
+			<div style='padding-left: 2em;'>
+				<small>
+					<ul>
+						<% objeto.especies.each do |etiqueta| %>
+							<% unless etiqueta.propia? %>
+							<li>
+								<%= etiqueta.especie %> : <%= etiqueta.publicaciones.count %>
+							</li>
+							<% end %>
+						<% end %>
+					</ul>
+				</small>
+			</div>
+		</small>
+	<% end %>
+<% end %>

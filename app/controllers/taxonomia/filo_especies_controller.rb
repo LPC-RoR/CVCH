@@ -12,11 +12,11 @@ class Taxonomia::FiloEspeciesController < ApplicationController
   # GET /filo_especies/1
   # GET /filo_especies/1.json
   def show
-    init_tabla('publicaciones', Publicacion.where(id: @objeto.publicaciones_ids).order(sort_column + " " + sort_direction), true)
-    add_tabla('filo_especies', @objeto.children, false )
-    add_tabla('sinonimos-filo_especies', @objeto.sinonimos, false)
+    set_tabla('publicaciones', Publicacion.where(id: @objeto.publicaciones_ids).order(sort_column + " " + sort_direction), true)
+    set_tabla('filo_especies', @objeto.children, false )
+    set_tabla('sinonimos-filo_especies', @objeto.sinonimos, false)
 
-    add_tabla('especies', @objeto.especies, false)
+    set_tabla('especies', @objeto.especies, false)
 
     @coleccion_usuario = perfil_activo.carpetas.order(:carpeta)
     @coleccion_publicacion = @objeto.carpetas

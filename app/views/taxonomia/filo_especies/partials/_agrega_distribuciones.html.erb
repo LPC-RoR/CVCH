@@ -1,0 +1,14 @@
+<small>
+	<%= link_to 'todo', "/filo_especies/#{objeto.id}/asigna_regiones?key=todo" %> | 
+	<%= link_to 'norte', "/filo_especies/#{objeto.id}/asigna_regiones?key=norte" %> | 
+	<%= link_to 'sur', "/filo_especies/#{objeto.id}/asigna_regiones?key=sur" %>
+<ul>
+	<% @regiones_para_asignar.each do |region| %>
+		<li>
+			<%= link_to "/regiones/#{region.id}/asigna?o=#{objeto.class.name}&indice=#{objeto.id}" do %>
+			<%= region.region %>
+			<% end %>
+		</li>
+	<% end %>
+</ul>
+</small>

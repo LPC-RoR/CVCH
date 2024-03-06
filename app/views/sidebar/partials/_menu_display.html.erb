@@ -1,9 +1,9 @@
 <h4><%= render partial: '0p/general/icon_text', locals: {gly: 'list-nested', text: name_list, clr: config[:color][:app]} %></h4>
 
-<% if seguridad_desde(@lista.acceso) and (@lista.activa or seguridad_desde(@lista.acceso)) %>
+<% if seguridad(@lista.acceso) and (@lista.activa or seguridad(@lista.acceso)) %>
 	<% sb_list.each do |elemento| %>
 		<!-- NO DESPLIEGE ELEMENTOS QUE NO PUEDED VER -->
-		<% if seguridad_desde(elemento.acceso) %>
+		<% if seguridad(elemento.acceso) %>
 			<small>
 				<div style="padding-left:<%="#{(elemento.nivel-1)*10}"%>px">
 						<% case elemento.tipo %>

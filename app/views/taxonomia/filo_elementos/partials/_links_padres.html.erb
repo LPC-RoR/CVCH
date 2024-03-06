@@ -1,0 +1,10 @@
+<!-- USO VERIFICADO -->
+<small><small>
+	<%= link_to ': Base', '/publicos/taxonomia' unless params[:indice].blank? %>
+	<% unless padres_ids.blank? %>
+		<% padres_ids.each do |padre_id| %>
+			<i class="bi bi-arrow-right"></i> 
+			<%= FiloElemento.find(padre_id).filo_orden.filo_orden unless FiloElemento.find(padre_id).filo_orden.blank? %> : <%= link_to FiloElemento.find(padre_id).filo_elemento, "/publicos/taxonomia?indice=#{padre_id}" %>
+		<% end %>
+	<% end %>
+</small></small>

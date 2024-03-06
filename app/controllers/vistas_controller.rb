@@ -12,28 +12,16 @@ class VistasController < ApplicationController
   # GET /vistas.json
   def index
 
-    # @sel_table[key] : [tabla, display?, icon]
-    @sel_table = {
-      areas: [Area.all.order(:area), true, nil],
-      categorias: [Categoria.all.order(:categoria), true, nil]
-#      carpetas: [perfil_activo.carpetas.order(:carpeta) + perfil_activo.compartidas.order(:carpeta), perfil_activo.present?, 'folder']
-    }
-
-    @sel_table[:carpetas] = [perfil_activo.carpetas.order(:carpeta) + perfil_activo.compartidas.order(:carpeta), perfil_activo.present?, 'folder'] unless perfil_activo.blank?
-
-    @sel_table_list = []
-    @sel_table.keys.each do |key_table|
-      if @sel_table[key_table][1]
-        @sel_table_list << ['tabla', key_table.to_s.split('_').join(' ').capitalize, @sel_table[key_table][2]]
-        @sel_table[key_table][0].each do |elemento|
-          # [0:'elemento', 1:clase, 2:id, 3:campo, 4:estado, 5:count]
-          @sel_table_list << ['elemento', elemento.class.name, elemento.id, sel_campo(elemento), sel_estado(elemento), elemento.sel_table.count]
-        end
-      end
+    # Se cargan los LMENU de Áreas, Categorías, Carpetas y Carpetas compartidas
+    @sel_areas = Area.all.order(:area).map {|area| [area, area.papers.where(estado: 'publicada').count]}
+    @sel_categorias = Categoria.all.order(:categoria).map {|categoria| [categoria, categoria.publicaciones.where(estado: 'publicada').count]}
+    unless perfil_activo.blank?
+      @sel_carpetas = perfil_activo.carpetas.order(:carpeta).map {|carpeta| [carpeta, carpeta.publicaciones.where(estado: 'publicada').count]}
+      @sel_compartidas = perfil_activo.compartidas.order(:carpeta).map {|compartida| [compartida, compartida.publicaciones.where(estado: 'publicada').count]}
     end
 
     if params[:html_options].blank?
-      @objeto = @sel_table[:areas][0].first
+      @objeto = @sel_areas[0][0]
     else
       @objeto = params[:html_options][:modelo].constantize.find(params[:html_options][:id])
     end
@@ -41,17 +29,17 @@ class VistasController < ApplicationController
     @id = @objeto.id
 
     # no lo puse al comienzo porque necesita el valor de @modelo
-    init_tab( { menu: [['Publicaciones', true], ['Especies', @modelo == 'Area'], ['Citas', @modelo == 'Carpeta']] }, true )
+    set_tab( :menu, [['Publicaciones', true], ['Especies', @modelo == 'Area'], ['Citas', @modelo == 'Carpeta']] )
     @options[:modelo] = @modelo
     @options[:id] = @id
 
     if params[:search].blank?
-      init_tabla('publicaciones', @objeto.sel_table.order(sort_column + " " + sort_direction), true) if @modelo == 'Area'
-      init_tabla('publicaciones', @objeto.sel_table.order(sort_column + " " + sort_direction), true) if @modelo == 'Categoria'
-      init_tabla('publicaciones', @objeto.sel_table.order(sort_column + " " + sort_direction), true) if @modelo == 'Carpeta'
-      init_tabla('citas', @objeto.publicaciones.order(:author), false) if @options[:menu] == 'Citas'
+      set_tabla('publicaciones', @objeto.sel_table.order(sort_column + " " + sort_direction), true) if @modelo == 'Area'
+      set_tabla('publicaciones', @objeto.sel_table.order(sort_column + " " + sort_direction), true) if @modelo == 'Categoria'
+      set_tabla('publicaciones', @objeto.sel_table.order(sort_column + " " + sort_direction), true) if @modelo == 'Carpeta'
+      set_tabla('citas', @objeto.publicaciones.order(:author), false) if @options[:menu] == 'Citas'
     else
-      init_tabla('publicaciones', busqueda_publicaciones(params[:search], 'Publicacion'), true)
+      set_tabla('publicaciones', busqueda_publicaciones(params[:search], 'Publicacion'), true)
     end
 
   end
@@ -146,7 +134,7 @@ class VistasController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
 
     def sel_estado(elemento)
-      (elemento.class.name == 'Carpeta' and elemento.app_perfil.email != perfil_activo.email) ? 'comparrtida' : 'normal'
+      (elemento.class.name == 'Carpeta' and elemento.app_perfil.email != perfil_activo.email) ? 'compartida' : 'normal'
     end
 
     def sel_campo(elemento)

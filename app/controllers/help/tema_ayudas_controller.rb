@@ -6,14 +6,14 @@ class Help::TemaAyudasController < ApplicationController
   # GET /tema_ayudas.json
   def index
 
-    init_tab({menu: TemaAyuda::TIPO}, true)
-    init_tabla('tema_ayudas', TemaAyuda.where(tipo: @options[:menu]).order(:orden), false)
+    set_tab( :menu, TemaAyuda::TIPO )
+    set_tabla('tema_ayudas', TemaAyuda.where(tipo: @options[:menu]).order(:orden), false)
   end
 
   # GET /tema_ayudas/1
   # GET /tema_ayudas/1.json
   def show
-    init_tabla('tutoriales', @objeto.tutoriales.order(:orden), true)
+    set_tabla('tutoriales', @objeto.tutoriales.order(:orden), true)
   end
 
   # GET /tema_ayudas/new

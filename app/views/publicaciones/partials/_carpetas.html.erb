@@ -1,40 +1,48 @@
-<p class='text-info'>
-	<i class="bi bi-folder"></i>
-	<%= titulo %>
-	<% if admin? %>
-		<a data-toggle="collapse" href="#collapse<%=tag%>" role="button" aria-expanded="false" aria-controls="collapse<%=tag%>">
-			<i class="bi bi-folder-plus"></i>
-		</a>
-  	<% end %>
-</p>
-
-<% if admin? %>
-	<div class="collapse" id="collapse<%=tag%>">
-		<div class="card card-body">
-			<small>
-				<%= render partial: "publicaciones/partials/form_#{tag.downcase}", locals: {objeto: @objeto} %>
-			</small>
+<div class="lmenu-box">
+	<div class="row">
+		<div class="col-10 text-info">
+			<i class="bi bi-folder"></i> Carpetas
+		</div>
+		<div class="col-2">
+			<%= render layout: '0p/collapse/link', locals: {label: 'NuevaCarpeta', objeto: nil, tooltip: 'Nueva Carpeta'} do %>
+				<i class="bi bi-plus-circle"></i>
+			<% end %>
 		</div>
 	</div>
-<% end %>
 
-<small>
-<ul>
-	<% coleccion.each do |carpeta| %>
-	   	<li>
-	   		<% if carpeta.publicaciones.ids.include?(@objeto.id) %>
-	   			<i class="bi bi-check2-all"></i>
-	   			<%= link_to "/carpetas/#{carpeta.id}/desasignar?class_name=#{@objeto.class.name}&objeto_id=#{@objeto.id}" do %>
-	   				<i class="bi bi-x-circle"></i>
-	   			<% end %>
-	   		<% else %>
+	<%= render layout: '0p/collapse/display', locals: {label: 'NuevaCarpeta', objeto: nil} do %>
+		<small class="text-info">Nueva Carpeta</small>
+		<%= render partial: "publicaciones/partials/form_carpetas", locals: {objeto: @objeto} %>
+
+		<small class="text-info">Selecciona Carpeta</small>
+		<small>
+		<div style="padding-left: 2em; padding-right: 2em; line-height: 15px;">
+			<% perfil_activo.carpetas.order(:carpeta).each do |carpeta| %>
 	   			<%= link_to "/carpetas/#{carpeta.id}/asigna?class_name=#{@objeto.class.name}&objeto_id=#{@objeto.id}" do %>
-	   				<i class="bi bi-plus-circle"></i>
+					<%#= link_to carpeta.carpeta, "/vistas?html_options[modelo]=Carpeta&html_options[id]=#{carpeta.id}" %>
+					<%= carpeta.carpeta %></br>
 	   			<% end %>
-	   		<% end %>
-
-	   		<%= link_to carpeta.carpeta, carpeta %>
-	   	</li>
+			<% end %>
+			<hr>
+		</div>
+		</small>
 	<% end %>
-</ul>
-</small>
+
+	<small>
+	<div style="padding-left: 1em; padding-right: 2em; line-height: 15px;">
+		<% @objeto.carpetas.where(id: perfil_activo.carpetas.ids).order(:carpeta).each do |carpeta| %>
+			<div class="row">
+				<div class="col-10">
+					<%= link_to carpeta.carpeta, "/vistas?html_options[modelo]=Carpeta&html_options[id]=#{carpeta.id}" %>
+				</div>
+				<div class="col-2">
+					<%= render layout: '0p/layout/tooltip_link', locals: {link: "/carpetas/#{carpeta.id}/desasignar?class_name=Publicacion&objeto_id=#{@objeto.id}", tooltip: 'Desasigna Carpeta'} do %>
+			   			<i class="bi bi-trash"></i>
+			   		<% end %>
+				</div>
+			</div>
+		<% end %>
+	</div>
+	</small>
+
+</div>

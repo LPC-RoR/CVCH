@@ -1,20 +1,39 @@
-<div class='row'>
-  <div class='col-md-6'>
-  </div>
-  <div class='col-md-6'>
+<div class='row justify-content-center'>
+  <div class='col-md-3'>
+
+    <div class="devise-box">
     <!--h2>Ingreso</h2-->
     <h4><%= render partial: '0p/general/icon_text', locals: {text: 'Ingreso', gly: 'person-check', clr: 'info'} %></h4>
 
     <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-      <div class="field">
-        <small><%= f.label :email %><br /></small>
-        <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
+
+
+
+      <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text" id="basic-addon1">@</span>
+        </div>
+        <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control", placeholder: 'email', "aria-label" => "Email", "aria-describedby" => "basic-addon1" %>
+      </div>
+      
+      <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text" id="basic-addon1"><i class="bi bi-key"></i></span>
+        </div>
+        <%= f.password_field :password, autocomplete: "current-password", class: "form-control", placeholder: 'password', "aria-label" => "Password", "aria-describedby" => "basic-addon1" %>
       </div>
 
-      <div class="field">
-        <small><%= f.label 'contraseña' %><br /></small>
-        <%= f.password_field :password, autocomplete: "current-password" %>
-      </div>
+
+
+      <!--div class="field"-->
+        <!--small><%#= f.label :email %><br /></small-->
+        <%#= f.email_field :email, autofocus: true, autocomplete: "email" %>
+      <!--/div-->
+
+      <!--div class="field"-->
+        <!--small><%#= f.label 'contraseña' %><br /></small-->
+        <%#= f.password_field :password, autocomplete: "current-password" %>
+      <!--/div-->
 
       <%# if devise_mapping.rememberable? %>
         <!--div class="field"-->
@@ -22,7 +41,7 @@
           <!--small><%#= f.label 'recuerdame' %></small-->
         <!--/div-->
       <%# end %>
-      </br>
+      <!--/br-->
 
       <div class="actions">
         <%= f.submit "Ingresar" %>
@@ -30,7 +49,9 @@
     <% end %>
 
     <p id="notice"><%= notice %></p>
-    <%= render "devise/shared/links" %>
+    <%#= render "devise/shared/links" %>
+
+    </div>
   </div>
 </div>
 

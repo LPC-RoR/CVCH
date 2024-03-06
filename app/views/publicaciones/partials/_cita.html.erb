@@ -1,35 +1,37 @@
-<%= render partial: '0p/general/icon_text', locals: {text: 'Cita', gly: 'blockquote-left', clr: 'info'} %>
-<%= render partial: 'publicaciones/partials/status' %>
-<%= render partial: 'publicaciones/partials/doc_type_buttons' %>
-<p class='text-muted'><%= @objeto.m_quote %></p>
+<div class="objeto-box">
+	<%= render partial: '0p/general/icon_text', locals: {text: 'Cita', gly: 'blockquote-left', clr: 'info'} %>
+	<%= render partial: 'publicaciones/partials/status' %>
+	<%= render partial: 'publicaciones/partials/doc_type_buttons' %>
+	<p class='text-muted'><%= @objeto.m_quote %></p>
 
-<% unless @duplicados_doi.empty? %>
-	<p class="text-danger">Esta publicación puede ya existir en la colección!: la colección contiene publicación(nes) con el mismo <i>doi</i></p>
-	<small>
-	<ul>
-		<% @duplicados_doi.each do |duplicado| %>
-			<li><i class="bi bi-exclamation-triangle text-danger"></i> <%= link_to duplicado.m_quote, duplicado %></li>
-		<% end %>
-	</ul>
-	</small>
-<% end %>
+	<% unless @duplicados_doi.empty? %>
+		<p class="text-danger">Esta publicación puede ya existir en la colección!: la colección contiene publicación(nes) con el mismo <i>doi</i></p>
+		<small>
+		<ul>
+			<% @duplicados_doi.each do |duplicado| %>
+				<li><i class="bi bi-exclamation-triangle text-danger"></i> <%= link_to duplicado.m_quote, duplicado %></li>
+			<% end %>
+		</ul>
+		</small>
+	<% end %>
 
-<% unless @duplicados_t_sha1.empty? %>
-	<p class="text-info">Publicaciones con el mismo título</p>
-	<small>
-	<ul>
-		<% @duplicados_t_sha1.each do |duplicado| %>
-			<li>
-				<% if duplicado.m_quote == @objeto.m_quote %>
-					<i class="bi bi-exclamation-triangle text-danger"></i>
-				<% end %> 
-				<%= link_to duplicado.m_quote, duplicado %>
-			</li>
-		<% end %>
-	</ul>
-	</small>
-<% end %>
+	<% unless @duplicados_t_sha1.empty? %>
+		<p class="text-info">Publicaciones con el mismo título</p>
+		<small>
+		<ul>
+			<% @duplicados_t_sha1.each do |duplicado| %>
+				<li>
+					<% if duplicado.m_quote == @objeto.m_quote %>
+						<i class="bi bi-exclamation-triangle text-danger"></i>
+					<% end %> 
+					<%= link_to duplicado.m_quote, duplicado %>
+				</li>
+			<% end %>
+		</ul>
+		</small>
+	<% end %>
 
-<% unless @objeto.doi.blank? %>
-	<small><%= link_to "https://doi.org/#{@objeto.doi}", "https://doi.org/#{@objeto.doi}", target: :blank %></small>
-<% end %>
+	<% unless @objeto.doi.blank? %>
+		<small><%= link_to "https://doi.org/#{@objeto.doi}", "https://doi.org/#{@objeto.doi}", target: :blank %></small>
+	<% end %>
+</div>

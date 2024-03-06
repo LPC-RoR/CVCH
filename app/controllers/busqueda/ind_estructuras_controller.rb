@@ -7,8 +7,8 @@ class Busqueda::IndEstructurasController < ApplicationController
   # GET /ind_estructuras
   # GET /ind_estructuras.json
   def index
-    init_tabla('ind_estructuras', IndEstructura.all.order(:ind_estructura), false)
-    add_tabla('ind_sets', IndSet.all.order(:tipo), false)
+    set_tabla('ind_estructuras', IndEstructura.all.order(:ind_estructura), false)
+    set_tabla('ind_sets', IndSet.all.order(:tipo), false)
 #    @coleccion = {}
 #    @coleccion['ind_estructuras'] = IndEstructura.all.order(:ind_estructura)
 
@@ -18,8 +18,8 @@ class Busqueda::IndEstructurasController < ApplicationController
   # GET /ind_estructuras/1
   # GET /ind_estructuras/1.json
   def show
-    init_tabla('ind_modelos', @objeto.ind_modelos.order(:ind_modelos), false)
-    add_tabla('ind_palabras', @objeto.ind_palabras.order(:ind_palabra), true)
+    set_tabla('ind_modelos', @objeto.ind_modelos.order(:ind_modelos), false)
+    set_tabla('ind_palabras', @objeto.ind_palabras.order(:ind_palabra), true)
   end
 
   # GET /ind_estructuras/new

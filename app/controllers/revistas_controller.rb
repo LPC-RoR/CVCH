@@ -13,9 +13,7 @@ class RevistasController < ApplicationController
   # GET /revistas/1
   # GET /revistas/1.json
   def show
-#    @coleccion = {}
-#    @coleccion['publicaciones'] = @objeto.publicaciones.where(estado: 'publicada').order(sort_column + " " + sort_direction).page(params[:page])
-    init_tabla('publicaciones', @objeto.publicaciones.where(estado: 'publicada'), true)
+    set_tabla('publicaciones', @objeto.publicaciones.where(estado: 'publicada'), true)
   end
 
   # GET /revistas/new

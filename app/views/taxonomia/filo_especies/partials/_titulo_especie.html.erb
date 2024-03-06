@@ -1,0 +1,86 @@
+<div class="tax-titulo">
+
+	<%= render partial: 'taxonomia/filo_elementos/partials/links_padres', locals: {padres_ids: padres_ids} %>
+	<% if @objeto.parent.present? %>
+		<small><small>
+			<i class="bi bi-arrow-right"></i> 
+			<i class="bi bi-bug"></i> 
+			<%= link_to "/publicos/especies?indice=#{@objeto.parent.id}" do %>
+				<%= @objeto.parent.filo_especie %>
+			<% end %>
+		</small></small>
+	<% end %>
+
+	<div class="row">
+		<div class="col-8">
+			<h5>
+				<i class="bi bi-bug text-<%= params[:indice].blank? ? 'info' : (objeto.revisar ? 'danger' : (objeto.link_fuente.present? ? 'info' : 'dark')) %>"></i>
+				<span class='text-info'>
+					<%= objeto.parent.blank? ? 'Especie' : 'Sub especie' %>
+					<i class="bi bi-bug"></i>
+					<% if action_name == 'especies' %>
+						<%= objeto.filo_especie %>
+					<% else %>
+						<%= link_to objeto.filo_especie, "/publicos/especies?indice=#{objeto.id}" %>
+					<% end %>
+					<% unless objeto.multiple_referencia.blank? %>
+						( <%= objeto.multiple_referencia %> )
+					<% end %>
+				</span>
+				<% if objeto.link_fuente.present? %>
+					<%= link_to objeto.link_fuente, target: '_blank' do %>
+						<i class="bi bi-box-arrow-up-right"></i>
+					<% end %>
+				<% end %>
+				<% unless objeto.n_pubs == 0 or action_name == 'publicaciones' %>
+					<%= link_to "/publicos/publicaciones?indice=#{objeto.id}" do %>
+						<i class="bi bi-files"></i>
+					<% end %>
+				<% end %>
+			</h5>
+		</div>
+		<div class="col-4" align='right'>
+			<% if admin? %>
+				<%= render layout: '0p/collapse/link', locals: {label: 'MueveEspecie', objeto: nil, tooltip: 'Mueve Especie'} do %>
+					<%= render partial: '0p/general/gly', locals: {gly: 'diagram-2'} %>
+				<% end %>
+				<%= render layout: '0p/collapse/link', locals: {label: 'TiposEspecie', objeto: nil, tooltip: 'Tipo(s) de especie'} do %>
+					<%= render partial: '0p/general/gly', locals: {gly: 'tags'} %>
+				<% end %>
+				<%= render layout: '0p/collapse/link', locals: {label: 'CategoriasConservacion', objeto: nil, tooltip: 'Categoría(s) de conservación'} do %>
+					<%= render partial: '0p/general/gly', locals: {gly: 'droplet'} %>
+				<% end %>
+				<% if objeto.parent.blank? %>
+					<%= render layout: '0p/collapse/link', locals: {label: 'NuevaSubEspecie', objeto: nil, tooltip: 'Nueva subespecie'} do %>
+						<%= render partial: '0p/general/gly', locals: {gly: 'bug'} %>
+					<% end %>
+				<% end %>
+
+				<i class="bi bi-dot"></i>
+				<%= render partial: '0p/tabla/links_e', locals: {objeto: objeto} %>
+			<% end %>
+		</div>
+	</div>
+
+	<div class='text-muted' style="line-height: 18px;">
+		<small>
+		<i class="bi bi-tags text-<%= objeto.filo_tipo_especies.empty? ? 'danger' : 'info' %>"> </i>
+		<%= objeto.filo_tipo_especies.map {|te| te.filo_tipo_especie}.join(' : ') %>
+		<i class="bi bi-droplet text-<%= objeto.filo_categoria_conservaciones.empty? ? 'danger' : 'info' %>"> </i>
+		<%= objeto.filo_categoria_conservaciones.map {|cc| cc.filo_categoria_conservacion}.join(' : ') %>
+
+		<% unless objeto.nombre_comun.blank? %>
+			<i class="bi bi-list-check"></i>
+			<%= objeto.multiple_nombre_comun %>
+		<% end %>
+		</small>
+	</div>
+	<% if objeto.especie_sinonimo? %>
+		<div class='text-danger' style="line-height: 15px;">
+			<small>
+			<i class="bi bi-exclamation-diamond"></i>
+			Esta especie esta en la sinonimia de la especie <%= link_to objeto.especie_padre.filo_especie, "/publicos/especies?indice=#{objeto.especie_padre.id}" %>
+			</small>
+		</div>
+	<% end %>
+</div>

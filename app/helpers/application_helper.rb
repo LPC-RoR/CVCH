@@ -77,18 +77,6 @@ module ApplicationHelper
 	# Este helper pergunta si hay un partial con un nombre particular en el directorio del controlador
 
 
-	# Este helper encuentra el partial que se debe desplegar como form
-	# originalmente todos llegaban a _form
-	# ahora pregunta si hay un partial llamado _datail en el directorio de las vistas del modelo
-	def detail_partial(controller)
-		# partial?(controlller, dir, partial)
-		if partial?(controller, nil, 'detail')
-			get_partial(controller, nil, 'detail')
-		else
-			'0p/form/detail'
-		end
-	end
-
 	def url_params(parametros)
 		params_options = "n_params=#{parametros.length}"
 		parametros.each_with_index do |obj, indice|

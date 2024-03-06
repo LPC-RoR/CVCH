@@ -1,33 +1,27 @@
 class Autenticacion::AppNominasController < ApplicationController
   before_action :authenticate_usuario!
   before_action :inicia_sesion
-  before_action :set_app_nomina, only: %i[ show edit update destroy ]
-  before_action :carga_solo_sidebar, only: %i[ show new edit create update ]
-
-  include Sidebar
+  before_action :set_app_nomina, only: %i[ show edit update destroy set_admin ]
 
   # GET /app_nominas or /app_nominas.json
   def index
+    set_tab(:tab, ['Nómina', 'Usuarios'])
+    set_tabla('app_nominas', AppNomina.where.not(email: dog_email).order(:nombre), false) if @options[:tab] == 'Nómina'
+    set_tabla('usuarios', Usuario.where.not(email: dog_email).order(:email), false) if @options[:tab] == 'Usuarios'
   end
 
   # GET /app_nominas/1 or /app_nominas/1.json
   def show
-#    init_tabla('tar_bases', @objeto.tar_bases, false)
-#    add_tabla('tar_variables', @objeto.tar_variables, false)
-
-    carga_sidebar('Administración', 'Nómina')
     @modelos_disponibles = StModelo.where(st_modelo: (StModelo.all.map {|st_modelo| st_modelo.st_modelo} - @objeto.st_perfil_modelos.map {|st_perfil_modelo| st_perfil_modelo.st_perfil_modelo})).order(:st_modelo)
   end
 
   # GET /app_nominas/new
   def new
-    carga_sidebar('Administración', 'Nómina')
-    @objeto = AppNomina.new
+    @objeto = AppNomina.new(tipo: 'Usuario')
   end
 
   # GET /app_nominas/1/edit
   def edit
-    carga_sidebar('Administración', 'Nómina')
   end
 
   # POST /app_nominas or /app_nominas.json
@@ -37,7 +31,7 @@ class Autenticacion::AppNominasController < ApplicationController
     respond_to do |format|
       if @objeto.save
         set_redireccion
-        format.html { redirect_to @redireccion, notice: "App nomina was successfully created." }
+        format.html { redirect_to @redireccion, notice: "Nomina de usuario fue exitósamente creada." }
         format.json { render :show, status: :created, location: @objeto }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -51,7 +45,7 @@ class Autenticacion::AppNominasController < ApplicationController
     respond_to do |format|
       if @objeto.update(app_nomina_params)
         set_redireccion
-        format.html { redirect_to @redireccion, notice: "App nomina was successfully updated." }
+        format.html { redirect_to @redireccion, notice: "Nomina de usuario fue exitósamente actualizada." }
         format.json { render :show, status: :ok, location: @objeto }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -60,12 +54,19 @@ class Autenticacion::AppNominasController < ApplicationController
     end
   end
 
+  def set_admin
+    @objeto.tipo = @objeto.tipo == 'Usuario' ? 'Admin' : 'Usuario'
+    @objeto.save
+
+    redirect_to "/app_nominas", notice: "Se ha cambiado el tipo de usuario a #{@objeto.tipo}"
+  end
+
   # DELETE /app_nominas/1 or /app_nominas/1.json
   def destroy
     set_redireccion
     @objeto.destroy
     respond_to do |format|
-      format.html { redirect_to @redireccion, notice: "App nomina was successfully destroyed." }
+      format.html { redirect_to @redireccion, notice: "Nomina de usuario fue exitósamente eliminada." }
       format.json { head :no_content }
     end
   end
@@ -77,7 +78,7 @@ class Autenticacion::AppNominasController < ApplicationController
     end
 
     def set_redireccion
-      @redireccion = "/app_recursos/administracion?id=#{get_elemento_id(controller_name, 'Nómina')}" 
+      @redireccion = "/app_nominas" 
     end
 
     # Only allow a list of trusted parameters through.

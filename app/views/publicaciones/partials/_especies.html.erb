@@ -1,51 +1,63 @@
-<p class='text-info'>
-	<i class="bi bi-tag"></i>
-	Especies
-	<% if admin? %>
-		<a data-toggle="collapse" href="#collapseEspecies" role="button" aria-expanded="false" aria-controls="collapseEspecies">
-			<i class="bi bi-plus-circle"></i>
-		</a>
-  	<% end %>
-</p>
-
-<% if admin? %>
-	<div class="collapse" id="collapseEspecies">
-		<div class="card card-body">
-			<small>
-				<i class='text-muted'><small>Etiquetar nueva especie</small></i>
-				<%= form_for :especie_base, url: "/especies/asigna?class_name=Publicacion&objeto_id=#{@objeto.id}" do |form| %>
-					<div class='form-inline'>
-						<%= form.text_field(:especie, class: 'form-control' ) %>
-						<button type="submit" class="btn btn-info">
-						  <i class="bi bi-plus-circle icon-white"></i>
-						  <i class="bi bi-tag icon-white"></i>
-						</button>
-					</div>
-				<% end  %>
-			</small>
+<div class="lmenu-box">
+	<div class="row">
+		<div class="col-10 text-info">
+			<i class="bi bi-tag"></i>
+			Especies
+		</div>
+		<div class="col-2">
+			<% if admin? %>
+				<%= render layout: '0p/collapse/link', locals: {label: 'EtiquetaEspecie', objeto: nil, tooltip: 'Etiqueta especie'} do %>
+					<i class="bi bi-plus-circle"></i>
+				<% end %>
+			<% end %>
 		</div>
 	</div>
-<% end %>
 
-<small>
-<ul>
-	<% @objeto.especies.order(:especie).each do |especie| %>
-	   	<li>
-	   		<% if admin? %>
-		   		<%= link_to "/especies/#{especie.id}/desasignar?class_name=Publicacion&objeto_id=#{@objeto.id}" do %>
-		   			<i class="bi bi-x-circle"></i>
-		   		<% end %>
-	   		<% end %>
-	   		<% unless especie.filo_especie.blank? %>
-	   			<%= link_to "/publicos/especies?indice=#{especie.filo_especie.id}" do %>
-	   				<i class="bi bi-bug"></i>
-	   			<% end %>
-	   		<% end %>
-	   		<% unless especie.filo_sinonimo.blank? %>
-	   			<i class="bi bi-bookmarks"></i>
-	   		<% end %>
-	   		<%= link_to especie.especie, especie %>
-	   	</li>
+	<% if admin? %>
+		<%= render layout: '0p/collapse/display', locals: {label: 'EtiquetaEspecie', objeto: nil} do %>
+				<small>
+					<i class='text-muted'><small>Etiquetar especie</small></i>
+					<%= form_for :especie_base, url: "/especies/asigna?class_name=Publicacion&objeto_id=#{@objeto.id}" do |form| %>
+						<div class="row no-gutters">
+							<div class="col-9">
+								<%= form.text_field(:especie, class: 'form-control' ) %>
+							</div>
+							<div class="col-2">
+								<button type="submit" class="btn btn-info">
+								  <i class="bi bi-caret-right-square icon-white"></i>
+								</button>
+							</div>
+						</div>
+					<% end  %>
+				</small>
+		<% end %>
 	<% end %>
-</ul>
-</small>
+
+<div style="padding-left: 1em; padding-right: 2em; line-height: 15px;">
+	<small>
+	<% @objeto.especies.order(:especie).each do |especie| %>
+		<div class="row">
+			<div class="col-9">
+				<%= link_to especie.especie, especie %>
+		   		<% unless especie.filo_sinonimo.blank? %>
+		   			<i class="bi bi-bookmarks"></i>
+		   		<% end %>
+			</div>
+			<div class="col-3" align='right'>
+		   		<% unless especie.filo_especie.blank? %>
+		   			<%= render layout: '0p/layout/tooltip_link', locals: {link: "/publicos/especies?indice=#{especie.filo_especie.id}", tooltip: 'Ver especie'} do %>
+		   				<i class="bi bi-bug"></i>
+		   			<% end %>
+		   		<% end %>
+		   		<% if admin? %>
+		   			<%= render layout: '0p/layout/tooltip_link', locals: {link: "/especies/#{especie.id}/desasignar?class_name=Publicacion&objeto_id=#{@objeto.id}", tooltip: 'Elimina etiqueta'} do %>
+			   			<i class="bi bi-trash"></i>
+			   		<% end %>
+		   		<% end %>
+			</div>
+		</div>
+	<% end %>
+
+	</small>
+</div>
+</div>

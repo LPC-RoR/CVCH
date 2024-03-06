@@ -1,23 +1,23 @@
 class ApplicationController < ActionController::Base
 
+	include Seguridad
 	include Inicia
 	include IniciaAplicacion
 
 	include Capitan
 
-	include Seguridad
-	
 	include Map
+
+	include Tablas
 
 	include ProcesaEstructura
 
 	include Taxonomia
 
-	before_action :init_bandejas, only: %i[ new edit show index create tablas update]
-
-	helper_method :dog?, :admin?, :nomina?, :general?, :anonimo?, :seguridad_desde, :dog_email, :dog_name, :perfil?, :perfil_activo, :perfil_activo_id, :mi_seguridad?, :publico?
+	helper_method :version_activa, :dog?, :admin?, :nomina?, :general?, :anonimo?, :dog_email, :dog_name, :perfil_activo?, :perfil_activo, :mi_seguridad?, :publico?, :seguridad
+	helper_method :menu_tablas, :tb_index, :tb_item, :first_tabla_index
 	helper_method :bandeja_display?
-	helper_method :uf_del_dia, :uf_fecha, :limpia_nombre
+	helper_method :uf_del_dia, :uf_fecha, :enlaces_general, :enlaces_perfil, :limpia_nombre
 
 	helper_method :lexer
 

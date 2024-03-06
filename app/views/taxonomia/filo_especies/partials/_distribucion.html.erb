@@ -1,0 +1,17 @@
+<%= render partial: 'taxonomia/filo_especies/partials/titulo_distribucion', locals: {objeto: objeto} %>
+
+<small><small>
+<ul>
+	<% objeto.regiones.order(:orden).each do |region| %>
+		<li>
+			<i class="bi bi-check-all"></i>
+			<%= region.region %>
+			<% if admin? %>
+				<%= link_to "/regiones/#{region.id}/desasigna?o=#{objeto.class.name}&indice=#{objeto.id}" do %>
+					<i class="bi bi-trash"></i>
+				<% end %>
+			<% end %>
+		</li>
+	<% end %>
+</ul>
+</small></small>
