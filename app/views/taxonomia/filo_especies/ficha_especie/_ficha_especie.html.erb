@@ -6,18 +6,20 @@
 			<%= render partial: 'taxonomia/filo_especies/partials/line_especie', locals: {objeto: subespecie} %>
 		<% end %>
 	<% end %>
-
-	<div class="row">
-		<div class="col-lg-6 col-xs-12">
+</div>
+<div class="row">
+	<div class="col-lg-6 col-xs-12">
+		<div class="tax-box">
 			<%= image_tag objeto.imagenes.last.imagen.half.url, class: 'img-fluid' %>
 		</div>
-		<div class="col-lg-6">
-			<%= render partial: 'aplicacion/publicos/publicaciones/etiqueta_especie', locals: {objeto: objeto} %>
-			<%= render partial: 'aplicacion/publicos/publicaciones/sinonimos', locals: {objeto: objeto} %>
-			<%= render partial: 'aplicacion/publicos/publicaciones/categorias', locals: {objeto: objeto} %>
-		</div>
+	</div>
+	<div class="col-lg-6">
+		<%= render partial: 'aplicacion/publicos/publicaciones/etiqueta_especie', locals: {objeto: objeto} %>
+		<%= render partial: 'aplicacion/publicos/publicaciones/sinonimos', locals: {objeto: objeto} %>
+		<%= render partial: 'aplicacion/publicos/publicaciones/categorias', locals: {objeto: objeto} %>
 	</div>
 </div>
+
 <div class="row">
 	<div class="col-xs-12 col-lg-6">
 		<%= render partial: 'taxonomia/filo_especies/taxonomia/titulo_ficha_especie', locals: {objeto: objeto} %>
