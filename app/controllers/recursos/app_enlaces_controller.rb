@@ -6,7 +6,7 @@ class Recursos::AppEnlacesController < ApplicationController
   # GET /app_enlaces or /app_enlaces.json
   def index
     #utilizado para actualizar recuersos en general
-    set_tab( { :enlaces, ['Público', 'Perfil'] )
+    set_tab( :enlaces, ['Público', 'Perfil'] )
 
     set_tabla('app_enlaces', AppEnlace.where(owner_id: nil).order(:descripcion), false) if @options[:enlaces] == 'Público'
     set_tabla('app_enlaces', AppEnlace.where(owner_class: 'AppPerfil', owner_id: perfil_activo.id).order(:descripcion), false) if @options[:enlaces] == 'Perfil'
