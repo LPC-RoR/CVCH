@@ -3,14 +3,20 @@
 	<%= render partial: 'taxonomia/filo_especies/partials/line_especie', locals: {objeto: objeto} %>
 	<% unless objeto.children.empty? %>
 		<% objeto.children.order(:filo_especie).each do |subespecie| %>
-			<div style="padding-left: 1em;">
-				<%= render partial: 'taxonomia/filo_especies/partials/line_especie', locals: {objeto: subespecie} %>
-			</div>
+			<%= render partial: 'taxonomia/filo_especies/partials/line_especie', locals: {objeto: subespecie} %>
 		<% end %>
 	<% end %>
-</div>
-<div class='titulo-seccion'>
-	<p>Especie destacada de nuestra coleccion Taxonomía</p>
+
+	<div class="row">
+		<div class="col-lg-6 col-xs-12">
+			<%= image_tag objeto.imagenes.last.imagen.half.url, class: 'img-fluid' %>
+		</div>
+		<div class="col-lg-6">
+			<%= render partial: 'aplicacion/publicos/publicaciones/etiqueta_especie', locals: {objeto: @objeto} %>
+			<%= render partial: 'aplicacion/publicos/publicaciones/sinonimos', locals: {objeto: @objeto} %>
+			<%= render partial: 'aplicacion/publicos/publicaciones/categorias', locals: {objeto: @objeto} %>
+		</div>
+	</div>
 </div>
 <div class="row">
 	<div class="col-xs-12 col-lg-6">
