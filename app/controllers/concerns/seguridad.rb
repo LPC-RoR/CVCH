@@ -45,7 +45,7 @@ module Seguridad
 	end
 
 	def publico?
-		['publicos', 'vistas', 'contribuciones'].include?(controller_name) or controller_name.match(/^blg_*/)
+		action_name == 'home' ? ( not usuario_signed_in?) : (['publicos', 'vistas', 'contribuciones'].include?(controller_name) or controller_name.match(/^blg_*/))
 	end
 
 	def seguridad(nivel)
