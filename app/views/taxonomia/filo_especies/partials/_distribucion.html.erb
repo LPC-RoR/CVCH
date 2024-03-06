@@ -1,6 +1,7 @@
 <%= render partial: 'taxonomia/filo_especies/partials/titulo_distribucion', locals: {objeto: objeto} %>
 
-<small><small>
+<% objeto.regiones.order(:orden).each do |region| %>
+	<small><small>
 	<div class="row">
 		<div class="col-9">
 			<i class="bi bi-check-all"></i>
@@ -15,4 +16,5 @@
 			<% end %>
 		</div>
 	</div>
-</small></small>
+	</small></small>
+<% end %>
