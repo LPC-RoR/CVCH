@@ -12,14 +12,10 @@
 		<div class="tax-box">
 			<%= image_tag objeto.imagenes.last.imagen.half.url, class: 'img-fluid' %>
 		</div>
-		<div class="tax-box">
-			<p class="text-info">Publicaciones de la especie por año</p>
-			<%= bar_chart @grafico %>
-		</div>
-	</div>
-	<div class="col-lg-6">
 		<%= render partial: 'aplicacion/publicos/publicaciones/etiqueta_especie', locals: {objeto: objeto} %>
 		<%= render partial: 'aplicacion/publicos/publicaciones/sinonimos', locals: {objeto: objeto} %>
+	</div>
+	<div class="col-lg-6">
 		<%= render partial: 'aplicacion/publicos/publicaciones/categorias', locals: {objeto: objeto} %>
 	</div>
 </div>
