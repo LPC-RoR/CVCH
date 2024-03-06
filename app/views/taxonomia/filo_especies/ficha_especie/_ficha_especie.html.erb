@@ -1,0 +1,50 @@
+<div class="tax-box">
+	<small class="text-info">Especie destacada de nuestra coleccion Taxonomía</small>
+	<%= render partial: 'taxonomia/filo_especies/partials/line_especie', locals: {objeto: objeto} %>
+</div>
+<div class='titulo-seccion'>
+	<p>Especie destacada de nuestra coleccion Taxonomía</p>
+</div>
+<div class="row">
+	<div class="col-xs-12 col-lg-6">
+		<%= render partial: 'taxonomia/filo_especies/taxonomia/titulo_ficha_especie', locals: {objeto: objeto} %>
+		<% unless objeto.children.empty? %>
+			<div class="sub_especie" style="padding-left: 1em">
+				<% objeto.children.each do |sub_especie| %>
+					<small><%= render partial: 'taxonomia/filo_especies/taxonomia/titulo_ficha_especie', locals: {objeto: sub_especie} %></small></br>
+				<% end %>
+			</div>
+		<% end %>
+		</br>
+		<%= image_tag objeto.imagenes.last.imagen.half.url, class: 'img-fluid' %>
+	</div>
+	<div class="col-lg-6">
+		<small>
+		<p class='text-info'>Sinónimo(s)</p>
+		<small>
+		<ul>
+		<% objeto.filo_sinonimos.each do |sino| %>
+			<% unless sino.especie.blank? %>
+			<li>
+				<%= link_to sino.filo_sinonimo, sino.especie %> | <%= sino.especie.publicaciones.count %>
+			</li>
+			<% end %>
+		<% end %>		
+		</ul></small></small>
+
+		<small>
+		<p class='text-info'>Categoría(s)</p>
+		<small>
+		<ul>
+		<% objeto.h_categorias.keys.sort.each do |h_key| %>
+			<li>
+				<%= h_key.to_s %> | <%= objeto.h_categorias[h_key].length %>
+			</li>
+		<% end %>		
+		</ul></small></small>
+	</div>
+</div>
+</br>
+<p class="text-info">Publicaciones de la especie por año</p>
+<%= bar_chart @grafico %>
+<hr>

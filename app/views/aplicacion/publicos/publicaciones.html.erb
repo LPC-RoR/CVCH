@@ -16,23 +16,6 @@
 			<% end %>
 		<% end %>
 
-		<p class='text-info'>
-		<% if @objeto.publicaciones.count > 9 %>
-			<a data-toggle="collapse" href="#collapseGraphPubs" role="button" aria-expanded="false" aria-controls="collapseGraphPubs">
-		<% end %>
-			Publicaciones
-		<% if @objeto.publicaciones.count > 9 %></a><% end %>
-		</p>
-
-		<% if @objeto.publicaciones.count > 9 %>
-			<div class="collapse" id="collapseGraphPubs">
-			  <div class="card card-body">
-				<%#= line_chart @objeto.publicaciones.order(:year).group(:year).count %>
-				<%= bar_chart @grafico %>
-			  </div>
-			</div>
-		<% end %>
-
 		<%= render partial: '0p/tabla/tabla', locals: {c: 'publicaciones'} %>
 	</div>
 </div>
