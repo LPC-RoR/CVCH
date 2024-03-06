@@ -3,8 +3,8 @@
 	<small><small>
 		<i class="bi bi-arrow-right"></i> 
 		<i class="bi bi-bug"></i> 
-		<%= link_to "/publicos/especies?indice=#{@objeto.id}" do %>
-			<%= @objeto.filo_especie %>
+		<%= render layout: '0p/layout/tooltip_link', locals: {link: "/publicos/especies?indice=#{objeto.id}", tooltip: 'Volver a la especie'} do %>
+			<%= objeto.filo_especie %>
 		<% end %>
 	</small></small>
 

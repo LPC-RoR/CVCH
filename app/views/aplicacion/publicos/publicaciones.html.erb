@@ -1,9 +1,8 @@
-<div class="tax-box">
-	<%= render partial: 'aplicacion/publicos/publicaciones/titulo_publicaciones', locals: {objeto: @objeto} %>
-</div>
+<%= render partial: 'aplicacion/publicos/publicaciones/titulo_publicaciones', locals: {objeto: @objeto} %>
 
 <div class="row">
 	<div class="col-lg-3 col-xs-12">
+		<%= render partial: 'aplicacion/publicos/publicaciones/etiqueta_especie', locals: {objeto: @objeto} %>
 		<p class='text-info'>Etiqueta(s)</p>
 		<small><small><ul>
 		<% @objeto.especies.each do |tag| %>

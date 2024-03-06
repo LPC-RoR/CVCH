@@ -1,0 +1,20 @@
+<div class="tax-box">
+	<div class='text-info'>Etiqueta de la publicación</div>
+	<small><small>
+	<% @objeto.especies.each do |tag| %>
+		<div class="row">
+			<div class="col-9">
+				<%= render partial: '0p/general/gly', locals: {gly: 'dot'} %>
+				<% if tag.especie == @objeto.filo_especie %>
+					<i class="bi bi-check-all"></i>
+				<% end %>
+				<%= link_to tag.especie, tag %>
+			</div>
+			<div class="col-3">
+				<%= render partial: '0p/general/gly', locals: {gly: 'files'} %> 
+				<%= tag.publicaciones.count %>
+			</div>
+		</div>
+	<% end %>		
+	</small></small>
+</div>
