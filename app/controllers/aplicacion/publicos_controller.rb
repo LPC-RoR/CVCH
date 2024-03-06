@@ -59,7 +59,7 @@ class Aplicacion::PublicosController < ApplicationController
   end
 
   def huerfanas
-    set_tab( :tab, ['Etiquetas por clasificar', 'Etiquetas de sinónimos'] )
+    set_tab( :tab, ['Etiquetas de sinónimos', 'Etiquetas por clasificar'] )
 
     if @options[:tab] == 'Etiquetas por clasificar'
       set_tabla('huerfanas-especies', Especie.where(filo_sinonimo_id:nil, filo_especie_id: nil).order(:especie), true)
