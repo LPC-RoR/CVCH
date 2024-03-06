@@ -8,7 +8,7 @@
 		</div>
 		<div class="col-3" align='right'>
 			<% if admin? %>
-				<%= render layout: '0p/lauout/tooltip_link', locals: {link: "/regiones/#{region.id}/desasigna?o=#{objeto.class.name}&indice=#{objeto.id}", tooltip: 'Sacar región de la distribución'} do %>
+				<%= render layout: '0p/layout/tooltip_link', locals: {link: "/regiones/#{region.id}/desasigna?o=#{objeto.class.name}&indice=#{objeto.id}", tooltip: 'Sacar región de la distribución'} do %>
 				<%#= link_to "/regiones/#{region.id}/desasigna?o=#{objeto.class.name}&indice=#{objeto.id}" do %>
 					<i class="bi bi-trash"></i>
 				<% end %>
