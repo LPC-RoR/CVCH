@@ -6,9 +6,12 @@
 	<% objeto.filo_sinonimos.each do |sino| %>
 		<div class="row">
 			<div class="col-9">
-				<% unless sino.especie.blank? %>
-					<%= link_to sino.filo_sinonimo, sino.especie %>
-				<% end %>
+				<div style="padding-left: 1em;">
+					<% unless sino.especie.blank? %>
+						<%= render partial: '0p/general/gly', locals: {gly: 'dot'} %>
+						<%= link_to sino.filo_sinonimo, sino.especie %>
+					<% end %>
+				</div>
 			</div>
 			<div class="col-3" align="right">
 				<% unless sino.especie.blank? %>

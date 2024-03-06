@@ -4,17 +4,8 @@
 	<div class="col-lg-3 col-xs-12">
 		<%= render partial: 'aplicacion/publicos/publicaciones/etiqueta_especie', locals: {objeto: @objeto} %>
 		<%= render partial: 'aplicacion/publicos/publicaciones/sinonimos', locals: {objeto: @objeto} %>
+		<%= render partial: 'aplicacion/publicos/publicaciones/categorias', locals: {objeto: @objeto} %>
 
-		<p class='text-info'>Sinónimo(s)</p>
-		<small><small><ul>
-		<% @objeto.filo_sinonimos.each do |sino| %>
-			<% unless sino.especie.blank? %>
-			<li>
-				<%= link_to sino.filo_sinonimo, sino.especie %> | <%= sino.especie.publicaciones.count %>
-			</li>
-			<% end %>
-		<% end %>		
-		</ul></small></small>
 
 		<p class='text-info'>Categoría(s)</p>
 		<small><small><ul>
