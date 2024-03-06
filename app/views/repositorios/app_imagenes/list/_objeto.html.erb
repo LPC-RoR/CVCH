@@ -1,12 +1,14 @@
 <div class="foto-box">
-	<div class="col-lg-6 col-xs-12">
-		<%= image_tag objeto.imagen.thumb.url, class: "img-fluid rounded-0" unless objeto.imagen.blank? %>
-	</div>
-	<div class="col-lg-6">
-		<small><small>
-			<%= objeto.nombre %></br>
-			<small><%= objeto.credito_imagen %></small></br>
-			<%= render partial: '0p/tabla/links_e', locals: {objeto: objeto} if admin? %></br>
-		</small></small>
+	<div class="row">
+		<div class="col-lg-6 col-xs-12">
+			<%= image_tag objeto.imagen.thumb.url, class: "img-fluid rounded-0" unless objeto.imagen.blank? %>
+		</div>
+		<div class="col-lg-6">
+			<small><small>
+				<%= objeto.nombre %></br>
+				<small><%= objeto.credito_imagen %></small></br>
+				<%= render partial: '0p/tabla/links_e', locals: {objeto: objeto} if admin? %></br>
+			</small></small>
+		</div>
 	</div>
 </div>
