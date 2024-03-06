@@ -3,7 +3,7 @@
 	<% @sel_compartidas.each do |compartida| %>
 		<small>
 		<div class="row">
-			<div class="col-10">
+			<div class="col-9">
 				<div style="padding-left: 1em;">
 					<% if @modelo == compartida[0].class.name and @id == compartida[0].id %>
 						<b class='text-muted'><%= compartida[0].carpeta %></b></br>
@@ -12,7 +12,7 @@
 					<% end %>
 				</div>
 			</div>
-			<div class="col-2" align="right" style="padding-right: 1em;">
+			<div class="col-3" align="right" style="padding-right: 1em;">
 				<%= compartida[1] == 0 ? '-' : compartida[1] %>
 			</div>
 		</div>

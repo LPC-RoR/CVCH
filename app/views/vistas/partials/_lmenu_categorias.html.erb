@@ -3,7 +3,7 @@
 	<% @sel_categorias.each do |categoria| %>
 		<small>
 		<div class="row">
-			<div class="col-10">
+			<div class="col-9">
 				<div style="padding-left: 1em;">
 					<% if @modelo == categoria[0].class.name and @id == categoria[0].id %>
 						<b class='text-muted'><%= categoria[0].categoria %></b></br>
@@ -12,7 +12,7 @@
 					<% end %>
 				</div>
 			</div>
-			<div class="col-2" align="right" style="padding-right: 1em;">
+			<div class="col-3" align="right" style="padding-right: 1em;">
 				<%= categoria[1] == 0 ? '-' : categoria[1] %>
 			</div>
 		</div>
