@@ -12,9 +12,9 @@
 			<%= image_tag objeto.imagenes.last.imagen.half.url, class: 'img-fluid' %>
 		</div>
 		<div class="col-lg-6">
-			<%= render partial: 'aplicacion/publicos/publicaciones/etiqueta_especie', locals: {objeto: @objeto} %>
-			<%= render partial: 'aplicacion/publicos/publicaciones/sinonimos', locals: {objeto: @objeto} %>
-			<%= render partial: 'aplicacion/publicos/publicaciones/categorias', locals: {objeto: @objeto} %>
+			<%= render partial: 'aplicacion/publicos/publicaciones/etiqueta_especie', locals: {objeto: objeto} %>
+			<%= render partial: 'aplicacion/publicos/publicaciones/sinonimos', locals: {objeto: objeto} %>
+			<%= render partial: 'aplicacion/publicos/publicaciones/categorias', locals: {objeto: objeto} %>
 		</div>
 	</div>
 </div>
