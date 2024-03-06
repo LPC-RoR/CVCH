@@ -1,7 +1,10 @@
 <div class="tax-box">
-	<div class='text-info'>Etiqueta de la publicación</div>
+	<div class='text-info'><small>
+		<%= render partial: '0p/general/gly', locals: {gly: 'dot'} %>
+		Etiqueta de la publicación</small>
+	</div>
 	<small><small>
-	<% @objeto.especies.each do |tag| %>
+	<% objeto.especies.each do |tag| %>
 		<div class="row">
 			<div class="col-9">
 				<%= render partial: '0p/general/gly', locals: {gly: 'dot'} %>
@@ -10,7 +13,7 @@
 				<% end %>
 				<%= link_to tag.especie, tag %>
 			</div>
-			<div class="col-3">
+			<div class="col-3" align="right">
 				<%= render partial: '0p/general/gly', locals: {gly: 'files'} %> 
 				<%= tag.publicaciones.count %>
 			</div>
