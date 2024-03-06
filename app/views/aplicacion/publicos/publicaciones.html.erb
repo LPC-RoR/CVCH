@@ -5,19 +5,16 @@
 		<%= render partial: 'aplicacion/publicos/publicaciones/etiqueta_especie', locals: {objeto: @objeto} %>
 		<%= render partial: 'aplicacion/publicos/publicaciones/sinonimos', locals: {objeto: @objeto} %>
 		<%= render partial: 'aplicacion/publicos/publicaciones/categorias', locals: {objeto: @objeto} %>
-
-
-		<p class='text-info'>Categoría(s)</p>
-		<small><small><ul>
-		<% @objeto.h_categorias.keys.sort.each do |h_key| %>
-			<li>
-				<%= h_key.to_s %> | <%= @objeto.h_categorias[h_key].length %>
-			</li>
-		<% end %>		
-		</ul></small></small>
-
 	</div>
 	<div class="col-lg-9">
+
+		<% if @objeto.publicaciones.count > 9 %>
+			<%= render layout: '0p/collapse/display', locals: {label: 'Grafico', objeto: nil} do %>
+				<div class="tax-box">
+					<%= bar_chart @grafico %>
+				</div>
+			<% end %>
+		<% end %>
 
 		<p class='text-info'>
 		<% if @objeto.publicaciones.count > 9 %>
