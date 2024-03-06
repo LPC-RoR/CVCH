@@ -9,7 +9,7 @@
 	<div class="col-lg-9">
 
 		<% if @objeto.publicaciones.count > 9 %>
-			<%= render layout: '0p/collapse/display', locals: {label: 'Grafico', objeto: nil} do %>
+			<%= render layout: '0p/collapse/display', locals: {label: 'Grafica', objeto: nil} do %>
 				<div class="tax-box">
 					<%= bar_chart @grafico %>
 				</div>
