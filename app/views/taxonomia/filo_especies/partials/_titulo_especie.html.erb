@@ -30,7 +30,7 @@
 					<% end %>
 				</span>
 				<% if objeto.link_fuente.present? %>
-					<%= render partial: '0p/layout/ext_tooltip_link', locals: {link: objeto.link_fuente, tooltip: 'Ver especie en inventario MMA'} do %>
+					<%= render layout: '0p/layout/ext_tooltip_link', locals: {link: objeto.link_fuente, tooltip: 'Ver especie en inventario MMA'} do %>
 					<%#= link_to objeto.link_fuente, target: '_blank' do %>
 						<i class="bi bi-box-arrow-up-right"></i>
 					<% end %>
