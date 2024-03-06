@@ -20,6 +20,11 @@
 	</div>
 </div>
 
+<div class="tax-box">
+	<p class="text-info">Publicaciones de la especie por año</p>
+	<%= bar_chart @grafico %>
+</div>
+
 <div class="row">
 	<div class="col-xs-12 col-lg-6">
 		<%= render partial: 'taxonomia/filo_especies/taxonomia/titulo_ficha_especie', locals: {objeto: objeto} %>
