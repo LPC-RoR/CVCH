@@ -29,7 +29,7 @@ module Inicia
 		end
 
 		# si hay perfil_activo ? hay usuarios se inicia applicacion : se despliega home SIN perfil_activo
-		inicia_app if perfil.present?
+		inicia_app if perfil_activo?
 
 	end
 
