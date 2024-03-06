@@ -11,8 +11,10 @@
 				<% end %>
 			</div>
 			<div class="col-3" align="right">
-				<%= render partial: '0p/general/gly', locals: {gly: 'files'} %> 
-				<%= sino.especie.publicaciones.count %>
+				<% unless sino.especie.blank? %>
+					<%= render partial: '0p/general/gly', locals: {gly: 'files'} %> 
+					<%= sino.especie.publicaciones.count %>
+				<% end %>
 			</div>
 		</div>
 	<% end %>		
