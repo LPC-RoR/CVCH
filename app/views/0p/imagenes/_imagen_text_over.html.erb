@@ -1,15 +1,19 @@
 <div class="imagen-parentContainer">
 	<img src="<%= archivo %>" alt="<%= alt %>">
-	<% case posicion %>
-	<% when 'c' %>
-		<h<%= size%>><div class="imagen-centered"><%=text%></div></h<%= size%>>
-	<% when  'bl' %>
-		<h<%= size%>><div class="imagen-bottom-left"><%=text%></div></h<%= size%>>
-	<% when  'tl' %>
-		<h<%= size%>><div class="imagen-top-left"><%=text%></div></h<%= size%>>
-	<% when  'tr' %>
-		<h<%= size%>><div class="imagen-top-right"><%=text%></div></h<%= size%>>
-	<% when  'br' %>
-		<h<%= size%>><div class="imagen-bottom-right"><%=text%></div></h<%= size%>>
+
+	<% posicion.each_with_index do |pos, ind| %>
+		<% case pos %>
+		<% when 'c' %>
+			<h<%= size[ind]%>><div class="imagen-centered"><%=text[ind]%></div></h<%= size[ind]%>>
+		<% when  'bl' %>
+			<h<%= size[ind]%>><div class="imagen-bottom-left"><%=text[ind]%></div></h<%= size[ind]%>>
+		<% when  'tl' %>
+			<h<%= size[ind]%>><div class="imagen-top-left"><%=text[ind]%></div></h<%= size[ind]%>>
+		<% when  'tr' %>
+			<h<%= size[ind]%>><div class="imagen-top-right"><%=text[ind]%></div></h<%= size[ind]%>>
+		<% when  'br' %>
+			<h<%= size[ind]%>><div class="imagen-bottom-right"><%=text[ind]%></div></h<%= size[ind]%>>
+		<% end %>
 	<% end %>
+
 </div>

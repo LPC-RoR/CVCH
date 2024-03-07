@@ -1,7 +1,7 @@
 <div class="row">
 	<div class="col-xs-12 col-lg-8">
 
-		<%= render partial: '0capitan/home/foto_portada' %>
+		<%= render partial: '0capitan/home/foto_portada_credito', locals: {h_imagen: HImagen.find_by(nombre: 'Portada').imagenes.order(created_at: :desc).first} %>
 		<%= render partial: '0capitan/home/cita_cvch' %>
 
 
