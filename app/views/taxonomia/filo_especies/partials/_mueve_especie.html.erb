@@ -1,0 +1,45 @@
+<small>
+<div class="text-info" align='center'><p>Seleccionar destino del elemento</p></div>
+<div class="row">
+	<div class="col-lg-6 col-xs-12">
+		<small>
+		<div class='text-info'><i class="bi bi-diagram-2"></i> Abuelo</div>
+		<% if @abuelo.blank? %>
+			<div class='text-danger'><i class="bi bi-cone-striped"></i> No hay abuelo disponible.</div>
+		<% else %>
+			<%= render layout: '0p/layout/tooltip_link', locals: {link: "/filo_especies/#{objeto.id}/subir", tooltip: 'Bajar un nivel'} do %>
+				<i class="bi bi-dot"></i> <%= @abuelo.filo_elemento %>
+			<% end %>
+		<% end %>
+		</small>
+	</div>
+	<div class="col-lg-6">
+		<small>
+		<div class='text-info'><i class="bi bi-diagram-2"></i> Hermanos</div>
+		<% if @hermanos_elementos.blank? %>
+			<div class='text-danger'><i class="bi bi-cone-striped"></i> No hay hermano disponibles.</div>
+		<% else %>
+			<% @hermanos_elementos.each do |elemento| %>
+				<% unless elemento == objeto %>
+					<%= render layout: '0p/layout/tooltip_link', locals: {link: "/filo_especies/#{objeto.id}/bajar?class=#{elemento.class.name}&indice=#{elemento.id}", tooltip: 'Mover a este hermano'} do %>
+						<i class="bi bi-dot"></i> <%= elemento.filo_elemento %></br>
+					<% end %>
+				<% end %>
+			<% end %>
+		<% end %>
+
+		<% if @hermanos_especies.blank? %>
+			<div class='text-danger'><i class="bi bi-cone-striped"></i> No hay especies disponibles.</div>
+		<% else %>
+			<% @hermanos_especies.each do |especie| %>
+				<% unless especie == objeto %>
+					<%= render layout: '0p/layout/tooltip_link', locals: {link: "/filo_especies/#{objeto.id}/bajar?class=#{especie.class.name}&indice=#{especie.id}", tooltip: 'Mover a este hermano'} do %>
+						<i class="bi bi-dot"></i> <%= especie.filo_especie %></br>
+					<% end %>
+				<% end %>
+			<% end %>
+		<% end %>
+		</small>
+	</div>
+</div>
+</small>

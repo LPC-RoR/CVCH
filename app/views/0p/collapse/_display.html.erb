@@ -3,5 +3,7 @@
 <%# end %>
 
 <div class="collapse" id="<%=label%><%= objeto.blank? ? nil : objeto.id%>">
-	<%= yield %>
+	<div class="cllps-display">
+		<%= yield %>
+	</div>
 </div>

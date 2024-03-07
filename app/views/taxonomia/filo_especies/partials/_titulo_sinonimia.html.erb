@@ -5,9 +5,9 @@
 		Sinonimia
 	</div>
 	<div class="col-2" align='right'>
-		<%= render layout: '0p/collapse/link', locals: {label: 'Sinonimia', objeto: nil, tooltip: 'Ver sinonimia'} do %>
-			<i class="bi bi-list-stars"></i>
-		<% end %>
+		<%#= render layout: '0p/collapse/link', locals: {label: 'Sinonimia', objeto: nil, tooltip: 'Ver sinonimia'} do %>
+			<!--i class="bi bi-list-stars"></i-->
+		<%# end %>
 		<% if admin? %>
 			<%= render layout: '0p/layout/tooltip_link', locals: {link: "/filo_especies/#{objeto.id}/buscar_etiquetas", tooltip: 'Buscar etiquetas'} do %>
 				<i class="bi bi-search"></i>

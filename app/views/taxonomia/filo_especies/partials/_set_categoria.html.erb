@@ -1,0 +1,16 @@
+<small>
+<div class="text-info" align='center'><p>Seleccione Categoría de conservación.</p></div>
+
+<div style="padding-left: 3em;">
+
+<% FiloCategoriaConservacion.all.order(:filo_categoria_conservacion).each do |categoria| %>
+	<i class="bi bi-dot"></i> 
+	<% unless objeto.filo_categoria_conservaciones.ids.include?(categoria.id) %>
+		<%= link_to categoria.filo_categoria_conservacion, "/filo_especies/#{objeto.id}/mas_categoria_conservacion?indice=#{categoria.id}" %>
+	<% else %>
+		<i class="bi bi-check2-all"> </i><%= link_to categoria.filo_categoria_conservacion, "/filo_especies/#{objeto.id}/menos_categoria_conservacion?indice=#{categoria.id}" %>
+	<% end %></br>
+<% end %>
+
+</div>
+</small>
