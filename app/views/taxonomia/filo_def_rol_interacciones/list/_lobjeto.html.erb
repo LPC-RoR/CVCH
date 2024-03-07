@@ -1,0 +1,15 @@
+<small>
+<div class="row">
+	<div class="col-9">
+		<%= render partial: '0p/tabla/links_orden', locals: {objeto: objeto} %>
+		<%= objeto.filo_def_rol.filo_def_rol %>
+	</div>
+	<div class="col-3" align='right'>
+		<% if admin? %>
+			<%= render layout: '0p/layout/tooltip_link', locals: {link: "/filo_def_interacciones/#{objeto.filo_def_interaccion.id}/elimina_rol?rid=#{objeto.filo_def_rol.id}", tooltip: 'Elimina rol de la interacción'} do %>
+				<small><i class="bi bi-trash"></i></small>
+			<% end %>
+		<% end %>
+	</div>
+</div>
+</small>

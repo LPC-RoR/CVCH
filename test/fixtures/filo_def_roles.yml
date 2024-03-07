@@ -1,0 +1,7 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  filo_def_rol: MyString
+
+two:
+  filo_def_rol: MyString

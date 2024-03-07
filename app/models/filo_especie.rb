@@ -36,6 +36,8 @@
 
 	has_many :filo_actualizaciones
 
+	has_many :filo_roles
+
 	validates :filo_especie, presence: true
 
 	before_save { self.filo_especie.downcase! }

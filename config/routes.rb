@@ -317,6 +317,23 @@ Rails.application.routes.draw do
     resources :filo_f_esp_regs
     resources :filo_esp_cones
     resources :filo_esp_tipos
+
+    # Interacciones
+    resources :filo_def_rol_interacciones do 
+      match :arriba, via: :get, on: :member
+      match :abajo, via: :get, on: :member
+    end
+    resources :filo_def_interacciones do
+      match :agrega_rol, via: :get, on: :member
+      match :elimina_rol, via: :get, on: :member
+    end
+    resources :filo_def_roles
+    resources :filo_roles
+    resources :filo_interacciones do
+      match :crea_interaccion, via: :get, on: :collection
+      match :eliminar, via: :get, on: :member
+      match :set_rol, via: :get, on: :member
+    end
   end
 
   devise_for :usuarios, controllers: {

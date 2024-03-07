@@ -1,0 +1,10 @@
+<div class="row">
+	<div class="col-9">
+		<%= objeto.filo_def_rol %>
+	</div>
+	<div class="col-3" align='right'>
+		<small>
+		<%= render partial: '0p/tabla/links_e', locals: {objeto: objeto} if admin? %>
+		</small>
+	</div>
+</div>

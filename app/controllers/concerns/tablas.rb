@@ -12,6 +12,7 @@ module Tablas
 				['Taxonomía', nil, 1, true],
 				['Tipos', 'tipos', 2, true],
 				['Categorías & Fuentes', 'categorias_fuentes', 2, true],
+				['Interacciones', 'interacciones', 2, true],
 			]
 		}
 	end

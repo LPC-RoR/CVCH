@@ -25,6 +25,9 @@ class Aplicacion::TablasController < ApplicationController
     when 'Categorías & Fuentes' #Tablas secundarias
       set_tabla('filo_categoria_conservaciones', FiloCategoriaConservacion.all.order(:filo_categoria_conservacion), false)
       set_tabla('filo_fuentes', FiloFuente.all.order(:filo_fuente), false)
+    when 'Interacciones' #Tablas secundarias
+      set_tabla('filo_def_roles', FiloDefRol.all.order(:filo_def_rol), false)
+      set_tabla('filo_def_interacciones', FiloDefInteraccion.all.order(:filo_def_interaccion), false)
     end
   end
 

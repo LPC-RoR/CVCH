@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  filo_rol: MyString
+  filo_especie_id: 1
+  filo_interaccion_id: 1
+
+two:
+  filo_rol: MyString
+  filo_especie_id: 1
+  filo_interaccion_id: 1

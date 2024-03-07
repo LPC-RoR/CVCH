@@ -80,6 +80,8 @@ class Publicacion < ApplicationRecord
 
 	has_many :especies, through: :etiquetas
 
+	has_many :filo_interacciones
+
 #	validates :doc_type, :title, :year, :author, presence: true
 	validates :doc_type, :title, presence: true
 

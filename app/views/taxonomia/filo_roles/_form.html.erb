@@ -1,0 +1,32 @@
+<%= form_with(model: filo_rol, local: true) do |form| %>
+  <% if filo_rol.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(filo_rol.errors.count, "error") %> prohibited this filo_rol from being saved:</h2>
+
+      <ul>
+      <% filo_rol.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :filo_rol %>
+    <%= form.text_field :filo_rol %>
+  </div>
+
+  <div class="field">
+    <%= form.label :filo_especie_id %>
+    <%= form.number_field :filo_especie_id %>
+  </div>
+
+  <div class="field">
+    <%= form.label :filo_interaccion_id %>
+    <%= form.number_field :filo_interaccion_id %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

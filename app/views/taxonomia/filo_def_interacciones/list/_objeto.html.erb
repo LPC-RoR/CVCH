@@ -1,0 +1,40 @@
+<div class="row">
+	<div class="col-9">
+		<%= objeto.filo_def_interaccion %>
+		<% unless objeto.filo_def_roles.empty? %>
+			<div style="padding-left: 1em;">
+				<% objeto.filo_def_rol_interacciones.order(:orden).each do |rels| %>
+					<%= render partial: 'taxonomia/filo_def_rol_interacciones/list/lobjeto.html.erb', locals: {objeto: rels} %>
+				<% end %>
+			</div>
+		<% end %>
+	</div>
+	<div class="col-3" align='right'>
+		<small>
+			<% if admin? %>
+				<% unless objeto.filo_def_roles.count > 1 %>
+					<%= render layout: '0p/collapse/link', locals: {label: 'SelRol', objeto: objeto, tooltip: 'Agrega Rol a la interacción'} do %>
+						<i class="bi bi-card-checklist"></i>
+					<% end %>
+					<i class="bi bi-dot"></i>
+				<% end %>
+				
+				<%= render partial: '0p/tabla/links_e', locals: {objeto: objeto} %>
+			<% end %>
+		</small>
+	</div>
+</div>
+
+<%= render layout: '0p/collapse/display', locals: {label: 'SelRol', objeto: objeto} do %>
+	<% FiloDefRol.all.order(:filo_def_rol).each do |def_rol| %>
+		<% unless objeto.filo_def_roles.map {|dr| dr.filo_def_rol}.include?(def_rol) %>
+			<% unless objeto.filo_def_roles.map {|dr| dr.filo_def_rol}.include?(def_rol.filo_def_rol) %>
+				<small>
+					<%= render layout: '0p/layout/tooltip_link', locals: {link: "/filo_def_interacciones/#{objeto.id}/agrega_rol?rid=#{def_rol.id}", tooltip: 'Agrega rol a la interacción'} do %>
+						<%= def_rol.filo_def_rol %>
+					<% end %>
+				</small></br>
+			<% end %>
+		<% end %>
+	<% end %>
+<% end %>

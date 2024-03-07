@@ -1,0 +1,13 @@
+<div style="padding-left: 1em;">
+<small>
+	<b><%=objeto.filo_rol %></b> : 
+	<%= objeto.filo_especie.filo_especie %>
+	
+	<i class="bi bi-arrow-<%= (objeto.filo_rol == objeto.filo_interaccion.primer_rol.filo_rol) ? 'right' : 'left' %>"></i>
+	<b><%= objeto.filo_interaccion.filo_roles.where.not(filo_rol: objeto.filo_rol).first.filo_rol %></b> : 
+	<%= render layout: '0p/layout/tooltip_link', locals: {link: "/publicos/especies?indice=#{objeto.filo_interaccion.filo_roles.where.not(filo_rol: objeto.filo_rol).first.filo_especie.id}", tooltip: 'Ver Especie'} do %>
+		<%= objeto.filo_interaccion.filo_roles.where.not(filo_rol: objeto.filo_rol).first.filo_especie.filo_especie %>
+	<% end %>
+</small>
+</div>
+</br>

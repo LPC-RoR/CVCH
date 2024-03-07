@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2024_02_29_141147) do
+ActiveRecord::Schema.define(version: 2024_03_06_200259) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -464,6 +464,31 @@ ActiveRecord::Schema.define(version: 2024_02_29_141147) do
     t.index ["filo_especie_id"], name: "index_filo_criterios_on_filo_especie_id"
   end
 
+  create_table "filo_def_interacciones", force: :cascade do |t|
+    t.string "filo_def_interaccion"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["filo_def_interaccion"], name: "index_filo_def_interacciones_on_filo_def_interaccion"
+  end
+
+  create_table "filo_def_rol_interacciones", force: :cascade do |t|
+    t.integer "filo_def_rol_id"
+    t.integer "filo_def_interaccion_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "orden"
+    t.index ["filo_def_interaccion_id"], name: "index_filo_def_rol_interacciones_on_filo_def_interaccion_id"
+    t.index ["filo_def_rol_id"], name: "index_filo_def_rol_interacciones_on_filo_def_rol_id"
+    t.index ["orden"], name: "index_filo_def_rol_interacciones_on_orden"
+  end
+
+  create_table "filo_def_roles", force: :cascade do |t|
+    t.string "filo_def_rol"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["filo_def_rol"], name: "index_filo_def_roles_on_filo_def_rol"
+  end
+
   create_table "filo_ele_eles", force: :cascade do |t|
     t.integer "parent_id"
     t.integer "child_id"
@@ -575,12 +600,31 @@ ActiveRecord::Schema.define(version: 2024_02_29_141147) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "filo_interacciones", force: :cascade do |t|
+    t.integer "filo_def_interaccion_id"
+    t.integer "publicacion_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["filo_def_interaccion_id"], name: "index_filo_interacciones_on_filo_def_interaccion_id"
+    t.index ["publicacion_id"], name: "index_filo_interacciones_on_publicacion_id"
+  end
+
   create_table "filo_ordenes", force: :cascade do |t|
     t.integer "orden"
     t.string "filo_orden"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["filo_orden"], name: "index_filo_ordenes_on_filo_orden"
+  end
+
+  create_table "filo_roles", force: :cascade do |t|
+    t.string "filo_rol"
+    t.integer "filo_especie_id"
+    t.integer "filo_interaccion_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["filo_especie_id"], name: "index_filo_roles_on_filo_especie_id"
+    t.index ["filo_rol"], name: "index_filo_roles_on_filo_rol"
   end
 
   create_table "filo_sinonimos", force: :cascade do |t|
