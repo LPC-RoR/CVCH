@@ -10,7 +10,11 @@
       <!-- LOGO NAVBAR -->
       <% if File.exist?("app/assets/images/#{cfg_navbar[:logo_navbar]}") %>
         <a class="navbar-brand" href="<%=cfg_defaults[:app_home]%>">
-          <%= image_tag(cfg_navbar[:logo_navbar], height: "40", class: "img-responsive", id: "navbar-logo") %>
+          <% if cfg_navbar[:logo_navbar].blank? %>
+            <div class='text-white'><b><%= app_sigla %></b></div>
+          <% else %>
+            <%= image_tag(cfg_navbar[:logo_navbar], height: "40", class: "img-responsive", id: "navbar-logo") %>
+          <% end %>
         </a>
       <% end %>
 

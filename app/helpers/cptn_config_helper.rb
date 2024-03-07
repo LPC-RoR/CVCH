@@ -83,7 +83,8 @@ module CptnConfigHelper
 	def cfg_navbar
 		{
 			color: 'info',
-			logo_navbar: 'logo_navbar.gif',
+			logo_navbar: nil,
+#			logo_navbar: 'logo_navbar.gif',
 			bg_color: '#45b39d'
 		}
 	end
