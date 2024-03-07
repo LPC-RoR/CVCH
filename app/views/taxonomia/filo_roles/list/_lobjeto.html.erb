@@ -1,13 +1,25 @@
 <div style="padding-left: 1em;">
-<small>
+	<small>
 	<b><%=objeto.filo_rol %></b> : 
 	<%= objeto.filo_especie.filo_especie %>
 	
-	<i class="bi bi-arrow-<%= (objeto.filo_rol == objeto.filo_interaccion.primer_rol.filo_rol) ? 'right' : 'left' %>"></i>
+	<i class="bi bi-arrow-<%= objeto.primer_rol? ? 'right' : 'left' %>"></i>
 	<b><%= objeto.filo_interaccion.filo_roles.where.not(filo_rol: objeto.filo_rol).first.filo_rol %></b> : 
 	<%= render layout: '0p/layout/tooltip_link', locals: {link: "/publicos/especies?indice=#{objeto.filo_interaccion.filo_roles.where.not(filo_rol: objeto.filo_rol).first.filo_especie.id}", tooltip: 'Ver Especie'} do %>
-		<%= objeto.filo_interaccion.filo_roles.where.not(filo_rol: objeto.filo_rol).first.filo_especie.filo_especie %>
+		<%= objeto.otro_rol.filo_especie.filo_especie %>
 	<% end %>
-</small>
+
+	<%= render layout: '0p/collapse/link', locals: {label: 'Origen', objeto: objeto, tooltip: 'Referencia'} do %>
+		<i class="bi bi-blockquote-left"></i>
+	<% end %>
+	<%= render layout: '0p/layout/tooltip_link', locals: {link: "/publicaciones/#{objeto.filo_interaccion.publicacion.id}", tooltip: 'Ver publicación'} do %>
+		<%= render partial: '0p/general/gly', locals: {gly: 'file'} %>
+	<% end %>
+	</small>
 </div>
+<%= render layout: '0p/collapse/display', locals: {label: 'Origen', objeto: objeto} do %>
+	<div style="padding-left: 3em;">
+		<small><small class="text-muted"><%= objeto.filo_interaccion.publicacion.d_quote %></small></small>
+	</div>
+<% end %>
 </br>
