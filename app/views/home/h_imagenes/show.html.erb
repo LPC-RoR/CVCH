@@ -1,26 +1,29 @@
-<h4><%= render partial: '0p/general/icon_text', locals: {gly: 'image', text: @objeto.nombre, clr: config[:color][:app]} %></h4>
+<div class="titulo">
+	<h4><%= render partial: '0p/general/icon_text', locals: {gly: 'image', text: @objeto.nombre, clr: config[:color][:app]} %></h4>	
+</div>
+<%= render partial: '0capitan/general/titulo_tabla', locals: {c: 'app_imagenes', title: "Archivos de la imagen #{@objeto.nombre}", link_new: "/app_imagenes/new?class_name=#{@objeto.class.name}&objeto_id=#{@objeto.id}"} %>
+
 
 <% @objeto.imagenes.order(created_at: :desc).each do |imagen| %>
 
-	<div class="row">
-		<div class="col-12 col-md-2">
-			<% unless imagen.imagen.blank? %>
-				<%= image_tag imagen.imagen.send('thumb').url, class: nil %></br>
-			<% else %>
-				Sin imagen
-			<% end %>
-		</div>
-		<div class="col-12 col-md-8">
-			<b class='text-muted'><%= imagen.nombre %></b></br>
-			<% unless imagen.credito_imagen.blank? %>
-				<small><small><%= imagen.credito_imagen %></small></small></br>
-			<% end %>
-		</div>
-		<div class="col-12 col-md-2">
-			<%= render partial: '0p/tabla/btns', locals: {a: 'index', objeto: imagen} %>
+	<div class="foto-box">
+		<div class="row">
+			<div class="col-12 col-md-2">
+				<% unless imagen.imagen.blank? %>
+					<%= image_tag imagen.imagen.send('thumb').url, class: nil %></br>
+				<% else %>
+					Sin imagen
+				<% end %>
+			</div>
+			<div class="col-12 col-md-8">
+				<b class='text-muted'><%= imagen.nombre %></b></br>
+				<% unless imagen.credito_imagen.blank? %>
+					<small><small><%= imagen.credito_imagen %></small></small></br>
+				<% end %>
+			</div>
+			<div class="col-12 col-md-2" align='right' style="padding-right: 3em;">
+				<%= render partial: '0p/tabla/links_e', locals: {objeto: imagen} %>
+			</div>
 		</div>
 	</div>
-	<hr>
 <% end %>
-
-<%= render partial: '0p/tabla/ext_btn_nuevo', locals: {texto: m_to_name('AppImagen'), o: @objeto, c: 'app_imagenes', gly: 'plus-circle', delete: false} %>

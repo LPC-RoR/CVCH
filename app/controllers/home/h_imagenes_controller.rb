@@ -9,6 +9,7 @@ class Home::HImagenesController < ApplicationController
   # GET /h_imagenes
   # GET /h_imagenes.json
   def index
+    set_tabla('h_imagenes', HImagen.all.order(:nombre), false)
   end
 
   # GET /h_imagenes/1
@@ -33,7 +34,7 @@ class Home::HImagenesController < ApplicationController
     respond_to do |format|
       if @objeto.save
         set_redireccion
-        format.html { redirect_to @redireccion, notice: 'H imagen was successfully created.' }
+        format.html { redirect_to @redireccion, notice: 'Imagen del home fue exitósamente creada.' }
         format.json { render :show, status: :created, location: @objeto }
       else
         format.html { render :new }
@@ -48,7 +49,7 @@ class Home::HImagenesController < ApplicationController
     respond_to do |format|
       if @objeto.update(h_imagen_params)
         set_redireccion
-        format.html { redirect_to @redireccion, notice: 'H imagen was successfully updated.' }
+        format.html { redirect_to @redireccion, notice: 'Imagen del home fue exitósamente actualizada.' }
         format.json { render :show, status: :ok, location: @objeto }
       else
         format.html { render :edit }
@@ -63,7 +64,7 @@ class Home::HImagenesController < ApplicationController
     set_redireccion
     @objeto.destroy
     respond_to do |format|
-      format.html { redirect_to @redireccion, notice: 'H imagen was successfully destroyed.' }
+      format.html { redirect_to @redireccion, notice: 'Imagen del home fue exitósamente eliminada.' }
       format.json { head :no_content }
     end
   end
@@ -75,7 +76,7 @@ class Home::HImagenesController < ApplicationController
     end
 
     def set_redireccion
-      @redireccion = "/app_recursos/administracion?id=#{get_elemento_id(controller_name, 'Imágenes')}" 
+      @redireccion = h_imagenes_path
     end
 
     # Only allow a list of trusted parameters through.

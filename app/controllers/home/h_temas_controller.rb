@@ -9,6 +9,7 @@ class Home::HTemasController < ApplicationController
   # GET /h_temas
   # GET /h_temas.json
   def index
+    set_tabla('h_temas', HTema.all.order(:tema), false)
   end
 
   # GET /h_temas/1
@@ -75,7 +76,7 @@ class Home::HTemasController < ApplicationController
     end
 
     def set_redireccion
-      @redireccion = "/app_recursos/administracion?id=#{get_elemento_id(controller_name, 'Temas')}" 
+      @redireccion = h_temas_path
     end
 
     # Only allow a list of trusted parameters through.

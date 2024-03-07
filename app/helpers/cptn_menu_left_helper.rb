@@ -8,6 +8,13 @@ module CptnMenuLeftHelper
 			},
 			admin: [
 				{
+					titulo: 'Home',
+					condicion: admin?,
+					items: [
+						'HImagen'
+					]
+				},
+				{
 					titulo: 'Tablas', 
 					condicion: admin? 
 				},

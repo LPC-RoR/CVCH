@@ -80,6 +80,7 @@ def controller_icon
 			'st_modelos' => 'box',
 			'tablas' => 'table',
 			'app_versiones' => 'gear',
+			'h_imagenes' => 'images',
 			'app_observaciones' => 'chat',
 			'app_mejoras' => 'exclamation-diamond',
 			'app_empresas' => 'buildings',
