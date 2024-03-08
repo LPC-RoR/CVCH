@@ -1,5 +1,6 @@
 class Ecosistemas::EcoPisosController < ApplicationController
   before_action :set_eco_piso, only: [:show, :edit, :update, :destroy]
+  after_action :reordenar, only: :destroy
 
   # GET /eco_pisos
   # GET /eco_pisos.json
@@ -14,7 +15,8 @@ class Ecosistemas::EcoPisosController < ApplicationController
 
   # GET /eco_pisos/new
   def new
-    @objeto = EcoPiso.new(eco_formacion_id: params[:fid])
+    formacion = params[:fid]
+    @objeto = EcoPiso.new(eco_formacion_id: params[:fid], orden: formacion.eco_pisos.count + 1)
   end
 
   # GET /eco_pisos/1/edit
@@ -53,6 +55,28 @@ class Ecosistemas::EcoPisosController < ApplicationController
     end
   end
 
+  def arriba
+    owner = @objeto.owner
+    anterior = @objeto.anterior
+    @objeto.orden -= 1
+    @objeto.save
+    anterior.orden += 1
+    anterior.save
+
+    redirect_to @objeto.redireccion
+  end
+
+  def abajo
+    owner = @objeto.owner
+    siguiente = @objeto.siguiente
+    @objeto.orden += 1
+    @objeto.save
+    siguiente.orden -= 1
+    siguiente.save
+
+    redirect_to @objeto.redireccion
+  end
+
   # DELETE /eco_pisos/1
   # DELETE /eco_pisos/1.json
   def destroy
@@ -65,6 +89,15 @@ class Ecosistemas::EcoPisosController < ApplicationController
   end
 
   private
+    def reordenar
+      @objeto.list.each_with_index do |val, index|
+        unless val.orden == index + 1
+          val.orden = index + 1
+          val.save
+        end
+      end
+    end
+
     # Use callbacks to share common setup or constraints between actions.
     def set_eco_piso
       @objeto = EcoPiso.find(params[:id])

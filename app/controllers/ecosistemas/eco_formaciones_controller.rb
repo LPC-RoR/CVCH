@@ -1,5 +1,6 @@
 class Ecosistemas::EcoFormacionesController < ApplicationController
   before_action :set_eco_formacion, only: [:show, :edit, :update, :destroy]
+  after_action :reordenar, only: :destroy
 
   # GET /eco_formaciones
   # GET /eco_formaciones.json
@@ -14,7 +15,7 @@ class Ecosistemas::EcoFormacionesController < ApplicationController
 
   # GET /eco_formaciones/new
   def new
-    @objeto = EcoFormacion.new
+    @objeto = EcoFormacion.new(orden: EcoFormacion.all.count + 1)
   end
 
   # GET /eco_formaciones/1/edit
@@ -53,6 +54,28 @@ class Ecosistemas::EcoFormacionesController < ApplicationController
     end
   end
 
+  def arriba
+    owner = @objeto.owner
+    anterior = @objeto.anterior
+    @objeto.orden -= 1
+    @objeto.save
+    anterior.orden += 1
+    anterior.save
+
+    redirect_to @objeto.redireccion
+  end
+
+  def abajo
+    owner = @objeto.owner
+    siguiente = @objeto.siguiente
+    @objeto.orden += 1
+    @objeto.save
+    siguiente.orden -= 1
+    siguiente.save
+
+    redirect_to @objeto.redireccion
+  end
+
   # DELETE /eco_formaciones/1
   # DELETE /eco_formaciones/1.json
   def destroy
@@ -65,7 +88,16 @@ class Ecosistemas::EcoFormacionesController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
+    def reordenar
+      @objeto.list.each_with_index do |val, index|
+        unless val.orden == index + 1
+          val.orden = index + 1
+          val.save
+        end
+      end
+    end
+
+# Use callbacks to share common setup or constraints between actions.
     def set_eco_formacion
       @objeto = EcoFormacion.find(params[:id])
     end

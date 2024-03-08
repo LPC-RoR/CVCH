@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2024_03_08_035344) do
+ActiveRecord::Schema.define(version: 2024_03_08_130422) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -349,7 +349,9 @@ ActiveRecord::Schema.define(version: 2024_03_08_035344) do
     t.string "eco_formacion"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "orden"
     t.index ["eco_formacion"], name: "index_eco_formaciones_on_eco_formacion"
+    t.index ["orden"], name: "index_eco_formaciones_on_orden"
   end
 
   create_table "eco_lugares", force: :cascade do |t|
@@ -369,8 +371,12 @@ ActiveRecord::Schema.define(version: 2024_03_08_035344) do
     t.string "eco_piso"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "orden"
+    t.string "codigo"
+    t.index ["codigo"], name: "index_eco_pisos_on_codigo"
     t.index ["eco_formacion_id"], name: "index_eco_pisos_on_eco_formacion_id"
     t.index ["eco_piso"], name: "index_eco_pisos_on_eco_piso"
+    t.index ["orden"], name: "index_eco_pisos_on_orden"
   end
 
   create_table "equipos", force: :cascade do |t|

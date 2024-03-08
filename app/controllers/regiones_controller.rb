@@ -1,4 +1,4 @@
-class Ecosistemas::RegionesController < ApplicationController
+class RegionesController < ApplicationController
   before_action :set_region, only: [:show, :edit, :update, :destroy, :arriba, :abajo, :asigna, :desasigna ]
   before_action :carga_solo_sidebar, only: %i[ show new edit create update ]
   after_action :reordenar, only: :destroy
@@ -79,6 +79,15 @@ class Ecosistemas::RegionesController < ApplicationController
     redirect_to @objeto.redireccion
   end
 
+  def reordenar
+    @objeto.list.each_with_index do |val, index|
+      unless val.orden == index + 1
+        val.orden = index + 1
+        val.save
+      end
+    end
+  end
+
   def asigna
     destino = params[:o].constantize.find(params[:indice])
     destino.regiones << @objeto
@@ -109,16 +118,6 @@ class Ecosistemas::RegionesController < ApplicationController
   end
 
   private
-
-    def reordenar
-      @objeto.list.each_with_index do |val, index|
-        unless val.orden == index + 1
-          val.orden = index + 1
-          val.save
-        end
-      end
-    end
-
     # Use callbacks to share common setup or constraints between actions.
     def set_region
       @objeto = Region.find(params[:id])

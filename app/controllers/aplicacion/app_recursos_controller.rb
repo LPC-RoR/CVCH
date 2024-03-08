@@ -26,98 +26,16 @@ class Aplicacion::AppRecursosController < ApplicationController
   end
 
   def procesos
-    AppAdministrador.all.each do |admin|
-      nomina = AppNomina.find_by(email: admin.email)
-      if nomina.blank?
-        AppNomina.create(nombre: admin.administrador, email: admin.email, tipo: 'Admin')
+    EcoFormacion.all.each_with_index do |ef, ind|
+      ef.orden = ind + 1
+      ef.save
+
+      ef.eco_pisos.each_with_index do |ep, ind|
+        ep.orden = ind + 1
+        ep.save
       end
     end
-#    Clasificacion.all.each do |clasificacion|
-#      if clasificacion.paper.blank?
-#        clasificacion.delete
-#      end
-#    end
 
-#    Carga.delete_all
-
-#    IndClave.all.each do |clave|
-#      if clave.ind_indices.empty?
-#        clave.delete
-#      elsif clave.ind_palabras.empty?
-#        clave.ind_indices.each do |indice|
-#          indice.delete
-#        end
-#        clave.delete
-#      else
-#        clave.ind_indices.each do |indice|
-#          pubs = Publicacion.where(id: indice.objeto_id.to_i)
-#          indice.delete if pubs.empty?
-#        end
-#        clave.delete if clave.ind_indices.empty?
-#      end
-#    end
-
-#    inicio = IndPalabra.all.count
-
-#    IndPalabra.where(proceso: 'primer').first(2000).each do |palabra|
-#      if palabra.ind_clave.blank?
-#          palabra.ind_clave_id = nil
-#          palabra.save
-#      end
-#      if palabra.ind_indices.empty?
-#        palabra.delete 
-#      else
-#        palabra.proceso = 'segundo'
-#        palabra.save
-#      end
-#    end
-
-#    termino = IndPalabra.all.count
-
-#    Publicacion.where(estado: 'publicada', author_email: 'segundo').last(200).each do |pub|
-#        desindexa_registro(pub)
-#        indexa_registro(pub)
-#        pub.author_email = 'tercero'
-#        pub.save
-#    end
-
-# ------------------------------------------------------------------------
-#    n_especies = Especie.all.count
-#    n_sin_padre = Especie.where(filo_especie_id: nil).count
-#    n_filo_especies = FiloEspecie.all.count
-#    n_sub_especies = FiloEspecie.where(filo_elemento_id: nil).count
-#    n_cvch = FiloEspecie.where(link_fuente: nil).count
-
-#    base_ids = FiloElemento.all.map {|fe| fe.id unless (fe.parent.present? or fe.revisar == false)}.compact
-#    FiloElemento.where(id: base_ids).each do |genero_huerfano|
-#      genero_huerfano.filo_especies.each do |f_especie|
-#        f_especie.children.each do |f_sub_especie|
-#          f_sub_especie.especies.each do |especie|
-#            f_sub_especie.especies.delete(especie)
-#          end
-#          f_especie.children.delete(f_sub_especie)
-#          f_sub_especie.delete
-#        end
-
-#        f_especie.especies.each do |especie|
-#          f_especie.especies.delete(especie)
-#        end
-#        f_especie.delete
-#      end
-#      genero_huerfano.delete
-#    end
-
-#    Especie.where(filo_especie_id: nil).each do |especie|
-#    Especie.all.each do |especie|
-#      if especie.publicaciones.empty?
-#        especie.delete
-#      else
-#        especie_a_estructura(especie)
-#      end
-#    end
-
-#    redirect_to root_path, notice: "#{n_especies} : #{n_sin_padre} | #{n_filo_especies} : #{n_sub_especies} : #{n_cvch}"
-#    redirect_to root_path, notice: "Proceso terminado #{IndClave.all.count} : #{IndPalabra.all.count}"
     redirect_to root_path
   end
 
