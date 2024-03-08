@@ -32,7 +32,7 @@ class Aplicacion::TablasController < ApplicationController
       set_tabla('filo_def_roles', FiloDefRol.all.order(:filo_def_rol), false)
       set_tabla('filo_def_interacciones', FiloDefInteraccion.all.order(:filo_def_interaccion), false)
     when 'Formaciones & Pisos' #Tablas secundarias
-      set_tabla('eco_formaciones', EcoFormacion.all.order(:eco_formacion), false)
+      set_tabla('eco_formaciones', EcoFormacion.all.order(:orden), false)
       set_tabla('eco_pisos', EcoPiso.all.order(:eco_piso), false)
     end
   end

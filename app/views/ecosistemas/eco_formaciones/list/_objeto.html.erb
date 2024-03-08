@@ -1,5 +1,8 @@
 <div class="row">
-	<div class="col-9">
+	<div class="col-2">
+		<%= render partial: '0p/tabla/links_orden', locals: {objeto: objeto} %>
+	</div>
+	<div class="col-7">
 		<small><%= objeto.eco_formacion %></small>
 	</div>
 	<div class="col-3" align='right'>
@@ -14,7 +17,7 @@
 </div>
 
 <div style="padding-left: 2em; padding-right: 2em;">
-	<% objeto.eco_pisos.order(:eco_piso).each do |piso| %>
+	<% objeto.eco_pisos.order(:orden).each do |piso| %>
 		<%= render partial: 'ecosistemas/eco_pisos/list/objeto', locals: {objeto: piso} %>
 	<% end %>
 </div>

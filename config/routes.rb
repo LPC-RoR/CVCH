@@ -331,8 +331,14 @@ Rails.application.routes.draw do
   end
 
   scope module: 'ecosistemas' do
-    resources :eco_pisos
-    resources :eco_formaciones
+    resources :eco_pisos do
+      match :arriba, via: :get, on: :member
+      match :abajo, via: :get, on: :member
+    end
+    resources :eco_formaciones do
+      match :arriba, via: :get, on: :member
+      match :abajo, via: :get, on: :member
+    end
     resources :eco_lugares
     resources :regiones do
       match :arriba, via: :get, on: :member

@@ -1,5 +1,5 @@
 class Ecosistemas::EcoPisosController < ApplicationController
-  before_action :set_eco_piso, only: [:show, :edit, :update, :destroy]
+  before_action :set_eco_piso, only: [:show, :edit, :update, :destroy, :arriba, :abajo ]
   after_action :reordenar, only: :destroy
 
   # GET /eco_pisos
@@ -15,7 +15,7 @@ class Ecosistemas::EcoPisosController < ApplicationController
 
   # GET /eco_pisos/new
   def new
-    formacion = params[:fid]
+    formacion = EcoFormacion.find(params[:fid])
     @objeto = EcoPiso.new(eco_formacion_id: params[:fid], orden: formacion.eco_pisos.count + 1)
   end
 
@@ -109,6 +109,6 @@ class Ecosistemas::EcoPisosController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def eco_piso_params
-      params.require(:eco_piso).permit(:eco_formacion_id, :eco_piso)
+      params.require(:eco_piso).permit(:eco_formacion_id, :eco_piso, :orden, :codigo)
     end
 end

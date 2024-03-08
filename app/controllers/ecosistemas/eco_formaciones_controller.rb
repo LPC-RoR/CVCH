@@ -1,5 +1,5 @@
 class Ecosistemas::EcoFormacionesController < ApplicationController
-  before_action :set_eco_formacion, only: [:show, :edit, :update, :destroy]
+  before_action :set_eco_formacion, only: [:show, :edit, :update, :destroy, :arriba, :abajo ]
   after_action :reordenar, only: :destroy
 
   # GET /eco_formaciones
@@ -108,6 +108,6 @@ class Ecosistemas::EcoFormacionesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def eco_formacion_params
-      params.require(:eco_formacion).permit(:eco_formacion)
+      params.require(:eco_formacion).permit(:eco_formacion, :orden)
     end
 end
