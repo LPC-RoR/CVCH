@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  eco_lugar: MyString
+  region_id: 1
+  coordenadas: MyString
+
+two:
+  eco_lugar: MyString
+  region_id: 1
+  coordenadas: MyString

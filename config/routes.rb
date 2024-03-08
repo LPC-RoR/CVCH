@@ -1,12 +1,6 @@
 Rails.application.routes.draw do
 
   resources :cfg_valores
-  resources :regiones do
-    match :arriba, via: :get, on: :member
-    match :abajo, via: :get, on: :member
-    match :asigna, via: :get, on: :member
-    match :desasigna, via: :get, on: :member
-  end
   resources :car_filo_esps
   resources :filo_esp_esp_sinonimos
   resources :per_cares
@@ -333,6 +327,18 @@ Rails.application.routes.draw do
       match :crea_interaccion, via: :get, on: :collection
       match :eliminar, via: :get, on: :member
       match :set_rol, via: :get, on: :member
+    end
+  end
+
+  scope module: 'ecosistemas' do
+    resources :eco_pisos
+    resources :eco_formaciones
+    resources :eco_lugares
+    resources :regiones do
+      match :arriba, via: :get, on: :member
+      match :abajo, via: :get, on: :member
+      match :asigna, via: :get, on: :member
+      match :desasigna, via: :get, on: :member
     end
   end
 

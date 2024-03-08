@@ -6,13 +6,16 @@ module Tablas
 			admin: [
 				#['Título', 'partial', indent, despliegue]
 				['General', nil, 1, true],
-				['Regiones', 'regiones', 2, true],
+				['Imagenes', 'imagenes', 2, true],
 				['Publicaciones', nil, 1, true],
 				['Áreas & Categorías', 'areas_categorias', 2, true],
 				['Taxonomía', nil, 1, true],
 				['Tipos', 'tipos', 2, true],
 				['Categorías & Fuentes', 'categorias_fuentes', 2, true],
 				['Interacciones', 'interacciones', 2, true],
+				['Lugares', nil, 1, true],
+				['Regiones & Lugares', 'regiones_lugares', 2, true],
+				['Formaciones & Pisos', 'formaciones_pisos', 2, true],
 			]
 		}
 	end

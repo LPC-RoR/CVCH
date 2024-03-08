@@ -1,4 +1,4 @@
-class RegionesController < ApplicationController
+class Ecosistemas::RegionesController < ApplicationController
   before_action :set_region, only: [:show, :edit, :update, :destroy, :arriba, :abajo, :asigna, :desasigna ]
   before_action :carga_solo_sidebar, only: %i[ show new edit create update ]
   after_action :reordenar, only: :destroy
@@ -124,7 +124,7 @@ class RegionesController < ApplicationController
     end
 
     def set_redireccion
-      @redireccion = "/tablas?tb=#{tb_index(:admin, 'regiones')}"
+      @redireccion = "/tablas?tb=#{tb_index(:admin, 'regiones_lugares')}"
     end
 
     # Only allow a list of trusted parameters through.

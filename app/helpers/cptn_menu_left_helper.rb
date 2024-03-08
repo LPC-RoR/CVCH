@@ -8,13 +8,6 @@ module CptnMenuLeftHelper
 			},
 			admin: [
 				{
-					titulo: 'Home',
-					condicion: admin?,
-					items: [
-						'HImagen'
-					]
-				},
-				{
 					titulo: 'Tablas', 
 					condicion: admin? 
 				},
@@ -39,7 +32,7 @@ module CptnMenuLeftHelper
 	end
 
 	def admin_controllers
-		['app_nominas', 'usuarios', 'st_modelos', 'st_estados', 'control_documentos', 'blg_articulos', 'app_versiones']
+		['app_nominas', 'usuarios', 'st_modelos', 'st_estados', 'control_documentos', 'blg_articulos', 'app_versiones', 'h_imagenes', 'filo_def_interacciones', 'filo_def_roles', 'eco_formaciones', 'eco_pisos', 'eco_lugares']
 	end
 
 	def tablas_controllers

@@ -1,0 +1,20 @@
+<div class="row">
+	<div class="col-9">
+		<small><%= objeto.eco_formacion %></small>
+	</div>
+	<div class="col-3" align='right'>
+		<small><small>
+			<%= render layout: '0p/layout/tooltip_link', locals: {link: "/eco_pisos/new?fid=#{objeto.id}", tooltip: 'Nuevo piso para la formación'} do %>
+				<%= render partial: '0p/general/gly', locals: {gly: 'plus-circle'} %>
+			<% end %>
+		<%= render partial: '0p/general/gly', locals: {gly: 'dot'} %>
+		<%= render partial: '0p/tabla/links_e', locals: {objeto: objeto} %>
+		</small></small>
+	</div>
+</div>
+
+<div style="padding-left: 2em; padding-right: 2em;">
+	<% objeto.eco_pisos.order(:eco_piso).each do |piso| %>
+		<%= render partial: 'ecosistemas/eco_pisos/list/objeto', locals: {objeto: piso} %>
+	<% end %>
+</div>

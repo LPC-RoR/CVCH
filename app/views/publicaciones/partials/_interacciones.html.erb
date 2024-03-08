@@ -6,84 +6,72 @@
 		</div>
 		<div class="col-2">
 			<% if admin? %>
-				<%= render layout: '0p/collapse/link', locals: {label: 'RegistraInteraccion', objeto: nil, tooltip: 'Registra interacción'} do %>
+				<%= render layout: '0p/layout/tooltip_link', locals: {link: "/filo_interacciones/new?pid=#{objeto.id}", tooltip: 'Nueva interacción'} do %>
 					<i class="bi bi-plus-circle"></i>
 				<% end %>
 			<% end %>
 		</div>
 	</div>
 
-	<% if admin? %>
-		<%= render layout: '0p/collapse/display', locals: {label: 'RegistraInteraccion', objeto: nil} do %>
-				<small>
-					<div style="padding-left: 1em;">
-						<% FiloDefInteraccion.all.order(:filo_def_interaccion).each do |def_interaccion| %>
-							<%= render layout: '0p/layout/tooltip_link', locals: {link: "/filo_interacciones/crea_interaccion?iid=#{def_interaccion.id}&pid=#{objeto.id}", tooltip: 'Crea interacción para la publicación'} do %>
-								<%= def_interaccion.filo_def_interaccion %>
+	<div style="padding-left: 1em; padding-right: 2em; line-height: 15px;">
+		<small>
+		<% @objeto.filo_interacciones.order(:created_at).each do |interaccion| %>
+			<div class="row">
+				<div class="col-9">
+					<%= interaccion.filo_def_interaccion.filo_def_interaccion %></br>
+					<div style="padding-left: 2em;">
+					<small>
+						<% if interaccion.primer_rol.blank? %>
+							<%= render layout: '0p/collapse/link', locals: {label: 'SelPrimer', objeto: interaccion, tooltip: "Seleccionar #{interaccion.primer_def_rol.filo_def_rol}"} do %>
+								<%= interaccion.primer_def_rol.filo_def_rol %>
+							<% end %>
+						<% else %>
+							<%= interaccion.primer_rol.filo_especie.filo_especie %> 
+						<% end %>
+						
+						<i class="bi bi-arrow-right"></i> 
+						<% if interaccion.segundo_rol.blank? %>
+							<%= render layout: '0p/collapse/link', locals: {label: 'SelSegundo', objeto: interaccion, tooltip: "Seleccionar #{interaccion.segundo_def_rol.filo_def_rol}"} do %>
+								<%= interaccion.segundo_def_rol.filo_def_rol %>
+							<% end %>
+						<% else %>
+							<%= interaccion.segundo_rol.filo_especie.filo_especie %> 
+						<% end %>
+					</small>
+					</div>
+					<div style="padding-left: 3em;">
+						<%= render layout: '0p/collapse/display', locals: {label: 'SelPrimer', objeto: interaccion} do %>
+							<% objeto.especies.order(:especie).each do |especie| %>
+								<% unless especie.filo_especie.blank? %>
+									<%= render layout: '0p/layout/tooltip_link', locals: {link: "/filo_interacciones/#{interaccion.id}/set_rol?o=primer&e_id=#{especie.id}", tooltip: "Selecciona #{interaccion.primer_def_rol.filo_def_rol}"} do %>
+										<small><%= especie.especie %></small></br>
+									<% end %>
+								<% end %>
+							<% end %>
+						<% end %>
+						<%= render layout: '0p/collapse/display', locals: {label: 'SelSegundo', objeto: interaccion} do %>
+							<% objeto.especies.order(:especie).each do |especie| %>
+								<% unless especie.filo_especie.blank? %>
+									<%= render layout: '0p/layout/tooltip_link', locals: {link: "/filo_interacciones/#{interaccion.id}/set_rol?o=segundo&e_id=#{especie.id}", tooltip: "Selecciona #{interaccion.segundo_def_rol.filo_def_rol}"} do %>
+										<small><%= especie.especie %></small></br>
+									<% end %>
+								<% end %>
 							<% end %>
 						<% end %>
 					</div>
-				</small>
-		<% end %>
-	<% end %>
-
-<div style="padding-left: 1em; padding-right: 2em; line-height: 15px;">
-	<small>
-	<% @objeto.filo_interacciones.order(:created_at).each do |interaccion| %>
-		<div class="row">
-			<div class="col-9">
-				<%= interaccion.filo_def_interaccion.filo_def_interaccion %></br>
-				<div style="padding-left: 2em;">
-				<small>
-					<% if interaccion.primer_rol.blank? %>
-						<%= render layout: '0p/collapse/link', locals: {label: 'SelPrimer', objeto: interaccion, tooltip: "Seleccionar #{interaccion.primer_def_rol.filo_def_rol}"} do %>
-							<%= interaccion.primer_def_rol.filo_def_rol %>
-						<% end %>
-					<% else %>
-						<%= interaccion.primer_rol.filo_especie.filo_especie %> 
-					<% end %>
-					
-					<i class="bi bi-arrow-right"></i> 
-					<% if interaccion.segundo_rol.blank? %>
-						<%= render layout: '0p/collapse/link', locals: {label: 'SelSegundo', objeto: interaccion, tooltip: "Seleccionar #{interaccion.segundo_def_rol.filo_def_rol}"} do %>
-							<%= interaccion.segundo_def_rol.filo_def_rol %>
-						<% end %>
-					<% else %>
-						<%= interaccion.segundo_rol.filo_especie.filo_especie %> 
-					<% end %>
-				</small>
 				</div>
-				<div style="padding-left: 3em;">
-					<%= render layout: '0p/collapse/display', locals: {label: 'SelPrimer', objeto: interaccion} do %>
-						<% objeto.especies.order(:especie).each do |especie| %>
-							<% unless especie.filo_especie.blank? %>
-								<%= render layout: '0p/layout/tooltip_link', locals: {link: "/filo_interacciones/#{interaccion.id}/set_rol?o=primer&e_id=#{especie.id}", tooltip: "Selecciona #{interaccion.primer_def_rol.filo_def_rol}"} do %>
-									<small><%= especie.especie %></small></br>
-								<% end %>
-							<% end %>
-						<% end %>
-					<% end %>
-					<%= render layout: '0p/collapse/display', locals: {label: 'SelSegundo', objeto: interaccion} do %>
-						<% objeto.especies.order(:especie).each do |especie| %>
-							<% unless especie.filo_especie.blank? %>
-								<%= render layout: '0p/layout/tooltip_link', locals: {link: "/filo_interacciones/#{interaccion.id}/set_rol?o=segundo&e_id=#{especie.id}", tooltip: "Selecciona #{interaccion.segundo_def_rol.filo_def_rol}"} do %>
-									<small><%= especie.especie %></small></br>
-								<% end %>
-							<% end %>
-						<% end %>
-					<% end %>
-				</div>
-			</div>
-			<div class="col-3" align='right'>
-		   		<% if admin? %>
-		   			<%= render layout: '0p/layout/tooltip_link', locals: {link: "/filo_interacciones/#{interaccion.id}/eliminar?o_clss=Publicacion&o_id=#{objeto.id}", tooltip: 'Elimina interacción'} do %>
-			   			<i class="bi bi-trash"></i>
+				<div class="col-3" align='right'>
+			   		<% if admin? %>
+			   			<%= render partial: '0p/tabla/link_editar', locals: {objeto: interaccion} %>
+			   			<%= render layout: '0p/layout/tooltip_link', locals: {link: "/filo_interacciones/#{interaccion.id}/eliminar?o_clss=Publicacion&o_id=#{objeto.id}", tooltip: 'Elimina interacción'} do %>
+				   			<i class="bi bi-trash"></i>
+				   		<% end %>
 			   		<% end %>
-		   		<% end %>
+				</div>
 			</div>
-		</div>
-	<% end %>
+		<% end %>
 
-	</small>
-</div>
+		</small>
+	</div>
+
 </div>

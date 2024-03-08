@@ -31,7 +31,7 @@ class FiloOrden < ApplicationRecord
 	end
 
 	def redireccion
-		"/app_recursos/administracion?id=#{get_elemento_id(self.class.name.tableize, 'Tipos de Elementos')}" 
+		"/tablas?tb=5" 
 	end
 
 	# -----------------------------------------------

@@ -40,13 +40,14 @@ module CptnCristianoHelper
 			'facturacion' => 'facturación',
 			'conciliacion' => 'conciliación',
 			'articulo' => 'artículo',
-			'publicacion' => 'publicación'
+			'publicacion' => 'publicación',
+			'eco_pisos' => 'pisos de vegetación'
 		}
 	end
 
 	# prefijos de modelos con scope
 	def scopes
-		/^tar_|^app_|^h_|^st_|^ind_|^m_|^blg_|^filo_/
+		/^tar_|^app_|^h_|^st_|^ind_|^m_|^blg_|^filo_|^eco_/
 	end
 
 	# nombre que se desplega de un controlador

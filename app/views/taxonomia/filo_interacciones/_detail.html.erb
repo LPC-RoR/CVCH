@@ -1,0 +1,7 @@
+<%= render partial: '0p/form_fields/label', locals: { form: form, label: 'Interacción', v: true } %>
+<%= render partial: '0p/form_fields/select_id', locals: { form: form, token: :filo_def_interaccion_id, colection: FiloDefInteraccion.all.order(:filo_def_interaccion).collect { |fdi| [fdi.filo_def_interaccion, fdi.id] }, display_field: 'filo_def_interaccion', prompt: 'Interacción' } %></br>
+
+<%= render partial: '0p/form_fields/label', locals: { form: form, label: 'Lugar', v: true } %>
+<%= render partial: '0p/form_fields/select_id', locals: { form: form, token: :eco_lugar_id, colection: EcoLugar.all.order(:eco_lugar).collect { |el| [el.eco_lugar, el.id] }, display_field: 'eco_lugar', prompt: 'Lugar' } %></br></br>
+
+<%= render partial: '0p/form_fields/hidden', locals: { form: form, token: :publicacion_id } %>

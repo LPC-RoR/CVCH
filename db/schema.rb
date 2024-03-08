@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2024_03_06_200259) do
+ActiveRecord::Schema.define(version: 2024_03_08_035344) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -345,6 +345,34 @@ ActiveRecord::Schema.define(version: 2024_03_06_200259) do
     t.index ["instancia_id"], name: "index_diccionarios_on_instancia_id"
   end
 
+  create_table "eco_formaciones", force: :cascade do |t|
+    t.string "eco_formacion"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["eco_formacion"], name: "index_eco_formaciones_on_eco_formacion"
+  end
+
+  create_table "eco_lugares", force: :cascade do |t|
+    t.string "eco_lugar"
+    t.integer "region_id"
+    t.string "coordenadas"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "eco_piso_id"
+    t.index ["eco_lugar"], name: "index_eco_lugares_on_eco_lugar"
+    t.index ["eco_piso_id"], name: "index_eco_lugares_on_eco_piso_id"
+    t.index ["region_id"], name: "index_eco_lugares_on_region_id"
+  end
+
+  create_table "eco_pisos", force: :cascade do |t|
+    t.integer "eco_formacion_id"
+    t.string "eco_piso"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["eco_formacion_id"], name: "index_eco_pisos_on_eco_formacion_id"
+    t.index ["eco_piso"], name: "index_eco_pisos_on_eco_piso"
+  end
+
   create_table "equipos", force: :cascade do |t|
     t.string "equipo"
     t.string "sha1"
@@ -605,6 +633,8 @@ ActiveRecord::Schema.define(version: 2024_03_06_200259) do
     t.integer "publicacion_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "eco_lugar_id"
+    t.index ["eco_lugar_id"], name: "index_filo_interacciones_on_eco_lugar_id"
     t.index ["filo_def_interaccion_id"], name: "index_filo_interacciones_on_filo_def_interaccion_id"
     t.index ["publicacion_id"], name: "index_filo_interacciones_on_publicacion_id"
   end

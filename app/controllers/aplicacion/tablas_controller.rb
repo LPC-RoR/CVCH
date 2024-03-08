@@ -6,8 +6,11 @@ class Aplicacion::TablasController < ApplicationController
     @indice = params[:tb].blank? ? first_tabla_index(:admin) : params[:tb].to_i
 
     case tb_item(:admin, @indice)
-    when 'Regiones' #Regiones
-      set_tabla('regiones', Region.order(:orden), false)
+    when 'Imagenes' #HImagen, Imágenes del HOME
+      set_tabla('h_imagenes', HImagen.all.order(:nombre), false)
+    when 'Regiones & Lugares' #Regiones
+      set_tabla('regiones', Region.all.order(:orden), false)
+      set_tabla('eco_lugares', EcoLugar.all.order(:eco_lugar), false)
     when 'Áreas & Categorías' #Enlaces
       set_tabla('areas', Area.all.order(:area), false)
       set_tabla('categorias', Categoria.all.order(:categoria), false)
@@ -28,6 +31,9 @@ class Aplicacion::TablasController < ApplicationController
     when 'Interacciones' #Tablas secundarias
       set_tabla('filo_def_roles', FiloDefRol.all.order(:filo_def_rol), false)
       set_tabla('filo_def_interacciones', FiloDefInteraccion.all.order(:filo_def_interaccion), false)
+    when 'Formaciones & Pisos' #Tablas secundarias
+      set_tabla('eco_formaciones', EcoFormacion.all.order(:eco_formacion), false)
+      set_tabla('eco_pisos', EcoPiso.all.order(:eco_piso), false)
     end
   end
 

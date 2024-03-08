@@ -6,6 +6,8 @@ class Region < ApplicationRecord
 	has_many :filo_f_esp_regs
 	has_many :filo_especies, through: :filo_f_esp_regs
 
+	has_many :eco_lugares
+
 	scope :ordered, -> { order(:orden) }
 
  	# ------------------------------------ ORDER LIST
@@ -31,7 +33,7 @@ class Region < ApplicationRecord
 	end
 
 	def redireccion
-		"/app_recursos/administracion?id=#{get_elemento_id(self.class.name.tableize, 'Regiones')}" 
+		"/tablas?tb=9" 
 	end
 
 	# -----------------------------------------------

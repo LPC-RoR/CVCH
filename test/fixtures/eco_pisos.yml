@@ -1,0 +1,9 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  eco_formacion_id: 1
+  eco_piso: MyString
+
+two:
+  eco_formacion_id: 1
+  eco_piso: MyString

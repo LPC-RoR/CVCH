@@ -1,0 +1,20 @@
+<small>
+<div class="row">
+	<div class="col-9">
+		<%= objeto.eco_lugar %>
+		<%= render partial: '0p/general/gly', locals: {gly: 'dot'} %>
+		<%= objeto.coordenadas %>
+		<div style="padding-left: 2em;">
+			<small>
+			<%= objeto.region.region %></br>
+			<%= objeto.eco_piso.eco_piso %>
+			</small>
+		</div>
+	</div>
+	<div class="col-3" align='right'>
+		<small>
+			<%= render partial: '0p/tabla/links_e', locals: {objeto: objeto} %>
+		</small>
+	</div>
+</div>
+</small>

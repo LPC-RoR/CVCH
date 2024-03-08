@@ -14,7 +14,7 @@ class Taxonomia::FiloInteraccionesController < ApplicationController
 
   # GET /filo_interacciones/new
   def new
-    @objeto = FiloInteraccion.new
+    @objeto = FiloInteraccion.new(publicacion_id: params[:pid])
   end
 
   # GET /filo_interacciones/1/edit
@@ -28,7 +28,8 @@ class Taxonomia::FiloInteraccionesController < ApplicationController
 
     respond_to do |format|
       if @objeto.save
-        format.html { redirect_to @objeto, notice: 'Filo interaccion was successfully created.' }
+        set_redireccion
+        format.html { redirect_to @redireccion, notice: 'Interacción fue exitósamente creada.' }
         format.json { render :show, status: :created, location: @objeto }
       else
         format.html { render :new }
@@ -42,7 +43,8 @@ class Taxonomia::FiloInteraccionesController < ApplicationController
   def update
     respond_to do |format|
       if @objeto.update(filo_interaccion_params)
-        format.html { redirect_to @objeto, notice: 'Filo interaccion was successfully updated.' }
+        set_redireccion
+        format.html { redirect_to @redireccion, notice: 'Interacción fue exitósamente actualizada.' }
         format.json { render :show, status: :ok, location: @objeto }
       else
         format.html { render :edit }
@@ -82,9 +84,10 @@ class Taxonomia::FiloInteraccionesController < ApplicationController
   # DELETE /filo_interacciones/1
   # DELETE /filo_interacciones/1.json
   def destroy
+    set_redireccion
     @objeto.destroy
     respond_to do |format|
-      format.html { redirect_to filo_interacciones_url, notice: 'Filo interaccion was successfully destroyed.' }
+      format.html { redirect_to @redireccion, notice: 'Interacción fue exitósamente eliminada.' }
       format.json { head :no_content }
     end
   end
@@ -93,6 +96,10 @@ class Taxonomia::FiloInteraccionesController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_filo_interaccion
       @objeto = FiloInteraccion.find(params[:id])
+    end
+
+    def set_redireccion
+      @redireccion = @objeto.publicacion
     end
 
     # Only allow a list of trusted parameters through.
