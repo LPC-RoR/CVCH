@@ -1,0 +1,29 @@
+<small>
+<div style="padding-left: 1em; padding-right: 2em; line-height: 15px;">
+	<% list.each do |set| %>
+		<div class="row">
+			<div class="col-9">
+				<small>
+				<%= set.eco_lugar.eco_lugar %>
+				<% unless set.fecha.blank? %>
+					<i class="bi bi-dot"></i>
+					<%= dma(set.fecha) %>
+				<% end %>
+				<% unless set.annio.blank? %>
+					<i class="bi bi-dot"></i>
+					<%= set.annio %>
+				<% end %>
+				<% unless set.coordenadas.blank? %>
+					<i class="bi bi-dot"></i>
+					<%= set.coordenadas %>
+				<% end %>
+				</small>
+				<%#= link_to set.carpeta, "/vistas?html_options[modelo]=Carpeta&html_options[id]=#{carpeta.id}" %>
+			</div>
+			<div class="col-3">
+				<%= render partial: '0p/tabla/links_e', locals: {objeto: set} %>
+			</div>
+		</div>
+	<% end %>
+</div>
+</small>

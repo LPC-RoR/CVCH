@@ -1,0 +1,20 @@
+<div style="padding-left: 1em;">
+	<small><small>
+		<% if interaccion.primer_rol.blank? %>
+			<%= render layout: '0p/collapse/link', locals: {label: 'SelPrimer', objeto: interaccion, tooltip: "Seleccionar #{interaccion.primer_def_rol.filo_def_rol}"} do %>
+				<%= interaccion.primer_def_rol.filo_def_rol %>
+			<% end %>
+		<% else %>
+			<%= interaccion.primer_rol.filo_especie.filo_especie %> 
+		<% end %>
+		
+		<i class="bi bi-arrow-right"></i> 
+		<% if interaccion.segundo_rol.blank? %>
+			<%= render layout: '0p/collapse/link', locals: {label: 'SelSegundo', objeto: interaccion, tooltip: "Seleccionar #{interaccion.segundo_def_rol.filo_def_rol}"} do %>
+				<%= interaccion.segundo_def_rol.filo_def_rol %>
+			<% end %>
+		<% else %>
+			<%= interaccion.segundo_rol.filo_especie.filo_especie %> 
+		<% end %>
+	</small></small>
+</div>

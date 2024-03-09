@@ -1,0 +1,27 @@
+<div style="padding-left: 1em; padding-right: 2em; line-height: 15px;">
+	<small>
+	<% etiquetas.each do |especie| %>
+		<div class="row">
+			<div class="col-9">
+				<%= link_to especie.especie, especie %>
+		   		<% unless especie.filo_sinonimo.blank? %>
+		   			<i class="bi bi-collection"></i>
+		   		<% end %>
+			</div>
+			<div class="col-3" align='right'>
+		   		<% unless especie.filo_especie.blank? %>
+		   			<%= render layout: '0p/layout/tooltip_link', locals: {link: "/publicos/especies?indice=#{especie.filo_especie.id}", tooltip: 'Ver especie'} do %>
+		   				<i class="bi bi-bug"></i>
+		   			<% end %>
+		   		<% end %>
+		   		<% if admin? %>
+		   			<%= render layout: '0p/layout/tooltip_link', locals: {link: "/especies/#{especie.id}/desasignar?class_name=Publicacion&objeto_id=#{objeto.id}", tooltip: 'Elimina etiqueta'} do %>
+			   			<i class="bi bi-trash"></i>
+			   		<% end %>
+		   		<% end %>
+			</div>
+		</div>
+	<% end %>
+
+	</small>
+</div>

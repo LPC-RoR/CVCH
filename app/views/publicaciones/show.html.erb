@@ -2,17 +2,18 @@
 <div class='row'>
 	<div class='col-md-3'>
 
-		<%= render partial: 'publicaciones/partials/areas' %>
-		<%= render partial: 'publicaciones/partials/categorias' %>
+		<%= render partial: 'publicaciones/areas/areas', locals: {disponibles: @areas_disponibles, objeto: @objeto} %>
+		<%= render partial: 'publicaciones/categorias/categorias', locals: {disponibles: @categorias_disponibles, objeto: @objeto} %>
 
 		<% if @objeto.estado == 'publicada' %>
 			<% if usuario_signed_in? %>
-				<%= render partial: 'publicaciones/partials/carpetas' %>
-				<%= render partial: 'publicaciones/partials/compartidas' %>
+				<%= render partial: 'publicaciones/carpetas/carpetas', locals: {objeto: @objeto, tipo: 'Carpeta', list: @carpetas, sel_list: @carpetas_sel, ids: @carpetas_ids} %>
+				<%= render partial: 'publicaciones/carpetas/carpetas', locals: {objeto: @objeto, tipo: 'Compartida', list: @compartidas, sel_list: @compartidas_sel, ids: @compartidas_ids} %>
 			<% end %>
 
-			<%= render partial: 'publicaciones/partials/especies' %>
-			<%= render partial: 'publicaciones/partials/interacciones', locals: {objeto: @objeto} %>
+			<%= render partial: 'publicaciones/especies/especies', locals: {objeto: @objeto, etiquetas: @etiquetas} %>
+			<%= render partial: 'publicaciones/sets/sets', locals: {objeto: @objeto, list: @sets} %>
+			<%= render partial: 'publicaciones/interacciones/interacciones', locals: {objeto: @objeto, list: @interacciones} unless @sets.empty? %>
 		<% end %>
 
 	</div>

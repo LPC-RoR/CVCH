@@ -1,0 +1,18 @@
+<small>
+<div class="row">
+	<div class="col-8">
+		<%= interaccion.filo_def_interaccion.filo_def_interaccion %>
+	</div>
+	<div class="col-4" align='right'>
+   		<% if admin? %>
+			<%= render layout: '0p/collapse/link', locals: {label: 'SelSet', objeto: interaccion, tooltip: 'Set de datos'} do %>
+				<i class="bi bi-flower2"></i>
+			<% end %>
+   			<%= render partial: '0p/tabla/link_editar', locals: {objeto: interaccion} %>
+   			<%= render layout: '0p/layout/tooltip_link', locals: {link: "/filo_interacciones/#{interaccion.id}/eliminar?o_clss=Publicacion&o_id=#{objeto.id}", tooltip: 'Elimina interacción'} do %>
+	   			<i class="bi bi-trash"></i>
+	   		<% end %>
+   		<% end %>
+	</div>
+</div>
+</small>

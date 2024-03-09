@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  eco_lugar_id: 1
+  publicacion_id: 1
+  annio: MyString
+  coordenadas: MyString
+
+two:
+  eco_lugar_id: 1
+  publicacion_id: 1
+  annio: MyString
+  coordenadas: MyString

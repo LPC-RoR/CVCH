@@ -1,0 +1,6 @@
+<div class="lmenu-box">
+	<%= render partial: 'publicaciones/carpetas/titulo_carpetas', locals: {tipo: tipo} %>
+	<%= render partial: 'publicaciones/carpetas/cllps_nueva_sel_carpeta', locals: {tipo: tipo, objeto: objeto, sel_list: sel_list, ids: ids} %>
+
+	<%= render partial: 'publicaciones/carpetas/carpeta_list', locals: {tipo: tipo, objeto: objeto, list: list} %>
+</div>

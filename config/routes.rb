@@ -346,6 +346,7 @@ Rails.application.routes.draw do
       match :asigna, via: :get, on: :member
       match :desasigna, via: :get, on: :member
     end
+    resources :eco_sets
   end
 
   devise_for :usuarios, controllers: {

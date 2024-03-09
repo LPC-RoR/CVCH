@@ -1,0 +1,19 @@
+<%= render partial: '0p/form_fields/label', locals: { form: form, label: 'Lugar', v: true } %>
+<%= render partial: '0p/form_fields/select_id', locals: { form: form, token: :eco_lugar_id, colection: EcoLugar.all.order(:eco_lugar).collect { |el| [el.eco_lugar, el.id] }, display_field: 'eco_lugar', prompt: 'Lugar' } %></br></br>
+
+<div class="row">
+	<div class="col-lg-4 col-xs-12">
+		<%= render partial: '0p/form_fields/label', locals: { form: form, label: 'Fecha', v: true } %>
+		<%= render partial: '0p/form_fields/date', locals: { form: form, token: :fecha } %>
+	</div>
+	<div class="col-lg-4 col-xs-12">
+		<%= render partial: '0p/form_fields/label', locals: { form: form, label: 'Años', v: true } %>
+		<%= render partial: '0p/form_fields/text', locals: { form: form, token: :annios } %>
+	</div>
+	<div class="col-lg-4">
+		<%= render partial: '0p/form_fields/label', locals: { form: form, label: 'Coordenadas', v: true } %>
+		<%= render partial: '0p/form_fields/text', locals: { form: form, token: :coordenadas } %>
+	</div>
+</div>
+
+<%= render partial: '0p/form_fields/hidden', locals: { form: form, token: :publicacion_id } %>

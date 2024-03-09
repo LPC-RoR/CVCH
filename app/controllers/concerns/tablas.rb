@@ -12,10 +12,10 @@ module Tablas
 				['Taxonomía', nil, 1, true],
 				['Tipos', 'tipos', 2, true],
 				['Categorías & Fuentes', 'categorias_fuentes', 2, true],
+				['Interacciones', nil, 1, true],
 				['Interacciones', 'interacciones', 2, true],
-				['Lugares', nil, 1, true],
 				['Regiones & Lugares', 'regiones_lugares', 2, true],
-				['Formaciones & Pisos', 'formaciones_pisos', 2, true],
+				['Formaciones & Pisos', 'formaciones_pisos', 2, true]
 			]
 		}
 	end

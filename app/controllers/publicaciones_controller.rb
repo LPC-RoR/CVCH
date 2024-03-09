@@ -35,6 +35,21 @@ class PublicacionesController < ApplicationController
     categorias_disponibles_ids = Categoria.all.map {|categoria| categoria.id unless @objeto.categorias.ids.include?(categoria.id)}.compact
     @categorias_disponibles = Categoria.where(id: categorias_disponibles_ids)
 
+    unless perfil_activo.blank?
+      @carpetas_sel = perfil_activo.carpetas.order(:carpeta)
+      @carpetas = @objeto.carpetas.where(id: @carpetas_sel.ids).order(:carpeta)
+      @carpetas_ids = @carpetas.ids
+      @compartidas_sel = perfil_activo.compartidas.order(:carpeta)
+      @compartidas = @objeto.carpetas.where(id: @compartidas_sel)
+      @compartidas_ids = @compartidas.ids
+
+      @sets = @objeto.eco_sets.order(created_at: :desc)
+      @interacciones = @objeto.filo_interacciones.order(:created_at)
+    end
+
+    @etiquetas = @objeto.especies.order(:especie)
+    @sets = @objeto.eco_sets.order(created_at: :desc)
+
     # ********************** DUPLICADOS *****************************
     duplicados_doi_ids = @objeto.doi.present? ? (Publicacion.where(doi: @objeto.doi).ids - [@objeto.id]) : []
     duplicados_t_sha1_ids = @objeto.title.present? ? (Publicacion.where(t_sha1: @objeto.t_sha1).ids - [@objeto.id]) : []

@@ -2,6 +2,7 @@ class FiloInteraccion < ApplicationRecord
 
 	belongs_to :publicacion
 	belongs_to :filo_def_interaccion
+	belongs_to :eco_set, optional: true
 
 	has_many :filo_roles
 

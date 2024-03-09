@@ -1,0 +1,13 @@
+<div class="row">
+	<div class="col-10 text-info">
+		<i class="bi bi-flower1"></i>
+		Interacciones
+	</div>
+	<div class="col-2">
+		<% if admin? %>
+			<%= render layout: '0p/layout/tooltip_link', locals: {link: "/filo_interacciones/new?pid=#{objeto.id}", tooltip: 'Nueva interacción'} do %>
+				<i class="bi bi-plus-circle"></i>
+			<% end %>
+		<% end %>
+	</div>
+</div>

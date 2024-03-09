@@ -1,0 +1,12 @@
+	<% if admin? %>
+		<%= render layout: '0p/collapse/display', locals: {label: 'SelCategoria', objeto: nil} do %>
+			<small class="text-info"><b>Seleccionar Categoría</small></b></br>
+			<div class="collapse-display-list">
+				<% disponibles.each do |categoria_objeto| %>
+				<div style="padding-left: 2em;">
+					<small><%= link_to categoria_objeto.categoria, "/categorias/#{categoria_objeto.id}/asigna?class_name=Publicacion&objeto_id=#{objeto.id}" %></small>
+					</div>
+				<% end %>
+			</div>
+		<% end %>
+	<% end %>

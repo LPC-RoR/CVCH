@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2024_03_08_130422) do
+ActiveRecord::Schema.define(version: 2024_03_09_171537) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -379,6 +379,19 @@ ActiveRecord::Schema.define(version: 2024_03_08_130422) do
     t.index ["orden"], name: "index_eco_pisos_on_orden"
   end
 
+  create_table "eco_sets", force: :cascade do |t|
+    t.integer "eco_lugar_id"
+    t.integer "publicacion_id"
+    t.string "annio"
+    t.string "coordenadas"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.date "fecha"
+    t.index ["eco_lugar_id"], name: "index_eco_sets_on_eco_lugar_id"
+    t.index ["fecha"], name: "index_eco_sets_on_fecha"
+    t.index ["publicacion_id"], name: "index_eco_sets_on_publicacion_id"
+  end
+
   create_table "equipos", force: :cascade do |t|
     t.string "equipo"
     t.string "sha1"
@@ -640,7 +653,9 @@ ActiveRecord::Schema.define(version: 2024_03_08_130422) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "eco_lugar_id"
+    t.integer "eco_set_id"
     t.index ["eco_lugar_id"], name: "index_filo_interacciones_on_eco_lugar_id"
+    t.index ["eco_set_id"], name: "index_filo_interacciones_on_eco_set_id"
     t.index ["filo_def_interaccion_id"], name: "index_filo_interacciones_on_filo_def_interaccion_id"
     t.index ["publicacion_id"], name: "index_filo_interacciones_on_publicacion_id"
   end

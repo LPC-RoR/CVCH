@@ -1,0 +1,18 @@
+<small>
+<div style="padding-left: 1em; padding-right: 2em; line-height: 15px;">
+	<% objeto.categorias.order(:categoria).each do |categoria| %>
+		<div class="row">
+			<div class="col-10">
+				<%= link_to categoria.categoria, "/vistas?html_options[modelo]=Categoria&html_options[id]=#{categoria.id}" %>
+			</div>
+			<div class="col-2">
+		   		<% if admin? and objeto.categorias.count > 1 %>
+		   			<%= render layout: '0p/layout/tooltip_link', locals: {link: "/categorias/#{categoria.id}/desasignar?class_name=Publicacion&objeto_id=#{objeto.id}", tooltip: 'Desasigna categoria'} do %>
+			   			<i class="bi bi-trash"></i>
+			   		<% end %>
+		   		<% end %>
+			</div>
+		</div>
+	<% end %>
+</div>
+</small>

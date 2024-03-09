@@ -26,7 +26,7 @@ class FiloDefRolInteraccion < ApplicationRecord
 	end
 
 	def redireccion
-		"/tablas?tb=7"
+		"/tablas?tb=8"
 	end
 
 	# -----------------------------------------------

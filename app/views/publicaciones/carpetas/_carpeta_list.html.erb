@@ -1,0 +1,16 @@
+<small>
+<div style="padding-left: 1em; padding-right: 2em; line-height: 15px;">
+	<% list.each do |carpeta| %>
+		<div class="row">
+			<div class="col-10">
+				<%= link_to carpeta.carpeta, "/vistas?html_options[modelo]=Carpeta&html_options[id]=#{carpeta.id}" %>
+			</div>
+			<div class="col-2">
+				<%= render layout: '0p/layout/tooltip_link', locals: {link: "/carpetas/#{carpeta.id}/desasignar?class_name=Publicacion&objeto_id=#{objeto.id}", tooltip: "Desasigna #{tipo}"} do %>
+		   			<i class="bi bi-trash"></i>
+		   		<% end %>
+			</div>
+		</div>
+	<% end %>
+</div>
+</small>

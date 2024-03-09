@@ -1,0 +1,49 @@
+<%= render layout: '0p/collapse/display', locals: {label: 'SelPrimer', objeto: interaccion} do %>
+	<div class="text-info"><small>Seleccione Especie</small></div>
+	<div style="padding-left: 1em;">
+		<% objeto.especies.order(:especie).each do |especie| %>
+			<% unless especie.filo_especie.blank? %>
+				<%= render layout: '0p/layout/tooltip_link', locals: {link: "/filo_interacciones/#{interaccion.id}/set_rol?o=primer&e_id=#{especie.id}", tooltip: "Selecciona #{interaccion.primer_def_rol.filo_def_rol}"} do %>
+					<small><%= especie.especie %></small></br>
+				<% end %>
+			<% end %>
+		<% end %>
+	</div>
+<% end %>
+<%= render layout: '0p/collapse/display', locals: {label: 'SelSegundo', objeto: interaccion} do %>
+	<div class="text-info"><small>Seleccione Especie</small></div>
+	<div style="padding-left: 1em;">
+		<% objeto.especies.order(:especie).each do |especie| %>
+			<% unless especie.filo_especie.blank? %>
+				<%= render layout: '0p/layout/tooltip_link', locals: {link: "/filo_interacciones/#{interaccion.id}/set_rol?o=segundo&e_id=#{especie.id}", tooltip: "Selecciona #{interaccion.segundo_def_rol.filo_def_rol}"} do %>
+					<small><%= especie.especie %></small></br>
+				<% end %>
+			<% end %>
+		<% end %>
+	</div>
+<% end %>
+
+<%= render layout: '0p/collapse/display', locals: {label: 'SelSet', objeto: interaccion} do %>
+	<div class="text-info"><small>Seleccione Set de datos</small></div>
+	<div style="padding-left: 1em;">
+		<% objeto.eco_sets.order(created_at: :desc).each do |set| %>
+			<%= render layout: '0p/layout/tooltip_link', locals: {link: "/filo_interacciones/#{interaccion.id}/set_set?sid=#{set.id}", tooltip: "Selecciona sel de datos"} do %>
+				<small>
+				<%= set.eco_lugar.eco_lugar %>
+				<% unless set.fecha.blank? %>
+					<i class="bi bi-dot"></i>
+					<%= dma(set.fecha) %>
+				<% end %>
+				<% unless set.annio.blank? %>
+					<i class="bi bi-dot"></i>
+					<%= set.annio %>
+				<% end %>
+				<% unless set.coordenadas.blank? %>
+					<i class="bi bi-dot"></i>
+					<%= set.coordenadas %>
+				<% end %>
+				</small></br>
+			<% end %>
+		<% end %>
+	</div>
+<% end %>
