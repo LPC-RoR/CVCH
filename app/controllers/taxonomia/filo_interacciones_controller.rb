@@ -76,7 +76,7 @@ class Taxonomia::FiloInteraccionesController < ApplicationController
     if especie.filo_especie.present?
       filo_especie = especie.filo_especie
       noticia = "#{params[:o].capitalize} rol fue ingresado exitósamente"
-    elsif epecie.filo_sinonimo.present?
+    elsif especie.filo_sinonimo.present?
       if especie.filo_sinonimo.filo_especies.count == 1
         filo_especie =  especie.filo_sinonimo.filo_especies.first
         noticia = "#{params[:o].capitalize} rol fue ingresado exitósamente para especie actualizada"
