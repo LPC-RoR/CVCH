@@ -42,13 +42,11 @@ class PublicacionesController < ApplicationController
       @compartidas_sel = perfil_activo.compartidas.order(:carpeta)
       @compartidas = @objeto.carpetas.where(id: @compartidas_sel)
       @compartidas_ids = @compartidas.ids
-
-      @sets = @objeto.eco_sets.order(created_at: :desc)
-      @interacciones = @objeto.filo_interacciones.order(:created_at)
     end
 
     @etiquetas = @objeto.especies.order(:especie)
     @sets = @objeto.eco_sets.order(created_at: :desc)
+    @interacciones = @objeto.filo_interacciones.order(:created_at)
 
     # ********************** DUPLICADOS *****************************
     duplicados_doi_ids = @objeto.doi.present? ? (Publicacion.where(doi: @objeto.doi).ids - [@objeto.id]) : []
