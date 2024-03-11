@@ -5,11 +5,11 @@
 			<div class="col-9">
 				<%= link_to especie.especie, especie %>
 		   		<% unless especie.filo_sinonimo.blank? %>
-		   			<%= especie.filo_sinonimo.filo_especies.each do |f_especie| %>
+		   			<% especie.filo_sinonimo.filo_especies.each do |f_especie| %>
 			   			</br>
 			   			<i class="bi bi-arrow-right"></i>
 			   			<i class="bi bi-collection"></i>
-			   			<%#= f_especie.filo_especie %>
+			   			<%= f_especie.filo_especie %>
 		   			<% end %>
 		   		<% end %>
 			</div>
