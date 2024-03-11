@@ -2,7 +2,7 @@
 	<div class="text-info"><small>Seleccione Especie</small></div>
 	<div style="padding-left: 1em;">
 		<% objeto.especies.order(:especie).each do |especie| %>
-			<% unless especie.filo_especie.blank? %>
+			<% unless especie.filo_especie.blank? and especie.filo_sinonimo.blank? %>
 				<%= render layout: '0p/layout/tooltip_link', locals: {link: "/filo_interacciones/#{interaccion.id}/set_rol?o=primer&e_id=#{especie.id}", tooltip: "Selecciona #{interaccion.primer_def_rol.filo_def_rol}"} do %>
 					<small><%= especie.especie %></small></br>
 				<% end %>
@@ -14,7 +14,7 @@
 	<div class="text-info"><small>Seleccione Especie</small></div>
 	<div style="padding-left: 1em;">
 		<% objeto.especies.order(:especie).each do |especie| %>
-			<% unless especie.filo_especie.blank? %>
+			<% unless especie.filo_especie.blank? and especie.filo_sinonimo.blank? %>
 				<%= render layout: '0p/layout/tooltip_link', locals: {link: "/filo_interacciones/#{interaccion.id}/set_rol?o=segundo&e_id=#{especie.id}", tooltip: "Selecciona #{interaccion.segundo_def_rol.filo_def_rol}"} do %>
 					<small><%= especie.especie %></small></br>
 				<% end %>

@@ -5,7 +5,9 @@
 			<div class="col-9">
 				<%= link_to especie.especie, especie %>
 		   		<% unless especie.filo_sinonimo.blank? %>
+		   			<i class="bi bi-arrow-right"></i>
 		   			<i class="bi bi-collection"></i>
+		   			<%= especie.filo_sinonimo.filo_sinonimo %>
 		   		<% end %>
 			</div>
 			<div class="col-3" align='right'>
