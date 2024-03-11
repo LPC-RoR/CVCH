@@ -16,9 +16,8 @@
 <%= render partial: '0p/form_fields/label', locals: { form: form, label: 'Nombre Común', v: false } %>
 <%= render partial: '0p/form_fields/text', locals: { form: form, token: :nombre_comun } %>
 
-<!-- El Siguiente if es para un uso que no se ha determinado -->
-<% if false %>
-<%# if destino == 'fuente' %>
+<!-- Se usa cuando se está ingreesando una Actuaalización, lo cual requiere establecer la fueente -->
+<% if destino == 'fuente' %>
 	<%= render partial: '0p/form_fields/label', locals: { form: form, label: 'Fuente', v: true } %>
 	<%= render partial: '0p/form_fields/select_id', locals: { form: form, token: :filo_fuente_id, colection: FiloFuente.all.order(:filo_fuente).collect { |ff| [ff.filo_fuente, ff.id] }, display_field: 'filo_fuente', prompt: 'Fuente' } %></br>
 <% end %>
