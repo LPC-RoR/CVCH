@@ -73,12 +73,24 @@ class Taxonomia::FiloInteraccionesController < ApplicationController
   def set_rol
     publicacion = @objeto.publicacion
     especie = Especie.find(params[:e_id])
-    filo_especie = especie.filo_especie
-    filo_rol = params[:o] == 'primer' ? @objeto.primer_def_rol.filo_def_rol : @objeto.segundo_def_rol.filo_def_rol
+    if especie.filo_especie.present?
+      filo_especie = especie.filo_especie
+      noticia = "#{params[:o].capitalize} rol fue ingresado exitósamente"
+    elsif epecie.filo_sinonimo.present?
+      if especie.filo_sinonimo.filo_especies.count == 1
+        filo_especie =  especie.filo_sinonimo.filo_especies.first
+        noticia = "#{params[:o].capitalize} rol fue ingresado exitósamente para especie actualizada"
+      else
+        filo_especie = nil
+        noticia = 'Error: Esta especie es sinónimo de más de una especie'
+      end
+    end
+    unless filo_especie.blank?
+      filo_rol = params[:o] == 'primer' ? @objeto.primer_def_rol.filo_def_rol : @objeto.segundo_def_rol.filo_def_rol
+      FiloRol.create(filo_especie_id: filo_especie.id, filo_interaccion_id: @objeto.id, filo_rol: filo_rol)
+    end
 
-    FiloRol.create(filo_especie_id: filo_especie.id, filo_interaccion_id: @objeto.id, filo_rol: filo_rol)
-
-    redirect_to publicacion, notice: "#{params[:o].capitalize} rol fue ingresado exitósamente"
+    redirect_to publicacion, notice: noticia
   end
 
   # DELETE /filo_interacciones/1
