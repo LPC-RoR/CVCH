@@ -21,7 +21,9 @@
 				<%#= link_to set.carpeta, "/vistas?html_options[modelo]=Carpeta&html_options[id]=#{carpeta.id}" %>
 			</div>
 			<div class="col-3">
-				<%= render partial: '0p/tabla/links_e', locals: {objeto: set} %>
+				<% if admin? %>
+					<%= render partial: '0p/tabla/links_e', locals: {objeto: set} %>
+				<% end %>
 			</div>
 		</div>
 	<% end %>
