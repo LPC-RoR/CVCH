@@ -1,13 +1,5 @@
-<div class="row">
-	<div class="col-8">
-		<%= render partial: '0p/form_fields/label', locals: { form: form, label: 'Lugar', v: true } %>
-		<%= render partial: '0p/form_fields/text', locals: { form: form, token: :eco_lugar } %>
-	</div>
-	<div class="col-4">
-		<%= render partial: '0p/form_fields/label', locals: { form: form, label: 'Coordenadas', v: true } %>
-		<%= render partial: '0p/form_fields/text', locals: { form: form, token: :coordenadas } %>
-	</div>
-</div>
+<%= render partial: '0p/form_fields/label', locals: { form: form, label: 'Lugar', v: true } %>
+<%= render partial: '0p/form_fields/text', locals: { form: form, token: :eco_lugar } %>
 
 <%= render partial: '0p/form_fields/label', locals: { form: form, label: 'Region', v: true } %>
 <%= render partial: '0p/form_fields/select_id', locals: { form: form, token: :region_id, colection: Region.all.order(:orden).collect { |reg| [reg.region, reg.id] }, display_field: 'region', prompt: 'Región' } %></br>
