@@ -1,6 +1,6 @@
 <%= render partial: 'publicaciones/partials/header', locals: {objeto: @objeto} %>
 <div class='row'>
-	<div class='col-md-3'>
+	<div class='col-md-4'>
 
 		<%= render partial: 'publicaciones/areas/areas', locals: {disponibles: @areas_disponibles, objeto: @objeto} %>
 		<%= render partial: 'publicaciones/categorias/categorias', locals: {disponibles: @categorias_disponibles, objeto: @objeto} %>
@@ -9,6 +9,7 @@
 			<% if usuario_signed_in? %>
 				<%= render partial: 'publicaciones/carpetas/carpetas', locals: {objeto: @objeto, tipo: 'Carpeta', list: @carpetas, sel_list: @carpetas_sel, ids: @carpetas_ids} %>
 				<%= render partial: 'publicaciones/carpetas/carpetas', locals: {objeto: @objeto, tipo: 'Compartida', list: @compartidas, sel_list: @compartidas_sel, ids: @compartidas_ids} %>
+
 			<% end %>
 
 			<%= render partial: 'publicaciones/especies/especies', locals: {objeto: @objeto, etiquetas: @etiquetas} %>
@@ -17,7 +18,7 @@
 		<% end %>
 
 	</div>
-	<div class='col-md-9'>
+	<div class='col-md-8'>
 
 		<%= render partial: 'publicaciones/partials/consola' %>
 		<%= render partial: 'publicaciones/partials/refs', locals: {objeto: @objeto, clr: 'dark'} %>
