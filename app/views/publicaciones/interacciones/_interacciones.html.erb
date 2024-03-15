@@ -6,9 +6,8 @@
 		<div style="padding-left: 1em; padding-right: 2em; line-height: 15px;">
 			<%= render partial: 'publicaciones/interacciones/titulo_interaccion', locals: {objeto: objeto, interaccion: interaccion} %>
 
-			<%= render partial: 'publicaciones/interacciones/line_set', locals: {objeto: objeto, interaccion: interaccion} %>
-
 			<%= render partial: 'publicaciones/interacciones/interaccion', locals: {objeto: objeto, interaccion: interaccion} %>
+			<%= render partial: 'publicaciones/interacciones/line_set', locals: {objeto: objeto, interaccion: interaccion} %>
 		</div>
 
 		<%= render partial: 'publicaciones/interacciones/cllps_sel_roles', locals: {objeto: objeto, interaccion: interaccion} %>

@@ -1,5 +1,6 @@
 <div style="padding-left: 1em;">
 	<small><small>
+		<b>
 		<% if interaccion.primer_rol.blank? %>
 			<%= render layout: '0p/collapse/link', locals: {label: 'SelPrimer', objeto: interaccion, tooltip: "Seleccionar #{interaccion.primer_def_rol.filo_def_rol}"} do %>
 				<%= interaccion.primer_def_rol.filo_def_rol %>
@@ -18,6 +19,6 @@
 		<% end %>
 
 		</br>
-
+		</b>
 	</small></small>
 </div>
