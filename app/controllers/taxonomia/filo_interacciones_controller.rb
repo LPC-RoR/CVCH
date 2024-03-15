@@ -73,10 +73,10 @@ class Taxonomia::FiloInteraccionesController < ApplicationController
   def set_rol
     publicacion = @objeto.publicacion
     especie = Especie.find(params[:e_id])
-    if especie.filo_especie.present?
-      filo_especie = especie.filo_especie
-      noticia = "#{params[:o].capitalize} rol fue ingresado exitósamente"
-    elsif especie.filo_sinonimo.present?
+
+    if especie.filo_sinonimo.present?
+      # Se revisa primero si hay sinonimia porque da la oportunidad de resolver, 
+      # la existencia de especies que no se borran sólo porque tienen subespecies
       if especie.filo_sinonimo.filo_especies.count == 1
         filo_especie =  especie.filo_sinonimo.filo_especies.first
         noticia = "#{params[:o].capitalize} rol fue ingresado exitósamente para especie actualizada"
@@ -84,7 +84,15 @@ class Taxonomia::FiloInteraccionesController < ApplicationController
         filo_especie = nil
         noticia = 'Error: Esta especie es sinónimo de más de una especie'
       end
+    elsif especie.filo_especie.present?
+      filo_especie = especie.filo_especie
+      noticia = "#{params[:o].capitalize} rol fue ingresado exitósamente"
+    else
+      # NO debiera entrar aquí porque en la publicación sólo se muestran las especies que están en la estructura
+      filo_especie = nil
+      noticia = "Error: esta especie no tiene registro en nuestra Taxonomia"
     end
+
     unless filo_especie.blank?
       filo_rol = params[:o] == 'primer' ? @objeto.primer_def_rol.filo_def_rol : @objeto.segundo_def_rol.filo_def_rol
       FiloRol.create(filo_especie_id: filo_especie.id, filo_interaccion_id: @objeto.id, filo_rol: filo_rol)

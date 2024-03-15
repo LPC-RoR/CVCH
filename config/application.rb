@@ -19,6 +19,9 @@ module Cvch
     # +++ HCH activa locala :es
     config.i18n.default_locale = :es
 
+    # BORRA Logs despues de alcanzar 50 MB
+    config.logger = ActiveSupport::Logger.new(config.paths['log'].first, 1, 50 * 1024 * 1024)
+
     config.time_zone = 'Santiago'
     config.active_record.default_timezone = :local
 
