@@ -4,7 +4,7 @@ class Taxonomia::FiloElementosController < ApplicationController
   # GET /filo_elementos
   # GET /filo_elementos.json
   def index
-    @coleccion = FiloElemento.all
+    set_tabla('filo_elementos', FiloElemento.all.order(:filo_elemento), true)
   end
 
   # GET /filo_elementos/1

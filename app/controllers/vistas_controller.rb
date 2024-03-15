@@ -2,7 +2,7 @@ class VistasController < ApplicationController
   before_action :authenticate_usuario!, only: [:escritorio]
   before_action :inicia_sesion
   before_action :set_vista, only: [:show, :edit, :update, :destroy]
-  before_action :check_areas, only: [:index]
+#  before_action :check_areas, only: [:index]
 
   helper_method :sort_column, :sort_direction
 

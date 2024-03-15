@@ -20,7 +20,8 @@ module CptnMenuAppHelper
 #	        ["Cargas",         "/cargas",             'admin',   'upload'],
 	        [nil,              "/ind_estructuras",    'dog',     'binoculars'],
 	        [nil,              "/blg_articulos",      'nomina',  controller_icon['blg_articulos'], 'Blogs'],
-	        [nil,              "/publicos/huerfanas", 'anonimo',   'tag', 'Etiquetas por clasificar']
+	        [nil,              "/publicos/huerfanas", 'anonimo',   'tag', 'Etiquetas por clasificar'],
+	        [nil,              "/filo_elementos", 'dog',   'diagram-3', 'Elementos']
 	    ]
 
 	end
