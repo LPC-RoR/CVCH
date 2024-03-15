@@ -327,6 +327,7 @@ Rails.application.routes.draw do
       match :crea_interaccion, via: :get, on: :collection
       match :eliminar, via: :get, on: :member
       match :set_rol, via: :get, on: :member
+      match :set_set, via: :get, on: :member
     end
   end
 

@@ -1,0 +1,10 @@
+<div style="padding-left: 1em;">
+<small><small>
+	<i class="bi bi-flower2"></i> 
+	<% if interaccion.eco_set.blank? %>
+		<span class="text-danger">Sin set de datos asignado</span>
+	<% else %>
+		<%= interaccion.eco_set.eco_lugar.eco_lugar %><i class="bi bi-dot"></i><%= interaccion.eco_set.coordenadas %>
+	<% end %>
+</small></small>
+</div>

@@ -1,5 +1,5 @@
 class Taxonomia::FiloInteraccionesController < ApplicationController
-  before_action :set_filo_interaccion, only: [:show, :edit, :update, :destroy, :eliminar, :set_rol ]
+  before_action :set_filo_interaccion, only: [:show, :edit, :update, :destroy, :eliminar, :set_rol, :set_set ]
 
   # GET /filo_interacciones
   # GET /filo_interacciones.json
@@ -99,6 +99,14 @@ class Taxonomia::FiloInteraccionesController < ApplicationController
     end
 
     redirect_to publicacion, notice: noticia
+  end
+
+  def set_set
+
+    @objeto.eco_set_id = params[:sid]
+    @objeto.save
+
+    redirect_to @objeto.publicacion, notice: "Set asignado"
   end
 
   # DELETE /filo_interacciones/1
