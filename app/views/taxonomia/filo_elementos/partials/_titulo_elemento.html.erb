@@ -17,6 +17,7 @@
 			</div>
 		</div>
 		<div class="col-4" align='right'>
+			<% if admin? %>
 			<div style="padding-right: 1em;">
 				<!-- NUEVO ELEMENTO -->
 				<%= render layout: '0p/collapse/link', locals: {label: 'NuevoElemento', objeto: nil, tooltip: 'Nuevo elemento'} do %>
@@ -38,7 +39,8 @@
 
 					<small><%= render partial: '0p/tabla/links_e', locals: {objeto: objeto} %></small>
 				<% end %>
-			</div>			
+			</div>
+			<% end %>		
 		</div>
 	</div>
 
