@@ -129,7 +129,7 @@ def controller_icon
 
 	def img_portada
 		h_imagen = HImagen.find_by(nombre: 'Portada')
-		h_imagen.blank? ? nil : (h_imagen.imagenes.empty? ? nil : h_imagenes.imagenes.order(created_at: :desc).first)
+		h_imagen.blank? ? nil : (h_imagen.imagenes.empty? ? nil : h_imagene.imagenes.order(created_at: :desc).first)
 	end
 
 	def img_foot
