@@ -2,7 +2,6 @@ class AreasController < ApplicationController
   before_action :authenticate_usuario!
   before_action :inicia_sesion
   before_action :set_area, only: [:show, :edit, :update, :destroy, :desasignar, :asigna]
-  before_action :carga_solo_sidebar, only: %i[ show new edit create update ]
 
   include Sidebar
 

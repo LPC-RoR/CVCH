@@ -145,20 +145,24 @@ class Taxonomia::FiloElementosController < ApplicationController
 
   def subir
     # @objeto.parent SIEMPRE EXISTE
-    padre = @objeto.parent
-    abuelo = @objeto.parent.parent
-    padre.children.delete(@objeto)
+    if dog?
+      padre = @objeto.parent
+      abuelo = @objeto.parent.parent
+      padre.children.delete(@objeto)
 
-    abuelo.children << @objeto unless abuelo.blank?
+      abuelo.children << @objeto unless abuelo.blank?
+    end
 
     redirect_to "/publicos/taxonomia?indice=#{@objeto.id}"
   end
 
   def bajar
-    padre = @objeto.parent
-    padre.children.delete(@objeto) unless padre.blank?
-    nuevo_padre = FiloElemento.find(params[:indice])
-    nuevo_padre.children << @objeto
+    if dog?
+      padre = @objeto.parent
+      padre.children.delete(@objeto) unless padre.blank?
+      nuevo_padre = FiloElemento.find(params[:indice])
+      nuevo_padre.children << @objeto
+    end
 
     redirect_to "/publicos/taxonomia?indice=#{@objeto.id}"
   end

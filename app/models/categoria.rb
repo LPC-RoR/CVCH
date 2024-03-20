@@ -1,13 +1,5 @@
 class Categoria < ApplicationRecord
 
-	#-------------------------------------------------------------  TABLA
-	TABLA_FIELDS = [
-		's#categoria',
-		'd_publicaciones'
-	]
-
-	belongs_to :perfil
-
 	has_many :suscripciones
 	has_many :perfiles, through: :suscripciones
 

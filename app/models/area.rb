@@ -1,9 +1,5 @@
 class Area < ApplicationRecord
  
- 	TABLA_FIELDS = [
-		's#area'
-	]
-
 	has_many :filo_elementos
 	
 	has_many :cargas

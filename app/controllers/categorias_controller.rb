@@ -2,7 +2,6 @@ class CategoriasController < ApplicationController
 #  before_action :authenticate_usuario!
 #  before_action :inicia_sesion
   before_action :set_categoria, only: [:show, :edit, :update, :destroy, :asigna, :desasignar, :aceptar, :rechazar]
-  before_action :carga_solo_sidebar, only: %i[ show new edit create update ]
 
   helper_method :sort_column, :sort_direction
 
@@ -24,8 +23,7 @@ class CategoriasController < ApplicationController
 
   # GET /categorias/new
   def new
-    @activo = perfil_activo
-    @objeto = @activo.aportes.new
+    @objeto = Categoria.new
   end
 
   # GET /categorias/1/edit

@@ -713,13 +713,6 @@ ActiveRecord::Schema.define(version: 2024_03_09_171537) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "h_portadas", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string "portada"
-    t.index ["portada"], name: "index_h_portadas_on_portada"
-  end
-
   create_table "h_temas", force: :cascade do |t|
     t.string "tema"
     t.string "detalle"
