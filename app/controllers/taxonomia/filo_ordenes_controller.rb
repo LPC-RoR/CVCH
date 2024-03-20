@@ -14,6 +14,7 @@ class Taxonomia::FiloOrdenesController < ApplicationController
   # GET /filo_ordenes/1
   # GET /filo_ordenes/1.json
   def show
+    set_tabla('filo_elementos', @objeto.filo_elementos.order(:filo_elemento), false)
   end
 
   # GET /filo_ordenes/new
