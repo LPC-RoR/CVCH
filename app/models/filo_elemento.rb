@@ -35,11 +35,7 @@ class FiloElemento < ApplicationRecord
 	# **************
 
  	def padres_ids
-		if self.parent.present?
-			[self.parent.id].union(self.parent.padres_ids)
-		else
-			[]
-		end
+		self.parent.present? ? [self.parent.id].union(self.parent.padres_ids) : []
 	end
 
 	def n_hijos
