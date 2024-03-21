@@ -112,7 +112,7 @@ class Taxonomia::FiloElementosController < ApplicationController
 
   def trae_hijos
     nombres = @objeto.children.map {|elem| elem.filo_elemento}
-    hijos = @objeto.list_field.blank? ? [] : @objeto.list_field.split(';')
+    hijos = @objeto.list_field.blank? ? [] : @objeto.list_field.downcase.split(';')
     noticia = 'Hijo no encontrado'
 
     unless hijos.empty?
