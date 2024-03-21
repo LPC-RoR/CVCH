@@ -100,7 +100,7 @@ class Aplicacion::PublicosController < ApplicationController
       set_tabla('filo_especies', @objeto.children.order(:filo_especie), false)
 
       set_tabla('equivalentes-filo_sinonimos', @objeto.fs_equivalentes, false)
-      set_tabla('sinonimos-filo_sinonimos', @objeto.fs_sinonimos, false)
++      set_tabla('sinonimos-filo_sinonimos', @objeto.fs_sinonimos, false)
       set_tabla('excluidos-filo_sinonimos', @objeto.fs_excluidos, false)
       set_tabla('agregados-filo_sinonimos', @objeto.fs_agregados, false)
 
@@ -120,7 +120,14 @@ class Aplicacion::PublicosController < ApplicationController
         sustituto.filo_especies << @objeto
       end
 
-      @padres_ids = @objeto.filo_elemento.present? ? @objeto.filo_elemento.padres_ids.reverse() : @objeto.parent.filo_elemento.padres_ids.reverse()
+      if @objeto.filo_elemento.present?
+        @objeto.filo_elemento.padres_ids.reverse()
+      elsif @objeto.parent.filo_elemento.present?
+        @objeto.parent.filo_elemento.padres_ids.reverse()
+      else
+        []
+      end
+#      @padres_ids = @objeto.filo_elemento.present? ? @objeto.filo_elemento.padres_ids.reverse() : @objeto.parent.filo_elemento.padres_ids.reverse()
 
       @padre = @objeto.parent.present? ? @objeto.parent : @objeto.filo_elemento
 #      @abuelo = @objeto.parent.present? ? @padre.filo_elemento : @padre.parent
