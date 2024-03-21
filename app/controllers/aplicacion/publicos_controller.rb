@@ -100,7 +100,7 @@ class Aplicacion::PublicosController < ApplicationController
       set_tabla('filo_especies', @objeto.children.order(:filo_especie), false)
 
       set_tabla('equivalentes-filo_sinonimos', @objeto.fs_equivalentes, false)
-+      set_tabla('sinonimos-filo_sinonimos', @objeto.fs_sinonimos, false)
+      set_tabla('sinonimos-filo_sinonimos', @objeto.fs_sinonimos, false)
       set_tabla('excluidos-filo_sinonimos', @objeto.fs_excluidos, false)
       set_tabla('agregados-filo_sinonimos', @objeto.fs_agregados, false)
 
