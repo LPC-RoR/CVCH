@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2024_03_09_171537) do
+ActiveRecord::Schema.define(version: 2024_03_21_141800) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -555,6 +555,7 @@ ActiveRecord::Schema.define(version: 2024_03_09_171537) do
     t.boolean "mma_ok"
     t.boolean "revisar"
     t.boolean "despliegue_simple"
+    t.string "list_field"
     t.index ["area_id"], name: "index_filo_elementos_on_area_id"
     t.index ["filo_elemento"], name: "index_filo_elementos_on_filo_elemento"
     t.index ["filo_orden_id"], name: "index_filo_elementos_on_filo_orden_id"

@@ -1,5 +1,5 @@
 class Taxonomia::FiloElementosController < ApplicationController
-  before_action :set_filo_elemento, only: [:show, :edit, :update, :destroy, :libera_area, :subir, :bajar]
+  before_action :set_filo_elemento, only: [:show, :edit, :update, :destroy, :libera_area, :subir, :bajar, :trae_hijos]
 
   # GET /filo_elementos
   # GET /filo_elementos.json
@@ -110,6 +110,28 @@ class Taxonomia::FiloElementosController < ApplicationController
     end
   end
 
+  def trae_hijos
+    nombres = @objeto.children.map {|elem| elem.filo_elemento}
+    hijos = @objeto.list_field.blank? ? [] : @objeto.list_field.split(';')
+    noticia = 'Hijo no encontrado'
+
+    unless hijos.empty?
+      hijos.each do |hijo|
+        unless nombres.include?(hijo)
+          filo_hijo = FiloElemento.find_by(filo_elemento: hijo)
+          unless filo_hijo.blank?
+            xpadre = filo_hijo.parent
+            xpadre.children.delete(filo_hijo) unless xpadre.blank?
+            @objeto.children << filo_hijo
+            noticia = 'Hijo(s) vuelven a casa'
+          end
+        end
+      end
+    end
+    
+    redirect_to "/publicos/taxonomia?indice=#{@objeto.id}", notice: noticia
+  end
+
   def cambio_padre
     filo_elemento = FiloElemento.find(params[:objeto_id])
     unless params[:cambio_padre][:nuevo_padre].blank?
@@ -207,6 +229,6 @@ class Taxonomia::FiloElementosController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def filo_elemento_params
-      params.require(:filo_elemento).permit(:filo_orden_id, :filo_elemento, :descripcion, :mma_ok, :revisar, :area_id)
+      params.require(:filo_elemento).permit(:filo_orden_id, :filo_elemento, :descripcion, :mma_ok, :revisar, :area_id, :list_field)
     end
 end

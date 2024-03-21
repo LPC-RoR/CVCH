@@ -1,6 +1,5 @@
 class Taxonomia::FiloOrdenesController < ApplicationController
   before_action :set_filo_orden, only: [:show, :edit, :update, :destroy, :arriba, :abajo]
-  before_action :carga_solo_sidebar, only: %i[ show new edit create update ]
   after_action :reordenar, only: :destroy
 
   include Sidebar
