@@ -35,7 +35,8 @@ class FiloElemento < ApplicationRecord
 	# **************
 
  	def padres_ids
-		self.parent.present? ? [self.parent.id].union(self.parent.padres_ids) : []
+ 		padre = self.parent
+		padre.present? ? [padre.id].union(padre.padres_ids) : []
 	end
 
 	def n_hijos
