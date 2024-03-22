@@ -9,6 +9,10 @@
 	<%= render layout: '0p/layout/tooltip_link', locals: {link: "/publicos/taxonomia?indice=#{objeto.id}", tooltip: 'Ver elemento'} do %>
 		<b><%= objeto.filo_elemento %></b>
 	<% end %>
+
+	<% unless objeto.list_field.blank? %>
+		<i class="bi bi-check2-all"></i>
+	<% end %>
 	
 	</small>
 </div>
