@@ -15,7 +15,7 @@
 						<div style='padding-left: 2em'>
 							<% if elemento.children.count > config[:taxonomia][:elem_count] %>
 								<div style="padding-left: <%= elemento.n_indent %>em; line-height: 18px;">
-									<small><i class="bi bi-stoplights"></i> Sub elementos no fueron desplegados para optimizar tamaño, para verlos acceda al elemento! </small>
+									<small><i class="bi bi-stoplights"></i> Sub elementos no fueron desplegados para optimizar despliegue,</br> para verlos acceda a <%= elemento.filo_elemento %> </small>
 								</div>
 							<% else %>
 								<% elemento.children.order(:filo_elemento).each do |sub_elemento| %>
