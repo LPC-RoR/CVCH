@@ -26,13 +26,13 @@ class Aplicacion::AppRecursosController < ApplicationController
   end
 
   def procesos
-    EcoFormacion.all.each_with_index do |ef, ind|
-      ef.orden = ind + 1
-      ef.save
-
-      ef.eco_pisos.each_with_index do |ep, ind|
-        ep.orden = ind + 1
-        ep.save
+    FiloEspecie.all.each do |filo_especie|
+      genero = filo_especie.filo_especie.split(' ')[0]
+      filo_elemento = FiloElemento.find_by(filo_elemento: genero)
+      unless filo_elemento.blank?
+        unless filo_elemento.filo_especies.map {|fe| fe.filo_especie}.include?(filo_especie.filo_especie)
+          filo_elemento.filo_especies << filo_especie
+        end
       end
     end
 
