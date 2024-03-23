@@ -1,8 +1,5 @@
 class Taxonomia::FiloCategoriaConservacionesController < ApplicationController
   before_action :set_filo_categoria_conservacion, only: [:show, :edit, :update, :destroy]
-  before_action :carga_solo_sidebar, only: %i[ show new edit create update ]
-
-  include Sidebar
 
   # GET /filo_categoria_conservaciones
   # GET /filo_categoria_conservaciones.json

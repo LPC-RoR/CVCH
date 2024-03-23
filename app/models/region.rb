@@ -38,8 +38,4 @@ class Region < ApplicationRecord
 
 	# -----------------------------------------------
 
-	def get_elemento_id(controlador, nombre_elemento)
-		SbElemento.where(despliegue: 'list').where(controlador: controlador).find_by(elemento: nombre_elemento).id
-	end
-
 end

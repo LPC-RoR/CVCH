@@ -2,7 +2,6 @@ class Aplicacion::AppRecursosController < ApplicationController
   before_action :authenticate_usuario!, only: [:administracion, :procesos]
   before_action :inicia_sesion, only: [:administracion, :procesos, :home]
 
-  include Sidebar
   include ProcesaEstructura
 
   helper_method :sort_column, :sort_direction
@@ -17,12 +16,10 @@ class Aplicacion::AppRecursosController < ApplicationController
   end
 
   def ayuda
-    carga_sidebar('Ayuda', params[:t])
 #    carga_tutorial(@sb_elementos, @t)
   end
 
   def administracion
-    carga_sidebar('Administración', params[:id])
   end
 
   def procesos

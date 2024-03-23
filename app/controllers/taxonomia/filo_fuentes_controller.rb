@@ -1,8 +1,5 @@
 class Taxonomia::FiloFuentesController < ApplicationController
   before_action :set_filo_fuente, only: [:show, :edit, :update, :destroy]
-  before_action :carga_solo_sidebar, only: %i[ show new edit create update ]
-
-  include Sidebar
 
   # GET /filo_fuentes
   # GET /filo_fuentes.json

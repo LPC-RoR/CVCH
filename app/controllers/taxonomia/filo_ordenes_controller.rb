@@ -2,8 +2,6 @@ class Taxonomia::FiloOrdenesController < ApplicationController
   before_action :set_filo_orden, only: [:show, :edit, :update, :destroy, :arriba, :abajo]
   after_action :reordenar, only: :destroy
 
-  include Sidebar
-
   # GET /filo_ordenes
   # GET /filo_ordenes.json
   def index

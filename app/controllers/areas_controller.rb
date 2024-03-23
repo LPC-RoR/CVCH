@@ -3,8 +3,6 @@ class AreasController < ApplicationController
   before_action :inicia_sesion
   before_action :set_area, only: [:show, :edit, :update, :destroy, :desasignar, :asigna]
 
-  include Sidebar
-
   helper_method :sort_column, :sort_direction
   # GET /areas
   # GET /areas.json

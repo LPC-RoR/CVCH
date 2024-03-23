@@ -2,9 +2,6 @@ class Home::HImagenesController < ApplicationController
   before_action :authenticate_usuario!
   before_action :inicia_sesion
   before_action :set_h_imagen, only: [:show, :edit, :update, :destroy]
-  before_action :carga_solo_sidebar, only: %i[ show new edit create update ]
-
-  include Sidebar
 
   # GET /h_imagenes
   # GET /h_imagenes.json

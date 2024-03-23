@@ -6,8 +6,6 @@ class ApplicationController < ActionController::Base
 
 	include Capitan
 
-	include Map
-
 	include Tablas
 
 	include ProcesaEstructura

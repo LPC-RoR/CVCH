@@ -1,8 +1,5 @@
 class Taxonomia::FiloTipoEspeciesController < ApplicationController
   before_action :set_filo_tipo_especie, only: [:show, :edit, :update, :destroy]
-  before_action :carga_solo_sidebar, only: %i[ show new edit create update ]
-
-  include Sidebar
 
   # GET /filo_tipo_especies
   # GET /filo_tipo_especies.json

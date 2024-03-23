@@ -1,8 +1,5 @@
 class Help::HlpTutorialesController < ApplicationController
   before_action :set_hlp_tutorial, only: %i[ show edit update destroy ]
-  before_action :carga_solo_sidebar, only: %i[ show new edit create update ]
-
-  include Sidebar
 
   # GET /hlp_tutoriales or /hlp_tutoriales.json
   def index
@@ -71,7 +68,7 @@ class Help::HlpTutorialesController < ApplicationController
     end
 
     def set_redireccion
-      @redireccion = "/app_recursos/administracion?id=#{get_elemento_id(controller_name, 'Tutoriales')}" 
+      @redireccion = "" 
     end
 
     # Only allow a list of trusted parameters through.

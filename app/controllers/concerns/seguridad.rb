@@ -69,19 +69,4 @@ module Seguridad
 		end
 	end
 
-	# DEPRECATED Acá se usa pero hay que corregir
-	def mi_seguridad?
-		if current_usuario.email == dog_email
-			:dog
-		elsif AppAdministrador.find_by(email: current_usuario.email).present?
-			:admin
-		elsif AppNomina.find_by(email: current_usuario.email).present?
-			:nomina
-		elsif usuario_signed_in?
-			:general
-		else
-			:anonimo
-		end
-	end
-
 end

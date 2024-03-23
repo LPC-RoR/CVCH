@@ -1,9 +1,6 @@
 class Ecosistemas::RegionesController < ApplicationController
   before_action :set_region, only: [:show, :edit, :update, :destroy, :arriba, :abajo, :asigna, :desasigna ]
-  before_action :carga_solo_sidebar, only: %i[ show new edit create update ]
   after_action :reordenar, only: :destroy
-
-  include Sidebar
 
   # GET /regiones
   # GET /regiones.json
