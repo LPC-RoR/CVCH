@@ -36,7 +36,7 @@ class Aplicacion::AppRecursosController < ApplicationController
 #      end
 #    end
 
-    FiloEspecie.all.each do |filo_elemento|
+    FiloEspecie.all.each do |filo_especie|
       padre = filo_especie.parent
       unless padre.blank?
         filo_especie.filo_elemento_id = nil
