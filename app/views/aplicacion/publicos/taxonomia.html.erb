@@ -26,7 +26,7 @@
 						<div style='padding-left: 2em'>
 							<% if elemento.filo_especies.count > config[:taxonomia][:esp_count] %>
 								<div style="padding-left: <%= elemento.n_indent %>em; line-height: 18px;">
-									<small><i class="bi bi-stoplights"></i> Especies no fueron desplegadas para optimizar tamaño, para verlas acceda al genero! </small>
+									<small><i class="bi bi-stoplights"></i> Especies no fueron desplegadas para optimizar despliegue,</br> para verlas acceda al genero! </small>
 								</div>
 							<% else %>
 								<% elemento.filo_especies.order(:filo_especies).each do |especie| %>
@@ -49,7 +49,7 @@
 						<div class="sub_especies" style='padding-left: 2em'>
 							<% if especie.children.count > config[:taxonomia][:esp_count] %>
 								<div style="padding-left: <%= especie.n_indent %>em; line-height: 18px;">
-									<small><i class="bi bi-stoplights"></i> Sub especies no fueron desplegados para optimizar tamaño, para verlas acceda a la especie! </small>
+									<small><i class="bi bi-stoplights"></i> Sub especies no fueron desplegados para optimizar despliegue,</br> para verlas acceda a la especie! </small>
 								</div>
 							<% else %>
 								<% especie.children.order(:filo_especies).each do |sub_especie| %>
