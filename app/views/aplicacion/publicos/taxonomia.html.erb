@@ -9,13 +9,14 @@
 			<% @coleccion['base-filo_elementos'].each do |elemento| %>
 				<div class="elemento">
 					<%= render partial: 'taxonomia/filo_elementos/partials/line_elemento', locals: {objeto: elemento} %>
-					<%#= render partial: 'taxonomia/filo_elementos/taxonomia/line_elemento', locals: {objeto: elemento} %>
 
 					<% unless @coleccion['base-filo_elementos'].count > config[:taxonomia][:elem_count] %>
 						<small>
 						<div style='padding-left: 2em'>
 							<% if elemento.children.count > config[:taxonomia][:elem_count] %>
-								<small><i class="bi bi-stoplights"></i> Sub elementos no fueron desplegados para optimizar tamaño, para verlos acceda al elemento! </small>
+								<div style="padding-left: <%= elemento.n_indent %>em; line-height: 18px;">
+									<small><i class="bi bi-stoplights"></i> Sub elementos no fueron desplegados para optimizar tamaño, para verlos acceda al elemento! </small>
+								</div>
 							<% else %>
 								<% elemento.children.order(:filo_elemento).each do |sub_elemento| %>
 									<%= render partial: 'taxonomia/filo_elementos/partials/line_elemento', locals: {objeto: sub_elemento} %>
@@ -24,7 +25,9 @@
 						</div>
 						<div style='padding-left: 2em'>
 							<% if elemento.filo_especies.count > config[:taxonomia][:esp_count] %>
-								<small><i class="bi bi-stoplights"></i> Especies no fueron desplegadas para optimizar tamaño, para verlas acceda al genero! </small>
+								<div style="padding-left: <%= elemento.n_indent %>em; line-height: 18px;">
+									<small><i class="bi bi-stoplights"></i> Especies no fueron desplegadas para optimizar tamaño, para verlas acceda al genero! </small>
+								</div>
 							<% else %>
 								<% elemento.filo_especies.order(:filo_especies).each do |especie| %>
 									<%= render partial: 'taxonomia/filo_especies/partials/line_especie', locals: {objeto: especie} %>
@@ -45,7 +48,9 @@
 						<small>
 						<div class="sub_especies" style='padding-left: 2em'>
 							<% if especie.children.count > config[:taxonomia][:esp_count] %>
-								<small><i class="bi bi-stoplights"></i> Sub especies no fueron desplegados para optimizar tamaño, para verlas acceda a la especie! </small>
+								<div style="padding-left: <%= especie.n_indent %>em; line-height: 18px;">
+									<small><i class="bi bi-stoplights"></i> Sub especies no fueron desplegados para optimizar tamaño, para verlas acceda a la especie! </small>
+								</div>
 							<% else %>
 								<% especie.children.order(:filo_especies).each do |sub_especie| %>
 									<%= render partial: 'taxonomia/filo_especies/partials/line_especie', locals: {objeto: sub_especie} %>
