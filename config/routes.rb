@@ -93,16 +93,6 @@ Rails.application.routes.draw do
     end
   end
 
-  scope module: 'sidebar' do
-    resources :sb_elementos do
-      match :arriba, via: :get, on: :member
-      match :abajo, via: :get, on: :member
-    end
-    resources :sb_listas do
-      resources :sb_elementos
-    end
-  end
-
   # SCOPE HELP
   scope module: 'help' do
     resources :hlp_pasos

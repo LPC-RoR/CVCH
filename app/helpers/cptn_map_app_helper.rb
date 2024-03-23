@@ -8,10 +8,6 @@ module CptnMapAppHelper
 		'General'
 	end
 
-	def app_sidebar_controllers
-		['categorias', 'areas', 'regiones']
-	end
-
 	def app_controllers_scope
 		{
 			tarifas: ['tar_tarifas', 'tar_detalles', 'tar_valores', 'tar_servicios', 'tar_horas', 'tar_facturaciones', 'tar_uf_sistemas', 'tar_detalle_cuantias', 'tar_valor_cuantias', 'tar_pagos', 'tar_formulas', 'tar_comentarios', 'tar_uf_facturaciones']

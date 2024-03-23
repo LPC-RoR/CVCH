@@ -11,8 +11,6 @@ module CptnMapHelper
 			'Bandejas'
 		elsif (controller_name == 'app_mensajes' and usuario_signed_in?)
 			'Mensajes'
-		elsif sidebar_display?
-			'Menu'
 		else
 			app_get_layout
 		end
@@ -72,7 +70,6 @@ module CptnMapHelper
 			repositorios:  ['app_repositorios', 'app_directorios', 'app_documentos', 'app_archivos', 'app_imagenes'],
 			home:          ['h_temas', 'h_links', 'h_imagenes'],
 			help:          ['conversaciones', 'mensajes', 'hlp_pasos', 'tema_ayudas', 'hlp_tutoriales'],
-			sidebar:       ['sb_listas', 'sb_elementos'],
 			busqueda:      ['ind_estructuras', 'ind_clave_facetas', 'ind_claves', 'ind_indice_facetas', 'ind_indices', 'ind_palabras', 'ind_reglas', 'ind_sets'],
 			estados:       ['st_bandejas', 'st_modelos', 'st_estados'],
 			data:          ['caracteristicas', 'caracterizaciones', 'columnas', 'datos', 'encabezados', 'etapas', 'lineas', 'opciones', 'tablas'],
@@ -110,28 +107,10 @@ module CptnMapHelper
 		modelo.constantize.where(estado: estado).count == 0 ? '' : "(#{modelo.constantize.where(estado: estado).count})"
 	end
 
-	## ------------------------------------------------------- MENU
-
-	def sidebar_controllers
-		base_sidebar_controllers = [
-			'sb_listas', 'sb_elementos',
-			'app_administradores', 'app_nominas', 'app_perfiles', 'app_imagenes',
-			'h_portadas', 'h_temas', 'h_links', 'h_imagenes',
-			'hlp_tutoriales', 'hlp_pasos',
-			'st_modelos', 'st_estados',
-			'filo_ordenes', 'filo_tipo_especies', 'filo_categoria_conservaciones', 'filo_fuentes'
-		]
-		base_sidebar_controllers.union(app_sidebar_controllers)
-	end
-
-	def sidebar_display?
-		(controller_name == 'app_recursos' and action_name == 'administracion') or sidebar_controllers.include?(controller_name)
-	end
-
 	## -------------------------------------------------------- TABLAS ORDENADAS
 
 	def ordered_controllers
-		['m_datos', 'm_elementos', 'sb_elementos', 'st_estados', 'tar_pagos', 'tar_formulas', 'tar_comentarios', 'filo_ordenes', 'regiones']
+		['m_datos', 'm_elementos', 'st_estados', 'tar_pagos', 'tar_formulas', 'tar_comentarios', 'filo_ordenes', 'regiones']
 	end
 
 	def ordered_controller?(controller)

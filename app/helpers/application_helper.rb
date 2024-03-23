@@ -17,7 +17,7 @@ module ApplicationHelper
 		end
 	end
 
-	## ------------------------------------------------------- SIDEBAR + BANDEJA
+	## ------------------------------------------------------- BANDEJA
 
 
 	def count_modelo_estado(modelo, estado)0
