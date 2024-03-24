@@ -7,7 +7,6 @@ class Aplicacion::PublicosController < ApplicationController
   def home
     ultimos_ids = Publicacion.where(estado: 'publicada').order(created_at: :asc).last(10).map {|pub| pub.id}
     set_tabla( 'publicaciones', Publicacion.where(id: ultimos_ids).order(sort_column + " " + sort_direction), false )
-    set_tabla( 'tema_ayudas', TemaAyuda.where(tipo: 'inicio').where(activo: true).order(:orden), false )
 
     @ultima_especie = FiloEspecie.find_by(id: 478)
     unless @ultima_especie.blank?

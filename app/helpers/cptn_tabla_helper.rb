@@ -97,9 +97,7 @@ module CptnTablaHelper
 				false
 			end
 		else
-			if ['TemaAyuda', 'Tutorial', 'Paso'].include?(objeto.class.name)
-				(usuario_signed_in? ? admin? : false)
-			elsif ['IndClave', 'IndExpresion', 'IndIndice', 'IndPalabra'].include?(objeto.class.name)
+			if ['IndClave', 'IndExpresion', 'IndIndice', 'IndPalabra'].include?(objeto.class.name)
 				false
 			else
 				true

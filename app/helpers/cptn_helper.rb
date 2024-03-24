@@ -1,5 +1,13 @@
 module CptnHelper
 
+	def footless_controllers
+		['app_recursos']
+	end
+
+	def footless_controller?(controller)
+		footless_controllers.include?(controller)
+	end
+
 # ******************************************************************** LAYOUTS 
 
 	def no_banner_display?

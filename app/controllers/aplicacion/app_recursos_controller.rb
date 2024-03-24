@@ -10,9 +10,7 @@ class Aplicacion::AppRecursosController < ApplicationController
   end
 
   def home
-    ultimos_ids = Publicacion.where(estado: 'publicada').order(created_at: :asc).last(10).map {|pub| pub.id}
-    set_tabla( 'publicaciones', Publicacion.where(id: ultimos_ids).order(sort_column + " " + sort_direction), false )
-    set_tabla( 'tema_ayudas', TemaAyuda.where(tipo: 'inicio').where(activo: true).order(:orden), false )
+    # DEPRECATED
   end
 
   def ayuda

@@ -1,28 +1,4 @@
 module ApplicationHelper
-	## ------------------------------------------------------- HOME
-
-	# DEPRECATED
-	def objeto_tema_ayuda(tipo)
-		TemaAyuda.where(tipo: tipo).any? ? TemaAyuda.where(tipo: tipo).first : nil
-	end
-
-	# DEPRECATED
-	def coleccion_tema_ayuda(tipo)
-		temas_ayuda_tipo = TemaAyuda.where(tipo: tipo)
-		if temas_ayuda_tipo.any?
-			temas_ayuda_activos = temas_ayuda_tipo.where(activo: true)
-			temas_ayuda_activos.any? ? temas_ayuda_activos.order(:orden) : nil
-		else
-			nil
-		end
-	end
-
-	## ------------------------------------------------------- BANDEJA
-
-
-	def count_modelo_estado(modelo, estado)0
-		modelo.constantize.where(estado: estado).count == 0 ? '' : "(#{modelo.constantize.where(estado: estado).count})"
-	end
 
 	## ------------------------------------------------------- TABLA
 
