@@ -53,17 +53,6 @@ module CptnHelper
 		end
 	end
 
-	def table_types_base
-		{
-			simple: '',
-			striped: 'table-striped',
-			bordered: 'table-bordered',
-			borderless: 'table-borderless',
-			hover: 'table-hover',
-			small: 'table-small'
-		}
-	end
-
 # ******************************************************************** HELPERS DE USO GENERAL
 
 	def nombre(objeto)
