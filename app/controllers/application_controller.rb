@@ -12,7 +12,7 @@ class ApplicationController < ActionController::Base
 
 	include Taxonomia
 
-	helper_method :version_activa, :dog?, :admin?, :nomina?, :general?, :anonimo?, :dog_email, :dog_name, :perfil_activo?, :perfil_activo, :mi_seguridad?, :publico?, :seguridad
+	helper_method :version_activa, :dog?, :admin?, :nomina?, :general?, :anonimo?, :dog_email, :dog_name, :perfil_activo?, :perfil_activo, :mi_seguridad?, :publico?, :seguridad, :public_controllers
 	helper_method :menu_tablas, :tb_index, :tb_item, :first_tabla_index
 	helper_method :bandeja_display?
 	helper_method :uf_del_dia, :uf_fecha, :enlaces_general, :enlaces_perfil, :limpia_nombre

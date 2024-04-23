@@ -1,10 +1,15 @@
 <!--NAVBAR-->
-<nav class="navbar navbar-expand-lg navbar-dark bg-<%=config[:color][:navbar]%>">
+<nav class="navbar navbar-expand-lg navbar-dark%>" style="background-color: <%=cfg_navbar[:bg_color]%>;">
   <div class="container-fluid">
+    
     <!-- LOGO NAVBAR -->
-    <% if File.exist?("app/assets/images/#{config[:app][:logo_navbar]}") %>
-      <a class="navbar-brand" href="<%=config[:app][:home]%>">
-        <%= image_tag(config[:app][:logo_navbar], height: "40", class: "img-responsive", id: "navbar-logo") %>
+    <% if File.exist?("app/assets/images/#{cfg_navbar[:logo_navbar]}") %>
+      <a class="navbar-brand" href="<%=app_home%>">
+        <% if cfg_navbar[:logo_navbar].blank? %>
+          <div class='text-white'><b><%= app_sigla %></b></div>
+        <% else %>
+          <%= image_tag(cfg_navbar[:logo_navbar], height: "40", class: "img-responsive", id: "navbar-logo") %>
+        <% end %>
       </a>
     <% end %>
 
@@ -74,4 +79,3 @@
     </div>
   </div>
 </nav>
-</br>

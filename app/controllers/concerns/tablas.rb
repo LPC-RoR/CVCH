@@ -5,8 +5,8 @@ module Tablas
 		{
 			admin: [
 				#['Título', 'partial', indent, despliegue]
-				['General', nil, 1, true],
-				['Imagenes', 'imagenes', 2, true],
+#				['General', nil, 1, true],
+#				['Imagenes', 'imagenes', 2, true],
 				['Publicaciones', nil, 1, true],
 				['Áreas & Categorías', 'areas_categorias', 2, true],
 				['Taxonomía', nil, 1, true],

@@ -68,8 +68,8 @@ module CptnConfigHelper
 	def cfg_defaults
 		{
 			app_nombre: 'Aplicacion nueva',
-			app_sigla: 'CVCh',
-			app_home: 'http://www.cvch.cl',
+			app_sigla: 'app',
+			app_home: nil,
 			lyt_o_menu: usuario_signed_in?,
 			lyt_o_bann: true,
 			lyt_navbar: true,
@@ -118,6 +118,10 @@ module CptnConfigHelper
 
 	def app_sigla
 		get_cfg('app_sigla')
+	end
+
+	def app_home
+		get_cfg('app_home')
 	end
 
 	def lyt_o_menu

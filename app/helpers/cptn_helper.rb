@@ -1,38 +1,49 @@
 module CptnHelper
 
-	def footless_controllers
-		['app_recursos']
-	end
-
-	def footless_controller?(controller)
-		footless_controllers.include?(controller)
-	end
-
 # ******************************************************************** LAYOUTS 
 
-	def no_banner_display?
-		controller_name == 'servicios' and action_name == 'aprobacion'
-	end
-
-	def footless_controllers
+	def no_over_controllers
 		['servicios']
 	end
 
-	def footless_controller?(controller)
-		footless_controllers.include?(controller)
+	def no_over_layout?
+		no_over_controllers.include?(controller_name)
+	end
+
+	def no_over_menu_controllers
+		[]
+	end
+
+	def no_over_menu_layout?
+		no_over_menu_controllers.include?(controller_name)
+	end
+
+	def no_banner_controllers
+		[]
+	end
+
+	def no_banner_layout?
+		no_banner_controllers.include?(controller_name)
+	end
+
+	def no_foot_controllers
+		['servicios']
+	end
+
+	def no_foot_layout?
+		no_foot_controllers.include?(controller_name)
+	end
+
+	def img_banner
+		h_imagen = HImagen.find_by(nombre: 'Banner')
+		unless h_imagen.blank?
+			h_imagen.imagenes.empty? ? nil : h_imagen.imagenes.order(created_at: :desc).first.imagen.over.url
+		else
+			nil
+		end
 	end
 
 # ******************************************************************** CONSTANTES 
-
-	# DEPRECATED
-	# ctes[:image][:centrada]
-#	def ctes
-#		{
-#			image: {
-#				centrada: 'mx-auto d-block'
-#			}
-#		}
-#	end
 
 	# opcion elegida poor ser de escritura mas simple
 	def image_sizes
@@ -72,12 +83,12 @@ module CptnHelper
 
 def controller_icon
 		{
+			'h_imagenes' => 'image',
 			'usuarios' => 'person',
 			'app_nominas' => 'person-workspace',
 			'st_modelos' => 'box',
 			'tablas' => 'table',
 			'app_versiones' => 'gear',
-			'h_imagenes' => 'images',
 			'app_observaciones' => 'chat',
 			'app_mejoras' => 'exclamation-diamond',
 			'app_empresas' => 'buildings',

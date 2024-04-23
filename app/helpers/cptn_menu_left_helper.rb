@@ -3,9 +3,9 @@ module CptnMenuLeftHelper
 
 	def menu_left
 		{
-			pubs: {
+			pubs: [
 				
-			},
+			],
 			admin: [
 				{
 					titulo: 'Tablas', 
@@ -17,7 +17,8 @@ module CptnMenuLeftHelper
 					items: [
 						'AppNomina',
 						'StModelo',
-						'BlgArticulo'
+						'BlgArticulo',
+						'HImagen'
 					]
 				},
 				{
@@ -32,21 +33,23 @@ module CptnMenuLeftHelper
 	end
 
 	def admin_controllers
-		['app_nominas', 'usuarios', 'st_modelos', 'st_estados', 'control_documentos', 'blg_articulos', 'app_versiones', 'h_imagenes', 'filo_def_interacciones', 'filo_def_roles', 'eco_formaciones', 'eco_pisos', 'eco_lugares']
+		['app_nominas', 'usuarios', 'st_modelos', 'st_estados', 'control_documentos', 'blg_articulos', 'app_versiones', 'h_imagenes', 'filo_def_interacciones', 'filo_def_roles', 'eco_formaciones', 'eco_pisos', 'eco_lugares', 'h_imagenes']
 	end
 
 	def tablas_controllers
 		['tablas', 'regiones', 'areas', 'categorias', 'filo_ordenes', 'filo_tipo_especies', 'filo_categoria_conservaciones', 'filo_fuentes']
 	end
 
-	def controller_menu_left(controller)
-		if controller == 'app_recursos'
-			action_name == 'administracion' ? :admin : nil
-		elsif admin_controllers.include?(controller) or tablas_controllers.include?(controller)
-			:admin
-		else
-			nil
-		end
+	def left_menu_actions?
+		controller_name == 'app_recursos' and action_name == 'administracion' and usuario_signed_in?
+	end
+
+	def left_menu_controllers?
+		admin_controllers.include?(controller_name) or tablas_controllers.include?(controller_name)
+	end
+
+	def left_menu_sym
+		( left_menu_actions? or left_menu_controllers?) ? :admin : nil
 	end
 
 	def exception_menu_controllers(controller)
@@ -94,6 +97,8 @@ module CptnMenuLeftHelper
 			'Aprobaciones'
 		elsif modelo == 'Asesoria'
 			'Asesorías'
+		elsif modelo == 'HImagen'
+			'Ímagenes'
 		else
 			m_to_name(modelo).tableize.capitalize
 		end

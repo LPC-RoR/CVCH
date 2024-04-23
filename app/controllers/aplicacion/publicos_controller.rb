@@ -36,12 +36,12 @@ class Aplicacion::PublicosController < ApplicationController
       @objeto = FiloElemento.find(params[:indice])
 
       # limpieza de relacion con sub-elemento
-      if @objeto.child_relations.count != @objeto.children.count
-        children_ids = @objeto.children.ids
-        @objeto.child_relations.each do |child_rel|
-          child_rel.delete unless children_ids.include?(child_rel.child_id)
-        end
-      end
+#      if @objeto.child_relations.count != @objeto.children.count
+#        children_ids = @objeto.children.ids
+#        @objeto.child_relations.each do |child_rel|
+#          child_rel.delete unless children_ids.include?(child_rel.child_id)
+#        end
+#      end
 
       set_tabla('base-filo_elementos', @objeto.children.order(:filo_elemento), false)
       set_tabla('filo_especies', @objeto.filo_especies.order(:filo_especie), false)

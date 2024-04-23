@@ -1,6 +1,15 @@
 <div class="row">
 	<div class="col-lg-4 col-xs-12 imagen-banner">
-		<%= render partial: '0p/home/over_card', locals: {nombre: 'OverCard'} %>
+
+		<div class="img-text-container">
+			<% unless img_banner.blank? %>
+			<%= image_tag img_banner, class: 'img-fluid' %>
+		<% end %>
+		<div class="text-center bg-text inner">
+			<h1><%= app_sigla %></h1>
+			 </div>
+		</div>
+	
 	</div>
 	<div class="col-lg-8 texto-banner">
 		<h6 class="text-info">Repositorio de Citas Bibliográficas</h6><h3 class="text-info">Vertebrados Chilenos</h3>
