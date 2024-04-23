@@ -1,6 +1,8 @@
 <div class="row">
 	<div class="col-lg-4 col-xs-12 imagen-banner">
 
+		<%= render partial: '0p/imagenes/imagen_text_over', locals: { imagen: img_banner, alt: 'Banner', size: [2, nil, nil, nil, nil], text: [ app_sigla, nil, nil, nil, nil]} %>
+
 		<div class="img-text-container">
 			<% unless img_banner.blank? %>
 				<%= image_tag img_banner, class: 'img-fluid' %>

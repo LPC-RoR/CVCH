@@ -1,7 +1,7 @@
 <div class="imagen-parentContainer">
 	<img src="<%= archivo %>" alt="<%= alt %>">
 
-	<% posicion.each_with_index do |pos, ind| %>
+	<% ['c', 'bl', 'tl', 'tr', 'br'].each_with_index do |pos, ind| %>
 		<% case pos %>
 		<% when 'c' %>
 			<h<%= size[ind]%>><div class="imagen-centered"><%=text[ind]%></div></h<%= size[ind]%>>
