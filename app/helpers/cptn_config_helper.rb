@@ -67,8 +67,8 @@ module CptnConfigHelper
 
 	def cfg_defaults
 		{
-			app_nombre: 'Aplicacion nueva',
-			app_sigla: 'app',
+			app_nombre: 'Repositorio de citas bibliográficas de vertebrados de Chile',
+			app_sigla: 'CVCh',
 			app_home: nil,
 			lyt_o_menu: usuario_signed_in?,
 			lyt_o_bann: true,
