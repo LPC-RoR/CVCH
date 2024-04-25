@@ -1,26 +1,6 @@
 module CptnConfigHelper
 	def config
 		{
-			app: {
-				nombre: 'CVCh',
-				home: 'http://www.cvch.cl',
-				logo_navbar: 'logo_navbar.gif'
-			},
-			layout: {
-				menu_over: (not usuario_signed_in?),
-				banner: true,
-				menu: true,
-			},
-			margen: {
-				over: publico? ? 1 : 0,
-				menu: publico? ? 1 : 0,
-				body: publico? ? 1 : 0
-			},
-			container: {
-				over: publico?,
-				menu: publico?,
-				body: true
-			},
 			color: {
 				app: 'info',
 				navbar: 'info',
