@@ -45,23 +45,9 @@ module CptnHelper
 
 # ******************************************************************** CONSTANTES 
 
-	# opcion elegida poor ser de escritura mas simple
-	def image_sizes
-		['entire', 'half', 'quarter', 'thumb']
-	end
-
-	def colors
-		['primary', 'secondary', 'success', 'danger', 'warning', 'info', 'light', 'dark', 'muted', 'white']
-	end
-
+	#Cambiar paulatinamente por cfg_color
 	def color(ref)
-		if [:app, :navbar].include?(ref)
-			config[:color][ref]
-		elsif ['hlp_tutoriales', 'hlp_pasos'].include?(ref)
-			config[:color][:help]
-		else
-			config[:color][:app]
-		end
+		cfg_color[ref]
 	end
 
 # ******************************************************************** HELPERS DE USO GENERAL
@@ -71,31 +57,38 @@ module CptnHelper
 	end
 
 	def perfiles_operativos
-		AppNomina.all.map {|nomina| nomina.nombre}.union(AppAdministrador.all.map {|admin| admin.administrador unless admin.email == 'hugo.chinga.g@gmail.com'}.compact)
+		AppNomina.all.map {|nomina| nomina.nombre}.compact
 	end
 
-	# Manejode options para selectors múltiples (VERSION PARA MULTI TABS SIN CAMBIOS)
+	# Manejo de options para selectors múltiples (VERSION PARA MULTI TABS SIN CAMBIOS)
 	def get_html_opts(options, label, value)
 		opts = options.clone
 		opts[label] = value
 		opts
 	end
 
-def controller_icon
+    def archivos_controlados_disponibles
+    	st_modelo = StModelo.find_by(st_modelo: 'Hecho')
+    	st_modelo.blank? ? [] : st_modelo.control_documentos.order(:orden)
+    end
+
+	def controller_icon
 		{
-			'h_imagenes' => 'image',
 			'usuarios' => 'person',
+			'app_versiones' => 'gear',
 			'app_nominas' => 'person-workspace',
+			'app_documentos' => 'files',
+			'app_archivos' => 'file',
+			'app_enlaces' => 'box-arrow-up-right',
+			'h_imagenes' => 'image',
 			'st_modelos' => 'box',
 			'tablas' => 'table',
-			'app_versiones' => 'gear',
 			'app_observaciones' => 'chat',
 			'app_mejoras' => 'exclamation-diamond',
 			'app_empresas' => 'buildings',
 			'app_administradores' => 'person-square',
 			'app_repos' => 'archive',
 			'app_directorios' => 'folder',
-			'app_documentos' => 'journal',
 			'app_escaneos' => 'images',
 			'm_modelos' => 'piggy-bank',
 			'm_bancos' => 'bank',
@@ -129,10 +122,37 @@ def controller_icon
 		number_to_currency(valor, unit: 'UF', precision: config[:decimales]['UF'])
 	end
 
+	def s_uf5(valor)
+		number_to_currency(valor, unit: 'UF', precision: 5)
+	end
+
+	def s_p100(valor, decimales)
+		number_to_currency(valor, unit: '%', precision: decimales)
+	end
+
 	def dma(date)
 		date.blank? ? '' : date.strftime("%d-%m-%Y")
 	end
 
+	def hm(datetime)
+		datetime.blank? ? '__:__' : datetime.strftime("%I:%M%p")
+	end
+
+	def dma_hm(date)
+		date.blank? ? '__-__-__ __:__' : date.strftime("%d-%m-%Y  %I:%M%p")
+	end
+
+	def hm(date)
+		date.blank? ? '__:__' : date.strftime("%I:%M%p")
+	end
+
+	def s_mes(datetime)
+		"#{datetime.year} #{nombre_mes[datetime.month]}"
+	end
+
+	def s_rut(rut)
+		rut.gsub(' ', '').insert(-8, '.').insert(-5, '.').insert(-2, '-')
+	end
 # ******************************************************************** HOME
 
 	def img_portada

@@ -21,6 +21,32 @@ class Aplicacion::AppRecursosController < ApplicationController
   end
 
   def procesos
+
+    FiloEleEle.delete_all
+    retornados = 0
+    no_encontrados = 0
+    duplicados = 0
+    FiloElemento.all.each do |filo_elemento|
+      hijos = filo_elemento.list_field.blank? ? [] : filo_elemento.list_field.downcase.split(';')
+
+      unless hijos.empty?
+        hijos.each do |hijo|
+          filo_hijo = FiloElemento.find_by(filo_elemento: hijo)
+          unless filo_hijo.blank?
+            unless filo_hijo.parent.present?
+              filo_elemento.children << filo_hijo
+              retornados += 1
+            else
+              duplicados += 1
+            end
+          else
+            no_encontrados += 1
+          end
+        end
+      end
+
+    end
+
 #    FiloEspecie.all.each do |filo_especie|
 #      genero = filo_especie.filo_especie.split(' ')[0]
 #      filo_elemento = FiloElemento.find_by(filo_elemento: genero)
@@ -31,15 +57,15 @@ class Aplicacion::AppRecursosController < ApplicationController
 #      end
 #    end
 
-    FiloEspecie.all.each do |filo_especie|
-      padre = filo_especie.parent
-      unless padre.blank?
-        filo_especie.filo_elemento_id = nil
-        filo_especie.save
-      end
-    end
+#    FiloEspecie.all.each do |filo_especie|
+#      padre = filo_especie.parent
+#      unless padre.blank?
+#        filo_especie.filo_elemento_id = nil
+#        filo_especie.save
+#      end
+#    end
 
-    redirect_to root_path
+    redirect_to root_path, notice: "retornados #{retornados} duplicados #{duplicados} no encontrados #{no_encontrados}"
   end
 
   private

@@ -1,5 +1,5 @@
 <div class="titulo">
-	<h4><%= render partial: '0p/general/icon_text', locals: {gly: 'image', text: @objeto.nombre, clr: config[:color][:app]} %></h4>	
+	<h4><%= render partial: '0p/general/icon_text', locals: {gly: 'image', text: @objeto.nombre, clr: cfg_color[:app]} %></h4>	
 </div>
 <%= render partial: '0capitan/general/titulo_tabla', locals: {c: 'app_imagenes', title: "Archivos de la imagen #{@objeto.nombre}", link_new: "/app_imagenes/new?class_name=#{@objeto.class.name}&objeto_id=#{@objeto.id}"} %>
 

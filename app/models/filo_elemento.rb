@@ -1,10 +1,5 @@
 class FiloElemento < ApplicationRecord
 
-	TABLA_FIELDS = [
-		's#filo_elemento',
-		'nombre_padre'
-	]
-
 	belongs_to :filo_orden
 	belongs_to :area, optional: true
 

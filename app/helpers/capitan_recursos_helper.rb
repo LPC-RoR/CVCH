@@ -1,27 +1,12 @@
 module CapitanRecursosHelper
-	## ------------------------------------------------------- GENERAL
-
-	## ------------------------------------------------------- LAYOUTS CONTROLLERS
-
-	## ------------------------------------------------------- SCOPES & PARTIALS
-
-
 
 	## ------------------------------------------------------- TABLA | BTNS
 
+	# DEPRECATED EN REVISION (CON REFERENCIAS AUN)
+	# usado en _modelo para condicionar despliegue de campos show en tablas
+	# true se muestra
 	def show_link_condition(objeto)
 		true
-	end
-
-	## ------------------------------------------------------- SHOW
-
-	def app_show_title(objeto)
-		case objeto.class.name
-		when 'Publicacion'
-			objeto.title
-		else
-			objeto.send(objeto.class.name.tableize.singularize)
-		end
 	end
 
 end

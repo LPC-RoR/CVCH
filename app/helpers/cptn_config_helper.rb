@@ -1,15 +1,6 @@
 module CptnConfigHelper
 	def config
 		{
-			color: {
-				app: 'info',
-				navbar: 'info',
-				navbar_bg: 'muted',
-				help: 'dark',
-				data: 'success',
-				title_tema: 'info',
-				detalle_tema: 'info'
-			},	
 			menu: {
 				dd_enlaces: false,
 				contacto: (not publico?),
@@ -69,6 +60,15 @@ module CptnConfigHelper
 		}
 	end
 
+	def cfg_color
+		{
+			app: 'info',
+			navbar: 'info',
+			navbar_bg: 'muted',
+			help: 'dark',
+			data: 'success',
+		}
+	end
 
 	def get_cfg(cfg_nombre)
 		cfg = version_activa.cfg_valores.find_by(cfg_valor: cfg_nombre)

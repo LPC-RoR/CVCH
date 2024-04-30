@@ -52,23 +52,6 @@ module CptnMenuLeftHelper
 		( left_menu_actions? or left_menu_controllers?) ? :admin : nil
 	end
 
-	def exception_menu_controllers(controller)
-		if controller == 'publicos'
-			usuario_signed_in? ? :activo : ( action_name == 'home' ? nil : :publico)
-		else
-			:activo
-		end
-	end
-
-	# determina el menú PRIMARIO usándo como parámetro el controlador de lo desplegado
-	def menu_left?(controller)
-		if devise_controllers.include?(controller)
-			nil
-		else
-			exception_menu_controllers(controller)
-		end
-	end
-
 	# Determina la RUTA DESTINO usándo como parámetro el modelo del ítem
 	def model_link(modelo)
 		if modelo == 'Usuario'
@@ -93,10 +76,6 @@ module CptnMenuLeftHelper
 			'Nómina'
 		elsif modelo == 'StModelo'
 			'Personalización'
-		elsif modelo == 'TarAprobacion'
-			'Aprobaciones'
-		elsif modelo == 'Asesoria'
-			'Asesorías'
 		elsif modelo == 'HImagen'
 			'Ímagenes'
 		else
