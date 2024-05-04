@@ -39,7 +39,7 @@ class Aplicacion::PublicosController < ApplicationController
       set_tabla('filo_especies', @objeto.filo_especies.order(:filo_especie), false)
 
       @padres_ids = @objeto.padres_ids.reverse()
-      @padres = @bjeto.paddres.reverse()
+      @padres = @bjeto.padres.reverse()
 
       if @objeto.parent.blank?
         hermanos_ids = FiloElemento.all.map {|elemento| elemento.id if elemento.parent.blank? and elemento.id != @objeto.id}.compact
