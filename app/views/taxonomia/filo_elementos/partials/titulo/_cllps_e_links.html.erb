@@ -1,0 +1,22 @@
+<!-- NUEVO ELEMENTO -->
+<%= render layout: '0p/collapse/link', locals: {label: 'NuevoElemento', objeto: nil, tooltip: 'Nuevo elemento'} do %>
+	<i class="bi bi-plus-circle"></i> Elemento
+<% end %>
+
+<% unless params_indice.blank? %>
+	<!-- NUEVA ESPECIE -->
+	<%= render layout: '0p/collapse/link', locals: {label: 'NuevaEspecie', objeto: nil, tooltip: 'Nueva especie'} do %>
+		<i class="bi bi-plus-circle"></i> Especie
+	<% end %>
+
+	<!-- MUEVE ELEMENTO -->
+	<% if dog? %>
+		<%= render layout: '0p/collapse/link', locals: {label: 'MueveElemento', objeto: nil, tooltip: 'Mueve elemento'} do %>
+			<i class="bi bi-diagram-2"></i>
+		<% end %>
+	<% end %>
+
+	<i class="bi bi-dot"></i>
+
+	<small><%= render partial: '0p/tabla/links_e', locals: {objeto: objeto} %></small>
+<% end %>

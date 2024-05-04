@@ -1,0 +1,22 @@
+<!-- USO VERIFICADO -->
+<div class="tax-titulo">
+
+	<%= render partial: 'taxonomia/filo_elementos/partials/titulos/links_padres', locals: {padres: padres} unless params[:indice].blank? %>
+
+	<div class="row">
+		<div class="col-8">
+			<!-- NOMBRE DE FILO_ELEMENTO -->
+			<div style="padding-left: 1em;">
+				<%= render partial: 'taxonomia/filo_elementos/partials/titulo/nombre_elemento', locals: {objeto: objeto, params_indice: params_indice} %>
+			</div>
+		</div>
+		<div class="col-4" align='right'>
+			<% if admin? %>
+			<div style="padding-right: 1em;">
+				<%= render partial: 'taxonomia/filo_elementos/partials/titulo/cllps_e_links', locals: {objeto: objeto, params_indice: params_indice} %>
+			</div>
+			<% end %>		
+		</div>
+	</div>
+
+</div>
