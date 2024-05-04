@@ -1,0 +1,33 @@
+<!-- USO VERIFICADO -->
+<!-- FORMULARIO PARA NUEVO ELEMENTO HIJO -->
+<div class="tax-box">
+	<small><b class='text-info'>Nuevo elemento hijo</b></small>
+	
+	<%= form_for :nuevo_hijo, url: "/filo_elementos/nuevo_hijo?objeto_id=#{objeto.id unless objeto.blank?}" do |form| %>
+
+		<div class="row">
+			<div class="col-8">
+				<small><%= form.label 'Orden' %></br>
+				<%= form.select :filo_orden_id, FiloOrden.all.order(:orden).collect { |orden| [orden.filo_orden, orden.id] }, include_blank: true %></br>
+				</small>
+			</div>
+			<div class="col-4" align="right">
+				<button type="submit" class="btn btn-info">
+				  <i class="bi bi-caret-right icon-white"></i>
+				</button>
+			</div>
+		</div>
+
+
+		<small><%= form.label 'Elemento' %></small></br>
+		<%= form.text_field(:filo_elemento, class: 'form-control') %>
+		<small><%= form.label 'Descripción' %></small></br>
+		<%= form.text_field(:descripcion, class: 'form-control') %>
+
+		<small>
+		<%= form.label 'Área' %></br>
+		<%= form.select :area_id, Area.all.order(:area).collect { |area| [area.area, area.id] }, include_blank: true %>
+		</small>
+
+	<% end  %>
+</div>

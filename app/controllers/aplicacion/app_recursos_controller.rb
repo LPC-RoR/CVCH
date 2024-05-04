@@ -24,30 +24,30 @@ class Aplicacion::AppRecursosController < ApplicationController
 
     # Usado para recuperar la estructura de elementos FiloElemento
     # Se borran todas las relaaciones entre ellos para procesar, para evitar loops accidentales
-#    FiloEleEle.delete_all
-#    retornados = 0
-#    no_encontrados = 0
-#    duplicados = 0
-#    FiloElemento.all.each do |filo_elemento|
-#    hijos = filo_elemento.list_field.blank? ? [] : filo_elemento.list_field.downcase.split(';')
+    FiloEleEle.delete_all
+    retornados = 0
+    no_encontrados = 0
+    duplicados = 0
+    FiloElemento.all.each do |filo_elemento|
+    hijos = filo_elemento.list_field.blank? ? [] : filo_elemento.list_field.downcase.split(';')
 
-#      unless hijos.empty?
-#        hijos.each do |hijo|
-#          filo_hijo = FiloElemento.find_by(filo_elemento: hijo)
-#          unless filo_hijo.blank?
-#            unless filo_hijo.parent.present?
-#              filo_elemento.children << filo_hijo
-#              retornados += 1
-#            else
-#              duplicados += 1
-#            end
-#          else
-#            no_encontrados += 1
-#          end
-#        end
-#      end
+      unless hijos.empty?
+        hijos.each do |hijo|
+          filo_hijo = FiloElemento.find_by(filo_elemento: hijo)
+          unless filo_hijo.blank?
+            unless filo_hijo.parent.present?
+              filo_elemento.children << filo_hijo
+              retornados += 1
+            else
+              duplicados += 1
+            end
+          else
+            no_encontrados += 1
+          end
+        end
+      end
 
-#    end
+    end
 
 
   # Proceso para relacionar Especies con Elementos y Subespecies con Especies
@@ -70,7 +70,8 @@ class Aplicacion::AppRecursosController < ApplicationController
 #      end
 #    end
 
-    redirect_to root_path, notice: " FiloEleEle #{FiloEleEle.all.count} retornados #{retornados} duplicados #{duplicados} no encontrados #{no_encontrados}"
+#    redirect_to root_path, notice: "FiloEleEle #{FiloEleEle.all.count} retornados #{retornados} duplicados #{duplicados} no encontrados #{no_encontrados}"
+    redirect_to root_path
   end
 
   private

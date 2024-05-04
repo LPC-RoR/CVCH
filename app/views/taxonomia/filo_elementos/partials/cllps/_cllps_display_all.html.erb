@@ -1,7 +1,7 @@
 <div class='row justify-content-center'>
 	<div class='col-md-4'>
 		<%= render layout: '0p/collapse/display', locals: {label: 'NuevoElemento', objeto: nil} do %>
-			<%= render partial: 'taxonomia/filo_elementos/partials/form_nuevo_child', locals: {objeto: objeto} %>
+			<%= render partial: 'taxonomia/filo_elementos/partials/cllps/form_nuevo_child', locals: {objeto: objeto} %>
 		<% end %>
 
 		<% unless params[:indice].blank? %>
