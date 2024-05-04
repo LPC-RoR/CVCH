@@ -1,5 +1,6 @@
 <!-- USO VERIFICADO -->
 <small><small>
+	<!-- Despliega Base, salvo que se encuentre en ella -->
 	<%= link_to ': Base', '/publicos/taxonomia' unless params[:indice].blank? %>
 	<% unless padres_ids.blank? %>
 		<% padres_ids.each do |padre_id| %>

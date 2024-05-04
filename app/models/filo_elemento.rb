@@ -21,6 +21,12 @@ class FiloElemento < ApplicationRecord
 	end
 	# **************
 
+	# Entrega una lista de padres
+	def padres
+ 		padre = self.parent
+		padre.present? ? [padre].union(padre.padres) : []
+	end
+
  	def padres_ids
  		padre = self.parent
 		padre.present? ? [padre.id].union(padre.padres_ids) : []

@@ -2,9 +2,11 @@
 <div class="tax-titulo">
 
 	<%= render partial: 'taxonomia/filo_elementos/partials/links_padres', locals: {padres_ids: padres_ids} unless params[:indice].blank? %>
+	<%= render partial: 'taxonomia/filo_elementos/partials/links_padres2', locals: {padres: padres} unless params[:indice].blank? %>
 
 	<div class="row">
 		<div class="col-8">
+			<!-- NOMBRE DE FILO_ELEMENTO -->
 			<div style="padding-left: 1em;">
 				<h5>
 					<i class="bi bi-diagram-3 text-<%= params[:indice].blank? ? 'info' : (objeto.revisar ? 'danger' : (objeto.mma_ok ? 'info' : 'dark')) %>"></i>
@@ -13,7 +15,7 @@
 						<i class="bi bi-dot"></i> 
 						<%= params[:indice].blank? ? 'Base de la estructura' : "[#{objeto.filo_orden.filo_orden unless objeto.filo_orden.blank?}] #{objeto.filo_elemento}" %>
 					</span>
-			</h5>
+				</h5>
 			</div>
 		</div>
 		<div class="col-4" align='right'>
@@ -31,8 +33,10 @@
 					<% end %>
 
 					<!-- MUEVE ELEMENTO -->
-					<%= render layout: '0p/collapse/link', locals: {label: 'MueveElemento', objeto: nil, tooltip: 'Mueve elemento'} do %>
-						<i class="bi bi-diagram-2"></i>
+					<% if dog? %>
+						<%= render layout: '0p/collapse/link', locals: {label: 'MueveElemento', objeto: nil, tooltip: 'Mueve elemento'} do %>
+							<i class="bi bi-diagram-2"></i>
+						<% end %>
 					<% end %>
 
 					<i class="bi bi-dot"></i>
