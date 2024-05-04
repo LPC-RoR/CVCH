@@ -1,12 +1,12 @@
 <!-- USO VERIFICADO -->
 <div class="tax-box">
 	<small>
-	<small><b class='text-info'>Mueve elemento</b></small>
+	<b class='text-info'>Mueve elemento</b>
 	<div class="row">
 		<div class="col-lg-6 col-xs-12">
 			<p class='text-info'><i class="bi bi-diagram-2"></i> Abuelo</p>
 			<% if objeto.parent.blank? %>
-				No hay destino disponible
+				<p class="text-warning">No hay destino disponible</p>
 			<% else %>
 				<ul>
 					<li>
@@ -18,7 +18,7 @@
 		<div class="col-lg-6">
 			<p class='text-info'><i class="bi bi-diagram-2"></i> Hermanos</p>
 			<% if @hermanos.blank? %>
-				No hay destinos disponibles
+				<p class="text-warning">No hay destinos disponibles</p>
 			<% else %>
 				<ul>
 					<% @hermanos.each do |elemento| %>
