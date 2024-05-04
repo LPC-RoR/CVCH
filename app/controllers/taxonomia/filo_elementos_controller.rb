@@ -153,7 +153,7 @@ class Taxonomia::FiloElementosController < ApplicationController
       abuelo.children << @objeto unless abuelo.blank?
     end
 
-#    redirect_to "/publicos/taxonomia?indice=#{@objeto.id}"
+    redirect_to "/publicos/taxonomia?indice=#{@objeto.id}"
   end
 
   def bajar
@@ -164,7 +164,7 @@ class Taxonomia::FiloElementosController < ApplicationController
       nuevo_padre.children << @objeto
     end
 
-#    redirect_to "/publicos/taxonomia?indice=#{@objeto.id}"
+    redirect_to "/publicos/taxonomia?indice=#{@objeto.id}"
   end
 
   # DELETE /filo_elementos/1

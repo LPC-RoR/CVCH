@@ -27,28 +27,46 @@ class Aplicacion::PublicosController < ApplicationController
     end
   end
 
+  # Despliega Base de la estructura / filo_elemento específico
   def taxonomia
     if params[:indice].blank?
-      base_ids = FiloElemento.all.map {|fe| fe.id unless (fe.parent.present? or fe.revisar == true)}.compact
+
+      # @objeto = nil
+
+      # ids de los filo_elemento que no tienen padreg
+      base_ids = FiloElemento.all.map {|fe| fe.id unless fe.parent.present?}.compact
+
+      # Carga tabla base-filo_elementos
       set_tabla('base-filo_elementos', FiloElemento.where(id: base_ids).order(:filo_elemento), false)
-      @padres_ids = nil
+
+      @padres = []
+
     else
+
       @objeto = FiloElemento.find(params[:indice])
 
-      set_tabla('base-filo_elementos', @objeto.children.order(:filo_elemento), false)
-      set_tabla('filo_especies', @objeto.filo_especies.order(:filo_especie), false)
+      unless @objeto.blank?
+        # Tabla de subelementos de @objeto
+        set_tabla('base-filo_elementos', @objeto.children.order(:filo_elemento), false)
+        # Tabla de especies de @objeto
+        set_tabla('filo_especies', @objeto.filo_especies.order(:filo_especie), false)
 
-      # lista de los padres para el link superior
-      @padres = @objeto.padres.reverse()
+        # lista de los padres para el link superior
+        @padres = @objeto.padres.reverse()
 
-      if @objeto.parent.blank?
-        hermanos_ids = FiloElemento.all.map {|elemento| elemento.id if elemento.parent.blank? and elemento.id != @objeto.id}.compact
-      else
-        hermanos_ids = @objeto.parent.children.map {|elem| elem.id unless elem.id == @objeto.id}.compact
+        # Hermanos = hijos del mismo padre necesario para método 'subir'
+        puts "********************************************************* proceso de @hermanos inicio "
+        if @objeto.parent.blank?
+          hermanos_ids = FiloElemento.all.map { |fe| fe.id if fe.parent.blank? and fe.id != @objeto.id }.compact
+        else
+          hermanos_ids = @objeto.parent.children.map {|elem| elem.id unless elem.id == @objeto.id}.compact
+        end
+        @hermanos = FiloElemento.where(id: hermanos_ids).order(:filo_elemento)
+        puts "******************************************************** prooceso de @hermanos fin"
       end
-      @hermanos = FiloElemento.where(id: hermanos_ids).order(:filo_elemento)
 
     end      
+
   end
 
   def huerfanas
