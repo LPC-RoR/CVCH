@@ -16,14 +16,6 @@ class FiloElemento < ApplicationRecord
 	before_save { self.filo_elemento.downcase! }
 
 	# **** TAXOMOMÍA
-	def n_keys
-		self.filo_especies.map {|esp| esp.n_keys}.sum + self.children.map {|child| child.n_keys}.sum
-	end
-
-	def n_tags
-		self.filo_especies.map {|esp| esp.n_tags}.sum + self.children.map {|child| child.n_tags}.sum
-	end
-
 	def n_pubs
 		self.filo_especies.map {|esp| esp.n_pubs}.sum + self.children.map {|child| child.n_pubs}.sum
 	end
