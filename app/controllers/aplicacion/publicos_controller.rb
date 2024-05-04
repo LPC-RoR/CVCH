@@ -38,7 +38,7 @@ class Aplicacion::PublicosController < ApplicationController
       set_tabla('base-filo_elementos', @objeto.children.order(:filo_elemento), false)
       set_tabla('filo_especies', @objeto.filo_especies.order(:filo_especie), false)
 
-      @padres_ids = @objeto.padres_ids.reverse()
+      # lista de los padres para el link superior
       @padres = @objeto.padres.reverse()
 
       if @objeto.parent.blank?
