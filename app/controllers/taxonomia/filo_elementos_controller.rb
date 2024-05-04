@@ -110,28 +110,6 @@ class Taxonomia::FiloElementosController < ApplicationController
     end
   end
 
-  def trae_hijos
-    nombres = @objeto.children.map {|elem| elem.filo_elemento}
-    hijos = @objeto.list_field.blank? ? [] : @objeto.list_field.downcase.split(';')
-    noticia = 'Hijo no encontrado'
-
-    unless hijos.empty?
-      hijos.each do |hijo|
-        unless nombres.include?(hijo)
-          filo_hijo = FiloElemento.find_by(filo_elemento: hijo)
-          unless filo_hijo.blank?
-            xpadre = filo_hijo.parent
-            xpadre.children.delete(filo_hijo) unless xpadre.blank?
-            @objeto.children << filo_hijo
-            noticia = 'Hijo(s) vuelven a casa'
-          end
-        end
-      end
-    end
-    
-    redirect_to "/publicos/taxonomia?indice=#{@objeto.id}", notice: noticia
-  end
-
   def cambio_padre
     filo_elemento = FiloElemento.find(params[:objeto_id])
     unless params[:cambio_padre][:nuevo_padre].blank?

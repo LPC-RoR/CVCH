@@ -280,7 +280,6 @@ Rails.application.routes.draw do
       match :asigna_area, via: :post, on: :collection
       match :libera_area, via: :get, on: :member
       match :cambio_padre, via: :post, on: :collection
-      match :trae_hijos, via: :get, on: :member
       # última implementación, revisar anteriores
       match :nuevo_hijo, via: :post, on: :collection
       match :subir, via: :get, on: :member
