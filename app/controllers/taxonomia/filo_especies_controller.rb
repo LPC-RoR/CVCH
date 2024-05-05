@@ -19,7 +19,7 @@ class Taxonomia::FiloEspeciesController < ApplicationController
     @objeto = FiloEspecie.new(filo_elemento_id: params[:filo_elemento_id])
   end
 
-  # VERIIFICADO y REVISADA
+  # VERIFICADO y REVISADA
   # Agrega filo_especie a FiloElemento o FiloEspecie
   # Taxonomía
   def nuevo

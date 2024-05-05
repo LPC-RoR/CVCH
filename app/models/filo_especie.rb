@@ -160,13 +160,10 @@ class FiloEspecie < ApplicationRecord
 
 	# Todas las publicaciones asociadas a la filo_especie
 	def publicaciones
-      etiquetas = self.especies
+      etiqueta = self.especie
       sinonimos = self.filo_sinonimos
 
-      pubs_ids = []
-      etiquetas.each do |tag|
-        pubs_ids = pubs_ids.union(tag.publicaciones.ids)
-      end
+      pubs_ids = etiqueta.publicaciones.ids
       sinonimos.each do |sino|
         pubs_ids = pubs_ids.union(sino.especie.publicaciones.ids) unless sino.especie.blank?
       end

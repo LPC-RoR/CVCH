@@ -1,4 +1,5 @@
 <div class="tax-box">
+	<!-- DESPLIEGA TODOS LOS ELEMENTOS RELACIIONADOS CON LA ÁREA -->
 	<% @objeto.filo_elementos.order(:filo_elemento).each do |elemento| %>
 		<%= render partial: 'taxonomia/filo_elementos/partials/show_tree', locals: {elemento: elemento} %>
 	<% end %>
