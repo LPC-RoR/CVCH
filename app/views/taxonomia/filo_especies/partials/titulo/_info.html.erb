@@ -1,0 +1,13 @@
+<div class='text-muted' style="line-height: 18px;">
+	<small>
+	<i class="bi bi-tags text-<%= objeto.filo_tipo_especies.empty? ? 'danger' : 'info' %>"> </i>
+	<%= objeto.filo_tipo_especies.map {|te| te.filo_tipo_especie}.join(' : ') %>
+	<i class="bi bi-droplet text-<%= objeto.filo_categoria_conservaciones.empty? ? 'danger' : 'info' %>"> </i>
+	<%= objeto.filo_categoria_conservaciones.map {|cc| cc.filo_categoria_conservacion}.join(' : ') %>
+
+	<% unless objeto.nombre_comun.blank? %>
+		<i class="bi bi-list-check"></i>
+		<%= objeto.multiple_nombre_comun %>
+	<% end %>
+	</small>
+</div>

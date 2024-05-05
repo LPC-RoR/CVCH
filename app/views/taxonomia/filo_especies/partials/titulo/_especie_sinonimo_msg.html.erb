@@ -1,0 +1,8 @@
+<% if objeto.especie_sinonimo? %>
+	<div class='text-danger' style="line-height: 15px;">
+		<small>
+		<i class="bi bi-exclamation-diamond"></i>
+		Esta especie esta en la sinonimia de la especie <%= link_to objeto.especie_padre.filo_especie, "/publicos/especies?indice=#{objeto.especie_padre.id}" %>
+		</small>
+	</div>
+<% end %>

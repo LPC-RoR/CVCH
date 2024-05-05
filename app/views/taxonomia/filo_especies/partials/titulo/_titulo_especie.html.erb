@@ -11,25 +11,7 @@
 		</div>
 	</div>
 
-	<div class='text-muted' style="line-height: 18px;">
-		<small>
-		<i class="bi bi-tags text-<%= objeto.filo_tipo_especies.empty? ? 'danger' : 'info' %>"> </i>
-		<%= objeto.filo_tipo_especies.map {|te| te.filo_tipo_especie}.join(' : ') %>
-		<i class="bi bi-droplet text-<%= objeto.filo_categoria_conservaciones.empty? ? 'danger' : 'info' %>"> </i>
-		<%= objeto.filo_categoria_conservaciones.map {|cc| cc.filo_categoria_conservacion}.join(' : ') %>
-
-		<% unless objeto.nombre_comun.blank? %>
-			<i class="bi bi-list-check"></i>
-			<%= objeto.multiple_nombre_comun %>
-		<% end %>
-		</small>
-	</div>
-	<% if objeto.especie_sinonimo? %>
-		<div class='text-danger' style="line-height: 15px;">
-			<small>
-			<i class="bi bi-exclamation-diamond"></i>
-			Esta especie esta en la sinonimia de la especie <%= link_to objeto.especie_padre.filo_especie, "/publicos/especies?indice=#{objeto.especie_padre.id}" %>
-			</small>
-		</div>
-	<% end %>
+	<!-- OCULTO : Inforrmación deteriorada -->
+	<%#= render partial: 'taxonomia/filo_especies/partials/titulo/info', locals: {objeto: objeto} %>
+	<%= render partial: 'taxonomia/filo_especies/partials/titulo/especie_sinonimo_msg', locals: {objeto: objeto} %>
 </div>
