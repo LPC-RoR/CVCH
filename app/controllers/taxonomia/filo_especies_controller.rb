@@ -140,34 +140,6 @@ class Taxonomia::FiloEspeciesController < ApplicationController
     redirect_to carpeta
   end
 
-  def nuevo_sinonimo
-    filo_especie = FiloEspecie.find(params[:objeto_id])
-    unless params[:nuevo_sinonimo][:sinonimo].blank?
-      check_sinonimo = FiloEspecie.find_by(filo_especie: params[:nuevo_sinonimo][:sinonimo].downcase)
-      if check_sinonimo.blank?
-        sinonimo = FiloEspecie.create(filo_especie: params[:nuevo_sinonimo][:sinonimo].downcase)
-        filo_especie.sinonimos << sinonimo
-
-        etiquetas = Especie.where(especie: sinonimo.filo_especie)
-        etiquetas.each do |etiqueta|
-          sinonimo.especies << etiqueta
-        end
-      end
-    end
-    
-    redirect_to filo_especie
-  end
-
-  def asocia_etiqueta
-    filo_especie = FiloEspecie.find(params[:objeto_id])
-    unless params[:asocia_etiqueta][:etiqueta].blank?
-      etiqueta = params[:asocia_etiqueta][:etiqueta].match(/^\d+$/) ? Especie.find(params[:asocia_etiqueta][:etiqueta].to_i) : Especie.find_by(especie: params[:asocia_etiqueta][:etiqueta].downcase)
-      filo_especie.especies << etiqueta unless etiqueta.blank?
-    end
-
-    redirect_to filo_especie
-  end
-
   # DELETE /filo_especies/1
   # DELETE /filo_especies/1.json
   def destroy

@@ -255,7 +255,6 @@ Rails.application.routes.draw do
       match :elimina, via: :get, on: :collection
       # nueva implementacion, verificar anteriores
       match :nuevo_sinonimo, via: :post, on: :collection
-      match :asocia_etiqueta, via: :post, on: :collection
       match :asigna, via: :post, on: :collection
       match :buscar_etiquetas, via: :get, on: :member
       # mas nuevo aún

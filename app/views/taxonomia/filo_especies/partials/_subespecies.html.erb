@@ -1,10 +1,10 @@
-<-- VERIFICADO -->
+<!-- VERIFICADO -->
 <small class="text-info">
 	<%= render partial: '0p/general/gly', locals: {gly: 'bug'} %>
 	Subespecies
 </small></br>
 <% if @coleccion['filo_especies'].empty? %>
-	<div class="text-warning">No hay subespecies registradas.</div>
+	<div class="text-warning"><small>No hay subespecies registradas.</small></div>
 <% end %>
 <% @coleccion['filo_especies'].each do |especie| %>
 	<div class="especie">
