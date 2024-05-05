@@ -80,65 +80,45 @@ class Aplicacion::PublicosController < ApplicationController
   end
 
   def especies
+    # No despliega nada sin un ìndice, no hay despliegue Base
     unless params[:indice].blank?
       @objeto = FiloEspecie.find(params[:indice])
+      unless @objeto.blank?
 
-      # limpieza de relacion con sub-especie
-      if @objeto.filo_esp_sinos.count != @objeto.filo_sinonimos.count
-        sinonimos_ids = @objeto.filo_sinonimos.ids
-        @objeto.filo_esp_sinos.each do |esp_sinos|
-          esp_sinos.delete unless sinonimos_ids.include?(esp_sinos.filo_sinonimo_id)
+        # limpieza de especies que son sinónimos de si mismas
+        # REVISAR es posible que de no estar caiga en un loop
+        if @objeto.filo_sinonimos.map {|fs| fs.filo_sinonimo}.include?(@objeto.filo_especie)
+          misma = @objeto.filo_sinonimos.find_by(filo_sinonimo: @objeto.filo_especie)
+          e=misma.especie
+          unless e.blank?
+            e.filo_sinonimo_id = nil
+            e.save
+          end
+          @objeto.filo_sinonimos.delete(misma)
         end
+
+        set_tabla('filo_especies', @objeto.children.order(:filo_especie), false)
+
+        set_tabla('equivalentes-filo_sinonimos', @objeto.fs_equivalentes, false)
+        set_tabla('sinonimos-filo_sinonimos', @objeto.fs_sinonimos, false)
+        set_tabla('excluidos-filo_sinonimos', @objeto.fs_excluidos, false)
+        set_tabla('agregados-filo_sinonimos', @objeto.fs_agregados, false)
+
+        set_tabla('filo_actualizaciones', @objeto.filo_actualizaciones.order(updated_at: :desc), false)
+
+        set_tabla('app_imagenes', @objeto.imagenes, false)
+
+        regiones_para_asignar_ids = Region.all.map {|region| region.id unless @objeto.regiones.ids.include?(region.id)}.compact
+        @regiones_para_asignar = Region.where(id: regiones_para_asignar_ids).order(:orden)
+
+        @padre = @objeto.parent.present? ? @objeto.parent : @objeto.filo_elemento
+        @padres = @objeto.padres.reverse()
+
+        # En este caso puede haber HERMANOS ELEMENTOS/ESPECIES
+        @hermanos_elementos = @objeto.parent.present? ? nil : @padre.children
+        @hermanos_especies = @objeto.parent.present? ? nil : @padre.filo_especies
+
       end
-      # limpieza de relacion con sub-especie
-      if @objeto.child_relations.count != @objeto.children.count
-        children_ids = @objeto.children.ids
-        @objeto.child_relations.each do |child_rel|
-          child_rel.delete unless children_ids.include?(child_rel.child_id)
-        end
-      end
-      # limpieza de especies que son sinónimos de si mismas
-      if @objeto.filo_sinonimos.map {|fs| fs.filo_sinonimo}.include?(@objeto.filo_especie)
-        misma = @objeto.filo_sinonimos.find_by(filo_sinonimo: @objeto.filo_especie)
-        e=misma.especie
-        unless e.blank?
-          e.filo_sinonimo_id = nil
-          e.save
-        end
-        @objeto.filo_sinonimos.delete(misma)
-      end
-
-      set_tabla('filo_especies', @objeto.children.order(:filo_especie), false)
-
-      set_tabla('equivalentes-filo_sinonimos', @objeto.fs_equivalentes, false)
-      set_tabla('sinonimos-filo_sinonimos', @objeto.fs_sinonimos, false)
-      set_tabla('excluidos-filo_sinonimos', @objeto.fs_excluidos, false)
-      set_tabla('agregados-filo_sinonimos', @objeto.fs_agregados, false)
-
-      set_tabla('filo_actualizaciones', @objeto.filo_actualizaciones.order(updated_at: :desc), false)
-
-      set_tabla('app_imagenes', @objeto.imagenes, false)
-
-      regiones_para_asignar_ids = Region.all.map {|region| region.id unless @objeto.regiones.ids.include?(region.id)}.compact
-      @regiones_para_asignar = Region.where(id: regiones_para_asignar_ids).order(:orden)
-
-      # recuperación de especies perdidas
-      if @objeto.parent.blank? and @objeto.filo_elemento.blank?
-        elemento = @objeto.filo_especie.split(' ')[0].strip
-        sustituto = FiloElemento.find_by(filo_elemento: elemento)
-        @objeto.filo_categoria_conservacion_id = FiloCategoriaConservacion.first.id if @objeto.filo_categoria_conservacion.blank?
-        @objeto.filo_tipo_especie_id = FiloTipoEspecie.first.id if @objeto.filo_tipo_especie.blank?
-        sustituto.filo_especies << @objeto
-      end
-
-      @padres = @objeto.padres.reverse()
-
-      @padre = @objeto.parent.present? ? @objeto.parent : @objeto.filo_elemento
-#      @abuelo = @objeto.parent.present? ? @padre.filo_elemento : @padre.parent
-
-      # En este caso puede haber HERMANOS ELEMENTOS/ESPECIES
-      @hermanos_elementos = @objeto.parent.present? ? nil : @padre.children
-      @hermanos_especies = @objeto.parent.present? ? nil : @padre.filo_especies
     end
   end
 
