@@ -60,7 +60,7 @@ class Aplicacion::AppRecursosController < ApplicationController
       else
         especie = "#{words[0]} #{words[1]}"
         especie_padre = FiloEspecie.find_by(filo_especie: especie)
-        especie_padre.children << filo_especie
+        especie_padre.children << filo_especie unless especie_padre.blank?
       end
     end
 
