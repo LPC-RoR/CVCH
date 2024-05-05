@@ -35,7 +35,7 @@
 								<%= render partial: 'taxonomia/filo_especies/partials/line/no_display_msg', locals: {objeto: elemento} %>
 							<% else %>
 								<% elemento.filo_especies.order(:filo_especies).each do |especie| %>
-									<%= render partial: 'taxonomia/filo_especies/partials/line_especie', locals: {objeto: especie} %>
+									<%= render partial: 'taxonomia/filo_especies/partials/line/line_especie', locals: {objeto: especie} %>
 								<% end %>
 							<% end %>
 						</div>
