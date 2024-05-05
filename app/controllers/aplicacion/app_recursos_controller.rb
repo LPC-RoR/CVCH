@@ -69,7 +69,7 @@ class Aplicacion::AppRecursosController < ApplicationController
       filo_especie = FiloEspecie.find_by(filo_especie: especie.especie)
       if filo_especie.blank?
         filo_genero = FiloElemento.find_by(filo_elemento: genero)
-        filo_especie = filo_genero.filo_especies.create(filo_especie: especie) unless filo_genero.blank?
+        filo_especie = filo_genero.filo_especies.create(filo_especie: especie.especie) unless filo_genero.blank?
       end
       especie.filo_especie_id = filo_especie.blank? ? nil : filo_especie.id
       especie.save
