@@ -59,13 +59,15 @@ class AreasController < ApplicationController
     end
   end
 
+  # VERIFICADO
+  # Asigna publicación a Àrea
   def asigna
     elemento = params[:class_name].constantize.find(params[:objeto_id])
     elemento.areas << @objeto
 
     case elemento.class.name
     when 'Publicacion'
-      redirect_to "/publicaciones/#{elemento.id}?html_options[tab]=Áreas"
+      redirect_to "/publicaciones/#{elemento.id}"
     when 'Especie'
       redirect_to elemento
     end
@@ -82,13 +84,15 @@ class AreasController < ApplicationController
     end
   end
 
+  # VERIFICADO
+  # DesAsigna publicación a Àrea
   def desasignar
     elemento = params[:class_name].constantize.find(params[:objeto_id])
 
     case elemento.class.name
     when 'Publicacion'
       @objeto.papers.delete(elemento)
-      redirect_to "/publicaciones/#{elemento.id}?html_options[tab]=Áreas"
+      redirect_to "/publicaciones/#{elemento.id}"
     when 'Especie'
       elemento.areas.delete(@objeto)
       redirect_to elemento

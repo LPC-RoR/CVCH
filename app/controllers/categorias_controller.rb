@@ -60,6 +60,8 @@ class CategoriasController < ApplicationController
     end
   end
 
+  # VERIFICADO
+  # Asigna publicación a categoría
   def asigna
     elemento = params[:class_name].constantize.find(params[:objeto_id])
 
@@ -71,7 +73,7 @@ class CategoriasController < ApplicationController
       etiqueta.save
     end
 
-    redirect_to "/publicaciones/#{elemento.id}?html_options[menu]=Categorías"
+    redirect_to "/publicaciones/#{elemento.id}"
   end
 
   def aceptar
@@ -86,11 +88,13 @@ class CategoriasController < ApplicationController
     redirect_to publicacion
   end
 
+  # VERIFICADO
+  # DesAsigna publicación a categoría
   def desasignar
     elemento = params[:class_name].constantize.find(params[:objeto_id])
     elemento.categorias.delete(@objeto)
 
-    redirect_to "/publicaciones/#{elemento.id}?html_options[menu]=Categorías"
+    redirect_to "/publicaciones/#{elemento.id}"
   end
 
   def rechazar
