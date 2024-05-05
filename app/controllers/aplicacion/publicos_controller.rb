@@ -138,7 +138,6 @@ class Aplicacion::PublicosController < ApplicationController
       else
         []
       end
-#      @padres_ids = @objeto.filo_elemento.present? ? @objeto.filo_elemento.padres_ids.reverse() : @objeto.parent.filo_elemento.padres_ids.reverse()
 
       @padre = @objeto.parent.present? ? @objeto.parent : @objeto.filo_elemento
 #      @abuelo = @objeto.parent.present? ? @padre.filo_elemento : @padre.parent
