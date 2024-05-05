@@ -29,7 +29,7 @@
 
 	<!-- PUBLICACIONES -->
 	<% unless objeto.n_pubs == 0 or action_name == 'publicaciones' %>
-		<% render layout: '0p/layout/tooltip_link', locals: {link: "/publicos/publicaciones?indice=#{objeto.id}", tooltip: 'Publicaciones especie + sinonimia'} do %>
+		<%= render layout: '0p/layout/tooltip_link', locals: {link: "/publicos/publicaciones?indice=#{objeto.id}", tooltip: 'Publicaciones especie + sinonimia'} do %>
 			<i class="bi bi-files"></i>
 		<% end %>
 	<% end %>
