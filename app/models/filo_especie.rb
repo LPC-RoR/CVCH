@@ -32,7 +32,7 @@ class FiloEspecie < ApplicationRecord
 	# **************************************** 1 TO MANY
 
 	# despues se debe reeemplazar con has_one, solo se asocia directamente la especie propia
-	has_many :especies
+	has_one :especie
 
 	has_many :filo_actualizaciones
 

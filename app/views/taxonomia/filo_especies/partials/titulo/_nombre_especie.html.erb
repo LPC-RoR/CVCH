@@ -29,8 +29,16 @@
 
 	<!-- PUBLICACIONES -->
 	<% unless objeto.n_pubs == 0 or action_name == 'publicaciones' %>
-		<% render layout: '0p/layout/tooltip_link', locals: {link: "/publicos/publicaciones?indice=#{objeto.id}", tooltip: 'Ver publicaciones de la especie'} do %>
+		<% render layout: '0p/layout/tooltip_link', locals: {link: "/publicos/publicaciones?indice=#{objeto.id}", tooltip: 'Publicaciones especie + sinonimia'} do %>
 			<i class="bi bi-files"></i>
 		<% end %>
 	<% end %>
+
+	<% if objeto.especie.present? %>
+		<%= render layout: '0p/layout/tooltip_link', locals: {link: objeto.especie, tooltip: 'Publicaciones especie'} do %>
+			<%= render partial: '0p/general/gly', locals: {gly: 'tag'} %> 
+			<%= "(#{objeto.especie.publicaciones.count})" %>
+		<% end %>
+	<% end %>
+
 </h5>
