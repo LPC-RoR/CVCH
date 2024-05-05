@@ -19,20 +19,25 @@ class Taxonomia::FiloEspeciesController < ApplicationController
     @objeto = FiloEspecie.new(filo_elemento_id: params[:filo_elemento_id])
   end
 
+  # VERIIFICADO y REVISADA
+  # Agrega filo_especie a FiloElemento o FiloEspecie
   # Taxonomía
   def nuevo
     padre = params[:class_name].blank? ? nil : params[:class_name].constantize.find(params[:objeto_id])
-    unless params[:nueva_especie][:filo_especie].blank? or padre.blank?
-      filo_especie = params[:nueva_especie][:filo_especie].gsub(/\t|\r|\n/, ' ').strip.downcase.split(' ').join(' ')
+    params_ne = params[:nueva_especie]
 
+    unless params_ne[:filo_especie].blank? or padre.blank?
+      filo_especie = params_ne[:filo_especie].gsub(/\t|\r|\n/, ' ').strip.downcase.split(' ').join(' ')
       check = FiloEspecie.find_by(filo_especie: filo_especie)
+
       if check.blank?
         # Especie no existe !!
-        referencia = params[:nueva_especie][:referencia].downcase
-        nombre_comun = params[:nueva_especie][:nombre_comun].downcase
-        link_fuente = params[:nueva_especie][:link_fuente]
-        sinonimia = params[:nueva_especie][:sinonimia]
-        revisar = params[:nueva_especie][:revisar]
+        referencia = params_ne[:referencia].downcase
+        nombre_comun = params_ne[:nombre_comun].downcase
+        link_fuente = params_ne[:link_fuente]
+        sinonimia = params_ne[:nueva_especie][:sinonimia]
+        revisar = params_ne[:nueva_especie][:revisar]
+
         nueva_especie = FiloEspecie.create(filo_especie: filo_especie, referencia: referencia, nombre_comun: nombre_comun, link_fuente: link_fuente, sinonimia: sinonimia, revisar: revisar)
 
         unless nueva_especie.blank?
@@ -40,7 +45,7 @@ class Taxonomia::FiloEspeciesController < ApplicationController
           # agrega al elemento/especie según corresponda
           padre.filo_especies << nueva_especie if params[:class_name] == 'FiloElemento'
           padre.children << nueva_especie if params[:class_name] == 'FiloEspecie'
-          # se asignan etiquetas caundo corresponde
+          # se asignan etiquetas cuando corresponde
           etiquetas = Etiqueta.where(especie: nueva_especie.filo_especie)
           unless etiquetas.empty?
             etiquetas.each do |etiqueta|

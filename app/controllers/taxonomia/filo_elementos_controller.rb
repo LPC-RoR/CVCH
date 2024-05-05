@@ -125,10 +125,12 @@ class Taxonomia::FiloElementosController < ApplicationController
     redirect_to filo_elemento
   end
 
-  #  REutilizado
+  #  VERIFICADO
   def nuevo_hijo
-    unless (params[:nuevo_hijo][:filo_orden_id].blank? or params[:nuevo_hijo][:filo_elemento].blank?)
-      check_filo_elemento = FiloElemento.find_by(filo_elemento: params[:nuevo_hijo][:filo_elemento].downcase)
+    params_nh = params[:nuevo_hijo]
+    unless (params_nh[:filo_orden_id].blank? or params_nh[:filo_elemento].blank?)
+
+      check_filo_elemento = FiloElemento.find_by(filo_elemento: params_nh[:filo_elemento].downcase)
       if check_filo_elemento.blank?
         nuevo = FiloElemento.create(filo_orden_id: params[:nuevo_hijo][:filo_orden_id], filo_elemento: params[:nuevo_hijo][:filo_elemento].downcase, descripcion: params[:nuevo_hijo][:descripcion], area_id: params[:nuevo_hijo][:area_id])
         unless params[:objeto_id].blank?
@@ -136,6 +138,7 @@ class Taxonomia::FiloElementosController < ApplicationController
           filo_elemento.children << nuevo
         end
       end
+
     end
 
     redireccion =  ( params[:objeto_id].blank? ? '/publicos/taxonomia' : "/publicos/taxonomia?indice=#{params[:objeto_id]}")

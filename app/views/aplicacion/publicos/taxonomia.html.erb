@@ -8,20 +8,24 @@
 	<div class="row">
 		<div class="col-lg-6 col-xs-12">
 
+			<!-- SIEMPRE SE DESPLIEGAN TODOS LOS ELEMENTOS BASE -->
 			<% @coleccion['base-filo_elementos'].each do |elemento| %>
 				<div class="elemento">
-					<%= render partial: 'taxonomia/filo_elementos/partials/line_elemento', locals: {objeto: elemento} %>
+					<%= render partial: 'taxonomia/filo_elementos/partials/line/line_elemento', locals: {objeto: elemento} %>
 
-					<% unless @coleccion['base-filo_elementos'].count > config[:taxonomia][:elem_count] %>
+					<!-- SI LOS ELEMENTOS BASE SUPERAN EL MAXIMO, NO SE DESPLIEGAN SUS HIJOS -->
+					<% unless @coleccion['base-filo_elementos'].count > cfg_taxonomia[:elem_base_max] %>
 						<small>
 						<div style='padding-left: 2em'>
-							<% if elemento.children.count > config[:taxonomia][:elem_count] %>
+							<!-- DESPLIEGUE MÁXIMO DE SUB ELEMENTOS -->
+							<% if elemento.children.count > cfg_taxonomia[:elem_dsply_max] %>
+								<%= render partial: 'taxonomia/filo_elementos/partials/line/no_display_msg', locals: {objeto: elemento, tipo_elementos: 'Subelementos'}
 								<div style="padding-left: <%= elemento.n_indent %>em; line-height: 18px;">
 									<small><i class="bi bi-stoplights"></i> Sub elementos no fueron desplegados para optimizar despliegue,</br> para verlos acceda a <%= elemento.filo_elemento %> </small>
 								</div>
 							<% else %>
 								<% elemento.children.order(:filo_elemento).each do |sub_elemento| %>
-									<%= render partial: 'taxonomia/filo_elementos/partials/line_elemento', locals: {objeto: sub_elemento} %>
+									<%= render partial: 'taxonomia/filo_elementos/partials/line/line_elemento', locals: {objeto: sub_elemento} %>
 								<% end %>
 							<% end %>
 						</div>

@@ -70,6 +70,15 @@ module CptnConfigHelper
 		}
 	end
 
+	def cfg_taxonomia
+		{
+			elem_base_max: 15,
+			elem_dsply_max: 10,
+			esp_base_max: 15,
+			esp_dsply_max: 10
+		}
+	end
+
 	def get_cfg(cfg_nombre)
 		cfg = version_activa.cfg_valores.find_by(cfg_valor: cfg_nombre)
 		if cfg.blank?
