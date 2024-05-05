@@ -1,6 +1,6 @@
 <div class="tax-box">
 	<div class="text-info" align='center'>Especie destacada de nuestra coleccion Taxonomía</div>
-	<%= render partial: 'taxonomia/filo_especies/partials/line_especie', locals: {objeto: objeto} %>
+	<%= render partial: 'taxonomia/filo_especies/partials/line/line_especie', locals: {objeto: objeto} %>
 	<% unless objeto.children.empty? %>
 		<% objeto.children.order(:filo_especie).each do |subespecie| %>
 			<%= render partial: 'taxonomia/filo_especies/partials/line_especie', locals: {objeto: subespecie} %>
