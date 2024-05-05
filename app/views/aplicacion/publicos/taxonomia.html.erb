@@ -19,7 +19,7 @@
 						<div style='padding-left: 2em'>
 							<!-- DESPLIEGUE MÁXIMO DE SUB ELEMENTOS -->
 							<% if elemento.children.count > cfg_taxonomia[:elem_dsply_max] %>
-								<%= render partial: 'taxonomia/filo_elementos/partials/line/no_display_msg', locals: {objeto: elemento, tipo_elementos: 'Subelementos'}
+								<%= render partial: 'taxonomia/filo_elementos/partials/line/no_display_msg', locals: {objeto: elemento, tipo_elementos: 'Subelementos'} %>
 								<div style="padding-left: <%= elemento.n_indent %>em; line-height: 18px;">
 									<small><i class="bi bi-stoplights"></i> Sub elementos no fueron desplegados para optimizar despliegue,</br> para verlos acceda a <%= elemento.filo_elemento %> </small>
 								</div>
