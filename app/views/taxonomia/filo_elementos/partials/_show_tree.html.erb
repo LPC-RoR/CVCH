@@ -1,6 +1,6 @@
 <!-- USO VERIFICADO -->
 <% unless elemento.blank? %>
-	<%= render partial: 'taxonomia/filo_elementos/partials/line_elemento', locals: {objeto: elemento} %>
+	<%= render partial: 'taxonomia/filo_elementos/partials/line/line_elemento', locals: {objeto: elemento} %>
 	<% unless elemento.children.empty? %>
 		<% elemento.children.order(:filo_elemento).each do |sub_elemento| %>
 			<%= render partial: 'taxonomia/filo_elementos/partials/show_tree', locals: {elemento: sub_elemento} %>
@@ -8,10 +8,10 @@
 	<% end %>
 	<% unless elemento.filo_especies.empty? %>
 		<% elemento.filo_especies.order(:filo_especie).each do |especie| %>
-			<%= render partial: 'taxonomia/filo_especies/partials/line_especie', locals: {objeto: especie} %>
+			<%= render partial: 'taxonomia/filo_especies/partials/line/line_especie', locals: {objeto: especie} %>
 			<% unless especie.children.empty? %>
 				<% especie.children.order(:filo_especie).each do |subespecie| %>
-					<%= render partial: 'taxonomia/filo_especies/partials/line_especie', locals: {objeto: subespecie} %>
+					<%= render partial: 'taxonomia/filo_especies/partials/line/line_especie', locals: {objeto: subespecie} %>
 				<% end %>
 			<% end %>
 		<% end %>

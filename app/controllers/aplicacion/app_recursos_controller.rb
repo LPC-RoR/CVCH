@@ -75,6 +75,10 @@ class Aplicacion::AppRecursosController < ApplicationController
       especie.save
     end
 
+    FiloEspCon.delete_all
+    FiloEspTipo.delete_all
+    FiloFEspReg.delete_all
+
     redirect_to root_path, notice: "FiloEleEle #{FiloEleEle.all.count} retornados #{retornados} duplicados #{duplicados} no encontrados #{no_encontrados}"
 #    redirect_to root_path
   end

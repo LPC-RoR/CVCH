@@ -63,6 +63,7 @@ class FiloEspecie < ApplicationRecord
 		self.filo_elemento.present? ? (self.filo_elemento.n_indent + 2) : (self.parent.present? ? (self.parent.n_indent + 4) : 2 )
 	end
 
+	# Entrega una lista de padres
 	def padres
 		padre = self.parent.present? ? self.parent : self.filo_elemento
 		padre.present? ? [padre].union(padre.padres) : []
@@ -116,7 +117,7 @@ class FiloEspecie < ApplicationRecord
 		self.especie.present? ? self.especie.publicaciones.count : 0
 	end
 
-	# TOTAL de especies, contando las relacionadas a través de la sinonimia
+	# TOTAL de publicaciones, contando las relacionadas a través de la sinonimia
 	def n_pubs
 		self.n_pubs_propias + self.filo_sinonimos.map {|sino| sino.n_pubs_propias}.sum
 	end
