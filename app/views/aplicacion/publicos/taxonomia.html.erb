@@ -51,7 +51,7 @@
 				<% end %>
 				<!-- SIEMPRE SE DESPLIEGAN TODAS LAS ESPECIES DEL ELEMENTO -->
 				<% @coleccion['filo_especies'].each do |especie| %>
-					<%= render partial: 'taxonomia/filo_especies/partials/line_especie', locals: {objeto: especie} %>
+					<%= render partial: 'taxonomia/filo_especies/partials/line/line_especie', locals: {objeto: especie} %>
 
 					<% unless @coleccion['filo_especies'].count > cfg_taxonomia[:esp_base_max] %>
 						<small>
@@ -62,7 +62,7 @@
 								</div>
 							<% else %>
 								<% especie.children.order(:filo_especies).each do |sub_especie| %>
-									<%= render partial: 'taxonomia/filo_especies/partials/line_especie', locals: {objeto: sub_especie} %>
+									<%= render partial: 'taxonomia/filo_especies/partials/line/line_especie', locals: {objeto: sub_especie} %>
 								<% end %>
 							<% end %>
 						</div>
