@@ -3,7 +3,7 @@
 	<%= render partial: 'taxonomia/filo_especies/partials/line/line_especie', locals: {objeto: objeto} %>
 	<% unless objeto.children.empty? %>
 		<% objeto.children.order(:filo_especie).each do |subespecie| %>
-			<%= render partial: 'taxonomia/filo_especies/partials/line_especie', locals: {objeto: subespecie} %>
+			<%= render partial: 'taxonomia/filo_especies/partials/line/line_especie', locals: {objeto: subespecie} %>
 		<% end %>
 	<% end %>
 </div>
