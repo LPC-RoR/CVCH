@@ -154,8 +154,7 @@ class FiloEspecie < ApplicationRecord
 	def multiple_referencia
 		base = self.referencia
 		arreglo = self.filo_actualizaciones.empty? ? [] : self.filo_actualizaciones.order(updated_at: :desc).map {|act| act.referencia unless act.referencia.blank?}.compact
-		base = base.blank? ? arreglo.first : base
-		base.blank? ? '-' : base
+		base.blank? ? arreglo.first : base
 	end
 
 	# Todas las publicaciones asociadas a la filo_especie

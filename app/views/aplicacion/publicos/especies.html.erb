@@ -1,8 +1,11 @@
 <% unless params[:indice].blank? or @objeto.blank? %>
+
 	<%= render partial: 'taxonomia/filo_especies/partials/titulo//titulo_especie', locals: {objeto: @objeto, padres: @padres} %>
+
+	<%= render partial: 'taxonomia/filo_especies/partials/cllps/cllps_display_all', locals: {objeto: @objeto} %>
+
 <% end %>
 
-<%= render partial: 'taxonomia/filo_especies/partials/cllps_display_all', locals: {objeto: @objeto} %>
 
 <div class="row">
 	<div class="col-lg-6 col-xs-12">
