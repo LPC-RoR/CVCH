@@ -13,25 +13,3 @@
 	<div class='text-info'><small>Agregados</small></div>
 	<%= render partial: 'taxonomia/filo_sinonimos/list/list_sinonimia', locals: {coleccion: @coleccion['agregados-filo_sinonimos']} %>
 <% end %>
-
-
-<% if dog? %>
-	<% unless objeto.especies.empty? %>
-		<small>
-			<div class="text-info">Etiquetas no propias de la especie.</div>
-			<div style='padding-left: 2em;'>
-				<small>
-					<ul>
-						<% objeto.especies.each do |etiqueta| %>
-							<% unless etiqueta.propia? %>
-							<li>
-								<%= etiqueta.especie %> : <%= etiqueta.publicaciones.count %>
-							</li>
-							<% end %>
-						<% end %>
-					</ul>
-				</small>
-			</div>
-		</small>
-	<% end %>
-<% end %>
