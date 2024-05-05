@@ -113,7 +113,7 @@ class FiloEspecie < ApplicationRecord
 	# Publicaciones asociaadas a FiloEspecie ( se relacionan a través de Especie )
 	# funciona con has_many :especies, debe cambiar a has_one
 	def n_pubs_propias
-		self.especie.present? ? 1 : 0
+		self.especie.present? ? self.especie.publicaciones.count : 0
 	end
 
 	# TOTAL de especies, contando las relacionadas a través de la sinonimia
