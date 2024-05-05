@@ -1,0 +1,35 @@
+<% if @coleccion['base-filo_elementos'].count > cfg_taxonomia[:elem_base_max] %>
+	<%= render partial: 'taxonomia/filo_elementos/partials/line/no_hijos_msg', locals: {objeto: objeto} %>
+<% end %>
+<!-- SIEMPRE SE DESPLIEGAN TODOS LOS ELEMENTOS BASE -->
+<% @coleccion['base-filo_elementos'].each do |elemento| %>
+	<div class="elemento">
+		<%= render partial: 'taxonomia/filo_elementos/partials/line/line_elemento', locals: {objeto: elemento} %>
+
+		<!-- SI LOS ELEMENTOS BASE SUPERAN EL MAXIMO, NO SE DESPLIEGAN SUS HIJOS -->
+		<% unless @coleccion['base-filo_elementos'].count > cfg_taxonomia[:elem_base_max] %>
+			<small>
+			<div style='padding-left: 2em'>
+				<!-- DESPLIEGUE MÁXIMO DE SUB ELEMENTOS -->
+				<% if elemento.children.count > cfg_taxonomia[:elem_dsply_max] %>
+					<%= render partial: 'taxonomia/filo_elementos/partials/line/no_display_msg', locals: {objeto: elemento} %>
+				<% else %>
+					<% elemento.children.order(:filo_elemento).each do |sub_elemento| %>
+						<%= render partial: 'taxonomia/filo_elementos/partials/line/line_elemento', locals: {objeto: sub_elemento} %>
+					<% end %>
+				<% end %>
+			</div>
+			<div style='padding-left: 2em'>
+				<!-- DESPLIEGUE MÁXIMO ESPECIES -->
+				<% if elemento.filo_especies.count > cfg_taxonomia[:esp_dsply_max] %>
+					<%= render partial: 'taxonomia/filo_especies/partials/line/no_display_msg', locals: {objeto: elemento} %>
+				<% else %>
+					<% elemento.filo_especies.order(:filo_especies).each do |especie| %>
+						<%= render partial: 'taxonomia/filo_especies/partials/line/line_especie', locals: {objeto: especie} %>
+					<% end %>
+				<% end %>
+			</div>
+			</small>
+		<% end %>
+	</div>
+<% end %>

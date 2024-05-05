@@ -60,7 +60,7 @@ class FiloEspecie < ApplicationRecord
 
 	# Determina laa indentación de la especie en el árbol desplegado
 	def n_indent
-		self.filo_elemento.present? ? (self.filo_elemento.n_indent + 2) : (self.parent.present? ? (self.parent.n_indent + 2) : 2 )
+		self.filo_elemento.present? ? (self.filo_elemento.n_indent + 2) : (self.parent.present? ? (self.parent.n_indent + 4) : 2 )
 	end
 
 	# Obtiene el Genero de la Especie
