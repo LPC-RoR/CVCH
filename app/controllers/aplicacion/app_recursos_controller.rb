@@ -46,32 +46,37 @@ class Aplicacion::AppRecursosController < ApplicationController
           end
         end
       end
-
     end
 
+    FiloEspEsp.delete_all
+    FiloEspecie.all.each do |filo_especie|
+      words = filo_especie.filo_especie.split(' ')
+      tipo_especie = words.length > 2 ? 'subespecie' : 'especie' 
+      if tipo_especie == 'especie'
+        genero = filo_especie.filo_especie.split(' ')[0]
+        filo_genero = FiloElemento.find_by(filo_elemento: genero)
+        filo_especie.filo_elemento_id = filo_genero.blank? ? nil : filo_genero.id
+        filo_especie.save
+      else
+        especie = "#{words[0]} #{words[1]}"
+        especie_padre = FiloEspecie.find_by(filo_especie: especie)
+        especie_padre.children << filo_especie
+      end
+    end
 
-  # Proceso para relacionar Especies con Elementos y Subespecies con Especies
+    Especie.all.each do |especie|
+      genero = especie.especie.split(' ')[0]
+      filo_especie = FiloEspecie.find_by(filo_especie: especie.especie)
+      if filo_especie.blank?
+        filo_genero = FiloElemento.find_by(filo_elemento: genero)
+        filo_especie = filo_genero.filo_especies.create(filo_especie: especie) unless filo_genero.blank?
+      end
+      especie.filo_especie_id = filo_especie.blank? ? nil : filo_especie.id
+      especie.save
+    end
 
-#    FiloEspecie.all.each do |filo_especie|
-#      genero = filo_especie.filo_especie.split(' ')[0]
-#      filo_elemento = FiloElemento.find_by(filo_elemento: genero)
-#      unless filo_elemento.blank?
-#        unless filo_elemento.filo_especies.map {|fe| fe.filo_especie}.include?(filo_especie.filo_especie)
-#          filo_elemento.filo_especies << filo_especie
-#        end
-#      end
-#    end
-
-#    FiloEspecie.all.each do |filo_especie|
-#      padre = filo_especie.parent
-#      unless padre.blank?
-#        filo_especie.filo_elemento_id = nil
-#        filo_especie.save
-#      end
-#    end
-
-#    redirect_to root_path, notice: "FiloEleEle #{FiloEleEle.all.count} retornados #{retornados} duplicados #{duplicados} no encontrados #{no_encontrados}"
-    redirect_to root_path
+    redirect_to root_path, notice: "FiloEleEle #{FiloEleEle.all.count} retornados #{retornados} duplicados #{duplicados} no encontrados #{no_encontrados}"
+#    redirect_to root_path
   end
 
   private

@@ -1,69 +1,13 @@
 <div class="tax-titulo">
 
 	<%= render partial: 'taxonomia/filo_elementos/partials/titulo/links_padres', locals: {padres: padres} %>
-	
-	<% if @objeto.parent.present? %>
-		<small><small>
-			<i class="bi bi-arrow-right"></i> 
-			<i class="bi bi-bug"></i> 
-			<%= link_to "/publicos/especies?indice=#{@objeto.parent.id}" do %>
-				<%= @objeto.parent.filo_especie %>
-			<% end %>
-		</small></small>
-	<% end %>
 
 	<div class="row">
 		<div class="col-8">
-			<h5>
-				<i class="bi bi-bug text-<%= params[:indice].blank? ? 'info' : (objeto.revisar ? 'danger' : (objeto.link_fuente.present? ? 'info' : 'dark')) %>"></i>
-				<span class='text-info'>
-					<%= objeto.parent.blank? ? 'Especie' : 'Sub especie' %>
-					<% if action_name == 'especies' %>
-						<%= objeto.filo_especie %>
-					<% else %>
-						<%= render layout: '0p/layout/tooltip_link', locals: {link: "/publicos/especies?indice=#{objeto.id}", tooltip: 'Ver Especie'} do %>
-							<%#= link_to objeto.filo_especie, "/publicos/especies?indice=#{objeto.id}" %>
-							<%= objeto.filo_especie %>
-						<% end %>
-					<% end %>
-					<% unless objeto.multiple_referencia.blank? %>
-						( <%= objeto.multiple_referencia %> )
-					<% end %>
-				</span>
-				<% if objeto.link_fuente.present? %>
-					<%= render layout: '0p/layout/ext_tooltip_link', locals: {link: objeto.link_fuente, tooltip: 'Ver especie en inventario MMA'} do %>
-					<%#= link_to objeto.link_fuente, target: '_blank' do %>
-						<i class="bi bi-box-arrow-up-right"></i>
-					<% end %>
-				<% end %>
-				<% unless objeto.n_pubs == 0 or action_name == 'publicaciones' %>
-					<% render layout: '0p/layout/tooltip_link', locals: {link: "/publicos/publicaciones?indice=#{objeto.id}", tooltip: 'Ver publicaciones de la especie'} do %>
-					<%#= link_to "/publicos/publicaciones?indice=#{objeto.id}" do %>
-						<i class="bi bi-files"></i>
-					<% end %>
-				<% end %>
-			</h5>
+			<%= render partial: 'taxonomia/filo_especies/partials/titulo/nombre_especie', locals: {objeto: objeto} %>
 		</div>
 		<div class="col-4" align='right'>
-			<% if admin? %>
-				<%= render layout: '0p/collapse/link', locals: {label: 'MueveEspecie', objeto: nil, tooltip: 'Mueve Especie'} do %>
-					<%= render partial: '0p/general/gly', locals: {gly: 'diagram-2'} %>
-				<% end %>
-				<%= render layout: '0p/collapse/link', locals: {label: 'TiposEspecie', objeto: nil, tooltip: 'Tipo(s) de especie'} do %>
-					<%= render partial: '0p/general/gly', locals: {gly: 'tags'} %>
-				<% end %>
-				<%= render layout: '0p/collapse/link', locals: {label: 'CategoriasConservacion', objeto: nil, tooltip: 'Categoría(s) de conservación'} do %>
-					<%= render partial: '0p/general/gly', locals: {gly: 'droplet'} %>
-				<% end %>
-				<% if objeto.parent.blank? %>
-					<%= render layout: '0p/collapse/link', locals: {label: 'NuevaSubEspecie', objeto: nil, tooltip: 'Nueva subespecie'} do %>
-						<%= render partial: '0p/general/gly', locals: {gly: 'bug'} %>
-					<% end %>
-				<% end %>
-
-				<i class="bi bi-dot"></i>
-				<%= render partial: '0p/tabla/links_e', locals: {objeto: objeto} %>
-			<% end %>
+			<%= render partial: 'taxonomia/filo_especies/partials/titulo/cllps_e_links', locals: {objeto: objeto} %>
 		</div>
 	</div>
 

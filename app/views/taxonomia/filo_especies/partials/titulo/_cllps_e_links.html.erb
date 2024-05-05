@@ -1,0 +1,21 @@
+<% if admin? %>
+	<% if dog? %>
+		<%= render layout: '0p/collapse/link', locals: {label: 'MueveEspecie', objeto: nil, tooltip: 'Mueve Especie'} do %>
+			<%= render partial: '0p/general/gly', locals: {gly: 'diagram-2'} %>
+		<% end %>
+	<% end %>
+	<%= render layout: '0p/collapse/link', locals: {label: 'TiposEspecie', objeto: nil, tooltip: 'Tipo(s) de especie'} do %>
+		<%= render partial: '0p/general/gly', locals: {gly: 'tags'} %>
+	<% end %>
+	<%= render layout: '0p/collapse/link', locals: {label: 'CategoriasConservacion', objeto: nil, tooltip: 'Categoría(s) de conservación'} do %>
+		<%= render partial: '0p/general/gly', locals: {gly: 'droplet'} %>
+	<% end %>
+	<% if objeto.parent.blank? %>
+		<%= render layout: '0p/collapse/link', locals: {label: 'NuevaSubEspecie', objeto: nil, tooltip: 'Nueva subespecie'} do %>
+			<%= render partial: '0p/general/gly', locals: {gly: 'bug'} %>
+		<% end %>
+	<% end %>
+
+	<i class="bi bi-dot"></i>
+	<%= render partial: '0p/tabla/links_e', locals: {objeto: objeto} %>
+<% end %>
