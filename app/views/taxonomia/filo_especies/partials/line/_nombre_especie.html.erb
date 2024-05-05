@@ -1,0 +1,40 @@
+<i class="bi bi-bug text-<%= objeto.revisar ? 'danger' : (objeto.link_fuente.present? ? 'info' : 'dark') %>"></i>
+
+<% if objeto.link_fuente.present? %>
+	<small>
+	<%= render layout: '0p/layout/ext_tooltip_link', locals: {link: objeto.link_fuente, tooltip: 'Fuente MMA'} do %>
+		<i class="bi bi-box-arrow-up-right"></i>
+	<% end %>
+	</small>
+<% end %>
+
+<%= render layout: '0p/layout/tooltip_link', locals: {link: "/publicos/especies?indice=#{objeto.id}", tooltip: 'Ver especie'} do %>
+	<%= objeto.filo_especie %>
+<% end %>
+
+<small>
+	<% unless objeto.n_pubs == 0 %>
+		<%= render layout: '0p/layout/tooltip_link', locals: {link: "/publicos/publicaciones?indice=#{objeto.id}", tooltip: 'Publicaciones de la especie'} do %>
+			<%= ": #{objeto.n_pubs}" %>
+			<i class="bi bi-files"></i>
+		<% end %>
+	<% end %>
+
+	<% if objeto.especie_sinonimo? %>
+		<i class="bi bi-question-diamond text-danger"></i>
+	<% end %>
+
+	<i class="bi bi-dot"></i>
+	<%= render layout: '0p/collapse/link', locals: {label: 'InfoEspecie', objeto: objeto, tooltip: 'Resumen especie'} do %>
+		<i class="bi bi-info-lg"></i>
+	<% end %>
+
+	<% unless objeto.children.empty? %>
+		<i class="bi bi-bug text-muted"></i>
+	<% end %>
+
+	<% unless objeto.sinonimia.blank? %>
+		<i class="bi bi-collection text-<%= objeto.filo_sinonimos.empty? ? 'danger' : 'muted'%>"></i>
+	<% end %>
+
+</small>

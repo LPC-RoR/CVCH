@@ -1,0 +1,45 @@
+<%= render layout: '0p/collapse/display', locals: {label: 'InfoEspecie', objeto: objeto} do %>
+	<div style="padding-left: <%=objeto.n_indent + 2%>em; line-height: 15px;">
+	<small><small>
+		<% if objeto.especie_sinonimo? %>
+			<i class="bi bi-dot"></i>
+			<i class="bi bi-question-diamond text-danger"></i>
+			Esta especie aparece en la sinonimia de otra especie
+			</br>
+		<% end %>
+	
+		<i class="bi bi-dot"></i>
+		<% if objeto.link_fuente.present? %>
+			Fuente: Ministerio del Medio Ambiente
+		<% else %>
+			Fuente: Coleccion publicaciones CVCh
+		<% end %>
+		</br>
+	
+		<i class="bi bi-dot"></i>
+		<% if objeto.n_pubs == 0 %>
+			Especie sin publicaciones asociadas
+		<% else %>
+			Especie con <%=objeto.n_pubs%> Publicacines asociadas
+		<% end %>
+		</br>
+
+		<% unless objeto.parent.present? %>
+			<i class="bi bi-dot"></i>
+			<i class="bi bi-bug text-info"></i>
+			<% if objeto.children.empty? %>
+				Especie sin subespecies.
+			<% else %>
+				Especie con <%=objeto.children.count%> sub especie(s).
+			<% end %>
+			</br>
+		<% end %>
+
+		<% unless objeto.sinonimia.blank? %>
+			<i class="bi bi-dot"></i>
+			<i class="bi bi-collection text-<%= objeto.filo_sinonimos.empty? ? 'danger' : 'info'%>"></i>
+			Especie con Sinonimia
+		<% end %>
+	</small></small>
+	</div>
+<% end %>

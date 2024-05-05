@@ -1,0 +1,24 @@
+<!-- USO VERIFICADO -->
+<div style="padding-left: <%=objeto.n_indent%>em; line-height: 18px;">
+	<small>
+		<div class="row">
+			<div class="col-10">ç
+
+				<%= render partial: 'taxonomia/filo_especies/partials/line/nombre_especie', locals: {objeto: objeto} %>
+
+			</div>
+			<div class="col-2" align="right">
+				
+				<% if admin? %>
+					<small>
+						<%= render partial: '0p/tabla/links_e', locals: {objeto: objeto} %>
+					</small>
+				<% end %>
+
+			</div>
+		</div>
+	
+	</small>
+</div>
+
+<%= render partial: 'taxonomia/filo_especies/partials/line/cllps_display_info', locals: {objeto: objeto} %>
