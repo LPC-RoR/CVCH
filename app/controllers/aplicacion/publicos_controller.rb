@@ -131,13 +131,7 @@ class Aplicacion::PublicosController < ApplicationController
         sustituto.filo_especies << @objeto
       end
 
-      if @objeto.filo_elemento.present?
-        @objeto.filo_elemento.padres_ids.reverse()
-      elsif @objeto.parent.filo_elemento.present?
-        @objeto.parent.filo_elemento.padres_ids.reverse()
-      else
-        []
-      end
+      @padres = @objeto.padres.reverse()
 
       @padre = @objeto.parent.present? ? @objeto.parent : @objeto.filo_elemento
 #      @abuelo = @objeto.parent.present? ? @padre.filo_elemento : @padre.parent

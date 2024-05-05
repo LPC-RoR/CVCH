@@ -1,11 +1,16 @@
 <!-- USO VERIFICADO -->
+<!-- Sirve para taxonomia y para especies -->
 <small><small>
 	<!-- Despliega Base, salvo que se encuentre en ella -->
 	<%= link_to ': Base', '/publicos/taxonomia' unless params[:indice].blank? %>
 	<% unless @padres.empty? %>
 		<% @padres.each do |padre| %>
 			<i class="bi bi-arrow-right"></i> 
-			<%= padre.filo_orden.filo_orden unless padre.filo_orden.blank? %> : <%= link_to padre.filo_elemento, "/publicos/taxonomia?indice=#{padre.id}" %>
+			<% if padre.class.name == 'FiloElemento' %>
+				<%= padre.filo_orden.filo_orden unless padre.filo_orden.blank? %> : <%= link_to padre.filo_elemento, "/publicos/taxonomia?indice=#{padre.id}" %>
+			<% else %>
+				<%= link_to padre.filo_especie, "/publicos/especies?indice=#{padre.id}" %>
+			<% end %>
 		<% end %>
 	<% end %>
 </small></small>

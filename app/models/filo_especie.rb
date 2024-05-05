@@ -63,6 +63,11 @@ class FiloEspecie < ApplicationRecord
 		self.filo_elemento.present? ? (self.filo_elemento.n_indent + 2) : (self.parent.present? ? (self.parent.n_indent + 4) : 2 )
 	end
 
+	def padres
+		padre = self.parent.present? ? self.parent : self.filo_elemento
+		padre.present? ? [padre].union(padre.padres) : []
+	end
+
 	# Obtiene el Genero de la Especie
 	def genero
 		self.parent.blank? ? self.filo_elemento : self.parent.filo_elemento
