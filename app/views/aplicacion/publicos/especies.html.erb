@@ -14,7 +14,7 @@
 		</div>
 
 		<div class="tax-box">
-			<%= render partial: 'taxonomia/filo_especies/partials/sinonimia', locals: {objeto: @objeto} %>
+			<%= render partial: 'taxonomia/filo_especies/partials/sinonimia/sinonimia', locals: {objeto: @objeto} %>
 		</div>
 
 		<div class="tax-box">
@@ -24,23 +24,16 @@
 	</div>
 	<div class="col-lg-4 col-xs-12">
 		<div class="tax-box">
-			<%= render partial: 'taxonomia/filo_especies/partials/distribucion', locals: {objeto: @objeto} %>
+			<%= render partial: 'taxonomia/filo_especies/partials/distribucion/distribucion', locals: {objeto: @objeto} %>
 		</div>
 		<div class="tax-box">
-			<%= render partial: 'taxonomia/filo_especies/partials/actualizaciones', locals: {objeto: @objeto} %>
-			<% unless @objeto.filo_actualizaciones.empty? %>
-				<%= render partial: '0p/tabla/tabla', locals: {c: 'filo_actualizaciones'} %>
-			<% end %>
+			<%= render partial: 'taxonomia/filo_especies/partials/actualizaciones/actualizaciones', locals: {objeto: objeto} %>
 		</div>
 
 	</div>
 	<div class="col-lg-2 col-xs-12">
 		<div class="tax-box">
-			<%= render partial: 'taxonomia/filo_especies/partials/titulo_imagenes', locals: {objeto: @objeto} %>
+			<%= render partial: 'taxonomia/filo_especies/partials/imgenes/imagenes', locals: {objeto: @objeto} %>
 		</div>
-		<% @coleccion['app_imagenes'].each do |imagen| %>
-			<%= render partial: 'repositorios/app_imagenes/list/objeto', locals: {objeto: imagen} %>
-		<% end %>
-		
 	</div>
 </div>

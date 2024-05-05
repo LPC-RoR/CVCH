@@ -85,7 +85,8 @@ class Taxonomia::FiloEspeciesController < ApplicationController
   end
 
   # POST
-  # agrega sinónimos filo_especie
+  # Verificado
+  # agrega sinónimos a filo_especie desde form_nuevo_sinonimo
   def agrega_sinonimo
     sinonimo = params[:nuevo_sinonimo][:filo_sinonimo]
     agrega_filo_sinonimo(@objeto, sinonimo, true)
@@ -324,6 +325,7 @@ class Taxonomia::FiloEspeciesController < ApplicationController
 
   private
 
+    # VERIFICADO
     def agrega_filo_sinonimo(filo_especie, sinonimo, manual)
       existentes = filo_especie.filo_sinonimos.map {|fs| fs.filo_sinonimo}
       # no crea sinonimos de si mismo o ya existentes
@@ -336,17 +338,27 @@ class Taxonomia::FiloEspeciesController < ApplicationController
         fsin.manual = manual
         fsin.save
 
+        # Si el sinónimo existe como filo_especie
         fe_sin = FiloEspecie.find_by(filo_especie: sinonimo)
         unless fe_sin.blank?
+          # si no es MMA y además no tiene hijos ni sinónimos, se libera especie y se borra fe_sin
           if fe_sin.link_fuente.blank? and fe_sin.children.empty? and fe_sin.filo_sinonimos.empty?
-            fe_sin.especies.each do |especie|
-              fe_sin.especies.delete(especie)
+            especie = fe_sin.especie
+            unless especie.blank?
+              especie.filo_especie_id = nil
+              especie.save
             end
             fe_sin.delete
+          # filo_especie con subespecies o filo_sinónimos o en estructura MMA
           else
+            # el padre de filo_especie de la especie es igual al padre
+            # marcamos filo_especie como filo_especie heredado
+            # filo especie que podría ser borrada
             if fe_sin.parent == filo_especie
               fe_sin.feh = true
               fe_sin.save
+            # el padre del padre es igual a filo_especie
+            # marcamos al padre como filo_especie heredado, posible de ser borrado
             elsif filo_especie.parent == fe_sin
               filo_especie.feh = true
               filo_especie.save
@@ -354,18 +366,19 @@ class Taxonomia::FiloEspeciesController < ApplicationController
           end
         end
 
+        # no verifica porque las colisiones son parte de la información
         filo_especie.filo_sinonimos << fsin
-
+        # marcamos el nuevo sinónimo como {agregado o sinónimo}
         fes=fsin.filo_esp_sinos.find_by(filo_especie_id: filo_especie.id)
         unless fes.blank?
           fes.tipo = (manual ? 'agregado' : 'sinónimo')
           fes.save
         end
 
+        # Buscamos la especie del sinónimo
         sin=Especie.find_by(especie: sinonimo)
         unless sin.blank?
           fsin.especie = sin unless fsin.especie.present?
-          filo_especie.especies.delete(sin) if filo_especie.especies.ids.include?(sin.id) and sin.id != fe.id
         end
 
       end

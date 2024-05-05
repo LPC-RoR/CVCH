@@ -1,0 +1,6 @@
+<div class="tax-box">
+	<%= render partial: 'taxonomia/filo_especies/partials/imagenes/titulo_imagenes', locals: {objeto: @objeto} %>
+</div>
+<% @coleccion['app_imagenes'].each do |imagen| %>
+	<%= render partial: 'repositorios/app_imagenes/list/objeto', locals: {objeto: imagen} %>
+<% end %>

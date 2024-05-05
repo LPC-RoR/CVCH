@@ -1,5 +1,5 @@
-<%= render partial: 'taxonomia/filo_especies/partials/titulo_sinonimia', locals: {objeto: objeto} %>
-<%= render partial: 'taxonomia/filo_especies/partials/cllps_sinonimia_display_all', locals: {objeto: objeto} %>
+<%= render partial: 'taxonomia/filo_especies/partials/sinonimia/titulo_sinonimia', locals: {objeto: objeto} %>
+<%= render partial: 'taxonomia/filo_especies/partials/sinonimia/cllps_sinonimia_display_all', locals: {objeto: objeto} %>
 
 <% unless @coleccion['equivalentes-filo_sinonimos'].empty? %>
 	<p class='text-info'><small>Equivalentes</small></p>
