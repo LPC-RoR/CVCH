@@ -1,13 +1,13 @@
-<% if @coleccion['base-filo_elementos'].count > cfg_taxonomia[:elem_base_max] %>
+<% if coleccion.count > cfg_taxonomia[:elem_base_max] %>
 	<%= render partial: 'taxonomia/filo_elementos/partials/line/no_hijos_msg', locals: {objeto: objeto} %>
 <% end %>
 <!-- SIEMPRE SE DESPLIEGAN TODOS LOS ELEMENTOS BASE -->
-<% @coleccion['base-filo_elementos'].each do |elemento| %>
+<% coleccion.each do |elemento| %>
 	<div class="elemento">
 		<%= render partial: 'taxonomia/filo_elementos/partials/line/line_elemento', locals: {objeto: elemento} %>
 
 		<!-- SI LOS ELEMENTOS BASE SUPERAN EL MAXIMO, NO SE DESPLIEGAN SUS HIJOS -->
-		<% unless @coleccion['base-filo_elementos'].count > cfg_taxonomia[:elem_base_max] %>
+		<% unless coleccion.count > cfg_taxonomia[:elem_base_max] %>
 			<small>
 			<div style='padding-left: 2em'>
 				<!-- DESPLIEGUE MÁXIMO DE SUB ELEMENTOS -->

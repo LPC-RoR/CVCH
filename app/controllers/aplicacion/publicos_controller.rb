@@ -37,7 +37,7 @@ class Aplicacion::PublicosController < ApplicationController
       base_ids = FiloElemento.all.map {|fe| fe.id unless fe.parent.present?}.compact
 
       # Carga tabla base-filo_elementos
-      set_tabla('base-filo_elementos', FiloElemento.where(id: base_ids).order(:filo_elemento), false)
+      set_tabla('filo_elementos', FiloElemento.where(id: base_ids).order(:filo_elemento), false)
 
       @padres = []
 
@@ -47,7 +47,7 @@ class Aplicacion::PublicosController < ApplicationController
 
       unless @objeto.blank?
         # Tabla de subelementos de @objeto
-        set_tabla('base-filo_elementos', @objeto.children.order(:filo_elemento), false)
+        set_tabla('filo_elementos', @objeto.children.order(:filo_elemento), false)
         # Tabla de especies de @objeto
         set_tabla('filo_especies', @objeto.filo_especies.order(:filo_especie), false)
 

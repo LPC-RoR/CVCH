@@ -5,8 +5,8 @@
 
 <div class="tax-box">
 
-	<%= render partial: 'taxonomia/filo_elementos/partials/subs/elementos', locals: {objeto: @objeto} %>
+	<%= render partial: 'taxonomia/filo_elementos/partials/subs/elementos', locals: {objeto: @objeto, coleccion: @coleccion['filo_elementos']} %>
 
-	<%= render partial: 'taxonomia/filo_elementos/partials/subs/especies', locals: {objeto: @objeto} %>
+	<%= render partial: 'taxonomia/filo_elementos/partials/subs/especies', locals: {objeto: @objeto, coleccion: @coleccion['filo_especies']} %>
 
 </div>
