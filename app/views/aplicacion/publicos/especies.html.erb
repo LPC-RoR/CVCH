@@ -10,6 +10,10 @@
 <div class="row">
 	<div class="col-lg-6 col-xs-12">
 		<div class="tax-box">
+			<%= render partial: 'taxonomia/filo_especies/partials/imagenes/imagenes', locals: {objeto: @objeto} %>
+		</div>
+
+		<div class="tax-box">
 			<%= render partial: 'taxonomia/filo_especies/partials/subespecies', locals: {objeto: @objeto} %>
 		</div>
 
@@ -17,21 +21,19 @@
 			<%= render partial: 'taxonomia/filo_especies/partials/sinonimia/sinonimia', locals: {objeto: @objeto} %>
 		</div>
 
+	</div>
+	<div class="col-lg-6">
+		<!-- Sacado por deterioro de la infoormación -->
+		<!--div class="tax-box"-->
+			<%#= render partial: 'taxonomia/filo_especies/partials/distribucion/distribucion', locals: {objeto: @objeto} %>
+		<!--/div-->
 		<div class="tax-box">
 			<%= render partial: 'taxonomia/filo_especies/partials/interacciones', locals: {objeto: @objeto} %>
 		</div>
 
-	</div>
-	<div class="col-lg-4 col-xs-12">
-		<div class="tax-box">
-			<%= render partial: 'taxonomia/filo_especies/partials/distribucion/distribucion', locals: {objeto: @objeto} %>
-		</div>
 		<div class="tax-box">
 			<%= render partial: 'taxonomia/filo_especies/partials/actualizaciones/actualizaciones', locals: {objeto: @objeto} %>
 		</div>
 
-	</div>
-	<div class="col-lg-2 col-xs-12">
-		<%= render partial: 'taxonomia/filo_especies/partials/imagenes/imagenes', locals: {objeto: @objeto} %>
 	</div>
 </div>
