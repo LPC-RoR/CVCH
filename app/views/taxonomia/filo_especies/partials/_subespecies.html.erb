@@ -4,6 +4,6 @@
 </small></br>
 <% @coleccion['filo_especies'].each do |especie| %>
 	<div class="especie">
-		<%= render partial: 'taxonomia/filo_especies/partials/line_especie', locals: {objeto: especie} %>
+		<%= render partial: 'taxonomia/filo_especies/partials/line/line_especie', locals: {objeto: especie} %>
 	</div>
 <% end %>
