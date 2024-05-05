@@ -35,10 +35,12 @@
 	<% end %>
 
 	<% if objeto.especie.present? %>
+		<small>	
 		<%= render layout: '0p/layout/tooltip_link', locals: {link: objeto.especie, tooltip: 'Publicaciones especie'} do %>
-			<%= render partial: '0p/general/gly', locals: {gly: 'tag'} %> 
+			<%= render partial: '0p/general/gly', locals: {gly: 'tag'} %>
 			<%= "(#{objeto.especie.publicaciones.count})" %>
 		<% end %>
+		</small>
 	<% end %>
 
 </h5>
