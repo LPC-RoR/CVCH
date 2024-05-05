@@ -14,10 +14,10 @@
 				<%= link_to especie.especie, title: 'etiqueta', 'data-toggle' => 'tooltip', 'data-placement' => 'right' do %>
 					<i class="bi bi-tag"></i>
 				<% end %>
+				<% unless especie.especie.publicaciones.count == 0 %>
+					<%= especie.especie.publicaciones.count %>
+				<% end %>
 			<% end %> | 
-			<% unless especie.especie.publicaciones.count == 0 %>
-				<%= especie.especie.publicaciones.count %>
-			<% end %>
 			</br>
 
 			<% if especie.especie.present? %>
