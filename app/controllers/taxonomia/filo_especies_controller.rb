@@ -229,41 +229,45 @@ class Taxonomia::FiloEspeciesController < ApplicationController
   end
 
   def subir
-    if @objeto.valid?
-      # @objeto.parent SIEMPRE EXISTE
-      padre = @objeto.parent.present? ? @objeto.parent : @objeto.filo_elemento
-      abuelo = @objeto.parent.present? ? padre.filo_elemento : padre.parent
-      if padre.class.name == 'FiloElemento'
-        padre.filo_especies.delete(@objeto)
-      else
-        padre.children.delete(@objeto)
-      end
+    if dog?
+      if @objeto.valid?
+        # @objeto.parent SIEMPRE EXISTE
+        padre = @objeto.parent.present? ? @objeto.parent : @objeto.filo_elemento
+        abuelo = @objeto.parent.present? ? padre.filo_elemento : padre.parent
+        if padre.class.name == 'FiloElemento'
+          padre.filo_especies.delete(@objeto)
+        else
+          padre.children.delete(@objeto)
+        end
 
-      abuelo.filo_especies << @objeto unless abuelo.blank?
-      noticia = 'especie se movió exitósamente'
-    else
-      noticia = 'registro incompleto: nose puede mover'
+        abuelo.filo_especies << @objeto unless abuelo.blank?
+        noticia = 'especie se movió exitósamente'
+      else
+        noticia = 'registro incompleto: nose puede mover'
+      end
     end
 
     redirect_to "/publicos/especies?indice=#{@objeto.id}", notice: noticia
   end
 
   def bajar
-    if @objeto.valid?
-      padre = @objeto.parent.present? ? @objeto.parent : @objeto.filo_elemento
-      nuevo_padre = params[:class].constantize.find(params[:indice])
+    if dog?
+      if @objeto.valid?
+        padre = @objeto.parent.present? ? @objeto.parent : @objeto.filo_elemento
+        nuevo_padre = params[:class].constantize.find(params[:indice])
 
-      if padre.class.name == 'FiloElemento'
-        padre.filo_especies.delete(@objeto)
-        if nuevo_padre.class.name == 'FiloElemento'
-          nuevo_padre.filo_especies << @objeto
-        else
-          nuevo_padre.children << @objeto
+        if padre.class.name == 'FiloElemento'
+          padre.filo_especies.delete(@objeto)
+          if nuevo_padre.class.name == 'FiloElemento'
+            nuevo_padre.filo_especies << @objeto
+          else
+            nuevo_padre.children << @objeto
+          end
         end
+        noticia = 'especie se movió exitósamente'
+      else
+        noticia = 'registro incompleto: nose puede mover'
       end
-      noticia = 'especie se movió exitósamente'
-    else
-      noticia = 'registro incompleto: nose puede mover'
     end
 
     redirect_to "/publicos/especies?indice=#{@objeto.id}", notice: noticia
