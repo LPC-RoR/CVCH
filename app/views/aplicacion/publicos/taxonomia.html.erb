@@ -9,7 +9,7 @@
 		<div class="col-lg-6 col-xs-12">
 
 			<% if @coleccion['base-filo_elementos'].count > cfg_taxonomia[:elem_base_max] %>
-				<%= render partial: 'taxonomia/filo_elementos/partials/line/no_hijos_msg' %>
+				<%= render partial: 'taxonomia/filo_elementos/partials/line/no_hijos_msg', locals: {objeto: @objeto} %>
 			<% end %>
 			<!-- SIEMPRE SE DESPLIEGAN TODOS LOS ELEMENTOS BASE -->
 			<% @coleccion['base-filo_elementos'].each do |elemento| %>
@@ -47,7 +47,7 @@
 			<!-- NO SE DESPLIEGAN ESPECIES EN BASE -->
 			<% unless @objeto.blank? %>
 				<% if @coleccion['filo_especies'].count > cfg_taxonomia[:esp_base_max] %>
-					<%= render partial: 'taxonomia/filo_especies/partials/line/no_hijos_msg' %>
+					<%= render partial: 'taxonomia/filo_especies/partials/line/no_hijos_msg', locals: {objeto: @objeto} %>
 				<% end %>
 				<!-- SIEMPRE SE DESPLIEGAN TODAS LAS ESPECIES DEL ELEMENTO -->
 				<% @coleccion['filo_especies'].each do |especie| %>
