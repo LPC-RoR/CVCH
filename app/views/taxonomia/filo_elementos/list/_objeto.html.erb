@@ -10,20 +10,20 @@
 	<% objeto.filo_especies.each do |especie| %>
 		<div class="especies" style="padding-left: 1em">
 			<i class="bi bi-bug"></i> <%= especie.filo_especie %> 
-			<% if especie.especies.any? %>
-				<%= link_to especie.especies.first, title: 'etiqueta', 'data-toggle' => 'tooltip', 'data-placement' => 'right' do %>
+			<% if especie.especie.present? %>
+				<%= link_to especie.especie, title: 'etiqueta', 'data-toggle' => 'tooltip', 'data-placement' => 'right' do %>
 					<i class="bi bi-tag"></i>
 				<% end %>
 			<% end %> | 
-			<% unless especie.especies.count == 0 %>
-				<%= especie.especies.first.publicaciones.count %>
+			<% unless especie.especie.publicaciones.count == 0 %>
+				<%= especie.especie.publicaciones.count %>
 			<% end %>
 			</br>
 
-			<% if especie.especies.any? %>
-				<% if especie.especies.first.filo_sinonimo.present? %>
+			<% if especie.especie.present? %>
+				<% if especie.especie.filo_sinonimo.present? %>
 					<div class="especie_base" style="padding-left: 2em">
-						<% especie.especies.first.filo_sinonimo.filo_especies.each do |fe_base| %>
+						<% especie.especie.filo_sinonimo.filo_especies.each do |fe_base| %>
 							<b><i class="bi bi-arrow-right"></i> <%= link_to fe_base.filo_especie, "/publicos/especies?indice=#{fe_base.id}" %></b></br>
 						<% end %>
 					</div>
