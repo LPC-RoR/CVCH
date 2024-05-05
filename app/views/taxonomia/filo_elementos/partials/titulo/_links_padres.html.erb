@@ -9,6 +9,7 @@
 			<% if padre.class.name == 'FiloElemento' %>
 				<%= padre.filo_orden.filo_orden unless padre.filo_orden.blank? %> : <%= link_to padre.filo_elemento, "/publicos/taxonomia?indice=#{padre.id}" %>
 			<% else %>
+				<i class="bi bi-bug"></i> 
 				<%= link_to padre.filo_especie, "/publicos/especies?indice=#{padre.id}" %>
 			<% end %>
 		<% end %>
