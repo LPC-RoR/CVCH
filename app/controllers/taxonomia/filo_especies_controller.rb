@@ -274,38 +274,48 @@ class Taxonomia::FiloEspeciesController < ApplicationController
   end
 
   def mas_tipo_especie
-    tipo_especie = FiloTipoEspecie.find(params[:indice])
-    @objeto.filo_tipo_especies << tipo_especie unless tipo_especie.blank?
+    if admin?
+      tipo_especie = FiloTipoEspecie.find(params[:indice])
+      @objeto.filo_tipo_especies << tipo_especie unless tipo_especie.blank?
+    end
 
     redirect_to "/publicos/especies?indice=#{@objeto.id}"
   end
 
   def menos_tipo_especie
-    tipo_especie = FiloTipoEspecie.find(params[:indice])
-    @objeto.filo_tipo_especies.delete(tipo_especie) unless tipo_especie.blank?
+    if admin?
+      tipo_especie = FiloTipoEspecie.find(params[:indice])
+      @objeto.filo_tipo_especies.delete(tipo_especie) unless tipo_especie.blank?
+    end
 
     redirect_to "/publicos/especies?indice=#{@objeto.id}"
   end
 
   def mas_categoria_conservacion
-    categoria = FiloCategoriaConservacion.find(params[:indice])
-    @objeto.filo_categoria_conservaciones << categoria unless categoria.blank?
+    if admin?
+      categoria = FiloCategoriaConservacion.find(params[:indice])
+      @objeto.filo_categoria_conservaciones << categoria unless categoria.blank?
+    end
 
     redirect_to "/publicos/especies?indice=#{@objeto.id}"
   end
 
   def menos_categoria_conservacion
-    categoria = FiloCategoriaConservacion.find(params[:indice])
-    @objeto.filo_categoria_conservaciones.delete(categoria) unless categoria.blank?
+    if admin?
+      categoria = FiloCategoriaConservacion.find(params[:indice])
+      @objeto.filo_categoria_conservaciones.delete(categoria) unless categoria.blank?
+    end
 
     redirect_to "/publicos/especies?indice=#{@objeto.id}"
   end
 
   def asigna_regiones
-    ids_asignadas = @objeto.regiones.ids
-    Region.all.order(:orden).each do |region|
-      unless ( params[:key] == 'norte' and region.orden > 6 ) or ( params[:key] == 'sur' and region.orden < 8 )
-        @objeto.regiones << region unless ids_asignadas.include?(region.id)
+    if admin?
+      ids_asignadas = @objeto.regiones.ids
+      Region.all.order(:orden).each do |region|
+        unless ( params[:key] == 'norte' and region.orden > 6 ) or ( params[:key] == 'sur' and region.orden < 8 )
+          @objeto.regiones << region unless ids_asignadas.include?(region.id)
+        end
       end
     end
 
