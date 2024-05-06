@@ -1,14 +1,14 @@
 <% if admin? %>
 	<%= render layout: '0p/collapse/display', locals: {label: 'SelArea', objeto: nil} do %>
+			<div class="cllps-inner-box">
 		<small class="text-info"><b>Seleccionar Área</small></b></br>
 		<div class="collapse-display-list">
-			<div class="cllps-inner-box">
 				<% disponibles.each do |area_objeto| %>
 					<div style="padding-left: 2em;">
 						<small><%= link_to area_objeto.area, "/areas/#{area_objeto.id}/asigna?class_name=Publicacion&objeto_id=#{objeto.id}" %></small>
 					</div>
 				<% end %>
-			</div>
 		</div>
+			</div>
 	<% end %>
 <% end %>
