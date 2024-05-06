@@ -19,7 +19,7 @@ class FiloInteraccion < ApplicationRecord
 	end
 
 	def nombre_especie(orden)
-		rol(orden).filo_especie.filo_especie
+		rol(orden).blank? ? '-' : rol(orden).filo_especie.filo_especie
 	end
 
 	# Revisar uso de los siguientes métodos para llevarlos al uso de los anteriores
