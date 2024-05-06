@@ -28,7 +28,7 @@
 			<%#= render partial: 'taxonomia/filo_especies/partials/distribucion/distribucion', locals: {objeto: @objeto} %>
 		<!--/div-->
 		<div class="tax-box">
-			<%= render partial: 'taxonomia/filo_especies/partials/interacciones', locals: {objeto: @objeto} %>
+			<%= render partial: 'taxonomia/filo_especies/partials/interacciones', locals: {objeto: @objeto, coleccion: @coleccion['filo_interacciones']} %>
 		</div>
 
 		<div class="tax-box">

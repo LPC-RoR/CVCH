@@ -1,0 +1,28 @@
+<div style="padding-left: 1em;">
+	<small>
+	<%= objeto.id %>
+	<b><%=objeto.rol(1).filo_rol %></b> : 
+	<%= objeto.nombre_especie(1) %>
+	<i class="bi bi-arrow-right"></i>
+	<b><%=objeto.rol(2).filo_rol %></b> : 
+	<%= objeto.nombre_especie(2) %>
+	
+	<%#= render layout: '0p/layout/tooltip_link', locals: {link: "/publicos/especies?indice=#{objeto.filo_interaccion.filo_roles.where.not(filo_rol: objeto.filo_rol).first.filo_especie.id}", tooltip: 'Ver Especie'} do %>
+		<%#= objeto.otro_rol.filo_especie.filo_especie %>
+	<%# end %>
+
+	<%= render layout: '0p/collapse/link', locals: {label: 'Origen', objeto: objeto, tooltip: 'Referencia'} do %>
+		<i class="bi bi-blockquote-left"></i>
+	<% end %>
+	<%= render layout: '0p/layout/tooltip_link', locals: {link: "/publicos/publicacion/pid=#{objeto.filo_interaccion.publicacion.id}", tooltip: 'Ver publicación'} do %>
+		<%= render partial: '0p/general/gly', locals: {gly: 'file'} %>
+	<% end %>
+	</small>
+</div>
+<%= render layout: '0p/collapse/display', locals: {label: 'Origen', objeto: objeto} do %>
+	<div style="padding-left: 3em;">
+		<small><small class="text-muted">
+			<%= objeto.filo_interaccion.publicacion.d_quote %>
+		</small></small>
+	</div>
+<% end %>

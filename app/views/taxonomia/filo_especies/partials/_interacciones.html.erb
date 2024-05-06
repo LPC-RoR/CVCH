@@ -3,6 +3,10 @@
 	<%= render partial: '0p/general/gly', locals: {gly: 'flower1'} %>
 	Interacciones
 </small></br>
-<% objeto.filo_roles.order(:filo_rol).each do |filo_rol| %>
-	<%= render partial: 'taxonomia/filo_roles/list/lobjeto', locals: {objeto: filo_rol} %>
+<% coleccion.each do |interaccion| %>
+	<%= render partial: 'taxonomia/filo_interacciones/list/lobjeto', locals: {objeto: interaccion} %>
 <% end %>
+
+<%# objeto.filo_roles.order(:filo_rol).each do |filo_rol| %>
+	<%#= render partial: 'taxonomia/filo_roles/list/lobjeto', locals: {objeto: filo_rol} %>
+<%# end %>

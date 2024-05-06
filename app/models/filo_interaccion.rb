@@ -6,6 +6,24 @@ class FiloInteraccion < ApplicationRecord
 
 	has_many :filo_roles
 
+	def def_rol(orden)
+		self.filo_def_interaccion.filo_def_rol_interacciones.find_by(orden: orden)
+	end
+
+	def nombre_def_rol(orden)
+		def_rol(orden).blank? ? '-' : def_rol(orden).filo_def_rol
+	end
+
+	def rol(orden)
+		self.filo_roles.find_by(filo_rol: nombre_def_rol(orden))
+	end
+
+	def nombre_especie(orden)
+		rol(orden).filo_especie.filo_especie
+	end
+
+	# Revisar uso de los siguientes métodos para llevarlos al uso de los anteriores
+
 	def primer_def_rol
 		self.filo_def_interaccion.filo_def_rol_interacciones.find_by(orden: 1).filo_def_rol
 	end
