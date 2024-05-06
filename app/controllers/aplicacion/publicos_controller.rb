@@ -105,7 +105,17 @@ class Aplicacion::PublicosController < ApplicationController
         set_tabla('agregados-filo_sinonimos', @objeto.fs_agregados, false)
 
         filo_interacciones_ids = @objeto.filo_roles.map {|fr| fr.filo_interaccion_id}.uniq
-        set_tabla('filo_interacciones', FiloInteraccion.where(id: filo_interacciones_ids).order(:created_at), false)
+        filo_interacciones = FiloInteraccion.where(id: filo_interacciones_ids).order(:created_at)
+        especies_ids = @objeto.filo_roles.map {|fr| fr.filo_especie_id unless fr.filo_especie_id == @objeto.id}.uniq
+        especies = FiloEspecie.where(id: especies_ids).order(:filo_especie)
+        set_tabla('filo_especies', especies, false)
+        set_tabla('filo_interacciones', filo_interacciones, false)
+        publicaciones_ids = filo_interacciones.map {|fi| fi.publicacion_id}.uniq
+        publicaciones = Publicacion.where(id: publicaciones_ids).order(:year)
+        set_tabla('publicaciones', publicaciones, false)
+        filo_def_interacciones_ids = filo_interacciones.map {|fi| fi.filo_def_interaccion_id}.uniq
+        filo_def_interacciones = FiloDefInteraccion.where(id: filo_def_interacciones_ids).order(:filo_def_interaccion)
+        set_tabla('filo_def_interacciones', filo_def_interacciones, false)
 
         set_tabla('filo_actualizaciones', @objeto.filo_actualizaciones.order(updated_at: :desc), false)
 
