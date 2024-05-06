@@ -1,21 +1,21 @@
 <% if admin? %>
-	<div class="cllps-inner-box">
-		<%= render layout: '0p/collapse/display', locals: {label: 'EtiquetaEspecie', objeto: nil} do %>
-				<small>
-					<div class='text-muted'><small>Etiquetar especie</small></div>
-					<%= form_for :especie_base, url: "/especies/asigna?class_name=Publicacion&objeto_id=#{objeto.id}" do |form| %>
-						<div class="row no-gutters">
-							<div class="col-9">
-								<%= form.text_field(:especie, class: 'form-control' ) %>
-							</div>
-							<div class="col-2">
-								<button type="submit" class="btn btn-info">
-								  <i class="bi bi-caret-right-square icon-white"></i>
-								</button>
-							</div>
-						</div>
-					<% end  %>
-				</small>
-		<% end %>
-	</div>
+	<%= render layout: '0p/collapse/display', locals: {label: 'EtiquetaEspecie', objeto: nil} do %>
+		<div class="cllps-inner-box">
+			<small>
+			<div class='text-muted'><small>Etiquetar especie</small></div>
+			<%= form_for :especie_base, url: "/especies/asigna?class_name=Publicacion&objeto_id=#{objeto.id}" do |form| %>
+				<div class="row no-gutters">
+					<div class="col-9">
+						<%= form.text_field(:especie, class: 'form-control' ) %>
+					</div>
+					<div class="col-2">
+						<button type="submit" class="btn btn-info">
+						  <i class="bi bi-caret-right-square icon-white"></i>
+						</button>
+					</div>
+				</div>
+			<% end  %>
+			</small>
+		</div>
+	<% end %>
 <% end %>

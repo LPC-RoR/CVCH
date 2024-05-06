@@ -1,5 +1,5 @@
-<div class="cllps-inner-box">
-	<%= render layout: '0p/collapse/display', locals: {label: "Nueva#{tipo}", objeto: nil} do %>
+<%= render layout: '0p/collapse/display', locals: {label: "Nueva#{tipo}", objeto: nil} do %>
+	<div class="cllps-inner-box">
 		<small class="text-info">Nueva <%= tipo %></small>
 		<%= render partial: "publicaciones/carpetas/#{tipo == 'Carpeta' ? 'form_carpetas' : 'form_compartidas'}", locals: {objeto: objeto} %>
 
@@ -17,5 +17,5 @@
 			</div>
 			</small>
 		<% end %>
-	<% end %>
-</div>
+	</div>
+<% end %>

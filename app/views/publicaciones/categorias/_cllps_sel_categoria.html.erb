@@ -1,6 +1,6 @@
 <% if admin? %>
-	<div class="cllps-inner-box">
-		<%= render layout: '0p/collapse/display', locals: {label: 'SelCategoria', objeto: nil} do %>
+	<%= render layout: '0p/collapse/display', locals: {label: 'SelCategoria', objeto: nil} do %>
+		<div class="cllps-inner-box">
 			<small class="text-info"><b>Seleccionar Categoría</small></b></br>
 			<div class="collapse-display-list">
 				<% disponibles.each do |categoria_objeto| %>
@@ -9,6 +9,6 @@
 					</div>
 				<% end %>
 			</div>
-		<% end %>
-	</div>
+		</div>
+	<% end %>
 <% end %>
