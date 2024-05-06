@@ -19,6 +19,9 @@
 </div>
 <%= render layout: '0p/collapse/display', locals: {label: 'Origen', objeto: objeto} do %>
 	<div style="padding-left: 3em;">
-		<small><small class="text-muted"><%= objeto.filo_interaccion.publicacion.d_quote %></small></small>
+		<small><small class="text-muted">
+			<%= objeto.filo_interaccion.publicacion.d_quote %>
+			<%= render layout: '0p/layout/tooltip_link', locals: {link: "/publicos/publicacion?pid=#{objeto.filo_interaccion.publicacion.id}"}
+		</small></small>
 	</div>
 <% end %>
