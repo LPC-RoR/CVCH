@@ -7,7 +7,7 @@ class FiloInteraccion < ApplicationRecord
 	has_many :filo_roles
 
 	def def_rol(orden)
-		self.filo_def_interaccion.filo_def_rol_ineteracciones.find_by(orden: orden).filo_def_rol
+		self.filo_def_interaccion.filo_def_rol_interacciones.find_by(orden: orden).filo_def_rol
 	end
 
 	def nombre_def_rol(orden)
