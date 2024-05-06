@@ -11,15 +11,15 @@ class FiloInteraccion < ApplicationRecord
 	end
 
 	def nombre_def_rol(orden)
-		def_rol(orden).blank? ? '-' : def_rol(orden).filo_def_rol
+		self.def_rol(orden).blank? ? '-' : self.def_rol(orden).filo_def_rol
 	end
 
 	def rol(orden)
-		self.filo_roles.find_by(filo_rol: nombre_def_rol(orden))
+		self.filo_roles.find_by(filo_rol: self.nombre_def_rol(orden))
 	end
 
 	def nombre_especie(orden)
-		rol(orden).blank? ? '-' : rol(orden).filo_especie.filo_especie
+		self.rol(orden).blank? ? '-' : self.rol(orden).filo_especie.filo_especie
 	end
 
 	# Revisar uso de los siguientes métodos para llevarlos al uso de los anteriores
