@@ -29,36 +29,7 @@ class PublicacionesController < ApplicationController
   # GET /publicaciones/1.json
   def show
 
-    areas_disponibles_ids = Area.all.map {|area| area.id unless @objeto.areas.ids.include?(area.id)}.compact
-    @areas_disponibles = Area.where(id: areas_disponibles_ids).order(:area)
-
-    categorias_disponibles_ids = Categoria.all.map {|categoria| categoria.id unless @objeto.categorias.ids.include?(categoria.id)}.compact
-    @categorias_disponibles = Categoria.where(id: categorias_disponibles_ids)
-
-    unless perfil_activo.blank?
-      @carpetas_sel = perfil_activo.carpetas.order(:carpeta)
-      @carpetas = @objeto.carpetas.where(id: @carpetas_sel.ids).order(:carpeta)
-      @carpetas_ids = @carpetas.ids
-      @compartidas_sel = perfil_activo.compartidas.order(:carpeta)
-      @compartidas = @objeto.carpetas.where(id: @compartidas_sel)
-      @compartidas_ids = @compartidas.ids
-    end
-
-    @etiquetas = @objeto.especies.order(:especie)
-    @sets = @objeto.eco_sets.order(created_at: :desc)
-    @interacciones = @objeto.filo_interacciones.order(:created_at)
-
-    # ********************** DUPLICADOS *****************************
-    duplicados_doi_ids = @objeto.doi.present? ? (Publicacion.where(doi: @objeto.doi).ids - [@objeto.id]) : []
-    duplicados_t_sha1_ids = @objeto.title.present? ? (Publicacion.where(t_sha1: @objeto.t_sha1).ids - [@objeto.id]) : []
-
-    @duplicados_doi = Publicacion.where(id: duplicados_doi_ids)
-    @duplicados_t_sha1 = Publicacion.where(id: duplicados_t_sha1_ids)
-    # ********************** DUPLICADOS *****************************
-
-    @coleccion = {}
-    @coleccion['app_observaciones'] = @objeto.observaciones.order(created_at: :desc)
-    @coleccion['app_mejoras'] = @objeto.mejoras.order(created_at: :desc)
+    # Reemplazado por /publicos/publicacion?pid=####
 
   end
 
