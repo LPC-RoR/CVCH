@@ -1,6 +1,6 @@
 <div style="padding-left: 1em;">
 	<small>
-	<%= objeto.id %>
+	<%= objeto.id %> <%= objeto.def_rol.blank? %>
 	<b><%=objeto.rol(1).blank? ? '-' : objeto.rol(1).filo_rol %></b> : 
 	<%= objeto.nombre_especie(1) %>
 	<i class="bi bi-arrow-right"></i>
@@ -14,7 +14,7 @@
 	<%= render layout: '0p/collapse/link', locals: {label: 'Origen', objeto: objeto, tooltip: 'Referencia'} do %>
 		<i class="bi bi-blockquote-left"></i>
 	<% end %>
-	<%= render layout: '0p/layout/tooltip_link', locals: {link: "/publicos/publicacion/pid=#{objeto.publicacion.id}", tooltip: 'Ver publicación'} do %>
+	<%= render layout: '0p/layout/tooltip_link', locals: {link: "/publicos/publicacion?pid=#{objeto.publicacion.id}", tooltip: 'Ver publicación'} do %>
 		<%= render partial: '0p/general/gly', locals: {gly: 'file'} %>
 	<% end %>
 	</small>
