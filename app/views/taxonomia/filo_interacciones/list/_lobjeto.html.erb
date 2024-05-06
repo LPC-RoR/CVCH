@@ -1,6 +1,6 @@
 <div style="padding-left: 1em;">
 	<small>
-	<%= objeto.id %> <%= objeto.def_rol(1).blank? %>
+	<%= objeto.id %> <%= objeto.nombre_def_rol(1) %> <%= objeto.rol(1).blank? %>
 	<b><%=objeto.rol(1).blank? ? '-' : objeto.rol(1).filo_rol %></b> : 
 	<%= objeto.nombre_especie(1) %>
 	<i class="bi bi-arrow-right"></i>
