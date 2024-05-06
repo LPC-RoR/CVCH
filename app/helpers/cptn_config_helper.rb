@@ -40,7 +40,7 @@ module CptnConfigHelper
 		{
 			app_nombre: 'Repositorio de citas bibliográficas de vertebrados de Chile',
 			app_sigla: 'CVCh',
-			app_home: 'www.cvch.cl',
+			app_home: 'http://www.cvch.cl/',
 			lyt_o_menu: usuario_signed_in?,
 			lyt_o_bann: true,
 			lyt_navbar: true,
