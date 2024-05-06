@@ -161,11 +161,15 @@ class Aplicacion::PublicosController < ApplicationController
       @sel_categorias = Categoria.where(id: categorias_disponibles_ids)
 
       unless perfil_activo.blank?
-        @sel_carpetas = perfil_activo.carpetas.order(:carpeta)
-        @carpetas = @objeto.carpetas.where(id: @carpetas_sel.ids).order(:carpeta)
+        # Carpetas del perfil
+        @carpetas_perfil = perfil_activo.carpetas.order(:carpeta)
+        # Carpetas del objeto que son del perfil de usuario
+        @carpetas = @objeto.carpetas.where(id: @carpetas_perfil.ids).order(:carpeta)
         @carpetas_ids = @carpetas.ids
-        @sel_compartidas = perfil_activo.compartidas.order(:carpeta)
-        @compartidas = @objeto.carpetas.where(id: @compartidas_sel)
+        # Carpetas compartidas del perfil
+        @compartidas_perfil = perfil_activo.compartidas.order(:carpeta)
+        # Carpetas del objeto que son de las compartidas del perfil
+        @compartidas = @objeto.carpetas.where(id: @compartidas_perfil.ids)
         @compartidas_ids = @compartidas.ids
       end
 

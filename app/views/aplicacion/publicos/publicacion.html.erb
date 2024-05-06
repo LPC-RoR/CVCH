@@ -7,8 +7,8 @@
 
 		<% if @objeto.estado == 'publicada' %>
 			<% if usuario_signed_in? %>
-				<%= render partial: 'publicaciones/carpetas/carpetas', locals: {objeto: @objeto, tipo: 'Carpeta', list: @carpetas, sel_list: @sel_carpetas, ids: @carpetas_ids} %>
-				<%= render partial: 'publicaciones/carpetas/carpetas', locals: {objeto: @objeto, tipo: 'Compartida', list: @compartidas, sel_list: @sel_compartidas, ids: @compartidas_ids} %>
+				<%= render partial: 'publicaciones/carpetas/carpetas', locals: {objeto: @objeto, tipo: 'Carpeta', list: @carpetas, sel_list: @carpetas_perfil, ids: @carpetas_ids} %>
+				<%= render partial: 'publicaciones/carpetas/carpetas', locals: {objeto: @objeto, tipo: 'Compartida', list: @compartidas, sel_list: @compartidas_perfil, ids: @compartidas_ids} %>
 
 			<% end %>
 
