@@ -67,7 +67,7 @@ class AreasController < ApplicationController
 
     case elemento.class.name
     when 'Publicacion'
-      redirect_to "/publicos/publicacion/pid=#{elemento.id}"
+      redirect_to "/publicos/publicacion?pid=#{elemento.id}"
     when 'Especie'
       redirect_to elemento
     end
@@ -92,7 +92,7 @@ class AreasController < ApplicationController
     case elemento.class.name
     when 'Publicacion'
       @objeto.papers.delete(elemento)
-      redirect_to "/publicos/publicacion/pid=#{elemento.id}"
+      redirect_to "/publicos/publicacion?pid=#{elemento.id}"
     when 'Especie'
       elemento.areas.delete(@objeto)
       redirect_to elemento

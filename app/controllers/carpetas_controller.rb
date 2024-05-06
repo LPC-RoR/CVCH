@@ -93,7 +93,7 @@ class CarpetasController < ApplicationController
     elemento.carpetas << @objeto
 
     if params[:class_name] == 'Publicacion'
-      redirect_to "/publicos/publicacion/pid=#{elemento.id}"
+      redirect_to "/publicos/publicacion?pid=#{elemento.id}"
     elsif
       redirect_to elemento
     end
@@ -115,7 +115,7 @@ class CarpetasController < ApplicationController
     @objeto.send(params[:class_name].tableize).delete(elemento)
 
     if params[:class_name] == 'Publicacion'
-      redirect_to "/publicos/publicacion/pid=#{elemento.id}"
+      redirect_to "/publicos/publicacion?pid=#{elemento.id}"
     elsif
       redirect_to elemento
     end
