@@ -3,7 +3,7 @@
 	<%= render partial: '0p/general/gly', locals: {gly: 'flower1'} %>
 	Interacciones
 </small></br>
-<%= @coleccion['filo.especies'].each do |filo_especie| %>
+<%= @coleccion['filo_especies'].each do |filo_especie| %>
 	<%= filo_especie.filo_especie %>
 <% end %>
 <% coleccion.each do |interaccion| %>
