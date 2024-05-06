@@ -4,6 +4,7 @@ module Seguridad
 	# CONFIG
 
 	def public_controllers
+		# No incluimos 'publicaciones por seguridad', para no permitir modificar.
 		['publicos', 'vistas', 'contribuciones']
 	end
 

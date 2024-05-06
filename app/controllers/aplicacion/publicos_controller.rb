@@ -146,6 +146,46 @@ class Aplicacion::PublicosController < ApplicationController
     end
   end
 
+  # Copia de publicaciones#show
+  # GET /publicos/publicacion?pid=publicacion.id"
+  # GET /publicaciones/1
+  # GET /publicaciones/1.json
+  def publicacion
+    @objeto = Publicacion.find(params[:pid])
+    unless @objeto.blank?
+      # Seleccionador de Àreas, Categorías, Carpetas y Compartidas
+      areas_disponibles_ids = Area.all.map {|area| area.id unless @objeto.areas.ids.include?(area.id)}.compact
+      @sel_areas = Area.where(id: areas_disponibles_ids).order(:area)
+
+      categorias_disponibles_ids = Categoria.all.map {|categoria| categoria.id unless @objeto.categorias.ids.include?(categoria.id)}.compact
+      @sel_categorias = Categoria.where(id: categorias_disponibles_ids)
+
+      unless perfil_activo.blank?
+        @sel_carpetas = perfil_activo.carpetas.order(:carpeta)
+        @carpetas = @objeto.carpetas.where(id: @carpetas_sel.ids).order(:carpeta)
+        @carpetas_ids = @carpetas.ids
+        @sel_compartidas = perfil_activo.compartidas.order(:carpeta)
+        @compartidas = @objeto.carpetas.where(id: @compartidas_sel)
+        @compartidas_ids = @compartidas.ids
+      end
+
+      @etiquetas = @objeto.especies.order(:especie)
+      @sets = @objeto.eco_sets.order(created_at: :desc)
+      @interacciones = @objeto.filo_interacciones.order(:created_at)
+
+      # ********************** DUPLICADOS *****************************
+      duplicados_doi_ids = @objeto.doi.present? ? (Publicacion.where(doi: @objeto.doi).ids - [@objeto.id]) : []
+      duplicados_t_sha1_ids = @objeto.title.present? ? (Publicacion.where(t_sha1: @objeto.t_sha1).ids - [@objeto.id]) : []
+
+      @duplicados_doi = Publicacion.where(id: duplicados_doi_ids)
+      @duplicados_t_sha1 = Publicacion.where(id: duplicados_t_sha1_ids)
+      # ********************** DUPLICADOS *****************************
+
+      set_tabla('app_observaciones', @objeto.observaciones.order(created_at: :desc), false)
+      set_tabla('app_mejoras', @objeto.mejoras.order(created_at: :desc), false)
+    end
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def sort_column

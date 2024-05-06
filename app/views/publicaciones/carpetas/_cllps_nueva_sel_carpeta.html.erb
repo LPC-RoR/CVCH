@@ -1,17 +1,21 @@
-<%= render layout: '0p/collapse/display', locals: {label: "Nueva#{tipo}", objeto: nil} do %>
-	<small class="text-info">Nueva <%= tipo %></small>
-	<%= render partial: "publicaciones/carpetas/#{tipo == 'Carpeta' ? 'form_carpetas' : 'form_compartidas'}", locals: {objeto: objeto} %>
+<div class="cllps-inner-box">
+	<%= render layout: '0p/collapse/display', locals: {label: "Nueva#{tipo}", objeto: nil} do %>
+		<small class="text-info">Nueva <%= tipo %></small>
+		<%= render partial: "publicaciones/carpetas/#{tipo == 'Carpeta' ? 'form_carpetas' : 'form_compartidas'}", locals: {objeto: objeto} %>
 
-	<small class="text-info">Selecciona <%= tipo %></small>
-	<small>
-	<div style="padding-left: 2em; padding-right: 2em; line-height: 15px;">
-		<% sel_list.each do |carpeta| %>
-			<% unless ids.include?(carpeta.id) %>
-	   			<%= link_to "/carpetas/#{carpeta.id}/asigna?class_name=#{objeto.class.name}&objeto_id=#{objeto.id}" do %>
-					<%= carpeta.carpeta %></br>
-	   			<% end %>
-   			<% end %>
+		<% unless sel_list.empty? %>
+			<small class="text-info">Selecciona <%= tipo %></small>
+			<small>
+			<div style="padding-left: 2em; padding-right: 2em; line-height: 15px;">
+				<% sel_list.each do |carpeta| %>
+					<% unless ids.include?(carpeta.id) %>
+			   			<%= link_to "/carpetas/#{carpeta.id}/asigna?class_name=#{objeto.class.name}&objeto_id=#{objeto.id}" do %>
+							<%= carpeta.carpeta %></br>
+			   			<% end %>
+		   			<% end %>
+				<% end %>
+			</div>
+			</small>
 		<% end %>
-	</div>
-	</small>
-<% end %>
+	<% end %>
+</div>

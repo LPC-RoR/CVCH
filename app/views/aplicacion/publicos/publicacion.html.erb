@@ -1,0 +1,54 @@
+<%= render partial: 'publicaciones/partials/header', locals: {objeto: @objeto} %>
+<div class='row'>
+	<div class='col-md-4'>
+
+		<%= render partial: 'publicaciones/areas/areas', locals: {disponibles: @sel_areas, objeto: @objeto} %>
+		<%= render partial: 'publicaciones/categorias/categorias', locals: {disponibles: @sel_categorias, objeto: @objeto} %>
+
+		<% if @objeto.estado == 'publicada' %>
+			<% if usuario_signed_in? %>
+				<%= render partial: 'publicaciones/carpetas/carpetas', locals: {objeto: @objeto, tipo: 'Carpeta', list: @carpetas, sel_list: @sel_carpetas, ids: @carpetas_ids} %>
+				<%= render partial: 'publicaciones/carpetas/carpetas', locals: {objeto: @objeto, tipo: 'Compartida', list: @compartidas, sel_list: @sel_compartidas, ids: @compartidas_ids} %>
+
+			<% end %>
+
+			<%= render partial: 'publicaciones/especies/especies', locals: {objeto: @objeto, etiquetas: @etiquetas} %>
+			<%= render partial: 'publicaciones/sets/sets', locals: {objeto: @objeto, list: @sets} %>
+			<%= render partial: 'publicaciones/interacciones/interacciones', locals: {objeto: @objeto, list: @interacciones} unless @sets.empty? %>
+		<% end %>
+
+	</div>
+	<div class='col-md-8'>
+
+		<%= render partial: 'publicaciones/partials/consola' %>
+		<%= render partial: 'publicaciones/partials/refs', locals: {objeto: @objeto, clr: 'dark'} %>
+		<%= render partial: 'publicaciones/partials/cita' %>
+		<%= render partial: 'publicaciones/partials/abstract' %>
+
+	</div>
+</div>
+
+<% unless perfil_activo.blank? %>
+	<hr>
+	<div class='row'>
+		<div class='col-md-6'>
+			<%= render partial: '0capitan/general/titulo_tabla', locals: {c: 'app_observaciones', title: 'Observaciones', link_new: "/app_observaciones/new?class_name=#{@objeto.class.name}&objeto_id=#{@objeto.id}"} %>
+			<%= render partial: 'recursos/app_observaciones/index' %>
+		</div>
+		<div class='col-md-6'>
+			<%= render partial: '0capitan/general/titulo_tabla', locals: {c: 'app_mejoras', title: 'Mejoras', link_new: "/app_mejoras/new?class_name=#{@objeto.class.name}&objeto_id=#{@objeto.id}"} %>
+			<%= render partial: 'recursos/app_mejoras/index' %>
+		</div>
+	</div>
+
+	<% if dog? %>
+		<hr>
+		<small>
+		<%= "Número de índices: #{@objeto.indices.count}" %></br>
+		<%= @objeto.author_email %></br>
+		<% @objeto.indices.each do |indice| %>
+			<%= indice.ind_clave.ind_clave unless indice.ind_clave.blank? %> | <%= indice.ind_palabra.ind_palabra unless indice.ind_palabra_id.blank? %></br>
+		<% end %>
+		</small>
+	<% end %>
+<% end %>
