@@ -105,7 +105,7 @@ class Aplicacion::PublicosController < ApplicationController
         set_tabla('agregados-filo_sinonimos', @objeto.fs_agregados, false)
 
         filo_interacciones_ids = @objeto.filo_roles.map {|fr| fr.filo_interaccion_id}.uniq
-        set_tabla('filo_interacciones', FiloInteracion.where(id: filo_interacciones_ids), false)
+        set_tabla('filo_interacciones', FiloInteraccion.where(id: filo_interacciones_ids), false)
 
         set_tabla('filo_actualizaciones', @objeto.filo_actualizaciones.order(updated_at: :desc), false)
 
