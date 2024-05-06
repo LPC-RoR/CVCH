@@ -173,10 +173,10 @@ class Taxonomia::FiloElementosController < ApplicationController
   # DELETE /filo_elementos/1
   # DELETE /filo_elementos/1.json
   def destroy
-    set_redireccion
+    padre = @objeto.parent
     @objeto.destroy
     respond_to do |format|
-      format.html { redirect_to @redireccion, notice: 'Elemento fue exitósamente eliminado.' }
+      format.html { redirect_to "/publicos/taxonomia?indice=#{padre.id}", notice: 'Elemento fue exitósamente eliminado.' }
       format.json { head :no_content }
     end
   end

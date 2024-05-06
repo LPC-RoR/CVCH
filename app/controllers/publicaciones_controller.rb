@@ -50,7 +50,8 @@ class PublicacionesController < ApplicationController
 
     respond_to do |format|
       if @objeto.save
-        format.html { redirect_to @objeto, notice: 'Publicación fue exitósamente creada.' }
+        set_redireccion
+        format.html { redirect_to @redireccion, notice: 'Publicación fue exitósamente creada.' }
         format.json { render :show, status: :created, location: @objeto }
       else
         format.html { render :new }
@@ -64,7 +65,8 @@ class PublicacionesController < ApplicationController
   def update
     respond_to do |format|
       if @objeto.update(publicacion_params)
-        format.html { redirect_to @objeto, notice: 'Publicación fue exitósamente actualizada.' }
+        set_redireccion
+        format.html { redirect_to @redireccion, notice: 'Publicación fue exitósamente actualizada.' }
         format.json { render :show, status: :ok, location: @objeto }
       else
         format.html { render :edit }
@@ -147,7 +149,7 @@ class PublicacionesController < ApplicationController
   def destroy
     @objeto.destroy
     respond_to do |format|
-      format.html { redirect_to publicaciones_url, notice: 'Publicación fue exitósamente eliminada.' }
+      format.html { redirect_to vistas_path, notice: 'Publicación fue exitósamente eliminada.' }
       format.json { head :no_content }
     end
   end
@@ -234,6 +236,10 @@ class PublicacionesController < ApplicationController
 
     def set_publicacion
       @objeto = Publicacion.find(params[:id])
+    end
+
+    def set_redireccion
+      @redireccion = "/publicos/publicacion?pid=#{@objeto.id}"
     end
 
     # Only allow a list of trusted parameters through. 
