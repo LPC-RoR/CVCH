@@ -11,7 +11,7 @@
 				<%= objeto.revista.revista %>
 			<% end %>
 			<%= objeto.d_ace %></br>
-			<b><%= link_to objeto.title, objeto %></b></br>
+			<b><%= link_to objeto.title, "/publicos/publicacion?pid=#{objeto.id}" %></b></br>
 			<i><small>- <%= objeto.author %></small></i>
 		</div>
 		<div class="col-2" align="right">
