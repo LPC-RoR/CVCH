@@ -73,7 +73,7 @@ class CategoriasController < ApplicationController
       etiqueta.save
     end
 
-    redirect_to "/publicaciones/#{elemento.id}"
+    redirect_to "/publicos/publicacion/pid=#{elemento.id}"
   end
 
   def aceptar
@@ -94,7 +94,7 @@ class CategoriasController < ApplicationController
     elemento = params[:class_name].constantize.find(params[:objeto_id])
     elemento.categorias.delete(@objeto)
 
-    redirect_to "/publicaciones/#{elemento.id}"
+    redirect_to "/publicos/publicacion/pid=#{elemento.id}"
   end
 
   def rechazar
