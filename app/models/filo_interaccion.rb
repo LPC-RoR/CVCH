@@ -18,8 +18,12 @@ class FiloInteraccion < ApplicationRecord
 		self.filo_roles.find_by(filo_rol: self.nombre_def_rol(orden))
 	end
 
+	def especie(orden)
+		self.rol(orden).blank? ? nil : self.rol(orden).filo_especie
+	end
+
 	def nombre_especie(orden)
-		self.rol(orden).blank? ? '-' : self.rol(orden).filo_especie.filo_especie
+		self.especie(orden).blank? ? '-' : self.especie(orden).filo_especie
 	end
 
 	def especies_ids
