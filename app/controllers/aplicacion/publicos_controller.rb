@@ -114,8 +114,8 @@ class Aplicacion::PublicosController < ApplicationController
         publicaciones = Publicacion.where(id: publicaciones_ids).order(:year)
         set_tabla('publicaciones', publicaciones, false)
 
-        @filo_def_interacciones_ids = filo_interacciones.map {|fi| fi.filo_def_interaccion_id}.uniq
-        filo_def_interacciones = FiloDefInteraccion.where(id: @filo_def_interacciones_ids).order(:filo_def_interaccion)
+        filo_def_interacciones_ids = filo_interacciones.map {|fi| fi.filo_def_interaccion_id}.uniq
+        filo_def_interacciones = FiloDefInteraccion.where(id: filo_def_interacciones_ids).order(:filo_def_interaccion)
         set_tabla('filo_def_interacciones', filo_def_interacciones, false)
 
         set_tabla('filo_actualizaciones', @objeto.filo_actualizaciones.order(updated_at: :desc), false)
