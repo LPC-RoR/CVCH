@@ -6,6 +6,8 @@
 	<i class="bi bi-arrow-right"></i>
 	<b><%=objeto.rol(2).blank? ? '-' : objeto.rol(2).filo_rol %></b> : 
 	<%= objeto.nombre_especie(2) %> <%= objeto.especie(2).id %>
+
+	<%= objeto.especies_ids.join('-') %>
 	
 	<%#= render layout: '0p/layout/tooltip_link', locals: {link: "/publicos/especies?indice=#{objeto.filo_interaccion.filo_roles.where.not(filo_rol: objeto.filo_rol).first.filo_especie.id}", tooltip: 'Ver Especie'} do %>
 		<%#= objeto.otro_rol.filo_especie.filo_especie %>
