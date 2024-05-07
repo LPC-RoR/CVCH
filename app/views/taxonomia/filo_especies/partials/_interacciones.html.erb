@@ -10,7 +10,7 @@
 
 <% coleccion.each do |interaccion| %>
 	<!-- Se puso el unless para resolver que se metían interacciones que no correspondían-->
-	<%= render partial: 'taxonomia/filo_interacciones/list/lobjeto', locals: {objeto: interaccion} unless interaccion.especies_ids.exclude?(objeto.id) %>
+	<%= render partial: 'taxonomia/filo_interacciones/list/lobjeto', locals: {objeto: interaccion} if interaccion.especies_ids.include?(objeto.id) %>
 <% end %>
 
 <%# objeto.filo_roles.order(:filo_rol).each do |filo_rol| %>
