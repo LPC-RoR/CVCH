@@ -8,9 +8,9 @@
 	<%= filo_def_interaccion.filo_def_interaccion %>
 <% end %>
 
-<%= coleccion.count %>
 <% coleccion.each do |interaccion| %>
-	<%= render partial: 'taxonomia/filo_interacciones/list/lobjeto', locals: {objeto: interaccion} %>
+	<!-- Se puso el unless para resolver que se metían interacciones que no correspondían-->
+	<%= render partial: 'taxonomia/filo_interacciones/list/lobjeto', locals: {objeto: interaccion} unless interaccion.especies_ids.exclude?(objeto.id) %>
 <% end %>
 
 <%# objeto.filo_roles.order(:filo_rol).each do |filo_rol| %>

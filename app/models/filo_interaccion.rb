@@ -22,6 +22,10 @@ class FiloInteraccion < ApplicationRecord
 		self.rol(orden).blank? ? '-' : self.rol(orden).filo_especie.filo_especie
 	end
 
+	def especies_ids
+		self.filo_roles.map {|fr| fr.filo_especie.id}
+	end
+
 	# Revisar uso de los siguientes métodos para llevarlos al uso de los anteriores
 
 	def primer_def_rol
