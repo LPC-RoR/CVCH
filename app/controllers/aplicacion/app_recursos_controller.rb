@@ -20,67 +20,25 @@ class Aplicacion::AppRecursosController < ApplicationController
   def administracion
   end
 
+  def usuarios
+    set_tabla('usuarios', Usuario.all, true)
+  end
+
   def procesos
+    
 
-    # Usado para recuperar la estructura de elementos FiloElemento
-    # Se borran todas las relaaciones entre ellos para procesar, para evitar loops accidentales
-    FiloEleEle.delete_all
-    retornados = 0
-    no_encontrados = 0
-    duplicados = 0
-    FiloElemento.all.each do |filo_elemento|
-    hijos = filo_elemento.list_field.blank? ? [] : filo_elemento.list_field.downcase.split(';')
-
-      unless hijos.empty?
-        hijos.each do |hijo|
-          filo_hijo = FiloElemento.find_by(filo_elemento: hijo)
-          unless filo_hijo.blank?
-            unless filo_hijo.parent.present?
-              filo_elemento.children << filo_hijo
-              retornados += 1
-            else
-              duplicados += 1
-            end
-          else
-            no_encontrados += 1
-          end
-        end
-      end
-    end
-
-    FiloEspEsp.delete_all
-    FiloEspecie.all.each do |filo_especie|
-      words = filo_especie.filo_especie.split(' ')
-      tipo_especie = words.length > 2 ? 'subespecie' : 'especie' 
-      if tipo_especie == 'especie'
-        genero = filo_especie.filo_especie.split(' ')[0]
-        filo_genero = FiloElemento.find_by(filo_elemento: genero)
-        filo_especie.filo_elemento_id = filo_genero.blank? ? nil : filo_genero.id
-        filo_especie.save
-      else
-        especie = "#{words[0]} #{words[1]}"
-        especie_padre = FiloEspecie.find_by(filo_especie: especie)
-        especie_padre.children << filo_especie unless especie_padre.blank?
-      end
-    end
-
-    Especie.all.each do |especie|
-      genero = especie.especie.split(' ')[0]
-      filo_especie = FiloEspecie.find_by(filo_especie: especie.especie)
-      if filo_especie.blank?
-        filo_genero = FiloElemento.find_by(filo_elemento: genero)
-        filo_especie = filo_genero.filo_especies.create(filo_especie: especie.especie) unless filo_genero.blank?
-      end
-      especie.filo_especie_id = filo_especie.blank? ? nil : filo_especie.id
-      especie.save
-    end
-
-    FiloEspCon.delete_all
-    FiloEspTipo.delete_all
-    FiloFEspReg.delete_all
-
-    redirect_to root_path, notice: "FiloEleEle #{FiloEleEle.all.count} retornados #{retornados} duplicados #{duplicados} no encontrados #{no_encontrados}"
 #    redirect_to root_path
+  end
+
+  def password_recovery
+    if usuario_signed_in? or dog?
+      @raw, hashed = Devise.token_generator.generate(Usuario, :reset_password_token)
+
+      @user = Usuario.find(params[:uid])
+      @user.reset_password_token = hashed
+      @user.reset_password_sent_at = Time.now.utc
+      @user.save
+    end
   end
 
   private

@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :d_archivos
 
   resources :cfg_valores
   resources :car_filo_esps
@@ -13,7 +14,6 @@ Rails.application.routes.draw do
 
 # SCOPES *********************************************************
   scope module: 'autenticacion' do
-    resources :app_administradores
     resources :app_nominas do
       match :set_admin, via: :get, on: :member
     end
@@ -65,6 +65,9 @@ Rails.application.routes.draw do
         match :huerfanas, via: :get, on: :collection
         # Agregado para reemplazar a publicaciones#show
         match :publicacion, via: :get, on: :collection
+        match :usuarios, via: :get
+        match :password_recovery, via: :get
+        match :craneosypelos, via: :get, on: :collection
     end
     resources :app_recursos do
       collection do

@@ -4,6 +4,10 @@ class Aplicacion::PublicosController < ApplicationController
 
   helper_method :sort_column, :sort_direction
   
+  def craneosypelos
+    set_tabla('d_archivos', DArchivo.all, false )
+  end
+
   def home
     ultimos_ids = Publicacion.where(estado: 'publicada').order(created_at: :asc).last(10).map {|pub| pub.id}
     set_tabla( 'publicaciones', Publicacion.where(id: ultimos_ids).order(sort_column + " " + sort_direction), false )

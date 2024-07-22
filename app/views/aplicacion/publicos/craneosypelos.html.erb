@@ -1,0 +1,14 @@
+<h5 class="text-info"><i class="bi bi-download"></i> Download Archivos de Cráneos y Pelos</h5>
+<% if dog?  and @coleccion['d_archivos'].count < 2 %>
+	<%= link_to 'add', "/d_archivos/new" %>
+<% end %>
+
+<% unless @coleccion['d_archivos'].empty? %>
+	<% @coleccion['d_archivos'].each do |da| %>
+		<i class="bi bi-download"></i>
+		<%= link_to da.archivo.url, class: 'sb-link', target: :_blank do %>
+			<%= da.id == 1 ? 'Clave de flujo Cráneos y Molares' : 'Clave de flujo Pelos de guarda' %>
+		<% end %>
+		<br>
+	<% end %>
+<% end %>

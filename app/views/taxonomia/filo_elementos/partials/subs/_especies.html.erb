@@ -10,7 +10,7 @@
 					<% unless coleccion.count > cfg_taxonomia[:esp_base_max] %>
 						<small>
 						<div class="sub_especies" style='padding-left: 2em'>
-							<% if especie.children.count > config[:taxonomia][:esp_count] %>
+							<% if especie.children.count > cfg_taxonomia[:esp_dsply_max] %>
 								<div style="padding-left: <%= especie.n_indent %>em; line-height: 18px;">
 									<small><i class="bi bi-stoplights"></i> Sub especies no fueron desplegados para optimizar despliegue,</br> para verlas acceda a la especie! </small>
 								</div>

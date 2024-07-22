@@ -7,6 +7,9 @@ class AppPerfil < ApplicationRecord
 	has_many :blg_articulos
 
 	# Aplicacion
+	# Si cfg_defaults[:activa_tipos_usuario] = true
+	# has_many :age_usuarios
+
 	has_many :contacto_personas
 	has_many :contacto_empresas
 
@@ -27,6 +30,10 @@ class AppPerfil < ApplicationRecord
 
 	def nombre_perfil
 		self.email == AppVersion::DOG_EMAIL ? AppVersion::DOG_NAME : AppNomina.find_by(email: self.email).nombre
+	end
+
+	def tipo_usuario
+		( self.email == AppVersion::DOG_EMAIL or cfg_defaults[:activa_tipos_usuario] == false ) ? 'general' : AppNomina.find_by(email: self.email).tipo
 	end
 
 	def app_enlaces

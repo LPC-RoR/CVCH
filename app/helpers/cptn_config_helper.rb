@@ -17,14 +17,6 @@ module CptnConfigHelper
 				title_tema: 1,
 				detalle_tema: 6
 			},
-			decimales: {
-				'Pesos' => Rails.configuration.decimales_pesos,
-				'UF' => Rails.configuration.decimales_uf
-			},
-			taxonomia: {
-				elem_count: 10,
-				esp_count: 10
-			}
 		}
 	end
 
@@ -41,13 +33,21 @@ module CptnConfigHelper
 			app_nombre: 'Repositorio de citas bibliográficas de vertebrados de Chile',
 			app_sigla: 'CVCh',
 			app_home: 'http://www.cvch.cl/',
+			activa_tipos_usuario: false,
+			# Determinan la existencia de elementos del layout
 			lyt_o_menu: usuario_signed_in?,
 			lyt_o_bann: true,
 			lyt_navbar: true,
+			# Padding de los elementos del layout
 			lyt_o_menu_padd: 3,
 			lyt_o_bann_padd: 3,
 			lyt_navbar_padd: 3,
-			lyt_body_padd: 3
+			lyt_body_padd: 3,
+			# Número de decimales
+			pesos: 0,
+			uf: 2,
+			uf_calculo: 5,
+			porcentaje: 2
 		}
 	end
 
